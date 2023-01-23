@@ -3,9 +3,9 @@
 
 /* Set up some CSS variables to theme the application. */
 :root {
-  --matr-navbar-bg: #ECECEC;
-  --matr-navbar-bg-rgb: 236, 236, 236;
   --main-green: #024731;
+  --matr-navbar-bg: #003F18;
+  --matr-navbar-bg-rgb: 0, 63, 24;
 }
 
 /* Change bootstrap variable values.
@@ -37,3 +37,7 @@ body {
   height: 10px;
   border-radius: 100%;
 }
+#navbar-login-dropdown, #navbar-current-user {
+  color: white;
+}
+
