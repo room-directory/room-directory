@@ -15,6 +15,10 @@ const AdminReservation = () => {
         <Col>
           <h3>Room 3xx</h3>
           <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
+          <h3>Room 3xx</h3>
+          <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
+          <h3>Room 3xx</h3>
+          <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
         </Col>
       </Row>
       <Modal show={show} onHide={handleClose}>
