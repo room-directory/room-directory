@@ -9,7 +9,7 @@ const Landing = () => (
     <Row>
       <Slideshow />
     </Row>
-    <Row className="text-center justify-content-center">
+    <Row className="text-center justify-content-center pt-3">
       <div>
         <Button href="#instruction" className="rounded-pill green-background">How to navigate</Button>
       </div>

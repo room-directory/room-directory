@@ -13,6 +13,7 @@
  */
 body {
   --bs-light-rgb: var(--matr-navbar-bg-rgb);
+  overflow-x: hidden;
 }
 
 /* Set the SignIn and SignUp alerts background. */
@@ -40,4 +41,3 @@ body {
 #navbar-login-dropdown, #navbar-current-user {
   color: white;
 }
-
