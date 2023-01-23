@@ -5,6 +5,7 @@
 :root {
   --matr-navbar-bg: #ECECEC;
   --matr-navbar-bg-rgb: 236, 236, 236;
+  --main-green: #024731;
 }
 
 /* Change bootstrap variable values.
@@ -25,4 +26,14 @@ body {
   color: var(--bs-dark);
   padding-top: 10px;
   padding-bottom: 20px;
+}
+
+.green-background {
+  background-color: var(--main-green) !important;
+}
+
+.carousel .carousel-indicators button {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
 }
