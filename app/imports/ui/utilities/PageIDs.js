@@ -12,4 +12,6 @@ export const PAGE_IDS = {
   SIGN_OUT: 'sign-out',
   SIGN_UP: 'sign-up',
   PROFILE: 'profile',
+  STUDENT_REQUESTS: 'student-requests',
+  FACULTY_REQUESTS: 'faculty-requests',
 };

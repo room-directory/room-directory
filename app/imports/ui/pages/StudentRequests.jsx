@@ -4,7 +4,7 @@ import { PAGE_IDS } from '../utilities/PageIDs';
 
 /* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 const StudentRequests = () => (
-  <Container id={PAGE_IDS.REQUEST_ADMIN} className="py-3">
+  <Container id={PAGE_IDS.STUDENT_REQUESTS} className="py-3">
     <Row className="justify-content-center">
       <Col md={10}>
         <Col className="text-center">
