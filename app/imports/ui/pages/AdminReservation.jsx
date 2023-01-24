@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Container, Row, Col, Modal, Form } from 'react-bootstrap';
 import { PAGE_IDS } from '../utilities/PageIDs';
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
 
 /* A simple static component to render some text for the landing page. */
 const AdminReservation = () => {
@@ -30,6 +32,25 @@ const AdminReservation = () => {
             <Form.Group className="mb-3" controlId="formDate">
               <Form.Label>Date</Form.Label>
               <Form.Control placeholder="Enter date" />
+              <Form.Label>Date</Form.Label>
+
+              <DatePicker
+                  selected={values.date}
+                  onChange={(e) => {
+                    setFieldValue('date', e);
+                    setFieldTouched('date');
+                  }}
+                  className="form-control"
+                  minDate={today}
+                  customInput={
+                    <input
+                        type="text"
+                        id="validationCustom01"
+                        placeholder="First name"
+                    />
+                  }
+              />
+              {touched.date && !!errors.date && errors.date}
             </Form.Group>
             <Form.Group>
               <Form.Label>Time</Form.Label>
