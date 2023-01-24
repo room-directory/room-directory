@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
+import { Col, Button } from 'react-bootstrap';
 
 const RoomInfoItem = ({ room }) => (
-  <Button size="lg" variant="light" value={room.roomNumber} className="border border-dark sharp me-3">Room #{room.roomNumber}</Button>
+  <Col className="col-2 pb-4">
+    <Button size="lg" variant="light" value={room.roomNumber} className="border border-dark sharp me-3">Room #{room.roomNumber}</Button>
+  </Col>
 );
 
 /* Referencing the Rooms Collection */
