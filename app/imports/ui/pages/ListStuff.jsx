@@ -5,6 +5,7 @@ import { Stuffs } from '../../api/stuff/StuffCollection';
 import StuffItem from '../components/StuffItem';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
+import RoomInfoModal from '../components/RoomInfoModal';
 
 /* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 const ListStuff = () => {
@@ -29,6 +30,7 @@ const ListStuff = () => {
         <Col md={7}>
           <Col className="text-center">
             <h2>List Stuff</h2>
+            <RoomInfoModal />
           </Col>
           <Table striped bordered hover>
             <thead>
