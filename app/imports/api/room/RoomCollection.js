@@ -12,7 +12,7 @@ export const roomPublications = {
 class RoomCollection extends BaseCollection {
   constructor() {
     super('Room', new SimpleSchema({
-      room_number: String,
+      roomNumber: String,
       type: {
         type: String,
         allowedValues: roomType,
@@ -29,9 +29,9 @@ class RoomCollection extends BaseCollection {
    * @param condition the condition of the item.
    * @return {String} the docID of the new document.
    */
-  define({ room_number, type }) {
+  define({ roomNumber, type }) {
     const docID = this._collection.insert({
-      room_number,
+      roomNumber,
       type,
     });
     return docID;
@@ -44,10 +44,10 @@ class RoomCollection extends BaseCollection {
    * @param quantity the new quantity (optional).
    * @param condition the new condition (optional).
    */
-  update(docID, { room_number, type }) {
+  update(docID, { roomNumber, type }) {
     const updateData = {};
-    if (room_number) {
-      updateData.room_number = room_number;
+    if (roomNumber) {
+      updateData.roomNumber = roomNumber;
     }
     if (type) {
       updateData.type = type;
@@ -113,9 +113,9 @@ class RoomCollection extends BaseCollection {
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
-    const room_number = doc.room_number;
+    const roomNumber = doc.roomNumber;
     const type = doc.type;
-    return { room_number, type };
+    return { roomNumber, type };
   }
 }
 

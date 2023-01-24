@@ -1,47 +1,43 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
-import { _ } from 'meteor/underscore';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
-import { stuffPublications } from '../stuff/StuffCollection';
 
-export const roomResourcePublications = {
-  resource: 'Resource',
-  resourceAdmin: 'ResourceAdmin',
+export const facultyProfilePublications = {
+  faculty: 'Faculty',
+  facultyAdmin: 'FacultyAdmin',
 };
 
-class RoomResourceCollection extends BaseCollection {
+class FacultyProfileCollection extends BaseCollection {
   constructor() {
-    super('RoomResources', new SimpleSchema({
-      roomNumber: String,
-      capacity: Number,
-      chairs: Number,
-      desks: Number,
-      tv: Number,
-      phoneNumber: String,
-      dataJacks: Number,
+    super('FacultyProfile', new SimpleSchema({
+      image: String,
+      firstName: String,
+      lastName: String,
+      email: String,
+      officeHours: String,
+      officeLocation: String,
     }));
   }
 
   /**
-   * Defines a new Room item.
+   * Defines a new Stuff item.
    * @param name the name of the item.
    * @param quantity how many.
    * @param owner the owner of the item.
    * @param condition the condition of the item.
    * @return {String} the docID of the new document.
    */
-  define({ roomNumber, capacity, chairs, desks, tv, phoneNumber, dataJacks }) {
+  define({ image, firstName, lastName, email, officeHours, officeLocation }) {
     const docID = this._collection.insert({
-      roomNumber,
-      capacity,
-      chairs,
-      desks,
-      tv,
-      phoneNumber,
-      dataJacks,
+      image,
+      firstName,
+      lastName,
+      email,
+      officeHours,
+      officeLocation,
     });
     return docID;
   }
@@ -53,28 +49,25 @@ class RoomResourceCollection extends BaseCollection {
    * @param quantity the new quantity (optional).
    * @param condition the new condition (optional).
    */
-  update(docID, { roomNumber, capacity, chairs, desks, tv, phoneNumber, dataJacks }) {
+  update(docID, { image, firstName, lastName, email, officeHours, officeLocation }) {
     const updateData = {};
-    if (roomNumber) {
-      updateData.roomNumber = roomNumber;
+    if (image) {
+      updateData.image = image;
     }
-    if (_.isNumber(capacity)) {
-      updateData.capacity = capacity;
+    if (firstName) {
+      updateData.firstName = firstName;
     }
-    if (_.isNumber(chairs)) {
-      updateData.chairs = chairs;
+    if (lastName) {
+      updateData.lastName = lastName;
     }
-    if (_.isNumber(desks)) {
-      updateData.desks = desks;
+    if (email) {
+      updateData.email = email;
     }
-    if (_.isNumber(tv)) {
-      updateData.tv = tv;
+    if (officeHours) {
+      updateData.officeHours = officeHours;
     }
-    if (_.isNumber(phoneNumber)) {
-      updateData.phoneNumber = phoneNumber;
-    }
-    if (_.isNumber(dataJacks)) {
-      updateData.dataJacks = dataJacks;
+    if (officeLocation) {
+      updateData.officeLocation = officeLocation;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -100,7 +93,7 @@ class RoomResourceCollection extends BaseCollection {
       // get the StuffCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(roomResourcePublications.room, function publish() {
+      Meteor.publish(facultyProfilePublications.faculty, function publish() {
         if (this.userId) {
           const username = Meteor.users.findOne(this.userId).username;
           return instance._collection.find({ owner: username });
@@ -109,7 +102,7 @@ class RoomResourceCollection extends BaseCollection {
       });
 
       /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(stuffPublications.stuffAdmin, function publish() {
+      Meteor.publish(facultyProfilePublications.facultyAdmin, function publish() {
         if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
           return instance._collection.find();
         }
@@ -121,9 +114,9 @@ class RoomResourceCollection extends BaseCollection {
   /**
    * Subscription method for stuff owned by the current user.
    */
-  subscribeRoomResource() {
+  subscribeFacultyProfile() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(roomResourcePublications.resource);
+      return Meteor.subscribe(facultyProfilePublications.faculty);
     }
     return null;
   }
@@ -132,9 +125,9 @@ class RoomResourceCollection extends BaseCollection {
    * Subscription method for admin users.
    * It subscribes to the entire collection.
    */
-  subscribeRoomResourceAdmin() {
+  subscribeFacultyProfileAdmin() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(roomResourcePublications.resourceAdmin);
+      return Meteor.subscribe(facultyProfilePublications.facultyAdmin);
     }
     return null;
   }
@@ -156,18 +149,17 @@ class RoomResourceCollection extends BaseCollection {
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
-    const roomNumber = doc.roomNumber;
-    const capacity = doc.capacity;
-    const chairs = doc.chairs;
-    const desks = doc.desk;
-    const tv = doc.tv;
-    const phoneNumber = doc.phoneNumber;
-    const dataJacks = doc.dataJacks;
-    return { roomNumber, capacity, chairs, desks, tv, phoneNumber, dataJacks };
+    const image = doc.image;
+    const firstName = doc.firstName;
+    const lastName = doc.lastName;
+    const email = doc.email;
+    const officeHours = doc.officeHours;
+    const officeLocation = doc.officeLocation;
+    return { image, firstName, lastName, email, officeHours, officeLocation };
   }
 }
 
 /**
  * Provides the singleton instance of this class to all other entities.
  */
-export const RoomResources = new RoomResourceCollection();
+export const FacultyProfiles = new FacultyProfileCollection();
