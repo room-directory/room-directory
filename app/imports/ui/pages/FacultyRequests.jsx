@@ -3,16 +3,17 @@ import { Col, Container, Row, Table, Button } from 'react-bootstrap';
 import { PAGE_IDS } from '../utilities/PageIDs';
 
 /* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
-const RequestAdmin = () => (
+const FacultyRequests = () => (
   <Container id={PAGE_IDS.REQUEST_ADMIN} className="py-3">
     <Row className="justify-content-center">
       <Col md={10}>
         <Col className="text-center">
-          <h2>Admin Requests Page</h2>
+          <h2>Faculty Requests Review Page</h2>
         </Col>
         <Table>
           <thead>
             <tr>
+              <th>Faculty Name</th>
               <th>Student Name</th>
               <th>Room Number</th>
               <th>Date</th>
@@ -24,6 +25,7 @@ const RequestAdmin = () => (
           </thead>
           <tbody>
             <tr>
+              <td>Teacher C</td>
               <td>Student A</td>
               <td>319</td>
               <td>1/1/2023</td>
@@ -35,6 +37,7 @@ const RequestAdmin = () => (
               <td><Button variant="danger">Decline</Button></td>
             </tr>
             <tr>
+              <td>Teacher D</td>
               <td>Student B</td>
               <td>319</td>
               <td>1/1/2023</td>
@@ -52,4 +55,4 @@ const RequestAdmin = () => (
   </Container>
 );
 
-export default RequestAdmin;
+export default FacultyRequests;
