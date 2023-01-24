@@ -16,6 +16,7 @@ import NavBar from '../components/NavBar';
 import SignIn from '../pages/SignIn';
 import NotAuthorized from '../pages/NotAuthorized';
 import Profile from '../pages/Profile';
+import RoomList from '../pages/RoomList';
 import { ROLE } from '../../api/role/Role';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
@@ -30,6 +31,7 @@ const App = () => (
         <Route path="/signout" element={<SignOut />} />
         <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/roomlist" element={<ProtectedRoute><RoomList /></ProtectedRoute>} />
         <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
         <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
         <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />

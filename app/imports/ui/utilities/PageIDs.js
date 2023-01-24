@@ -12,4 +12,5 @@ export const PAGE_IDS = {
   SIGN_OUT: 'sign-out',
   SIGN_UP: 'sign-up',
   PROFILE: 'profile',
+  ROOM_LIST: 'room-list',
 };
