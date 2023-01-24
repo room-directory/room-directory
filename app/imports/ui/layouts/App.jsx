@@ -17,6 +17,8 @@ import SignIn from '../pages/SignIn';
 import NotAuthorized from '../pages/NotAuthorized';
 import Profile from '../pages/Profile';
 import { ROLE } from '../../api/role/Role';
+import StudentRequests from '../pages/StudentRequests';
+import FacultyRequests from '../pages/FacultyRequests';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => (
@@ -36,6 +38,8 @@ const App = () => (
         <Route path="/admin" element={<AdminProtectedRoute><ListStuffAdmin /></AdminProtectedRoute>} />
         <Route path="/notauthorized" element={<NotAuthorized />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/studentrequests" element={<ProtectedRoute><StudentRequests /></ProtectedRoute>} />
+        <Route path="facultyrequests" element={<ProtectedRoute><FacultyRequests /></ProtectedRoute>} />
       </Routes>
       <Footer />
     </div>
