@@ -14,9 +14,15 @@ import SignUp from '../pages/SignUp';
 import SignOut from '../pages/SignOut';
 import NavBar from '../components/NavBar';
 import SignIn from '../pages/SignIn';
+import FacultyInfo from '../pages/FacultyInfo';
 import NotAuthorized from '../pages/NotAuthorized';
 import AdminReservation from '../pages/AdminReservation';
+import Profile from '../pages/Profile';
+import RoomList from '../pages/RoomList';
 import { ROLE } from '../../api/role/Role';
+import StudentRequests from '../pages/StudentRequests';
+import FacultyRequests from '../pages/FacultyRequests';
+import RequestRoomForm from '../pages/RequestRoomForm';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => (
@@ -28,14 +34,20 @@ const App = () => (
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signout" element={<SignOut />} />
+        <Route path="/faculty" element={<FacultyInfo />} />
         <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
         <Route path="/AdminReservation" element={<AdminReservation />} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/roomlist" element={<ProtectedRoute><RoomList /></ProtectedRoute>} />
         <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
         <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
         <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
         <Route path="/admin" element={<AdminProtectedRoute><ListStuffAdmin /></AdminProtectedRoute>} />
         <Route path="/notauthorized" element={<NotAuthorized />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/studentrequests" element={<ProtectedRoute><StudentRequests /></ProtectedRoute>} />
+        <Route path="facultyrequests" element={<ProtectedRoute><FacultyRequests /></ProtectedRoute>} />
+        <Route path="/requestroomform" element={<ProtectedRoute><RequestRoomForm /></ProtectedRoute>} />
       </Routes>
       <Footer />
     </div>
