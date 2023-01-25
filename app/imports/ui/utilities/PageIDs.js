@@ -15,4 +15,5 @@ export const PAGE_IDS = {
   ROOM_LIST: 'room-list',
   STUDENT_REQUESTS: 'student-requests',
   FACULTY_REQUESTS: 'faculty-requests',
+  FACULTY_INFORMATION: 'faculty-information',
 };

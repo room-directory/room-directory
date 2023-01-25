@@ -11,7 +11,9 @@ const Landing = () => (
     </Row>
     <Row className="text-center justify-content-center pt-3">
       <div>
-        <Button href="#instruction" className="rounded-pill green-background">How to navigate</Button>
+        <Button href="#instruction" className="rounded-pill green-background">
+          How to navigate
+        </Button>
       </div>
     </Row>
     <Row className="text-center min-vh-100" id="instruction">
