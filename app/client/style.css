@@ -41,3 +41,11 @@ body {
 #navbar-login-dropdown, #navbar-current-user {
   color: white;
 }
+
+.sharp {
+  border-radius: 0 !important;
+}
+
+.no-flex {
+  flex: 0 !important;
+}
