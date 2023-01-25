@@ -24,4 +24,5 @@ export const COMPONENT_IDS = {
   SIGN_UP_FORM_PASSWORD: 'sign-up-form-password',
   SIGN_UP_FORM_SUBMIT: 'sign-up-form-submit',
   FACULTY_INFORMATION_SORT: 'faculty-information-sort',
+  ADMIN_RESERVATION: 'admin-reservation',
 };
