@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
-import { Modal, Button, Table, Collapse } from 'react-bootstrap';
+import { Modal, Button, Table, Collapse, Col } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 /** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
-const RoomInfoModal = () => {
+const RoomInfoModal = ({ room }) => {
   const [show, setShow] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   return (
-    <>
-      <Button className="btn btn-primary" onClick={handleShow}>
-        Room Info
+    <Col className="col-2 pb-4">
+      <Button variant="light" className="border border-dark sharp me-3" onClick={handleShow}>
+        Room #{room.roomNumber} Info
       </Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Room 319</Modal.Title>
+          <Modal.Title>Room #{room.roomNumber}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Table>
@@ -54,14 +55,15 @@ const RoomInfoModal = () => {
                       </tr>
                     </div>
                   </Collapse>
-                  <Button
+                  <button
+                    type="button"
                     onClick={() => setShowMore(!showMore)}
                     aria-controls="example-collapse-text"
                     aria-expanded={showMore}
-                    className="btn btn-primary"
+                    className="btn btn-link"
                   >
                     {showMore ? 'Show less' : 'Show more'}
-                  </Button>
+                  </button>
                 </td>
               </tr>
               <tr>
@@ -78,7 +80,15 @@ const RoomInfoModal = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </Col>
   );
 };
+RoomInfoModal.propTypes = {
+  room: PropTypes.shape({
+    roomNumber: PropTypes.string,
+    type: PropTypes.string,
+    _id: PropTypes.string,
+  }).isRequired,
+};
+
 export default RoomInfoModal;

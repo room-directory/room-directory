@@ -3,7 +3,7 @@ import { Col, Container, Row, Table, DropdownButton, Dropdown } from 'react-boot
 import Faculty from '../components/Faculty';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
-import {COMPONENT_IDS} from '../utilities/ComponentIDs';
+import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
 const FacultyInfo = () => {
   const ready = true;
