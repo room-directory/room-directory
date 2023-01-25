@@ -67,10 +67,10 @@ test('Test that admin pages show up', async () => {
   await editStuffPage.isDisplayed();
   // await navBar.gotoListStuffAdminPage();
   // await listStuffAdminPage.isDisplayed();
-  await navBar.gotoStudentRequestsPage();
-  await studentRequestPage.isDisplayed();
   await navBar.gotoFacultyRequestsPage();
   await facultyRequestPage.isDisplayed();
+  await navBar.gotoStudentRequestsPage();
+  await studentRequestPage.isDisplayed();
   // await navBar.gotoManageDatabasePage();
   // await manageDatabasePage.isDisplayed();
 });
