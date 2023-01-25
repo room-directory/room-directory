@@ -49,8 +49,8 @@ const NavBar = () => {
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_STUFF} as={NavLink} to="/list" key="list">Room Reservations</Nav.Link>,
               ]) : ''}
               {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
-                [<Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_STUFF_ADMIN} as={NavLink} to="/admin" key="admin">Faculty Requests</Nav.Link>,
-                  <Nav.Link id={COMPONENT_IDS.NAVBAR_STUDENT_REQUESTS} as={NavLink} to="/" key="requests">Student Requests</Nav.Link>]
+                [<Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_REQUESTS} as={NavLink} to="/facultyrequests" key="admin">Faculty Requests</Nav.Link>,
+                  <Nav.Link id={COMPONENT_IDS.NAVBAR_STUDENT_REQUESTS} as={NavLink} to="/studentrequests" key="requests">Student Requests</Nav.Link>]
               ) : ''}
             </Nav>
           </Navbar.Collapse>
