@@ -7,14 +7,15 @@ import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
 export const requestStatus = ['pending faculty approval', 'pending office approval', 'approved', 'denied'];
-export const requestPublications = {
-  request: 'Request',
-  requestAdmin: 'RequestAdmin',
+export const studentRequestPublications = {
+  request: 'StudentRequest',
+  requestAdmin: 'StudentRequestAdmin',
 };
 
-class RequestCollection extends BaseCollection {
+class StudentRequestCollection extends BaseCollection {
   constructor() {
-    super('Requests', new SimpleSchema({
+    super('StudentRequests', new SimpleSchema({
+      requestID: String,
       firstName: String,
       lastName: String,
       email: String,
@@ -36,8 +37,9 @@ class RequestCollection extends BaseCollection {
    * Defines a new Request item.
    * @return {String} the docID of the new document.
    */
-  define({ firstName, lastName, email, roomNumber, startTime, endTime, date, status, reason, numPeople }) {
+  define({ requestID, firstName, lastName, email, roomNumber, startTime, endTime, date, status, reason, numPeople }) {
     const docID = this._collection.insert({
+      requestID,
       firstName,
       lastName,
       email,
@@ -56,8 +58,11 @@ class RequestCollection extends BaseCollection {
    * Updates the given document.
    * @param docID the id of the document to update.
    */
-  update(docID, { firstName, lastName, roomNumber, startTime, endTime, date, status, reason, numPeople }) {
+  update(docID, { requestID, firstName, lastName, roomNumber, startTime, endTime, date, status, reason, numPeople }) {
     const updateData = {};
+    if (requestID) {
+      updateData.requestID = requestID;
+    }
     if (firstName) {
       updateData.firstName = firstName;
     }
@@ -109,7 +114,7 @@ class RequestCollection extends BaseCollection {
       // get the RequestCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(requestPublications.request, function publish() {
+      Meteor.publish(studentRequestPublications.request, function publish() {
         if (this.userId) {
           const username = Meteor.users.findOne(this.userId).username;
           return instance._collection.find({ owner: username });
@@ -118,7 +123,7 @@ class RequestCollection extends BaseCollection {
       });
 
       /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(requestPublications.requestAdmin, function publish() {
+      Meteor.publish(studentRequestPublications.requestAdmin, function publish() {
         if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
           return instance._collection.find();
         }
@@ -132,7 +137,7 @@ class RequestCollection extends BaseCollection {
    */
   subscribeRequest() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(requestPublications.request);
+      return Meteor.subscribe(studentRequestPublications.request);
     }
     return null;
   }
@@ -143,7 +148,7 @@ class RequestCollection extends BaseCollection {
    */
   subscribeRequestAdmin() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(requestPublications.requestAdmin);
+      return Meteor.subscribe(studentRequestPublications.requestAdmin);
     }
     return null;
   }
@@ -165,6 +170,7 @@ class RequestCollection extends BaseCollection {
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
+    const requestID = doc.requestID;
     const firstName = doc.firstName;
     const lastName = doc.lastName;
     const email = doc.email;
@@ -175,11 +181,11 @@ class RequestCollection extends BaseCollection {
     const status = doc.status;
     const reason = doc.reason;
     const numPeople = doc.numPeople;
-    return { firstName, lastName, email, roomNumber, startTime, endTime, date, status, reason, numPeople };
+    return { requestID, firstName, lastName, email, roomNumber, startTime, endTime, date, status, reason, numPeople };
   }
 }
 
 /**
  * Provides the singleton instance of this class to all other entities.
  */
-export const Request = new RequestCollection();
+export const StudentRequests = new StudentRequestCollection();
