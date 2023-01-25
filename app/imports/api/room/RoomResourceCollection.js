@@ -159,7 +159,7 @@ class RoomResourceCollection extends BaseCollection {
     const roomNumber = doc.roomNumber;
     const capacity = doc.capacity;
     const chairs = doc.chairs;
-    const desks = doc.desk;
+    const desks = doc.desks;
     const tv = doc.tv;
     const phoneNumber = doc.phoneNumber;
     const dataJacks = doc.dataJacks;
