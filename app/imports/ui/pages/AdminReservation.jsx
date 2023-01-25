@@ -3,13 +3,15 @@ import { Button, Container, Row, Col, Modal, Form } from 'react-bootstrap';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
+import DateSelector from '../components/DateSelector';
+
 
 /* A simple static component to render some text for the landing page. */
 const AdminReservation = () => {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const today = new Date();
 
   return (
     <Container id={PAGE_IDS.ADMIN_RESERVATION} className="py-3">
@@ -33,24 +35,8 @@ const AdminReservation = () => {
               <Form.Label>Date</Form.Label>
               <Form.Control placeholder="Enter date" />
               <Form.Label>Date</Form.Label>
-
-              <DatePicker
-                  selected={values.date}
-                  onChange={(e) => {
-                    setFieldValue('date', e);
-                    setFieldTouched('date');
-                  }}
-                  className="form-control"
-                  minDate={today}
-                  customInput={
-                    <input
-                        type="text"
-                        id="validationCustom01"
-                        placeholder="First name"
-                    />
-                  }
-              />
-              {touched.date && !!errors.date && errors.date}
+              <DateSelector/>
+              <Form.Label><DateSelector/></Form.Label>
             </Form.Group>
             <Form.Group>
               <Form.Label>Time</Form.Label>

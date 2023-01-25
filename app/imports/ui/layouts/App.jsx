@@ -19,6 +19,7 @@ import Profile from '../pages/Profile';
 import { ROLE } from '../../api/role/Role';
 import StudentRequests from '../pages/StudentRequests';
 import FacultyRequests from '../pages/FacultyRequests';
+import AdminReservation from '../pages/AdminReservation';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => (
@@ -36,6 +37,7 @@ const App = () => (
         <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
         <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
         <Route path="/admin" element={<AdminProtectedRoute><ListStuffAdmin /></AdminProtectedRoute>} />
+        <Route path="/reserve" element={<AdminProtectedRoute><AdminReservation /></AdminProtectedRoute>} />
         <Route path="/notauthorized" element={<NotAuthorized />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/studentrequests" element={<ProtectedRoute><StudentRequests /></ProtectedRoute>} />
