@@ -1,20 +1,26 @@
 import React from 'react';
-import { Col, Container, Image, Row } from 'react-bootstrap';
+import { Col, Container, Row, Button } from 'react-bootstrap';
 import { PAGE_IDS } from '../utilities/PageIDs';
+import Slideshow from '../components/Slideshow';
 
 /* A simple static component to render some text for the landing page. */
 const Landing = () => (
-  <Container id={PAGE_IDS.LANDING} className="py-3">
-    <Row className="align-middle text-center">
-      <Col xs={4}>
-        <Image roundedCircle src="/images/meteor-logo.png" width="150px" />
+  <Container fluid id={PAGE_IDS.LANDING} className="p-0 m-0">
+    <Row>
+      <Slideshow />
+    </Row>
+    <Row className="text-center justify-content-center pt-3">
+      <div>
+        <Button href="#instruction" className="rounded-pill green-background">How to navigate</Button>
+      </div>
+    </Row>
+    <Row className="text-center min-vh-100" id="instruction">
+      <Col>
+        Room directory is cool and useful.
       </Col>
-
-      <Col xs={8} className="d-flex flex-column justify-content-center">
-        <h1>Welcome to this template</h1>
-        <p>Now get to work and modify this app!</p>
+      <Col>
+        Click on buttons to do things on website.
       </Col>
-
     </Row>
   </Container>
 );

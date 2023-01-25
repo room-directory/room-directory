@@ -16,7 +16,10 @@ import NavBar from '../components/NavBar';
 import SignIn from '../pages/SignIn';
 import FacultyInfo from '../pages/FacultyInfo';
 import NotAuthorized from '../pages/NotAuthorized';
+import Profile from '../pages/Profile';
 import { ROLE } from '../../api/role/Role';
+import StudentRequests from '../pages/StudentRequests';
+import FacultyRequests from '../pages/FacultyRequests';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => (
@@ -30,12 +33,15 @@ const App = () => (
         <Route path="/signout" element={<SignOut />} />
         <Route path="/faculty" element={<FacultyInfo />} />
         <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
         <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
         <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
         <Route path="/admin" element={<AdminProtectedRoute><ListStuffAdmin /></AdminProtectedRoute>} />
         <Route path="/notauthorized" element={<NotAuthorized />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/studentrequests" element={<ProtectedRoute><StudentRequests /></ProtectedRoute>} />
+        <Route path="facultyrequests" element={<ProtectedRoute><FacultyRequests /></ProtectedRoute>} />
       </Routes>
       <Footer />
     </div>
