@@ -3,6 +3,7 @@
 
 /* Set up some CSS variables to theme the application. */
 :root {
+  --main-green: #024731;
   --matr-navbar-bg: #003F18;
   --matr-navbar-bg-rgb: 0, 63, 24;
 }
@@ -12,6 +13,7 @@
  */
 body {
   --bs-light-rgb: var(--matr-navbar-bg-rgb);
+  overflow-x: hidden;
 }
 
 /* Set the SignIn and SignUp alerts background. */
@@ -27,6 +29,28 @@ body {
   padding-bottom: 20px;
 }
 
+.green-background {
+  background-color: var(--main-green) !important;
+}
+
+.carousel .carousel-indicators button {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+}
 #navbar-login-dropdown, #navbar-current-user {
   color: white;
+}
+
+.sharp {
+  border-radius: 0 !important;
+}
+
+.no-flex {
+  flex: 0 !important;
+}
+
+#faculty-information-sort {
+  background-color: var(--main-green);
+  float: right;
 }
