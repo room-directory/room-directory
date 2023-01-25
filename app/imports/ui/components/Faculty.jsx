@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 const Faculty = ({ faculty }) => (
   <tr>
     <td><img alt="" src={faculty.picture} width="180" height="180" /></td>
-    <td>{`${faculty.firstName} ${faculty.lastName} \n ${faculty.role}`}</td>
-    <td>{`${faculty.email}\n${faculty.phone}`}</td>
+    <td>{`${faculty.firstName} ${faculty.lastName}`}<br />{faculty.role}</td>
+    <td>{faculty.email}<br />{faculty.phone}</td>
     <td>{faculty.office}</td>
   </tr>
 );

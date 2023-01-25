@@ -14,4 +14,5 @@ export const PAGE_IDS = {
   PROFILE: 'profile',
   STUDENT_REQUESTS: 'student-requests',
   FACULTY_REQUESTS: 'faculty-requests',
+  FACULTY_INFORMATION: 'faculty-information',
 };

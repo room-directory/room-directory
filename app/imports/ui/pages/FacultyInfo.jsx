@@ -5,21 +5,6 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
 
 const FacultyInfo = () => {
-  // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-  /* const { ready, facultyProfiles } = useTracker(() => {
-    // Note that this subscription will get cleaned up
-    // when your component is unmounted or deps change.
-    // Get access to Faculty documents.
-    const subscription = Stuffs.subscribeStuff();
-    // Determine if the subscription is ready
-    const rdy = subscription.ready();
-    // Get the Faculty documents
-    const faculty = Stuffs.find({}, { sort: { name: 1 } }).fetch();
-    return {
-      facultyProfiles: faculty,
-      ready: rdy,
-    };
-  }, []); */
   const ready = true;
   const facultyProfiles = [
     {
@@ -33,9 +18,9 @@ const FacultyInfo = () => {
     },
   ];
   return (ready ? (
-    <Container id={PAGE_IDS.LIST_STUFF} className="py-3">
+    <Container id={PAGE_IDS.FACULTY_INFORMATION} className="py-3">
       <Row className="justify-content-center">
-        <Col md={7}>
+        <Col md={8}>
           <Col className="text-center">
             <h2>Faculty Information</h2>
           </Col>
