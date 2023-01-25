@@ -124,6 +124,15 @@ class NavBar {
     await t.click(`#${COMPONENT_IDS.NAVBAR_MANAGE_DROPDOWN}`);
     await t.click(`#${COMPONENT_IDS.NAVBAR_MANAGE_DROPDOWN_DATABASE}`);
   }
+
+  /* Go to the Faculty Information Page. */
+  async gotoFacultyInformationPage() {
+    const visible = await Selector(`#${COMPONENT_IDS.NAVBAR_COLLAPSE}`).visible;
+    if (!visible) {
+      await t.click('button.navbar-toggler');
+    }
+    await t.click(`#${COMPONENT_IDS.NAVBAR_FACULTY_INFORMATION}`);
+  }
 }
 
 export const navBar = new NavBar();
