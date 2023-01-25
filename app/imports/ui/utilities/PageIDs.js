@@ -11,6 +11,7 @@ export const PAGE_IDS = {
   SIGN_IN: 'sign-in',
   SIGN_OUT: 'sign-out',
   SIGN_UP: 'sign-up',
+  ADMIN_RESERVATION: 'sign-up',
   PROFILE: 'profile',
   ROOM_LIST: 'room-list',
   STUDENT_REQUESTS: 'student-requests',
