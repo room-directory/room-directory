@@ -44,7 +44,7 @@ const App = () => (
         <Route path="/notauthorized" element={<NotAuthorized />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/studentrequests" element={<ProtectedRoute><StudentRequests /></ProtectedRoute>} />
-        <Route path="facultyrequests" element={<ProtectedRoute><FacultyRequests /></ProtectedRoute>} />
+        <Route path="/facultyrequests" element={<ProtectedRoute><FacultyRequests /></ProtectedRoute>} />
         <Route path="/requestroomform" element={<ProtectedRoute><RequestRoomForm /></ProtectedRoute>} />
       </Routes>
       <Footer />
