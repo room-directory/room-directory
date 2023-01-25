@@ -1,5 +1,5 @@
 import { Selector, t } from 'testcafe';
-import { addStuffPage, listStuffPage, editStuffPage, /* manageDatabasePage, */ signOutPage, studentRequestPage } from './simple.page';
+import { addStuffPage, listStuffPage, editStuffPage, /* manageDatabasePage, */ signOutPage, studentRequestPage, facultyRequestPage } from './simple.page';
 import { landingPage } from './landing.page';
 import { signInPage } from './signin.page';
 import { signUpPage } from './signup.page';
@@ -69,6 +69,8 @@ test('Test that admin pages show up', async () => {
   // await listStuffAdminPage.isDisplayed();
   await navBar.gotoStudentRequestsPage();
   await studentRequestPage.isDisplayed();
+  await navBar.gotoFacultyRequestsPage();
+  await facultyRequestPage.isDisplayed();
   // await navBar.gotoManageDatabasePage();
   // await manageDatabasePage.isDisplayed();
 });
