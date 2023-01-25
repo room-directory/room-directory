@@ -1,19 +1,31 @@
 import React, { useState } from 'react';
 import { Button, Container, Row, Col, Modal, Form } from 'react-bootstrap';
+// import { useTracker } from 'meteor/react-meteor-data';
 import { PAGE_IDS } from '../utilities/PageIDs';
-import "react-datepicker/dist/react-datepicker.css";
-import DatePicker from "react-datepicker";
-import DateSelector from '../components/DateSelector';
-
+// import RoomDropdown from '../components/RoomDropdown';
+// import { Room } from '../../api/room/RoomCollection';
+// import LoadingSpinner from '../components/LoadingSpinner';
+// import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
 /* A simple static component to render some text for the landing page. */
 const AdminReservation = () => {
   const [show, setShow] = useState(false);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const today = new Date();
-
+  /* const { rooms, ready } = useTracker(() => {
+    const subscription = Room.subscribeRoom();
+    // Determine if the subscription is ready
+    const rdy = subscription.ready();
+    const items = Room.find({}).fetch();
+    return {
+      rooms: items,
+      ready: rdy,
+    };
+  }, []);
+  return (ready ? ( */
   return (
+    //  must replace id={COMPONENT_IDS.ADMIN_RESERVATION}
     <Container id={PAGE_IDS.ADMIN_RESERVATION} className="py-3">
       <Row>
         <Col>
@@ -25,6 +37,18 @@ const AdminReservation = () => {
           <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
         </Col>
       </Row>
+      <div>
+        <Form.Select aria-label="Default select example">
+          <option selected>Choose Room...</option>
+          {/* <option value={room._id}>{room.type}{room.roomNumber}</option> */}
+          <option value="301">Room 301</option>
+          <option value="302">Room 302</option>
+          <option value="303">Room 303</option>
+        </Form.Select>
+        {/* <RoomDropdown /> */}
+        {/* {rooms.map((room) => <RoomDropdown key={room._id} stuff={room} />)} */}
+      </div>
+
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Reserve Room</Modal.Title>
@@ -34,9 +58,6 @@ const AdminReservation = () => {
             <Form.Group className="mb-3" controlId="formDate">
               <Form.Label>Date</Form.Label>
               <Form.Control placeholder="Enter date" />
-              <Form.Label>Date</Form.Label>
-              <DateSelector/>
-              <Form.Label><DateSelector/></Form.Label>
             </Form.Group>
             <Form.Group>
               <Form.Label>Time</Form.Label>
@@ -91,6 +112,7 @@ const AdminReservation = () => {
       </Modal>
     </Container>
   );
+  // : <LoadingSpinner />);
 };
 
 export default AdminReservation;
