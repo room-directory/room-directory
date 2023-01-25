@@ -4,6 +4,7 @@ export const COMPONENT_IDS = {
   NAVBAR_LIST_STUFF: 'navbar-list-stuff',
   NAVBAR_LIST_STUFF_ADMIN: 'navbar-list-stuff-admin',
   NAVBAR_STUDENT_REQUESTS: 'navbar-student-requests',
+  NAVBAR_FACULTY_REQUESTS: 'navbar-faculty-requests',
   NAVBAR_CURRENT_USER: 'navbar-current-user',
   NAVBAR_LANDING_PAGE: 'navbar-landing-page',
   NAVBAR_FACULTY_INFORMATION: 'navbar-faculty-information',
@@ -22,4 +23,5 @@ export const COMPONENT_IDS = {
   SIGN_UP_FORM_EMAIL: 'sign-up-form-email',
   SIGN_UP_FORM_PASSWORD: 'sign-up-form-password',
   SIGN_UP_FORM_SUBMIT: 'sign-up-form-submit',
+  FACULTY_INFORMATION_SORT: 'faculty-information-sort',
 };

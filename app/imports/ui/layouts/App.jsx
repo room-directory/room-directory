@@ -14,8 +14,10 @@ import SignUp from '../pages/SignUp';
 import SignOut from '../pages/SignOut';
 import NavBar from '../components/NavBar';
 import SignIn from '../pages/SignIn';
+import FacultyInfo from '../pages/FacultyInfo';
 import NotAuthorized from '../pages/NotAuthorized';
 import Profile from '../pages/Profile';
+import RoomList from '../pages/RoomList';
 import { ROLE } from '../../api/role/Role';
 import StudentRequests from '../pages/StudentRequests';
 import FacultyRequests from '../pages/FacultyRequests';
@@ -30,8 +32,10 @@ const App = () => (
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signout" element={<SignOut />} />
+        <Route path="/faculty" element={<FacultyInfo />} />
         <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/roomlist" element={<ProtectedRoute><RoomList /></ProtectedRoute>} />
         <Route path="/list" element={<ProtectedRoute><ListStuff /></ProtectedRoute>} />
         <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
         <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
