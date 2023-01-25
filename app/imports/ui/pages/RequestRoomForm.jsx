@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, Card, Col, Container, Row, Table } from 'react-bootstrap';
-import { TextField } from 'uniforms-bootstrap5';
+import { Card, Col, Container, Row } from 'react-bootstrap';
 import { PAGE_IDS } from '../utilities/PageIDs';
 
 /* Renders the RequestRoomForm page for student to reserve a room. */
