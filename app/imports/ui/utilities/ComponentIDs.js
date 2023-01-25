@@ -2,6 +2,7 @@ export const COMPONENT_IDS = {
   LIST_STUFF_EDIT: 'list-stuff-edit',
   NAVBAR_ADD_STUFF: 'navbar-add-stuff',
   NAVBAR_LIST_STUFF: 'navbar-list-stuff',
+  NAVBAR_ROOM_LIST: 'navbar-room-list',
   NAVBAR_LIST_STUFF_ADMIN: 'navbar-list-stuff-admin',
   NAVBAR_STUDENT_REQUESTS: 'navbar-student-requests',
   NAVBAR_FACULTY_REQUESTS: 'navbar-faculty-requests',
