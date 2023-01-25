@@ -24,3 +24,4 @@ export const manageDatabasePage = new SimplePage(PAGE_IDS.MANAGE_DATABASE);
 export const signOutPage = new SimplePage(PAGE_IDS.SIGN_OUT);
 export const studentRequestPage = new SimplePage(PAGE_IDS.STUDENT_REQUESTS);
 export const facultyRequestPage = new SimplePage(PAGE_IDS.FACULTY_REQUESTS);
+export const roomListPage = new SimplePage(PAGE_IDS.ROOM_LIST);
