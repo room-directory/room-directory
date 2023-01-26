@@ -104,6 +104,17 @@ class NavBar {
     await t.click(`#${COMPONENT_IDS.NAVBAR_FACULTY_REQUESTS}`);
   }
 
+  /* Go to the Profile Page. */
+  async gotoProfilePage() {
+    const visible = await Selector(`#${COMPONENT_IDS.NAVBAR_COLLAPSE}`).visible;
+    if (!visible) {
+      await t.click('button.navbar-toggler');
+    }
+    await t.expect(Selector(`#${COMPONENT_IDS.NAVBAR_CURRENT_USER}`).exists).ok();
+    await t.click(`#${COMPONENT_IDS.NAVBAR_CURRENT_USER}`);
+    await t.click(`#${COMPONENT_IDS.NAVBAR_PROFILE}`);
+  }
+
   /* Go to the Room List Page. */
   async gotoRoomListPage() {
     const visible = await Selector(`#${COMPONENT_IDS.NAVBAR_COLLAPSE}`).visible;
