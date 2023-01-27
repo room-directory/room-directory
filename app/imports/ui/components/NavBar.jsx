@@ -31,18 +31,19 @@ const NavBar = () => {
     <nav>
       <Navbar bg="light" expand="lg" style={topMenuStyle}>
         <Container>
-          <Navbar.Brand id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="/" className="text-white"><img alt="" src="/images/ICS-Logo.png" width="40" height="40" /* className="d-inline-block align-top" */ />Room Directory</Navbar.Brand>
+          <Navbar.Brand id={COMPONENT_IDS.NAVBAR_LANDING_PAGE} as={NavLink} to="/" className="text-white"><img alt="" src="/images/ICS-Logo.png" width="40" height="40" />Room Directory</Navbar.Brand>
           <Navbar.Toggle aria-controls={COMPONENT_IDS.NAVBAR_COLLAPSE} />
           <Navbar.Collapse id={COMPONENT_IDS.NAVBAR_COLLAPSE}>
             <Nav className="me-auto justify-content-start" />
             <Nav className="justify-content-end text-white">
               {currentUser === '' ? (
                 <NavDropdown id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN} title="Login" className="text-white">
-                  <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_IN} as={NavLink} to="/signin"><PersonFill />Sign in</NavDropdown.Item>
-                  <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_UP} as={NavLink} to="/signup"><PersonPlusFill />Sign up</NavDropdown.Item>
+                  <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_IN} as={NavLink} to="/signin"><PersonFill /> Sign in</NavDropdown.Item>
+                  <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_UP} as={NavLink} to="/signup"><PersonPlusFill /> Sign up</NavDropdown.Item>
                 </NavDropdown>
               ) : (
                 <NavDropdown id={COMPONENT_IDS.NAVBAR_CURRENT_USER} title={currentUser}>
+                  <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_PROFILE} as={NavLink} to="/profile"><PersonFill /> Profile</NavDropdown.Item>
                   <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_SIGN_OUT} as={NavLink} to="/signout"><BoxArrowRight /> Sign out</NavDropdown.Item>
                 </NavDropdown>
               )}
@@ -55,10 +56,11 @@ const NavBar = () => {
           <Navbar.Toggle aria-controls={COMPONENT_IDS.NAVBAR_COLLAPSE} />
           <Navbar.Collapse id={COMPONENT_IDS.NAVBAR_COLLAPSE}>
             <Nav className="me-auto justify-content-start">
-              <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_INFORMATION} as={NavLink} to="/" key="Faculty">Faculty Information</Nav.Link>
+              <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_INFORMATION} as={NavLink} to="/faculty" key="Faculty">Faculty Information</Nav.Link>
               {currentUser ? ([
-                <Nav.Link id={COMPONENT_IDS.NAVBAR_ADD_STUFF} as={NavLink} to="/roomlist" key="add">Room List</Nav.Link>,
-                <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_STUFF} as={NavLink} to="/list" key="list">Room Reservations</Nav.Link>,
+
+                <Nav.Link id={COMPONENT_IDS.NAVBAR_ROOM_LIST} as={NavLink} to="/roomlist" key="add">Room List</Nav.Link>,
+                <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_STUFF} as={NavLink} to="/adminreservation" key="reservation">Room Reservations</Nav.Link>,
               ]) : ''}
               {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
                 [<Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_REQUESTS} as={NavLink} to="/facultyrequests" key="admin">Faculty Requests</Nav.Link>,

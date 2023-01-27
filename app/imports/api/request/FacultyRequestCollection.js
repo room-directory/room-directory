@@ -5,43 +5,50 @@ import { _ } from 'meteor/underscore';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
-import { stuffPublications } from '../stuff/StuffCollection';
 
-export const roomResourcePublications = {
-  resource: 'Resource',
-  resourceAdmin: 'ResourceAdmin',
+export const requestStatus = ['approved', 'denied'];
+export const facultyRequestPublications = {
+  request: 'FacultyRequest',
+  requestAdmin: 'FacultyRequestAdmin',
 };
 
-class RoomResourceCollection extends BaseCollection {
+class FacultyRequestCollection extends BaseCollection {
   constructor() {
-    super('RoomResources', new SimpleSchema({
+    super('FacultyRequests', new SimpleSchema({
+      requestID: String,
+      firstName: String,
+      lastName: String,
+      email: String,
       roomNumber: String,
-      capacity: Number,
-      chairs: Number,
-      desks: Number,
-      tv: Number,
-      phoneNumber: String,
-      dataJacks: Number,
+      startTime: String,
+      endTime: String,
+      date: Date,
+      status: {
+        type: String,
+        allowedValues: requestStatus,
+      },
+      reason: String,
+      numPeople: Number,
     }));
   }
 
   /**
-   * Defines a new Room item.
-   * @param name the name of the item.
-   * @param quantity how many.
-   * @param owner the owner of the item.
-   * @param condition the condition of the item.
+   * Defines a new Request item.
    * @return {String} the docID of the new document.
    */
-  define({ roomNumber, capacity, chairs, desks, tv, phoneNumber, dataJacks }) {
+  define({ requestID, firstName, lastName, email, roomNumber, startTime, endTime, date, status, reason, numPeople }) {
     const docID = this._collection.insert({
+      requestID,
+      firstName,
+      lastName,
+      email,
       roomNumber,
-      capacity,
-      chairs,
-      desks,
-      tv,
-      phoneNumber,
-      dataJacks,
+      startTime,
+      endTime,
+      date,
+      status,
+      reason,
+      numPeople,
     });
     return docID;
   }
@@ -49,32 +56,38 @@ class RoomResourceCollection extends BaseCollection {
   /**
    * Updates the given document.
    * @param docID the id of the document to update.
-   * @param name the new name (optional).
-   * @param quantity the new quantity (optional).
-   * @param condition the new condition (optional).
    */
-  update(docID, { roomNumber, capacity, chairs, desks, tv, phoneNumber, dataJacks }) {
+  update(docID, { requestID, firstName, lastName, roomNumber, startTime, endTime, date, status, reason, numPeople }) {
     const updateData = {};
+    if (requestID) {
+      updateData.requestID = requestID;
+    }
+    if (firstName) {
+      updateData.firstName = firstName;
+    }
+    if (lastName) {
+      updateData.lastName = lastName;
+    }
     if (roomNumber) {
       updateData.roomNumber = roomNumber;
     }
-    if (_.isNumber(capacity)) {
-      updateData.capacity = capacity;
+    if (startTime) {
+      updateData.startTime = startTime;
     }
-    if (_.isNumber(chairs)) {
-      updateData.chairs = chairs;
+    if (endTime) {
+      updateData.endTime = endTime;
     }
-    if (_.isNumber(desks)) {
-      updateData.desks = desks;
+    if (date) {
+      updateData.date = date;
     }
-    if (_.isNumber(tv)) {
-      updateData.tv = tv;
+    if (status) {
+      updateData.status = status;
     }
-    if (_.isNumber(phoneNumber)) {
-      updateData.phoneNumber = phoneNumber;
+    if (reason) {
+      updateData.reason = reason;
     }
-    if (_.isNumber(dataJacks)) {
-      updateData.dataJacks = dataJacks;
+    if (_.isNumber(numPeople)) {
+      updateData.numPeople = numPeople;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -93,14 +106,14 @@ class RoomResourceCollection extends BaseCollection {
 
   /**
    * Default publication method for entities.
-   * It publishes the entire collection for admin and just the stuff associated to an owner.
+   * It publishes the entire collection for admin and just the request associated to an owner.
    */
   publish() {
     if (Meteor.isServer) {
-      // get the StuffCollection instance.
+      // get the RequestCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(roomResourcePublications.room, function publish() {
+      Meteor.publish(facultyRequestPublications.request, function publish() {
         if (this.userId) {
           const username = Meteor.users.findOne(this.userId).username;
           return instance._collection.find({ owner: username });
@@ -109,7 +122,7 @@ class RoomResourceCollection extends BaseCollection {
       });
 
       /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(stuffPublications.stuffAdmin, function publish() {
+      Meteor.publish(facultyRequestPublications.requestAdmin, function publish() {
         if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
           return instance._collection.find();
         }
@@ -119,11 +132,11 @@ class RoomResourceCollection extends BaseCollection {
   }
 
   /**
-   * Subscription method for stuff owned by the current user.
+   * Subscription method for request owned by the current user.
    */
-  subscribeRoomResource() {
+  subscribeRequest() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(roomResourcePublications.resource);
+      return Meteor.subscribe(facultyRequestPublications.request);
     }
     return null;
   }
@@ -132,9 +145,9 @@ class RoomResourceCollection extends BaseCollection {
    * Subscription method for admin users.
    * It subscribes to the entire collection.
    */
-  subscribeRoomResourceAdmin() {
+  subscribeRequestAdmin() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(roomResourcePublications.resourceAdmin);
+      return Meteor.subscribe(facultyRequestPublications.requestAdmin);
     }
     return null;
   }
@@ -156,18 +169,22 @@ class RoomResourceCollection extends BaseCollection {
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
+    const requestID = doc.requestID;
+    const firstName = doc.firstName;
+    const lastName = doc.lastName;
+    const email = doc.email;
     const roomNumber = doc.roomNumber;
-    const capacity = doc.capacity;
-    const chairs = doc.chairs;
-    const desks = doc.desks;
-    const tv = doc.tv;
-    const phoneNumber = doc.phoneNumber;
-    const dataJacks = doc.dataJacks;
-    return { roomNumber, capacity, chairs, desks, tv, phoneNumber, dataJacks };
+    const startTime = doc.startTime;
+    const endTime = doc.endTime;
+    const date = doc.date;
+    const status = doc.status;
+    const reason = doc.reason;
+    const numPeople = doc.numPeople;
+    return { requestID, firstName, lastName, email, roomNumber, startTime, endTime, date, status, reason, numPeople };
   }
 }
 
 /**
  * Provides the singleton instance of this class to all other entities.
  */
-export const RoomResources = new RoomResourceCollection();
+export const FacultyRequests = new FacultyRequestCollection();

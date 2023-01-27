@@ -104,6 +104,27 @@ class NavBar {
     await t.click(`#${COMPONENT_IDS.NAVBAR_FACULTY_REQUESTS}`);
   }
 
+  /* Go to the Profile Page. */
+  async gotoProfilePage() {
+    const visible = await Selector(`#${COMPONENT_IDS.NAVBAR_COLLAPSE}`).visible;
+    if (!visible) {
+      await t.click('button.navbar-toggler');
+    }
+    await t.expect(Selector(`#${COMPONENT_IDS.NAVBAR_CURRENT_USER}`).exists).ok();
+    await t.click(`#${COMPONENT_IDS.NAVBAR_CURRENT_USER}`);
+    await t.click(`#${COMPONENT_IDS.NAVBAR_PROFILE}`);
+  }
+
+  /* Go to the Room List Page. */
+  async gotoRoomListPage() {
+    const visible = await Selector(`#${COMPONENT_IDS.NAVBAR_COLLAPSE}`).visible;
+    if (!visible) {
+      await t.click('button.navbar-toggler');
+    }
+    await t.expect(Selector(`#${COMPONENT_IDS.NAVBAR_CURRENT_USER}`).exists).ok();
+    await t.click(`#${COMPONENT_IDS.NAVBAR_ROOM_LIST}`);
+  }
+
   /* Go to the manage database page. Must be adimin. */
   async gotoManageDatabasePage() {
     const visible = await Selector(`#${COMPONENT_IDS.NAVBAR_COLLAPSE}`).visible;
@@ -113,6 +134,15 @@ class NavBar {
     await t.expect(Selector(`#${COMPONENT_IDS.NAVBAR_CURRENT_USER}`).exists).ok();
     await t.click(`#${COMPONENT_IDS.NAVBAR_MANAGE_DROPDOWN}`);
     await t.click(`#${COMPONENT_IDS.NAVBAR_MANAGE_DROPDOWN_DATABASE}`);
+  }
+
+  /* Go to the Faculty Information Page. */
+  async gotoFacultyInformationPage() {
+    const visible = await Selector(`#${COMPONENT_IDS.NAVBAR_COLLAPSE}`).visible;
+    if (!visible) {
+      await t.click('button.navbar-toggler');
+    }
+    await t.click(`#${COMPONENT_IDS.NAVBAR_FACULTY_INFORMATION}`);
   }
 }
 

@@ -49,3 +49,8 @@ body {
 .no-flex {
   flex: 0 !important;
 }
+
+#faculty-information-sort {
+  background-color: var(--main-green);
+  float: right;
+}
