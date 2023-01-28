@@ -7,9 +7,9 @@ export const signUpNewUserMethod = new ValidatedMethod({
   name: 'UserProfiles.SignupNewUser',
   mixins: [CallPromiseMixin],
   validate: null,
-  run({ email, firstName, lastName, password }) {
+  run({ email, firstName, lastName, password, position }) {
     if (Meteor.isServer) {
-      UserProfiles.define({ email, firstName, lastName, password });
+      UserProfiles.define({ email, firstName, lastName, password, position });
     }
   },
 });

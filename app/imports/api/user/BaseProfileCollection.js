@@ -16,6 +16,11 @@ class BaseProfileCollection extends BaseCollection {
       firstName: String,
       lastName: String,
       role: String,
+      position: {
+        type: String,
+        allowedValues: ['student', 'faculty', 'office'],
+        optional: true,
+      },
       userID: /^[23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz]{17}$/,
     })));
   }

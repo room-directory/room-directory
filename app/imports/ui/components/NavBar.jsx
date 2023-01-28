@@ -9,19 +9,27 @@ import { ROLE } from '../../api/role/Role';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
+import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 
 const NavBar = () => {
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-  const { currentUser, user, ready } = useTracker(() => {
+  const { currentUser, user } = useTracker(() => {
     const currUser = Meteor.user() ? Meteor.user().username : '';
-    const facultySubscription = FacultyProfiles.subscribe();
-    const rdy = facultySubscription.ready();
-    let usr = UserProfiles.findOne({ email: currUser }, {});
-    if (usr === undefined) usr = FacultyProfiles.findOne({ email: currUser }, {});
+    // const facultySubscription = FacultyProfiles.subscribe();
+    // const adminSubscription = AdminProfiles.subscribe();
+    // const rdy = facultySubscription.ready() && adminSubscription.ready();
+    const usr = UserProfiles.findOne({ email: currUser });
+    if (usr === undefined) {
+      console.log('user is undefinded');
+    }
+    // if (usr === undefined) {
+    //   usr = AdminProfiles.findOne({ email: currUser }, {});
+    // }
+
     return {
       currentUser: currUser,
       user: usr,
-      ready: rdy,
+      // ready: rdy,
     };
 
   }, []);
@@ -36,7 +44,7 @@ const NavBar = () => {
           <Navbar.Collapse id={COMPONENT_IDS.NAVBAR_COLLAPSE}>
             <Nav className="me-auto justify-content-start" />
             <Nav className="justify-content-end text-white">
-              {currentUser === '' ? (
+              { currentUser === '' ? (
                 <NavDropdown id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN} title="Login" className="text-white">
                   <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_IN} as={NavLink} to="/signin"><PersonFill /> Sign in</NavDropdown.Item>
                   <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_LOGIN_DROPDOWN_SIGN_UP} as={NavLink} to="/signup"><PersonPlusFill /> Sign up</NavDropdown.Item>
@@ -57,15 +65,22 @@ const NavBar = () => {
           <Navbar.Collapse id={COMPONENT_IDS.NAVBAR_COLLAPSE}>
             <Nav className="me-auto justify-content-start">
               <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_INFORMATION} as={NavLink} to="/faculty" key="Faculty">Faculty Information</Nav.Link>
-              {currentUser ? ([
-
+              { currentUser !== '' && user.position === 'student' ?
+                <Nav.Link id={COMPONENT_IDS.NAVBAR_ROOM_LIST} as={NavLink} to="/roomlist" key="add">Room List</Nav.Link>
+                : ''}
+              { currentUser !== '' && user.position === 'faculty' ?
+                <Nav.Link id={COMPONENT_IDS.NAVBAR_STUDENT_REQUESTS} as={NavLink} to="/studentrequests" key="requests">Student Requests</Nav.Link>
+                : ''}
+              {/* { currentUser !== '' && user.position === 'office' ? */}
+              {/*  <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_REQUESTS} as={NavLink} to="/facultyrequests" key="admin">Faculty Requests</Nav.Link> */}
+              {/*  : ''} */}
+              { currentUser !== '' && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? ([
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_ROOM_LIST} as={NavLink} to="/roomlist" key="add">Room List</Nav.Link>,
+                <Nav.Link id={COMPONENT_IDS.NAVBAR_STUDENT_REQUESTS} as={NavLink} to="/studentrequests" key="requests">Student Requests</Nav.Link>,
+                <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_REQUESTS} as={NavLink} to="/facultyrequests" key="admin">Faculty Requests</Nav.Link>,
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_STUFF} as={NavLink} to="/adminreservation" key="reservation">Room Reservations</Nav.Link>,
-              ]) : ''}
-              {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
-                [<Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_REQUESTS} as={NavLink} to="/facultyrequests" key="admin">Faculty Requests</Nav.Link>,
-                  <Nav.Link id={COMPONENT_IDS.NAVBAR_STUDENT_REQUESTS} as={NavLink} to="/studentrequests" key="requests">Student Requests</Nav.Link>]
-              ) : ''}
+              ])
+                : ''}
             </Nav>
           </Navbar.Collapse>
         </Container>

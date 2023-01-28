@@ -1,7 +1,6 @@
 {
   "defaultAccounts": [
-    { "email": "admin@foo.com", "password": "changeme", "role": "ADMIN", "firstName": "Admin", "lastName": "MATRP"
-    },
+    { "email": "admin@foo.com", "password": "changeme", "role": "ADMIN", "firstName": "Admin", "lastName": "MATRP", "position": "office" },
     { "email": "john@foo.com", "password": "changeme", "role": "USER" , "firstName": "John", "lastName": "Doe", "position": "faculty" },
     { "email": "student@foo.com", "password": "changeme", "role": "USER" , "firstName": "Student", "lastName": "Student", "position": "student" },
     { "email": "office@foo.com", "password": "changeme", "role": "USER" , "firstName": "Office", "lastName": "Office", "position": "office" }

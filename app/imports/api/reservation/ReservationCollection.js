@@ -12,7 +12,7 @@ export const reservationPublications = {
 
 class ReservationCollection extends BaseCollection {
   constructor() {
-    super('Resrvations', new SimpleSchema({
+    super('Reservations', new SimpleSchema({
       reservation_id: String,
       firstName: String,
       lastName: String,
