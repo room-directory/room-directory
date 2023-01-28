@@ -1,14 +1,16 @@
 import React from 'react';
-import { Form, Navbar, Button } from 'react-bootstrap';
+//import ReactDOM from 'react-dom';
+import { Form, Navbar, Button, Row, FormGroup, Col } from 'react-bootstrap';
+import Grid from 'react'
 import DatePicker from 'react-datepicker';
 import createReactClass from 'create-react-class';
-import "react-datepicker/dist/react-datepicker.css";
+//import "react-datepicker/dist/react-datepicker.css";
 
 
 const DateSelector = createReactClass({
   getInitialState() {
     return {
-      date: new Date().toISOString(),
+      date: new Date(),
       previousDate: null,
       minDate: null,
       maxDate: null,
@@ -21,11 +23,56 @@ const DateSelector = createReactClass({
       date: value
     });
   },
+  handleMinChange(value) {
+    this.setState({
+      minDate: value
+    });
+  },
+  handleMaxChange(value) {
+    this.setState({
+      maxDate: value
+    });
+  },
+  handlePlacement() {
+    return 'top';
+  },
+  handleRandomPlacement() {
+    const placementKey = Math.floor((Math.random()*4) + 1);
+    switch (placementKey) {
+      case 1:
+        return 'top';
+      case 2:
+        return 'left';
+      case 4:
+        return 'right';
+      default:
+        return 'bottom';
+    }
+  },
+  handleValidationCheck(e) {
+    e.preventDefault();
+    this.setState(() => ({
+      invalid: false
+    }));
+  },
+  handleInvalidDate(e) {
+    e.preventDefault();
+    this.setState(() => ({
+      invalid: true
+    }));
+  },
+  handleResetValidation(e) {
+    e.preventDefault();
+    this.setState(() => ({
+      invalid: false
+    }));
+  },
 
   render() {
-    const today = new Date();
-    //const LabelISOString = new Date().toISOString();
-    return <DatePicker required onChange={this.handleChange} placeholder="Select a date" minDate={today} value={this.state.date} id="datepicker" />;
+    //const today = new Date();
+    return <FormGroup controlId="required">
+            <DatePicker required onChange={this.handleChange} placeholder="Placeholder" selected={this.state.date} id="required_example" />
+          </FormGroup>;
   }
 });
 
@@ -36,11 +83,11 @@ const DateSelector = createReactClass({
     const {
       value,
       placeholder,
-      ...rest,
+      ...rest
     } = this.props;
 
     return <Button {...rest}>{value || placeholder}</Button>;
   },
 });*/
-
+//ReactDOM.render(<DateSelector />, document.getElementById('react'));
 export default DateSelector;

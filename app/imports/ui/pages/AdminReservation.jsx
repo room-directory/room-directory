@@ -6,6 +6,8 @@ import { PAGE_IDS } from '../utilities/PageIDs';
 // import { Room } from '../../api/room/RoomCollection';
 // import LoadingSpinner from '../components/LoadingSpinner';
 // import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+import DateSelector from '../components/DateSelector';
+import "react-datepicker/dist/react-datepicker.css";
 
 /* A simple static component to render some text for the landing page. */
 const AdminReservation = () => {
@@ -29,6 +31,7 @@ const AdminReservation = () => {
     <Container id={PAGE_IDS.ADMIN_RESERVATION} className="py-3">
       <Row>
         <Col>
+          <DateSelector/>
           <h3>Room 3xx</h3>
           <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
           <h3>Room 3xx</h3>
@@ -58,6 +61,7 @@ const AdminReservation = () => {
             <Form.Group className="mb-3" controlId="formDate">
               <Form.Label>Date</Form.Label>
               <Form.Control placeholder="Enter date" />
+              <DateSelector/>
             </Form.Group>
             <Form.Group>
               <Form.Label>Time</Form.Label>
