@@ -1,5 +1,5 @@
 // import { Selector, t } from 'testcafe';
-import { /* manageDatabasePage, */ signOutPage, studentRequestPage, facultyRequestPage, roomListPage, facultyInformationPage, profilePage } from './simple.page';
+import { /* manageDatabasePage, */ signOutPage, studentRequestPage, facultyRequestPage, roomListPage, facultyInformationPage, profilePage, adminReservationPage } from './simple.page';
 import { landingPage } from './landing.page';
 import { signInPage } from './signin.page';
 import { signUpPage } from './signup.page';
@@ -59,6 +59,16 @@ test('Test that admin pages show up', async () => {
   await facultyRequestPage.isDisplayed();
   await navBar.gotoStudentRequestsPage();
   await studentRequestPage.isDisplayed();
+  // await navBar.gotoManageDatabasePage();
+  // await manageDatabasePage.isDisplayed();
+});
+
+test('Test that reserve admin pages show up', async () => {
+  await navBar.gotoSignInPage();
+  await signInPage.signin(adminCredentials.username, adminCredentials.password);
+  await navBar.isLoggedIn(adminCredentials.username);
+  await navBar.gotoAdminReservationPage();
+  await adminReservationPage.isDisplayed();
   // await navBar.gotoManageDatabasePage();
   // await manageDatabasePage.isDisplayed();
 });
