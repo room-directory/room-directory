@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { Col, Container, Image, Row, Button, Modal } from 'react-bootstrap';
 import { PAGE_IDS } from '../utilities/PageIDs';
 
-/* TODO: Replace the static image link and profile information with database info */
+/* TODO: Replace the static image link, profile information, and reservation information with collection info */
+/* TODO: Make the modal into a component */
+
+/* Displays the profile page for logged in users */
 const Profile = () => {
 
   const [modal, setModal] = useState(false);

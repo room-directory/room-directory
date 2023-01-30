@@ -5,6 +5,11 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
+/* TODO: L57 Change "Loading Stuff" to "Loading Faculty Information" */
+/* TODO: Make sort button into component */
+/* TODO: Pull profile data from faculty info collection */
+
+/* Shows faculty information to all users */
 const FacultyInfo = () => {
   const ready = true;
   const facultyProfiles = [
