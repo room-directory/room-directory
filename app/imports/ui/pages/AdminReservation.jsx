@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Container, Row, Col, Modal, Form } from 'react-bootstrap';
-// import { useTracker } from 'meteor/react-meteor-data';
+import { useTracker } from 'meteor/react-meteor-data';
 import { PAGE_IDS } from '../utilities/PageIDs';
-// import RoomDropdown from '../components/RoomDropdown';
-// import { Room } from '../../api/room/RoomCollection';
-// import LoadingSpinner from '../components/LoadingSpinner';
+import RoomDropdown from '../components/RoomDropdown';
+import { Room } from '../../api/room/RoomCollection';
+import LoadingSpinner from '../components/LoadingSpinner';
 // import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
 /* A simple static component to render some text for the landing page. */
@@ -13,7 +13,7 @@ const AdminReservation = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  /* const { rooms, ready } = useTracker(() => {
+  const { rooms, ready } = useTracker(() => {
     const subscription = Room.subscribeRoom();
     // Determine if the subscription is ready
     const rdy = subscription.ready();
@@ -23,32 +23,27 @@ const AdminReservation = () => {
       ready: rdy,
     };
   }, []);
-  return (ready ? ( */
-  return (
+  return (ready ? (
+  // return (
     //  must replace id={COMPONENT_IDS.ADMIN_RESERVATION}
     <Container id={PAGE_IDS.ADMIN_RESERVATION} className="py-3">
       <Row>
         <Col>
-          <h3>Room 3xx</h3>
-          <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
-          <h3>Room 3xx</h3>
-          <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
-          <h3>Room 3xx</h3>
+          {/* <h3>Room 3xx</h3> */}
           <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
         </Col>
+        <Col>
+          <Form.Select aria-label="Default select example">
+            <option selected>Choose Room...</option>
+            {/* <option value={rooms._id}>{rooms.roomNumber}</option> */}
+            {/* <option value="301">Room 301</option> */}
+            <option value="302">Room 302</option>
+            <option value="303">Room 303</option>
+          </Form.Select>
+          <RoomDropdown />
+          {rooms.map((room) => <RoomDropdown key={room._id} stuff={room} />)}
+        </Col>
       </Row>
-      <div>
-        <Form.Select aria-label="Default select example">
-          <option selected>Choose Room...</option>
-          {/* <option value={room._id}>{room.type}{room.roomNumber}</option> */}
-          <option value="301">Room 301</option>
-          <option value="302">Room 302</option>
-          <option value="303">Room 303</option>
-        </Form.Select>
-        {/* <RoomDropdown /> */}
-        {/* {rooms.map((room) => <RoomDropdown key={room._id} stuff={room} />)} */}
-      </div>
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Reserve Room</Modal.Title>
@@ -111,8 +106,7 @@ const AdminReservation = () => {
         </Modal.Footer>
       </Modal>
     </Container>
-  );
-  // : <LoadingSpinner />);
+  ) : <LoadingSpinner />);
 };
 
 export default AdminReservation;
