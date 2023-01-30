@@ -22,6 +22,7 @@ import { ROLE } from '../../api/role/Role';
 import StudentRequests from '../pages/StudentRequests';
 import FacultyRequests from '../pages/FacultyRequests';
 import RequestRoomForm from '../pages/RequestRoomForm';
+import AddReservation from '../pages/AddReservation';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => (
@@ -46,6 +47,8 @@ const App = () => (
         <Route path="/studentrequests" element={<ProtectedRoute><StudentRequests /></ProtectedRoute>} />
         <Route path="/facultyrequests" element={<ProtectedRoute><FacultyRequests /></ProtectedRoute>} />
         <Route path="/requestroomform" element={<ProtectedRoute><RequestRoomForm /></ProtectedRoute>} />
+
+        <Route path="/addReservation" element={<ProtectedRoute><AddReservation /></ProtectedRoute>} />
       </Routes>
       <Footer />
     </div>
