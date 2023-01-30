@@ -14,6 +14,7 @@ class UserProfileCollection extends BaseProfileCollection {
    * @param password The password for this user.
    * @param firstName The first name.
    * @param lastName The last name.
+   * @param position The position of user: student, faculty, or office.
    */
   define({ email, firstName, lastName, password, position }) {
     // if (Meteor.isServer) {
