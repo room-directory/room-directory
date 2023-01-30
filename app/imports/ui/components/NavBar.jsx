@@ -65,9 +65,9 @@ const NavBar = () => {
               { currentUser !== '' && user?.position === 'faculty' ?
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_STUDENT_REQUESTS} as={NavLink} to="/studentrequests" key="requests">View Student Requests</Nav.Link>
                 : ''}
-              {/* { currentUser !== '' && user?.position === 'office' ? */}
-              {/*  <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_REQUESTS} as={NavLink} to="/facultyrequests" key="admin">View Faculty Requests</Nav.Link> */}
-              {/*  : ''} */}
+              { currentUser !== '' && user?.position === 'office' ?
+                <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_REQUESTS} as={NavLink} to="/facultyrequests" key="admin">View Faculty Requests</Nav.Link>
+                : ''}
               { currentUser !== '' && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? ([
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_ROOM_LIST} as={NavLink} to="/roomlist" key="add">Room List</Nav.Link>,
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_STUDENT_REQUESTS} as={NavLink} to="/studentrequests" key="requests">View Student Requests</Nav.Link>,
