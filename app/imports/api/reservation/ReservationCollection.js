@@ -128,7 +128,7 @@ class ReservationCollection extends BaseCollection {
    */
   subscribeReservation() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(reservationPublications.stuff);
+      return Meteor.subscribe(reservationPublications.reservation);
     }
     return null;
   }
@@ -139,7 +139,7 @@ class ReservationCollection extends BaseCollection {
    */
   subscribeReservationAdmin() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(reservationPublications.stuffAdmin);
+      return Meteor.subscribe(reservationPublications.reservationAdmin);
     }
     return null;
   }
