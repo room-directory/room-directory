@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Container, Row, Col, Modal, Form } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import RoomDropdown from '../components/RoomDropdown';
-import { Room, roomType } from '../../api/room/RoomCollection';
+import { Room } from '../../api/room/RoomCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 /* A simple static component to render some text for the landing page. */
@@ -28,9 +29,13 @@ const AdminReservation = () => {
         <Col>
           {/* <h3>Room 3xx</h3> */}
           <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
-          <div>
-            {rooms.map((room) => <RoomDropdown key={room._id} stuff={room} room={roomType} />)}
-          </div>
+          {/* <Form.Select aria-label="Default select example"> */}
+          {/* {rooms.map((room) => <RoomDropdown key={room.room} room={room} />)} */}
+          {/* </Form.Select> */}
+          <DropdownButton title="Dropdown button">
+            {rooms.map((room) => <RoomDropdown key={room._id} room={room} />)}
+          </DropdownButton>
+
         </Col>
       </Row>
       <Modal show={show} onHide={handleClose}>
