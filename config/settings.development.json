@@ -7,12 +7,18 @@
     { "email": "faculty@foo.com", "password": "changeme", "role": "USER" , "firstName": "Faculty", "lastName": "Faculty", "position": "faculty" }
   ],
 
-  "defaultData": [
+  "defaultStuffData": [
     { "name": "Basket", "quantity": 3, "owner": "john@foo.com", "condition": "excellent" },
     { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },
     { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
     { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
   ],
+
+  "defaultReservationData": [
+    { "reservation_id": "test", "firstName": "admin", "lastName": "foo", "email": "admin@foo.com", "roomNumber": "301", "startTime": "2023-02-01T08:00:00Z", "endTime": "2023-02-01T09:00:00Z" },
+    { "reservation_id": "test", "firstName": "John", "lastName": "foo", "email": "john@foo.com", "roomNumber": "302", "startTime": "2023-02-02T15:15:00Z", "endTime": "2023-02-02T16:15:00Z" }
+  ],
+  
   "public": {
     "development": true
   }
