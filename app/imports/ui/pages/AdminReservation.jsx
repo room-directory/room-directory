@@ -3,7 +3,7 @@ import { Button, Container, Row, Col, Modal, Form } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import RoomDropdown from '../components/RoomDropdown';
-import { Room } from '../../api/room/RoomCollection';
+import { Room, roomType } from '../../api/room/RoomCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 /* A simple static component to render some text for the landing page. */
@@ -28,16 +28,9 @@ const AdminReservation = () => {
         <Col>
           {/* <h3>Room 3xx</h3> */}
           <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
-
-          {/* <Form.Select aria-label="Default select example"> */}
-          {/*  <option selected>Choose Room...</option> */}
-          {/*   <option value={rooms._id}>{rooms.roomNumber}</option> */}
-          {/*  /!* <option value="301">Room 301</option> *!/ */}
-          {/*  <option value="302">Room 302</option> */}
-          {/*  <option value="303">Room 303</option> */}
-          {/* </Form.Select> */}
-          {/* <RoomDropdown /> */}
-          {rooms.map((room) => <RoomDropdown key={room._id} stuff={room} />)}
+          <div>
+            {rooms.map((room) => <RoomDropdown key={room._id} stuff={room} room={roomType} />)}
+          </div>
         </Col>
       </Row>
       <Modal show={show} onHide={handleClose}>

@@ -20,10 +20,10 @@
   ],
 
   "defaultRoomData": [
-    {"roomNumber": "301", "type": "lecture"},
-    {"roomNumber": "318", "type": "lecture"},
-    {"roomNumber": "315", "type": "office"},
-    {"roomNumber": "302", "type": "conference"}
+    {"roomNumber": "301", "type": "lecture", "capacity": 20},
+    {"roomNumber": "318", "type": "lecture", "capacity": 20},
+    {"roomNumber": "315", "type": "office", "capacity": 10},
+    {"roomNumber": "302", "type": "conference", "capacity": 30}
   ],
 
   "public": {
