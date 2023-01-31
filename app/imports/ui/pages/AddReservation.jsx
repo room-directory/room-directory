@@ -14,9 +14,8 @@ const formSchema = new SimpleSchema({
   lastName: String,
   email: String,
   roomNumber: String,
-  startTime: String,
-  endTime: String,
-  date: Date,
+  startTime: Date,
+  endTime: Date,
 });
 
 const bridge = new SimpleSchema2Bridge(formSchema);
@@ -26,10 +25,10 @@ const AddReservation = () => {
 
   // On submit, insert the data.
   const submit = (data, formRef) => {
-    const { firstName, lastName, email, roomNumber, startTime, endTime, date } = data;
+    const { firstName, lastName, email, roomNumber, startTime, endTime } = data;
     const reservation_id = 'test';
     const collectionName = Reservations.getCollectionName();
-    const definitionData = { reservation_id, firstName, lastName, email, roomNumber, startTime, endTime, date };
+    const definitionData = { reservation_id, firstName, lastName, email, roomNumber, startTime, endTime };
     defineMethod.callPromise({ collectionName, definitionData })
       .catch(error => swal('Error', error.message, 'error'))
       .then(() => {
@@ -52,9 +51,8 @@ const AddReservation = () => {
                 <TextField name="lastName" />
                 <TextField name="email" />
                 <TextField name="roomNumber" />
-                <TextField name="startTime" />
-                <TextField name="endTime" />
-                <DateField name="date" />
+                <DateField name="startTime" />
+                <DateField name="endTime" />
                 <SubmitField value="Submit" />
                 <ErrorsField />
               </Card.Body>
