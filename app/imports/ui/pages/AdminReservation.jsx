@@ -6,6 +6,8 @@ import { PAGE_IDS } from '../utilities/PageIDs';
 // import { Room } from '../../api/room/RoomCollection';
 // import LoadingSpinner from '../components/LoadingSpinner';
 // import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+
+//required to use the <DateSelector/> component
 import DateSelector from '../components/DateSelector';
 import "react-datepicker/dist/react-datepicker.css";
 
