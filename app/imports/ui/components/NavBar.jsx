@@ -58,9 +58,9 @@ const NavBar = () => {
           <Navbar.Toggle aria-controls={COMPONENT_IDS.NAVBAR_COLLAPSE} />
           <Navbar.Collapse id={COMPONENT_IDS.NAVBAR_COLLAPSE}>
             <Nav className="me-auto justify-content-start">
-              <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_INFORMATION} as={NavLink} to="/faculty" key="Faculty">Faculty Information</Nav.Link>
-              { currentUser !== '' && user?.position === 'student' ?
-                <Nav.Link id={COMPONENT_IDS.NAVBAR_ROOM_LIST} as={NavLink} to="/roomlist" key="add">Room List</Nav.Link>
+              <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_INFORMATION} as={NavLink} to="/faculty" key="faculty">Faculty Information</Nav.Link>
+              { currentUser !== '' ?
+                <Nav.Link id={COMPONENT_IDS.NAVBAR_ROOM_LIST} as={NavLink} to="/roomlist" key="room">Room List</Nav.Link>
                 : ''}
               { currentUser !== '' && user?.position === 'faculty' ?
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_STUDENT_REQUESTS} as={NavLink} to="/studentrequests" key="requests">View Student Requests</Nav.Link>
@@ -69,7 +69,6 @@ const NavBar = () => {
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_REQUESTS} as={NavLink} to="/facultyrequests" key="admin">View Faculty Requests</Nav.Link>
                 : ''}
               { currentUser !== '' && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? ([
-                <Nav.Link id={COMPONENT_IDS.NAVBAR_ROOM_LIST} as={NavLink} to="/roomlist" key="add">Room List</Nav.Link>,
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_STUDENT_REQUESTS} as={NavLink} to="/studentrequests" key="requests">View Student Requests</Nav.Link>,
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_REQUESTS} as={NavLink} to="/facultyrequests" key="admin">View Faculty Requests</Nav.Link>,
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_STUFF} as={NavLink} to="/adminreservation" key="reservation">View Room Reservations</Nav.Link>,
