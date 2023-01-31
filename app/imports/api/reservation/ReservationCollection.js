@@ -18,21 +18,23 @@ class ReservationCollection extends BaseCollection {
       lastName: String,
       email: String,
       roomNumber: String,
-      startTime: String,
-      endTime: String,
-      date: Date,
+      startTime: Date,
+      endTime: Date,
     }));
   }
 
   /**
-   * Defines a new Stuff item.
-   * @param name the name of the item.
-   * @param quantity how many.
-   * @param owner the owner of the item.
-   * @param condition the condition of the item.
+   * Defines a new Reservation item.
+   * @param reservation_id foreign key pointing to the faculty request.
+   * @param firstName first name of the requester.
+   * @param lastName last name of the requester
+   * @param email email of the requester.
+   * @param roomNumber room that is being reserved.
+   * @param startTime start of the reservation.
+   * @param endTime end of the reservation.
    * @return {String} the docID of the new document.
    */
-  define({ reservation_id, firstName, lastName, email, roomNumber, startTime, endTime, date }) {
+  define({ reservation_id, firstName, lastName, email, roomNumber, startTime, endTime }) {
     const docID = this._collection.insert({
       reservation_id,
       firstName,
@@ -41,7 +43,6 @@ class ReservationCollection extends BaseCollection {
       roomNumber,
       startTime,
       endTime,
-      date,
     });
     return docID;
   }
@@ -49,11 +50,15 @@ class ReservationCollection extends BaseCollection {
   /**
    * Updates the given document.
    * @param docID the id of the document to update.
-   * @param name the new name (optional).
-   * @param quantity the new quantity (optional).
-   * @param condition the new condition (optional).
+   * @param reservation_id foreign key pointing to the faculty request (optional).
+   * @param firstName first name of the requester (optional).
+   * @param lastName last name of the requester (optional)
+   * @param email email of the requester (optional).
+   * @param roomNumber room that is being reserved (optional).
+   * @param startTime start of the reservation (optional).
+   * @param endTime end of the reservation (optional).
    */
-  update(docID, { reservation_id, firstName, lastName, email, roomNumber, startTime, endTime, date }) {
+  update(docID, { reservation_id, firstName, lastName, email, roomNumber, startTime, endTime }) {
     const updateData = {};
     if (reservation_id) {
       updateData.reservation_id = reservation_id;
@@ -75,9 +80,6 @@ class ReservationCollection extends BaseCollection {
     }
     if (endTime) {
       updateData.endTime = endTime;
-    }
-    if (date) {
-      updateData.date = date;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -106,7 +108,7 @@ class ReservationCollection extends BaseCollection {
       Meteor.publish(reservationPublications.reservation, function publish() {
         if (this.userId) {
           const username = Meteor.users.findOne(this.userId).username;
-          return instance._collection.find({ owner: username });
+          return instance._collection.find({ email: username });
         }
         return this.ready();
       });
@@ -122,7 +124,7 @@ class ReservationCollection extends BaseCollection {
   }
 
   /**
-   * Subscription method for stuff owned by the current user.
+   * Subscription method for reservations owned by the current user.
    */
   subscribeReservation() {
     if (Meteor.isClient) {
@@ -155,7 +157,7 @@ class ReservationCollection extends BaseCollection {
   /**
    * Returns an object representing the definition of docID in a format appropriate to the restoreOne or define function.
    * @param docID
-   * @return {{owner: (*|number), condition: *, quantity: *, name}}
+   * @return { reservation_id, firstName, lastName, email, roomNumber, startTime, endTime }
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
@@ -166,8 +168,7 @@ class ReservationCollection extends BaseCollection {
     const roomNumber = doc.roomNumber;
     const startTime = doc.startTime;
     const endTime = doc.endTime;
-    const date = doc.date;
-    return { reservation_id, firstName, lastName, email, roomNumber, startTime, endTime, date };
+    return { reservation_id, firstName, lastName, email, roomNumber, startTime, endTime };
   }
 }
 
