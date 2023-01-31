@@ -18,14 +18,7 @@
     { "reservation_id": "test", "firstName": "admin", "lastName": "foo", "email": "admin@foo.com", "roomNumber": "301", "startTime": "2023-02-01T08:00:00Z", "endTime": "2023-02-01T09:00:00Z" },
     { "reservation_id": "test", "firstName": "John", "lastName": "foo", "email": "john@foo.com", "roomNumber": "302", "startTime": "2023-02-02T15:15:00Z", "endTime": "2023-02-02T16:15:00Z" }
   ],
-
-  "defaultRoomData": [
-    {"roomNumber": "301", "type": "lecture"},
-    {"roomNumber": "318", "type": "lecture"},
-    {"roomNumber": "315", "type": "office"},
-    {"roomNumber": "302", "type": "conference"}
-  ],
-
+  
   "public": {
     "development": true
   }
