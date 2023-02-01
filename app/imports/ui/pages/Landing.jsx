@@ -16,7 +16,7 @@ const Landing = () => (
         </Button>
       </div>
     </Row>
-    <Row className="text-center min-vh-100" id="instruction">
+    <Row className="text-center h-50" id="instruction">
       <Col>
         Room directory is cool and useful.
       </Col>
@@ -24,6 +24,7 @@ const Landing = () => (
         Click on buttons to do things on website.
       </Col>
     </Row>
+    <div />
   </Container>
 );
 

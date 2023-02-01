@@ -54,3 +54,28 @@ body {
   background-color: var(--main-green);
   float: right;
 }
+
+#overlay {
+  position: fixed;
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.75);
+  z-index: 3;
+  cursor: pointer;
+  pointer-events: bounding-box;
+}
+
+.hole {
+  z-index: 20;
+  background-color: white;
+  border-radius: 20%;
+}
+
+.active {
+  color:orange !important;
+}
