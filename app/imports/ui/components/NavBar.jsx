@@ -11,7 +11,7 @@ import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 
-const NavBar = ({ overlay, changeOverlay, highlight, changeHighlight, counter, incrementCounter, resetCounter }) => {
+const NavBar = ({ highlight, changeHighlight, counter, incrementCounter, decrementCounter, resetCounter }) => {
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   const { currentUser, user, ready } = useTracker(() => {
     const currUser = Meteor.user() ? Meteor.user().username : '';
@@ -87,18 +87,29 @@ const NavBar = ({ overlay, changeOverlay, highlight, changeHighlight, counter, i
                 : ''}
             </Nav>
           </Navbar.Collapse>
-          <div className="text-white h1 text-center align-content-center align-items-center d-flex" id={counter > 0 ? 'overlay' : ''}>
-            <Col>{tutorialText[counter]}</Col>
-          </div>
+          {location.pathname === '/' && counter > 0 ? (
+            <div className="text-white h1 text-center align-content-center align-items-center d-flex" id={counter > 0 && location.pathname === '/' ? 'overlay' : ''}>
+              <span aria-hidden="true" className="carousel-control-prev-icon" onClick={decrementCounter} />
+              <Col>{tutorialText[counter]}</Col>
+              <span aria-hidden="true" className="carousel-control-next-icon" onClick={incrementCounter} />
+            </div>
+          ) : (
+            ''
+          )}
         </Container>
         {location.pathname === '/' ?
           (
             <div className="hole me-3">
-              <Button type="button" variant="light" onClick={() => { changeHighlight(); incrementCounter(); }} className="position-sticky bottom-0 end-0 btn btn-outline-primary">
-                {counter === 0 ? 'Tutorial' : 'Next'}
-              </Button>
-              {/*<Button onClick={() => { resetCounter(); changeOverlay(); }}>turn on off overlay</Button>*/}
-              {/*<Button onClick={resetCounter}>Reset counter</Button>*/}
+              {counter === 0 ? (
+                <Button type="button" variant="light" onClick={() => { changeHighlight(); incrementCounter(); }} className="position-sticky bottom-0 end-0 btn btn-outline-primary">
+                  Tutorial
+                </Button>
+              ) :
+                (
+                  <Button type="button" variant="light" onClick={() => { changeHighlight(); resetCounter(); }} className="position-sticky bottom-0 end-0 btn btn-outline-primary">
+                    Quit
+                  </Button>
+                )}
             </div>
           ) : ''}
       </Navbar>
@@ -107,22 +118,20 @@ const NavBar = ({ overlay, changeOverlay, highlight, changeHighlight, counter, i
 };
 
 NavBar.defaultProps = {
-  overlay: false,
-  changeOverlay: PropTypes.func,
   highlight: '',
   changeHighlight: PropTypes.func,
   counter: PropTypes.number,
   incrementCounter: PropTypes.func,
+  decrementCounter: PropTypes.func,
   resetCounter: PropTypes.func,
 
 };
 NavBar.propTypes = {
-  overlay: PropTypes.bool,
-  changeOverlay: PropTypes.func,
   highlight: PropTypes.string,
   changeHighlight: PropTypes.func,
   counter: PropTypes.number,
   incrementCounter: PropTypes.func,
+  decrementCounter: PropTypes.func,
   resetCounter: PropTypes.func,
 };
 export default NavBar;

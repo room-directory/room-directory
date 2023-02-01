@@ -36,12 +36,18 @@ const App = () => {
       setCounter(0);
     }
   };
+  const decrementCounter = () => {
+    setCounter(counter - 1);
+    if (counter < 1) {
+      setCounter(0);
+    }
+  };
   const changeHighlight = () => { setHighlight('hole rounded'); console.log(counter); };
   const resetCounter = () => setCounter(0);
   return (
     <Router>
       <div className="d-flex flex-column min-vh-100">
-        <NavBar overlay={overlay} changeOverlay={changeOverlay} highlight={highlight} changeHighlight={changeHighlight} counter={counter} incrementCounter={incrementCounter} resetCounter={resetCounter} />
+        <NavBar overlay={overlay} changeOverlay={changeOverlay} highlight={highlight} changeHighlight={changeHighlight} counter={counter} incrementCounter={incrementCounter} decrementCounter={decrementCounter} resetCounter={resetCounter} />
         <Routes>
           <Route exact path="/" element={<Landing />} />
           <Route path="/signin" element={<SignIn />} />
