@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Roles } from 'meteor/alanning:roles';
 import { Container, Navbar, Nav, NavDropdown, ProgressBar, Button, Col } from 'react-bootstrap';
@@ -89,9 +89,9 @@ const NavBar = ({ highlight, changeHighlight, counter, incrementCounter, decreme
           </Navbar.Collapse>
           {location.pathname === '/' && counter > 0 ? (
             <div className="text-white h1 text-center align-content-center align-items-center d-flex" id={counter > 0 && location.pathname === '/' ? 'overlay' : ''}>
-              <span aria-hidden="true" className="carousel-control-prev-icon" onClick={decrementCounter} />
+              <span aria-hidden="true" className="carousel-control-prev-icon me-4" onClick={decrementCounter} />
               <Col>{tutorialText[counter]}</Col>
-              <span aria-hidden="true" className="carousel-control-next-icon" onClick={incrementCounter} />
+              <span aria-hidden="true" className="carousel-control-next-icon ms-4" onClick={incrementCounter} />
             </div>
           ) : (
             ''
@@ -101,17 +101,23 @@ const NavBar = ({ highlight, changeHighlight, counter, incrementCounter, decreme
           (
             <div className="hole me-3">
               {counter === 0 ? (
-                <Button type="button" variant="light" onClick={() => { changeHighlight(); incrementCounter(); }} className="position-sticky bottom-0 end-0 btn btn-outline-primary">
-                  Tutorial
+                <Button type="button" variant="light" onClick={() => { changeHighlight(); incrementCounter(); }} className="position-sticky bottom-0 end-0 btn btn-outline-primary text-nowrap">
+                  How to navigate
                 </Button>
               ) :
                 (
-                  <Button type="button" variant="light" onClick={() => { changeHighlight(); resetCounter(); }} className="position-sticky bottom-0 end-0 btn btn-outline-primary">
+                  <Button type="button" variant="light" onClick={() => { changeHighlight(); resetCounter(); }} className="position-sticky bottom-0 end-0 btn btn-outline-danger">
                     Quit
                   </Button>
                 )}
             </div>
           ) : ''}
+        {location.pathname !== '/' && counter > 0 ? (
+          <Link to="/">
+            <Button type="button" variant="light" className="position-sticky bottom-0 end-0 btn btn-outline-primary">GO back</Button>
+          </Link>
+        ) :
+          ''}
       </Navbar>
     </nav>
   ) : <ProgressBar />;
