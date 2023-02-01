@@ -32,9 +32,9 @@ const AdminReservation = () => {
           {/* <Form.Select aria-label="Default select example"> */}
           {/* {rooms.map((room) => <RoomDropdown key={room.room} room={room} />)} */}
           {/* </Form.Select> */}
-          <DropdownButton title="Dropdown button">
+          {/*<DropdownButton title="Dropdown button">*/}
             {rooms.map((room) => <RoomDropdown key={room._id} room={room} />)}
-          </DropdownButton>
+          {/*</DropdownButton>*/}
 
         </Col>
       </Row>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
-// import DropdownButton from 'react-bootstrap/DropdownButton';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 import PropTypes from 'prop-types';
 
@@ -12,15 +12,34 @@ const RoomDropdown = ({ room }) => (
   //   ))}
   // </Form.Select>
 
-  // <DropdownButton id="dropdown-item-button" title="Dropdown button">
-  <Dropdown.Menu show>
-    <Dropdown.Header as={room.type}>{room.type}</Dropdown.Header>
-    {/* {room.map(item => ( */}
-    {/*  <Dropdown.Item eventKey={item._id} as={item.type}>{item.roomNumber}</Dropdown.Item> */}
-    {/* ))} */}
+  <DropdownButton id="dropdown-item-button" title="Dropdown button">
+    <Dropdown.Menu show>
+       <Dropdown.Header>{room.type}</Dropdown.Header>
+      <Dropdown.Item eventKey={room._id}>Room {room.roomNumber}</Dropdown.Item>
+    </Dropdown.Menu>
+    <
+    <Dropdown.Menu show>
+      <Dropdown.Header>{room.type}</Dropdown.Header>
+      <Dropdown.Item eventKey={room._id}>Room {room.roomNumber}</Dropdown.Item>
+    </Dropdown.Menu>
+<Dropdown.Divider />
 
-    <Dropdown.Item eventKey={room._id}>Room {room.roomNumber}</Dropdown.Item>
-  </Dropdown.Menu>
+    <Dropdown.Menu show>
+      <Dropdown.Header>{room.type}</Dropdown.Header>
+      <Dropdown.Item eventKey={room._id}>Room {room.roomNumber}</Dropdown.Item>
+    </Dropdown.Menu>
+<Dropdown.Divider />
+    <Dropdown.Menu show>
+      <Dropdown.Header>{room.type}</Dropdown.Header>
+      <Dropdown.Item eventKey={room._id}>Room {room.roomNumber}</Dropdown.Item>
+    </Dropdown.Menu>
+  </DropdownButton>
+  // {/*//   const array = [room];*/}
+  // {/*// try to put it in a boolean*/}
+  // {/*// <ul>*/}
+  // {/*//   <Dropdown.Header>Lecture</Dropdown.Header>*/}
+  // {/*//   <Dropdown.Item >{}</Dropdown.Item>*/}
+  // {/*// </ul>*/}
 
 );
 
