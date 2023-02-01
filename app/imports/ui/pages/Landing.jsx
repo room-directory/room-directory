@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Container, Row, Button } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import Slideshow from '../components/Slideshow';
 
@@ -8,8 +8,6 @@ const Landing = () => (
   <Container fluid id={PAGE_IDS.LANDING} className="p-0 m-0">
     <Row>
       <Slideshow />
-    </Row>
-    <Row className="text-center justify-content-center pt-3">
     </Row>
     <Row className="text-center h-50" id="instruction">
       <Col>
