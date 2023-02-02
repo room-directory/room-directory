@@ -10,6 +10,9 @@ import { navBar } from './navbar.component';
 
 /** Credentials for one of the sample users defined in settings.development.json. */
 const credentials = { username: 'john@foo.com', password: 'changeme' };
+const studentCredentials = { username: 'student@foo.com', password: 'changeme' };
+const officeCredentials = { username: 'office@foo.com', password: 'changeme' };
+const facultyCredentials = { username: 'faculty@foo.com', password: 'changeme' };
 const adminCredentials = { username: 'admin@foo.com', password: 'changeme' };
 const newCredentials = { username: 'jane@foo.com', password: 'changeme' };
 
@@ -24,6 +27,7 @@ test('Test that signin and signout work', async () => {
   await navBar.gotoSignInPage();
   await signInPage.signin(credentials.username, credentials.password);
   await navBar.isLoggedIn(credentials.username);
+  await landingPage.isDisplayedLoggedin();
   await navBar.logout();
   await signOutPage.isDisplayed();
 });
@@ -33,14 +37,26 @@ test('Test that sign up and sign out work', async () => {
   await signUpPage.isDisplayed();
   await signUpPage.signupUser(newCredentials.username, newCredentials.password);
   await navBar.isLoggedIn(newCredentials.username);
+  await landingPage.isDisplayedLoggedin();
   await navBar.logout();
   await signOutPage.isDisplayed();
 });
 
-test('Test that user pages show up', async () => {
+test('Test that non-signed in user pages show up', async () => {
+  // default pages
+  await landingPage.isDisplayedLoggedin();
+  await navBar.gotoFacultyInformationPage();
+  await facultyInformationPage.isDisplayed();
+});
+
+test('Test that student pages show up', async () => {
   await navBar.gotoSignInPage();
-  await signInPage.signin(credentials.username, credentials.password);
-  await navBar.isLoggedIn(credentials.username);
+  await signInPage.signin(studentCredentials.username, studentCredentials.password);
+  await navBar.isLoggedIn(studentCredentials.username);
+  // default pages
+  await landingPage.isDisplayedLoggedin();
+  await navBar.gotoFacultyInformationPage();
+  await facultyInformationPage.isDisplayed();
   // Profile
   await navBar.gotoProfilePage();
   await profilePage.isDisplayed();
@@ -51,34 +67,66 @@ test('Test that user pages show up', async () => {
   await signOutPage.isDisplayed();
 });
 
+test('Test that faculty user pages show up', async () => {
+  await navBar.gotoSignInPage();
+  await signInPage.signin(facultyCredentials.username, facultyCredentials.password);
+  await navBar.isLoggedIn(facultyCredentials.username);
+  // default pages
+  await landingPage.isDisplayedLoggedin();
+  await navBar.gotoFacultyInformationPage();
+  await facultyInformationPage.isDisplayed();
+  // Profile
+  await navBar.gotoProfilePage();
+  await profilePage.isDisplayed();
+  // Room List
+  await navBar.gotoRoomListPage();
+  await roomListPage.isDisplayed();
+  // student requests
+  await navBar.gotoStudentRequestsPage();
+  await studentRequestPage.isDisplayed();
+  await navBar.logout();
+  await signOutPage.isDisplayed();
+});
+
+test('Test that Office user pages show up', async () => {
+  await navBar.gotoSignInPage();
+  await signInPage.signin(officeCredentials.username, officeCredentials.password);
+  await navBar.isLoggedIn(officeCredentials.username);
+  // default pages
+  await landingPage.isDisplayedLoggedin();
+  await navBar.gotoFacultyInformationPage();
+  await facultyInformationPage.isDisplayed();
+  // Profile
+  await navBar.gotoProfilePage();
+  await profilePage.isDisplayed();
+  // Room List
+  await navBar.gotoRoomListPage();
+  await roomListPage.isDisplayed();
+  // student requests
+  await navBar.gotoFacultyRequestsPage();
+  await facultyRequestPage.isDisplayed();
+  await navBar.logout();
+  await signOutPage.isDisplayed();
+});
+
 test('Test that admin pages show up', async () => {
   await navBar.gotoSignInPage();
   await signInPage.signin(adminCredentials.username, adminCredentials.password);
   await navBar.isLoggedIn(adminCredentials.username);
+  // default pages
+  await landingPage.isDisplayedLoggedin();
+  await navBar.gotoFacultyInformationPage();
+  await facultyInformationPage.isDisplayed();
+  // Room List
+  await navBar.gotoRoomListPage();
+  await roomListPage.isDisplayed();
+  // faculty requests
   await navBar.gotoFacultyRequestsPage();
   await facultyRequestPage.isDisplayed();
+  // student requests
   await navBar.gotoStudentRequestsPage();
   await studentRequestPage.isDisplayed();
-  // await navBar.gotoManageDatabasePage();
-  // await manageDatabasePage.isDisplayed();
-});
-
-test('Test that reserve admin pages show up', async () => {
-  await navBar.gotoSignInPage();
-  await signInPage.signin(adminCredentials.username, adminCredentials.password);
-  await navBar.isLoggedIn(adminCredentials.username);
+  // admin reservation
   await navBar.gotoAdminReservationPage();
   await adminReservationPage.isDisplayed();
-  // await navBar.gotoManageDatabasePage();
-  // await manageDatabasePage.isDisplayed();
-});
-
-test('Test that faculty information page shows up', async () => {
-  await navBar.gotoFacultyInformationPage();
-  await facultyInformationPage.isDisplayed();
-  await navBar.gotoSignInPage();
-  await signInPage.signin(credentials.username, credentials.password);
-  await navBar.isLoggedIn(credentials.username);
-  await navBar.gotoFacultyInformationPage();
-  await facultyInformationPage.isDisplayed();
 });

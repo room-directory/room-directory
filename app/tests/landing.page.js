@@ -15,6 +15,12 @@ class LandingPage {
     console.log(`Waiting ${waitTime} seconds before running LandingPage.isDisplayed().`);
     await t.wait(waitTime * 1000).expect(this.pageSelector.exists).ok();
   }
+
+  async isDisplayedLoggedin() {
+    const waitTime = 1;
+    // console.log(`Waiting ${waitTime} seconds before running LandingPage.isDisplayed().`);
+    await t.wait(waitTime * 1000).expect(this.pageSelector.exists).ok();
+  }
 }
 
 export const landingPage = new LandingPage();
