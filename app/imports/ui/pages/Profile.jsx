@@ -1,28 +1,42 @@
 import React, { useState } from 'react';
 import { Col, Container, Image, Row, Button, Modal } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
+import { Meteor } from 'meteor/meteor';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ProfileReservationsModalItem from '../components/ProfileReservationsModalItem';
 import { Reservations } from '../../api/reservation/ReservationCollection';
+import { UserProfiles } from '../../api/user/UserProfileCollection';
 
-/* TODO: Replace the static image link and profile information with database info */
+/* TODO: Implement Edit profile, review user profile subscription (currently getting all profiles) */
 const Profile = () => {
   const [modal, setModal] = useState(false);
   const handleModal = () => setModal(!modal);
 
-  const { ready, reservations } = useTracker(() => {
-    // Get access to Reservations documents.
-    const subscription = Reservations.subscribeReservation();
-    // Determine if the subscription is ready
-    const rdy = subscription.ready();
-    // Get the Reservations documents
+  const { ready, reservations, profiles } = useTracker(() => {
+    // Get access to Reservations and User Profile documents.
+    const reservationSubscription = Reservations.subscribeReservation();
+    const profileSubscription = UserProfiles.subscribe();
+    // Determine if the subscriptions are ready
+    const rdy1 = reservationSubscription.ready();
+    const rdy2 = profileSubscription.ready();
+    // Get the Reservations and User Profile documents
     const reservationItems = Reservations.find().fetch();
+    const profileItems = UserProfiles.find().fetch();
     return {
       reservations: reservationItems,
-      ready: rdy,
+      profiles: profileItems,
+      ready: rdy1 && rdy2,
     };
   }, []);
+
+  function filterProfiles(list) {
+    if (ready) {
+      const email = Meteor.user().username;
+      return list.filter((profile) => profile.email === email)[0];
+    }
+    return '';
+  }
 
   return (ready ? (
     <Container id={PAGE_IDS.PROFILE} className="py-3">
@@ -31,14 +45,19 @@ const Profile = () => {
           <Image id="profile-image" roundedCircle className="h-25 w-25" src="https://archive.org/services/img/twitter-default-pfp" />
         </Row>
         <Row>
-          <h2 id="profile-name">JOHN DOE</h2>
+          <h2 id="profile-name" style={{ textTransform: 'uppercase' }}>{filterProfiles(profiles).firstName} {filterProfiles(profiles).lastName}</h2>
         </Row>
         <Row>
-          <h4 id="profile-role">STUDENT</h4>
+          <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>{filterProfiles(profiles).position ? filterProfiles(profiles).position : 'N/A'}</h4>
         </Row>
         <Row>
           <Col>
-            <Button id="profile-reservations" variant="light" onClick={handleModal}><h4>YOUR RESERVATIONS</h4></Button>
+            <Button id="profile-reservations" variant="link" onClick={handleModal}><h4>YOUR RESERVATIONS</h4></Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Button id="profile-reservations" variant="primary">Edit Profile</Button>
           </Col>
         </Row>
       </Col>
