@@ -42,7 +42,7 @@ const App = () => {
       setCounter(0);
     }
   };
-  const changeHighlight = () => { setHighlight('hole rounded'); console.log(counter); };
+  const changeHighlight = () => { setHighlight('hole rounded'); };
   const resetCounter = () => setCounter(0);
   return (
     <Router>

@@ -79,3 +79,8 @@ body {
 .active {
   color:orange !important;
 }
+@media (max-width: 993px) {
+  #tutorial-button {
+    display: none;
+  }
+}
