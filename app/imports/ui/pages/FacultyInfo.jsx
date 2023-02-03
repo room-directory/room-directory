@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Col, Container, Row, Table, DropdownButton, Dropdown } from 'react-bootstrap';
 import Faculty from '../components/Faculty';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -17,7 +17,13 @@ const FacultyInfo = () => {
     {
       firstName: 'Charles', lastName: 'Shackford', role: 'IT Network/System Admin.', picture: '/images/ICSLogo.jpg', office: 'POST 327', phone: '808-956-4989', email: 'shackfor@hawaii.edu',
     },
+    {
+      firstName: 'Wesley', lastName: 'Sugimoto', role: 'Admin. and Fiscal Support', picture: '/images/wesley-sugimoto.jpg', office: 'POST 303B', phone: '808-956-8249', email: 'wesleysu@hawaii.edu',
+
+    },
   ];
+  const [sortingBy, setSortingBy] = useState('lastName');
+  facultyProfiles.sort((a, b) => a[sortingBy].localeCompare(b[sortingBy]));
   return (ready ? (
     <Container id={PAGE_IDS.FACULTY_INFORMATION} className="py-3">
       <Row className="justify-content-center">
@@ -27,12 +33,12 @@ const FacultyInfo = () => {
           </Col>
           <Col style={{ display: 'flex' }}>
             <DropdownButton id={COMPONENT_IDS.FACULTY_INFORMATION_SORT} title="Sort by">
-              <Dropdown.Item href="#/action-1">First Name</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Last Name</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">Role</Dropdown.Item>
-              <Dropdown.Item href="#/action-4">Office</Dropdown.Item>
-              <Dropdown.Item href="#/action-5">Phone</Dropdown.Item>
-              <Dropdown.Item href="#/action-6">Email</Dropdown.Item>
+              <Dropdown.Item onClick={() => setSortingBy('firstName')}>First Name</Dropdown.Item>
+              <Dropdown.Item onClick={() => setSortingBy('lastName')}>Last Name</Dropdown.Item>
+              <Dropdown.Item onClick={() => setSortingBy('role')}>Role</Dropdown.Item>
+              <Dropdown.Item onClick={() => setSortingBy('office')}>Office</Dropdown.Item>
+              <Dropdown.Item onClick={() => setSortingBy('phone')}>Phone</Dropdown.Item>
+              <Dropdown.Item onClick={() => setSortingBy('email')}>Email</Dropdown.Item>
             </DropdownButton>
           </Col>
           <Table hover>
@@ -51,7 +57,7 @@ const FacultyInfo = () => {
         </Col>
       </Row>
     </Container>
-  ) : <LoadingSpinner message="Loading Stuff" />);
+  ) : <LoadingSpinner message="Loading Faculty Information" />);
 };
 
 export default FacultyInfo;
