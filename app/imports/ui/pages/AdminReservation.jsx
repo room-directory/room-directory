@@ -13,31 +13,30 @@ function RoomType(room) {
   const office = [];
   const conference = [];
   const study = [];
-  console.log('room:', room);
+
   for (let i = 0; i < room.length; i++) {
     if (room[i].type === 'lecture') {
       lecture.push(room[i]);
-      console.log('lecture?:', lecture);
     } else if (room[i].type === 'office') {
       office.push(room[i]);
     } else if (room[i].type === 'conference') {
       conference.push(room[i]);
-    } else {
+    } else if (room[i].type === 'study room') {
       study.push(room[i]);
     }
   }
-
+  // TO DO: Fix study room type
   const types = {
     lecture: lecture,
     office: office,
     conference: conference,
     study: study,
   };
-  console.log('lecture:', lecture);
+
   return types;
 }
 
-/* A simple static component to render some text for the landing page. */
+/* An interactive page with different components that reflects the reservations made. */
 const AdminReservation = () => {
   const [show, setShow] = useState(false);
 
@@ -57,7 +56,6 @@ const AdminReservation = () => {
     <Container id={PAGE_IDS.ADMIN_RESERVATION} className="py-3">
       <Row>
         <Col>
-          {/* <h3>Room 3xx</h3> */}
           <DropdownButton title="Select Room...">
             <Dropdown.Header>Lecture</Dropdown.Header>
             {(RoomType(rooms).lecture).map((room) => <RoomDropdown key={room.type} room={room} />)}
