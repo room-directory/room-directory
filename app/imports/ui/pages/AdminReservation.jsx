@@ -58,31 +58,20 @@ const AdminReservation = () => {
       <Row>
         <Col>
           {/* <h3>Room 3xx</h3> */}
-          <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
-          {/* <Form.Select aria-label="Default select example"> */}
-          {/* {rooms.map((room) => <RoomDropdown key={room.room} room={room} />)} */}
-          {/* </Form.Select> */}
-          <DropdownButton title="Dropdown button">
-            {/* {rooms.map((room) => <RoomDropdown key={room._id} room={room} />)} */}
-            <Dropdown.Menu show>
-              <Dropdown.Header>Lecture</Dropdown.Header>
-              {/* <Dropdown.Item eventKey={room.type}>Room {room.roomNumber}</Dropdown.Item> */}
-              {(RoomType(rooms).lectRoom).map((room) => <RoomDropdown key={room.type} room={room} />)}
-              <Dropdown.Divider />
-              <Dropdown.Header>Office</Dropdown.Header>
-              {/* <Dropdown.Item eventKey={room.type}>Room {room.roomNumber}</Dropdown.Item> */}
-              {(RoomType(rooms).office).map((room) => <RoomDropdown key={room.type} room={room} />)}
-              <Dropdown.Divider />
-              <Dropdown.Header>Conference</Dropdown.Header>
-              {/* <Dropdown.Item eventKey={room._id}>Room {room.roomNumber}</Dropdown.Item> */}
-              {(RoomType(rooms).conference).map((room) => <RoomDropdown key={room.type} room={room} />)}
-              <Dropdown.Divider />
-              <Dropdown.Header>Study Room</Dropdown.Header>
-              {/* <Dropdown.Item eventKey={room._id}>Room {room.roomNumber}</Dropdown.Item> */}
-              {(RoomType(rooms).study).map((room) => <RoomDropdown key={room.type} room={room} />)}
-            </Dropdown.Menu>
+          <DropdownButton title="Select Room...">
+            <Dropdown.Header>Lecture</Dropdown.Header>
+            {(RoomType(rooms).lecture).map((room) => <RoomDropdown key={room.type} room={room} />)}
+            <Dropdown.Divider />
+            <Dropdown.Header>Office</Dropdown.Header>
+            {(RoomType(rooms).office).map((room) => <RoomDropdown key={room.type} room={room} />)}
+            <Dropdown.Divider />
+            <Dropdown.Header>Conference</Dropdown.Header>
+            {(RoomType(rooms).conference).map((room) => <RoomDropdown key={room.type} room={room} />)}
+            <Dropdown.Divider />
+            <Dropdown.Header>Study Room</Dropdown.Header>
+            {(RoomType(rooms).study).map((room) => <RoomDropdown key={room.type} room={room} />)}
           </DropdownButton>
-
+          <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
         </Col>
       </Row>
       <Modal show={show} onHide={handleClose}>
