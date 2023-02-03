@@ -2,10 +2,40 @@ import React, { useState } from 'react';
 import { Button, Container, Row, Col, Modal, Form } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import RoomDropdown from '../components/RoomDropdown';
 import { Room } from '../../api/room/RoomCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
+
+function RoomType(room) {
+  const lecture = [];
+  const office = [];
+  const conference = [];
+  const study = [];
+  console.log('room:', room);
+  for (let i = 0; i < room.length; i++) {
+    if (room[i].type === 'lecture') {
+      lecture.push(room[i]);
+      console.log('lecture?:', lecture);
+    } else if (room[i].type === 'office') {
+      office.push(room[i]);
+    } else if (room[i].type === 'conference') {
+      conference.push(room[i]);
+    } else {
+      study.push(room[i]);
+    }
+  }
+
+  const types = {
+    lecture: lecture,
+    office: office,
+    conference: conference,
+    study: study,
+  };
+  console.log('lecture:', lecture);
+  return types;
+}
 
 /* A simple static component to render some text for the landing page. */
 const AdminReservation = () => {
@@ -32,9 +62,26 @@ const AdminReservation = () => {
           {/* <Form.Select aria-label="Default select example"> */}
           {/* {rooms.map((room) => <RoomDropdown key={room.room} room={room} />)} */}
           {/* </Form.Select> */}
-          {/*<DropdownButton title="Dropdown button">*/}
-            {rooms.map((room) => <RoomDropdown key={room._id} room={room} />)}
-          {/*</DropdownButton>*/}
+          <DropdownButton title="Dropdown button">
+            {/* {rooms.map((room) => <RoomDropdown key={room._id} room={room} />)} */}
+            <Dropdown.Menu show>
+              <Dropdown.Header>Lecture</Dropdown.Header>
+              {/* <Dropdown.Item eventKey={room.type}>Room {room.roomNumber}</Dropdown.Item> */}
+              {(RoomType(rooms).lectRoom).map((room) => <RoomDropdown key={room.type} room={room} />)}
+              <Dropdown.Divider />
+              <Dropdown.Header>Office</Dropdown.Header>
+              {/* <Dropdown.Item eventKey={room.type}>Room {room.roomNumber}</Dropdown.Item> */}
+              {(RoomType(rooms).office).map((room) => <RoomDropdown key={room.type} room={room} />)}
+              <Dropdown.Divider />
+              <Dropdown.Header>Conference</Dropdown.Header>
+              {/* <Dropdown.Item eventKey={room._id}>Room {room.roomNumber}</Dropdown.Item> */}
+              {(RoomType(rooms).conference).map((room) => <RoomDropdown key={room.type} room={room} />)}
+              <Dropdown.Divider />
+              <Dropdown.Header>Study Room</Dropdown.Header>
+              {/* <Dropdown.Item eventKey={room._id}>Room {room.roomNumber}</Dropdown.Item> */}
+              {(RoomType(rooms).study).map((room) => <RoomDropdown key={room.type} room={room} />)}
+            </Dropdown.Menu>
+          </DropdownButton>
 
         </Col>
       </Row>
