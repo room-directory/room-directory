@@ -45,10 +45,9 @@ const SignIn = () => {
   return (
     <Container id={PAGE_IDS.SIGN_IN} className="py-3">
       <Row className="text-center">
-        <h2>Login to your account</h2>
+        <h2>Sign In</h2>
       </Row>
       <Row className="justify-content-center">
-        <Col className="text-center" />
         <Col xs={5}>
           <AutoForm schema={bridge} onSubmit={data => submit(data)}>
             <Card>
@@ -56,8 +55,9 @@ const SignIn = () => {
                 <TextField id={COMPONENT_IDS.SIGN_IN_FORM_EMAIL} name="email" placeholder="E-mail address" />
                 <TextField id={COMPONENT_IDS.SIGN_IN_FORM_PASSWORD} name="password" placeholder="Password" type="password" />
                 <ErrorsField />
-                <Form.check
                 <SubmitField id={COMPONENT_IDS.SIGN_IN_FORM_SUBMIT} />
+                <div className="my-3">First time signing in?</div>
+                <Link to="/signup">Click here to Join!</Link>
               </Card.Body>
             </Card>
           </AutoForm>
@@ -70,11 +70,8 @@ const SignIn = () => {
             </Alert>
           )}
         </Col>
-        <Col xs={5}>
-          <Alert variant="secondary">
-            <Link to="/signup">Click here to Register</Link>
-          </Alert>
-        </Col>
+        {/*        <Col xs={5}>
+        </Col> */}
       </Row>
     </Container>
   );
