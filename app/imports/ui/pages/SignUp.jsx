@@ -50,7 +50,7 @@ const SignUp = () => {
   /* Display the signup form. Redirect to add page after successful registration and login. */
   // if correct authentication, redirect to from: page instead of signup screen
   if (redirectToReferer) {
-    return <Navigate to="/add" />;
+    return <Navigate to="/" />;
   }
   return (
     <Container id={PAGE_IDS.SIGN_UP} className="py-3">

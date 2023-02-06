@@ -1,23 +1,48 @@
 import React, { useState } from 'react';
 import { Button, Container, Row, Col, Modal, Form } from 'react-bootstrap';
-// import { useTracker } from 'meteor/react-meteor-data';
+import { useTracker } from 'meteor/react-meteor-data';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
 import { PAGE_IDS } from '../utilities/PageIDs';
-// import RoomDropdown from '../components/RoomDropdown';
-// import { Room } from '../../api/room/RoomCollection';
-// import LoadingSpinner from '../components/LoadingSpinner';
-// import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+import RoomDropdown from '../components/RoomDropdown';
+import { Room } from '../../api/room/RoomCollection';
+import LoadingSpinner from '../components/LoadingSpinner';
 
-//required to use the <DateSelector/> component
-import DateSelector from '../components/DateSelector';
-import "react-datepicker/dist/react-datepicker.css";
+function RoomType(room) {
+  const lecture = [];
+  const office = [];
+  const conference = [];
+  const study = [];
 
-/* A simple static component to render some text for the landing page. */
+  for (let i = 0; i < room.length; i++) {
+    if (room[i].type === 'lecture') {
+      lecture.push(room[i]);
+    } else if (room[i].type === 'office') {
+      office.push(room[i]);
+    } else if (room[i].type === 'conference') {
+      conference.push(room[i]);
+    } else if (room[i].type === 'study room') {
+      study.push(room[i]);
+    }
+  }
+  // TO DO: Fix study room type
+  const types = {
+    lecture: lecture,
+    office: office,
+    conference: conference,
+    study: study,
+  };
+
+  return types;
+}
+
+/* An interactive page with different components that reflects the reservations made. */
 const AdminReservation = () => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  /* const { rooms, ready } = useTracker(() => {
+  const { rooms, ready } = useTracker(() => {
     const subscription = Room.subscribeRoom();
     // Determine if the subscription is ready
     const rdy = subscription.ready();
@@ -27,33 +52,26 @@ const AdminReservation = () => {
       ready: rdy,
     };
   }, []);
-  return (ready ? ( */
-  return (
-    //  must replace id={COMPONENT_IDS.ADMIN_RESERVATION}
+  return (ready ? (
     <Container id={PAGE_IDS.ADMIN_RESERVATION} className="py-3">
       <Row>
         <Col>
-          <DateSelector/>
-          <h3>Room 3xx</h3>
-          <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
-          <h3>Room 3xx</h3>
-          <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
-          <h3>Room 3xx</h3>
+          <DropdownButton title="Select Room...">
+            <Dropdown.Header>Lecture</Dropdown.Header>
+            {(RoomType(rooms).lecture).map((room) => <RoomDropdown key={room.type} room={room} />)}
+            <Dropdown.Divider />
+            <Dropdown.Header>Office</Dropdown.Header>
+            {(RoomType(rooms).office).map((room) => <RoomDropdown key={room.type} room={room} />)}
+            <Dropdown.Divider />
+            <Dropdown.Header>Conference</Dropdown.Header>
+            {(RoomType(rooms).conference).map((room) => <RoomDropdown key={room.type} room={room} />)}
+            <Dropdown.Divider />
+            <Dropdown.Header>Study Room</Dropdown.Header>
+            {(RoomType(rooms).study).map((room) => <RoomDropdown key={room.type} room={room} />)}
+          </DropdownButton>
           <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
         </Col>
       </Row>
-      <div>
-        <Form.Select aria-label="Default select example">
-          <option selected>Choose Room...</option>
-          {/* <option value={room._id}>{room.type}{room.roomNumber}</option> */}
-          <option value="301">Room 301</option>
-          <option value="302">Room 302</option>
-          <option value="303">Room 303</option>
-        </Form.Select>
-        {/* <RoomDropdown /> */}
-        {/* {rooms.map((room) => <RoomDropdown key={room._id} stuff={room} />)} */}
-      </div>
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Reserve Room</Modal.Title>
@@ -63,7 +81,6 @@ const AdminReservation = () => {
             <Form.Group className="mb-3" controlId="formDate">
               <Form.Label>Date</Form.Label>
               <Form.Control placeholder="Enter date" />
-              <DateSelector/>
             </Form.Group>
             <Form.Group>
               <Form.Label>Time</Form.Label>
@@ -117,8 +134,7 @@ const AdminReservation = () => {
         </Modal.Footer>
       </Modal>
     </Container>
-  );
-  // : <LoadingSpinner />);
+  ) : <LoadingSpinner />);
 };
 
 export default AdminReservation;

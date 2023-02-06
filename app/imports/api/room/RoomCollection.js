@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
+import { _ } from 'meteor/underscore';
 import { check } from 'meteor/check';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
@@ -18,6 +19,7 @@ class RoomCollection extends BaseCollection {
         allowedValues: roomType,
         defaultValue: 'conference',
       },
+      capacity: Number,
     }));
   }
 
@@ -29,10 +31,11 @@ class RoomCollection extends BaseCollection {
    * @param condition the condition of the item.
    * @return {String} the docID of the new document.
    */
-  define({ roomNumber, type }) {
+  define({ roomNumber, type, capacity }) {
     const docID = this._collection.insert({
       roomNumber,
       type,
+      capacity,
     });
     return docID;
   }
@@ -44,13 +47,16 @@ class RoomCollection extends BaseCollection {
    * @param quantity the new quantity (optional).
    * @param condition the new condition (optional).
    */
-  update(docID, { roomNumber, type }) {
+  update(docID, { roomNumber, type, capacity }) {
     const updateData = {};
     if (roomNumber) {
       updateData.roomNumber = roomNumber;
     }
     if (type) {
       updateData.type = type;
+    }
+    if (_.isNumber(capacity)) {
+      updateData.capacity = capacity;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -78,8 +84,7 @@ class RoomCollection extends BaseCollection {
       /** This subscription publishes only the documents associated with the logged in user */
       Meteor.publish(roomPublications.room, function publish() {
         if (this.userId) {
-          const username = Meteor.users.findOne(this.userId).username;
-          return instance._collection.find({ owner: username });
+          return instance._collection.find();
         }
         return this.ready();
       });
@@ -90,7 +95,7 @@ class RoomCollection extends BaseCollection {
    * Subscription method for stuff owned by the current user.
    */
   subscribeRoom() {
-    if (Meteor.isClient) {
+    if (true) {
       return Meteor.subscribe(roomPublications.room);
     }
     return null;
@@ -115,7 +120,8 @@ class RoomCollection extends BaseCollection {
     const doc = this.findDoc(docID);
     const roomNumber = doc.roomNumber;
     const type = doc.type;
-    return { roomNumber, type };
+    const capacity = doc.capacity;
+    return { roomNumber, type, capacity };
   }
 }
 

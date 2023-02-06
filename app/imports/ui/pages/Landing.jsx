@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Container, Row, Button } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import Slideshow from '../components/Slideshow';
 
@@ -9,14 +9,7 @@ const Landing = () => (
     <Row>
       <Slideshow />
     </Row>
-    <Row className="text-center justify-content-center pt-3">
-      <div>
-        <Button href="#instruction" className="rounded-pill green-background">
-          How to navigate
-        </Button>
-      </div>
-    </Row>
-    <Row className="text-center min-vh-100" id="instruction">
+    <Row className="text-center h-50" id="instruction">
       <Col>
         Room directory is cool and useful.
       </Col>
@@ -24,6 +17,7 @@ const Landing = () => (
         Click on buttons to do things on website.
       </Col>
     </Row>
+    <div />
   </Container>
 );
 
