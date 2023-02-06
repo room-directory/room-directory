@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Modal, Button, Table, Collapse, Col } from 'react-bootstrap';
+import { useTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
+import { RoomResources } from '../../api/room/RoomResourceCollection';
+import LoadingSpinner from './LoadingSpinner';
 
 /** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
 const RoomInfoModal = ({ room }) => {
@@ -8,14 +11,23 @@ const RoomInfoModal = ({ room }) => {
   const [showMore, setShowMore] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  return (
+  const { ready, resources } = useTracker(() => {
+    const subscription = RoomResources.subscribeRoomResourceAdmin();
+    const rdy = subscription.ready();
+    const roomResource = RoomResources.findOne({ roomNumber: room.roomNumber });
+    return {
+      resources: roomResource,
+      ready: rdy,
+    };
+  }, []);
+  return (ready ? (
     <Col className="col-2 pb-4">
       <Button variant="light" className="border border-dark sharp me-3" onClick={handleShow}>
-        Room #{room.roomNumber} Info
+        Room #{resources.roomNumber} Info
       </Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Room #{room.roomNumber}</Modal.Title>
+          <Modal.Title>Room #{resources.roomNumber}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Table>
@@ -26,32 +38,32 @@ const RoomInfoModal = ({ room }) => {
               </tr>
               <tr>
                 <th scope="row">Capacity</th>
-                <td>20</td>
+                <td>{resources.capacity}</td>
               </tr>
               <tr>
                 <th scope="row" className="align-top">Resources</th>
                 <td>
                   <tr className="d-flex">
                     <th scope="row" className="pe-3">Chairs</th>
-                    <td className="ps-5">23</td>
+                    <td className="ps-5">{resources.chairs}</td>
                   </tr>
                   <Collapse in={showMore}>
                     <div>
                       <tr>
                         <th scope="row">Desks</th>
-                        <td className="ps-1">8</td>
+                        <td className="ps-1">{resources.desks}</td>
                       </tr>
                       <tr>
                         <th scope="row">TV</th>
-                        <td className="ps-1">6</td>
+                        <td className="ps-1">{resources.tv}</td>
                       </tr>
                       <tr>
                         <th scope="row">Phone number</th>
-                        <td className="ps-1">(202)132-2131</td>
+                        <td className="ps-1">{resources.phoneNumber}</td>
                       </tr>
                       <tr>
                         <th scope="row">Data jacks</th>
-                        <td className="ps-1">8</td>
+                        <td className="ps-1">{resources.dataJacks}</td>
                       </tr>
                     </div>
                   </Collapse>
@@ -81,6 +93,8 @@ const RoomInfoModal = ({ room }) => {
         </Modal.Footer>
       </Modal>
     </Col>
+  ) :
+    <LoadingSpinner />
   );
 };
 RoomInfoModal.propTypes = {
