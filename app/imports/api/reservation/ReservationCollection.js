@@ -10,6 +10,8 @@ export const reservationPublications = {
   reservationAdmin: 'ReservationAdmin',
 };
 
+/* validate methods for define, update, and remove methods */
+
 class ReservationCollection extends BaseCollection {
   constructor() {
     super('Reservations', new SimpleSchema({
@@ -104,7 +106,7 @@ class ReservationCollection extends BaseCollection {
     if (Meteor.isServer) {
       // get the ReservationCollection instance.
       const instance = this;
-      /** This subscription publishes only the documents associated with the logged in user */
+      /* This subscription publishes only the documents associated with the logged in user */
       Meteor.publish(reservationPublications.reservation, function publish() {
         if (this.userId) {
           const username = Meteor.users.findOne(this.userId).username;
@@ -113,7 +115,7 @@ class ReservationCollection extends BaseCollection {
         return this.ready();
       });
 
-      /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
+      /* This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
       Meteor.publish(reservationPublications.reservationAdmin, function publish() {
         if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
           return instance._collection.find();

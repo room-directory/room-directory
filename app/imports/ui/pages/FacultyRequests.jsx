@@ -2,7 +2,9 @@ import React from 'react';
 import { Col, Container, Row, Table, Button } from 'react-bootstrap';
 import { PAGE_IDS } from '../utilities/PageIDs';
 
-/* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
+/* TODO: component for table rows */
+
+/* Renders a table containing all of the faculty request documents. Use <FacultyRequest> to render each row. */
 const FacultyRequests = () => (
   <Container id={PAGE_IDS.FACULTY_REQUESTS} className="py-3">
     <Row className="justify-content-center">
