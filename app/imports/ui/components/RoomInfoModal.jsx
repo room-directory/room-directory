@@ -12,7 +12,7 @@ const RoomInfoModal = ({ room }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const { ready, resources } = useTracker(() => {
-    const subscription = RoomResources.subscribeRoomResourceAdmin();
+    const subscription = RoomResources.subscribeRoomResource();
     const rdy = subscription.ready();
     const roomResource = RoomResources.findOne({ roomNumber: room.roomNumber });
     return {
