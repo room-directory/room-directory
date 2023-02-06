@@ -1,16 +1,17 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { Roles } from 'meteor/alanning:roles';
-import { Container, Navbar, Nav, NavDropdown, ProgressBar } from 'react-bootstrap';
+import { Container, Navbar, Nav, NavDropdown, ProgressBar, Button, Col } from 'react-bootstrap';
 import { BoxArrowRight, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
 import { ROLE } from '../../api/role/Role';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 
-const NavBar = () => {
+const NavBar = ({ highlight, changeHighlight, counter, incrementCounter, decrementCounter, resetCounter }) => {
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   const { currentUser, user, ready } = useTracker(() => {
     const currUser = Meteor.user() ? Meteor.user().username : '';
@@ -29,6 +30,13 @@ const NavBar = () => {
   }, []);
   const topMenuStyle = { color: 'white' };
   const bottomMenuStyle = { marginBottom: '10px', border: '1px solid black' };
+  const tutorialText = ['',
+    'This is the faculty information page. It has information about the faculty',
+    'This is the room list page where you can see a list of rooms.',
+    'This page lets you see student reservation requests',
+    'This page lets you see faculty reservation requests',
+    'This page lets you see room reservations'];
+  const location = useLocation();
   return ready ? (
     <nav>
       <Navbar bg="light" expand="lg" style={topMenuStyle}>
@@ -58,9 +66,11 @@ const NavBar = () => {
           <Navbar.Toggle aria-controls={COMPONENT_IDS.NAVBAR_COLLAPSE} />
           <Navbar.Collapse id={COMPONENT_IDS.NAVBAR_COLLAPSE}>
             <Nav className="me-auto justify-content-start">
-              <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_INFORMATION} as={NavLink} to="/faculty" key="faculty">Faculty Information</Nav.Link>
+              <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_INFORMATION} as={NavLink} to="/faculty" key="Faculty" className={counter === 1 ? highlight : ''}>Faculty Information</Nav.Link>
               { currentUser !== '' ?
-                <Nav.Link id={COMPONENT_IDS.NAVBAR_ROOM_LIST} as={NavLink} to="/roomlist" key="room">Room List</Nav.Link>
+                (
+                  <Nav.Link id={COMPONENT_IDS.NAVBAR_ROOM_LIST} as={NavLink} to="/roomlist" key="add" className={counter === 2 ? highlight : ''}>Room List</Nav.Link>
+                )
                 : ''}
               { currentUser !== '' && user?.position === 'faculty' ?
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_STUDENT_REQUESTS} as={NavLink} to="/studentrequests" key="requests">View Student Requests</Nav.Link>
@@ -69,17 +79,64 @@ const NavBar = () => {
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_REQUESTS} as={NavLink} to="/facultyrequests" key="admin">View Faculty Requests</Nav.Link>
                 : ''}
               { currentUser !== '' && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? ([
-                <Nav.Link id={COMPONENT_IDS.NAVBAR_STUDENT_REQUESTS} as={NavLink} to="/studentrequests" key="requests">View Student Requests</Nav.Link>,
-                <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_REQUESTS} as={NavLink} to="/facultyrequests" key="admin">View Faculty Requests</Nav.Link>,
-                <Nav.Link id={COMPONENT_IDS.NAVBAR_LIST_STUFF} as={NavLink} to="/adminreservation" key="reservation">View Room Reservations</Nav.Link>,
+                <Nav.Link id={COMPONENT_IDS.NAVBAR_STUDENT_REQUESTS} as={NavLink} to="/studentrequests" key="requests" className={counter === 3 ? highlight : ''}>View Student Requests</Nav.Link>,
+                <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_REQUESTS} as={NavLink} to="/facultyrequests" key="admin" className={counter === 4 ? highlight : ''}>View Faculty Requests</Nav.Link>,
+                <Nav.Link id={COMPONENT_IDS.NAVBAR_ADMIN_RESERVATION} as={NavLink} to="/adminreservation" key="reservation" className={counter === 5 ? highlight : ''}>View Room Reservations</Nav.Link>,
               ])
                 : ''}
             </Nav>
           </Navbar.Collapse>
+          {location.pathname === '/' && counter > 0 ? (
+            <div className="text-white h1 text-center align-content-center align-items-center d-flex" id={counter > 0 && location.pathname === '/' ? 'overlay' : ''}>
+              <span aria-hidden="true" className="carousel-control-prev-icon me-4" onClick={decrementCounter} />
+              <Col>{tutorialText[counter]}</Col>
+              <span aria-hidden="true" className="carousel-control-next-icon ms-4" onClick={incrementCounter} />
+            </div>
+          ) : (
+            ''
+          )}
         </Container>
+        {location.pathname === '/' ?
+          (
+            <div className="hole me-3">
+              {counter === 0 && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
+                <button type="button" onClick={() => { changeHighlight(); incrementCounter(); }} className="position-sticky bottom-0 end-0 btn btn-outline-primary text-nowrap" id="tutorial-button">
+                  How to navigate
+                </button>
+              ) : ''}
+              {counter > 0 && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
+                <Button type="button" variant="light" onClick={() => { changeHighlight(); resetCounter(); }} className="position-sticky bottom-0 end-0 btn btn-outline-danger">
+                  Quit
+                </Button>
+              ) : ''}
+            </div>
+          ) : ''}
+        {location.pathname !== '/' && counter > 0 ? (
+          <Link to="/">
+            <Button type="button" variant="light" className="position-sticky bottom-0 end-0 btn btn-outline-primary text-nowrap">GO back</Button>
+          </Link>
+        ) :
+          ''}
       </Navbar>
     </nav>
   ) : <ProgressBar />;
 };
 
+NavBar.defaultProps = {
+  highlight: '',
+  changeHighlight: PropTypes.func,
+  counter: PropTypes.number,
+  incrementCounter: PropTypes.func,
+  decrementCounter: PropTypes.func,
+  resetCounter: PropTypes.func,
+
+};
+NavBar.propTypes = {
+  highlight: PropTypes.string,
+  changeHighlight: PropTypes.func,
+  counter: PropTypes.number,
+  incrementCounter: PropTypes.func,
+  decrementCounter: PropTypes.func,
+  resetCounter: PropTypes.func,
+};
 export default NavBar;

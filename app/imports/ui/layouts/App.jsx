@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
@@ -25,35 +25,55 @@ import RequestRoomForm from '../pages/RequestRoomForm';
 import AddReservation from '../pages/AddReservation';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
-const App = () => (
-  <Router>
-    <div className="d-flex flex-column min-vh-100">
-      <NavBar />
-      <Routes>
-        <Route exact path="/" element={<Landing />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/signout" element={<SignOut />} />
-        <Route path="/faculty" element={<FacultyInfo />} />
-        <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
-        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-        <Route path="/roomlist" element={<ProtectedRoute><RoomList /></ProtectedRoute>} />
-        <Route path="/adminreservation" element={<ProtectedRoute><AdminReservation /></ProtectedRoute>} />
-        <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
-        <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
-        <Route path="/admin" element={<AdminProtectedRoute><ListStuffAdmin /></AdminProtectedRoute>} />
-        <Route path="/notauthorized" element={<NotAuthorized />} />
-        <Route path="*" element={<NotFound />} />
-        <Route path="/studentrequests" element={<ProtectedRoute><StudentRequests /></ProtectedRoute>} />
-        <Route path="/facultyrequests" element={<ProtectedRoute><FacultyRequests /></ProtectedRoute>} />
-        <Route path="/requestroomform" element={<ProtectedRoute><RequestRoomForm /></ProtectedRoute>} />
+const App = () => {
+  const [overlay, setOverlay] = useState(false);
+  const changeOverlay = () => setOverlay(!overlay);
+  const [highlight, setHighlight] = useState('');
+  const [counter, setCounter] = useState(0);
+  const incrementCounter = () => {
+    setCounter(counter + 1);
+    if (counter >= 5) {
+      setCounter(0);
+    }
+  };
+  const decrementCounter = () => {
+    setCounter(counter - 1);
+    if (counter < 1) {
+      setCounter(0);
+    }
+  };
+  const changeHighlight = () => { setHighlight('hole rounded'); };
+  const resetCounter = () => setCounter(0);
+  return (
+    <Router>
+      <div className="d-flex flex-column min-vh-100">
+        <NavBar overlay={overlay} changeOverlay={changeOverlay} highlight={highlight} changeHighlight={changeHighlight} counter={counter} incrementCounter={incrementCounter} decrementCounter={decrementCounter} resetCounter={resetCounter} />
+        <Routes>
+          <Route exact path="/" element={<Landing />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signout" element={<SignOut />} />
+          <Route path="/faculty" element={<FacultyInfo />} />
+          <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/roomlist" element={<ProtectedRoute><RoomList /></ProtectedRoute>} />
+          <Route path="/adminreservation" element={<ProtectedRoute><AdminReservation /></ProtectedRoute>} />
+          <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
+          <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
+          <Route path="/admin" element={<AdminProtectedRoute><ListStuffAdmin /></AdminProtectedRoute>} />
+          <Route path="/notauthorized" element={<NotAuthorized />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/studentrequests" element={<ProtectedRoute><StudentRequests /></ProtectedRoute>} />
+          <Route path="/facultyrequests" element={<ProtectedRoute><FacultyRequests /></ProtectedRoute>} />
+          <Route path="/requestroomform" element={<ProtectedRoute><RequestRoomForm /></ProtectedRoute>} />
+          <Route path="/addReservation" element={<ProtectedRoute><AddReservation /></ProtectedRoute>} />
 
-        <Route path="/addReservation" element={<ProtectedRoute><AddReservation /></ProtectedRoute>} />
-      </Routes>
-      <Footer />
-    </div>
-  </Router>
-);
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
+  );
+};
 
 /*
  * ProtectedRoute (see React Router v6 sample)
