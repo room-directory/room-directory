@@ -5,7 +5,7 @@ import { Alert, Card, Col, Container, Row } from 'react-bootstrap';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
-import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
@@ -23,6 +23,11 @@ const SignUp = () => {
     lastName: String,
     email: String,
     password: String,
+    position: {
+      type: String,
+      allowedValues: ['student', 'faculty', 'office'],
+      defaultValue: 'student',
+    },
   });
   const bridge = new SimpleSchema2Bridge(schema);
 
@@ -34,8 +39,8 @@ const SignUp = () => {
     defineMethod.callPromise({ collectionName, definitionData })
       .then(() => {
         // log the new user in.
-        const { email, password } = doc;
-        Meteor.loginWithPassword(email, password, (err) => {
+        const { email, password, position } = doc;
+        Meteor.loginWithPassword(email, password, position, (err) => {
           if (err) {
             setError(err.reason);
           } else {
@@ -66,6 +71,7 @@ const SignUp = () => {
                 <TextField id={COMPONENT_IDS.SIGN_UP_FORM_LAST_NAME} name="lastName" placeholder="Last name" />
                 <TextField id={COMPONENT_IDS.SIGN_UP_FORM_EMAIL} name="email" placeholder="E-mail address" />
                 <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PASSWORD} name="password" placeholder="Password" type="password" />
+                <SelectField id={COMPONENT_IDS.SIGN_UP_FORM_POSITION} name="position" placeholder="Position" />
                 <ErrorsField />
                 <SubmitField id={COMPONENT_IDS.SIGN_UP_FORM_SUBMIT} />
               </Card.Body>
