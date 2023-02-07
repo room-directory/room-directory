@@ -16,7 +16,9 @@ class FacultyProfileCollection extends BaseCollection {
       image: String,
       firstName: String,
       lastName: String,
+      role: String,
       email: String,
+      phone: String,
       officeHours: String,
       officeLocation: String,
     }));
@@ -30,7 +32,7 @@ class FacultyProfileCollection extends BaseCollection {
    * @param condition the condition of the item.
    * @return {String} the docID of the new document.
    */
-  define({ image, firstName, lastName, email, officeHours, officeLocation }) {
+  define({ image, firstName, lastName, email, officeHours, officeLocation, role, phone }) {
     const docID = this._collection.insert({
       image,
       firstName,
@@ -38,6 +40,8 @@ class FacultyProfileCollection extends BaseCollection {
       email,
       officeHours,
       officeLocation,
+      role,
+      phone,
     });
     return docID;
   }
@@ -49,7 +53,7 @@ class FacultyProfileCollection extends BaseCollection {
    * @param quantity the new quantity (optional).
    * @param condition the new condition (optional).
    */
-  update(docID, { image, firstName, lastName, email, officeHours, officeLocation }) {
+  update(docID, { image, firstName, lastName, email, officeHours, officeLocation, role, phone }) {
     const updateData = {};
     if (image) {
       updateData.image = image;
@@ -68,6 +72,12 @@ class FacultyProfileCollection extends BaseCollection {
     }
     if (officeLocation) {
       updateData.officeLocation = officeLocation;
+    }
+    if (role) {
+      updateData.role = role;
+    }
+    if (phone) {
+      updateData.phone = phone;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -155,7 +165,9 @@ class FacultyProfileCollection extends BaseCollection {
     const email = doc.email;
     const officeHours = doc.officeHours;
     const officeLocation = doc.officeLocation;
-    return { image, firstName, lastName, email, officeHours, officeLocation };
+    const phone = doc.phone;
+    const role = doc.role;
+    return { image, firstName, lastName, email, officeHours, officeLocation, phone, role };
   }
 }
 
