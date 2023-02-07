@@ -7,6 +7,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import ProfileReservationsModalItem from '../components/ProfileReservationsModalItem';
 import { Reservations } from '../../api/reservation/ReservationCollection';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
+import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 
 /* TODO: Implement Edit profile, review user profile subscription (currently getting all profiles) */
 const Profile = () => {
@@ -17,16 +18,19 @@ const Profile = () => {
     // Get access to Reservations and User Profile documents.
     const reservationSubscription = Reservations.subscribeReservation();
     const profileSubscription = UserProfiles.subscribe();
+    const adminProfileSubscription = AdminProfiles.subscribe();
     // Determine if the subscriptions are ready
     const rdy1 = reservationSubscription.ready();
     const rdy2 = profileSubscription.ready();
+    const rdy3 = adminProfileSubscription.ready();
     // Get the Reservations and User Profile documents
     const reservationItems = Reservations.find().fetch();
-    const profileItems = UserProfiles.find().fetch();
+    const profileItems = UserProfiles.find().fetch().concat(AdminProfiles.find().fetch());
+    console.log(profileItems);
     return {
       reservations: reservationItems,
       profiles: profileItems,
-      ready: rdy1 && rdy2,
+      ready: rdy1 && rdy2 && rdy3,
     };
   }, []);
 
@@ -35,7 +39,7 @@ const Profile = () => {
       const email = Meteor.user().username;
       return list.filter((profile) => profile.email === email)[0];
     }
-    return '';
+    return null;
   }
 
   return (ready ? (
