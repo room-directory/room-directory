@@ -39,8 +39,8 @@ const SignUp = () => {
     defineMethod.callPromise({ collectionName, definitionData })
       .then(() => {
         // log the new user in.
-        const { email, password, position } = doc;
-        Meteor.loginWithPassword(email, password, position, (err) => {
+        const { email, password } = doc;
+        Meteor.loginWithPassword(email, password, (err) => {
           if (err) {
             setError(err.reason);
           } else {
@@ -62,7 +62,7 @@ const SignUp = () => {
       <Row className="justify-content-center">
         <Col xs={5}>
           <Col className="text-center">
-            <h2>Register your account</h2>
+            <h2>Signup for an account</h2>
           </Col>
           <AutoForm schema={bridge} onSubmit={data => submit(data)}>
             <Card>
