@@ -22,7 +22,19 @@ const FacultyInfo = () => {
     };
   }, []);
   const [sortingBy, setSortingBy] = useState('lastName');
-  profiles.sort((a, b) => a[sortingBy].localeCompare(b[sortingBy]));
+  const [category, setCategory] = useState('Last Name');
+  profiles.sort(function (a, b) {
+    if (a[sortingBy] === b[sortingBy]) {
+      return a.lastName.localeCompare(b.lastName);
+    }
+    if (['Not Available', 'No Email Contact', 'No Phone Contact', 'Unknown'].includes(a[sortingBy])) {
+      return 1;
+    }
+    if (['Not Available', 'No Email Contact', 'No Phone Contact', 'Unknown'].includes(b[sortingBy])) {
+      return -1;
+    }
+    return a[sortingBy].localeCompare(b[sortingBy]);
+  });
   return (ready ? (
     <Container id={PAGE_IDS.FACULTY_INFORMATION} className="py-3">
       <Row className="justify-content-center">
@@ -31,8 +43,8 @@ const FacultyInfo = () => {
             <h2>Faculty Information</h2>
           </Col>
           <Col style={{ display: 'flex' }}>
-            <DropdownButton id={COMPONENT_IDS.FACULTY_INFORMATION_SORT} title="Sort by">
-              <Dropdown.Item onClick={() => setSortingBy('firstName')}>First Name</Dropdown.Item>
+            <DropdownButton id={COMPONENT_IDS.FACULTY_INFORMATION_SORT} title={`Sort by: ${category}`}>
+              <Dropdown.Item onClick={() => (setSortingBy('firstName') && setCategory('First Name'))}>First Name</Dropdown.Item>
               <Dropdown.Item onClick={() => setSortingBy('lastName')}>Last Name</Dropdown.Item>
               <Dropdown.Item onClick={() => setSortingBy('role')}>Role</Dropdown.Item>
               <Dropdown.Item onClick={() => setSortingBy('officeLocation')}>Office</Dropdown.Item>
