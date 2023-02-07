@@ -19,11 +19,12 @@ const Profile = () => {
 
   const { _id } = useParams();
 
-  const { ready, reservations, user } = useTracker(() => {
+  const { ready, reservations, user, thisUser } = useTracker(() => {
     // Get access to Reservations and User Profile documents.
+    const currUser = Meteor.user() ? Meteor.user().username : '';
+    const adminProfileSubscription = AdminProfiles.subscribe();
     const reservationSubscription = Reservations.subscribeReservation();
     const profileSubscription = UserProfiles.subscribe();
-    const adminProfileSubscription = AdminProfiles.subscribe();
     // Determine if the subscriptions are ready
     const rdy1 = reservationSubscription.ready();
     const rdy2 = profileSubscription.ready();
@@ -31,24 +32,20 @@ const Profile = () => {
     const rdy = rdy1 && rdy2 && rdy3;
     // Get the Reservations and User Profile documents
     const reservationItems = Reservations.find().fetch();
+    const thisUsr = UserProfiles.findOne({ email: currUser }, {});
     let usr = UserProfiles.findOne({ _id: _id }, {});
     if (usr === undefined) usr = AdminProfiles.findOne({ _id: _id }, {});
 
+    console.log('should print out one user');
+    console.log(usr);
+
     return {
       reservations: reservationItems,
-      // profiles: profileItems,
       user: usr,
+      thisUser: thisUsr,
       ready: rdy,
     };
   }, [_id]);
-
-  // function filterProfiles(list) {
-  //   //   if (ready) {
-  //   //     const email = Meteor.user().username;
-  //   //     return list.filter((profile) => profile.email === email)[0];
-  //   //   }
-  //   //   return null;
-  //   // }
 
   return (ready ? (
     <Container id={PAGE_IDS.PROFILE} className="py-3">
@@ -72,7 +69,9 @@ const Profile = () => {
         </Row>
         <Row>
           <Col>
-            <Button id="profile-reservations" href={`/edit-profile/${_id}`} variant="outline-secondary">Edit Profile</Button>
+            { Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) || thisUser._id === _id ? (
+              <Button id="profile-reservations" href={`/edit-profile/${_id}`} variant="outline-secondary">Edit Profile</Button>
+            ) : '' }
           </Col>
         </Row>
       </Col>

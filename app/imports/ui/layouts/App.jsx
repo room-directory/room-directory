@@ -17,6 +17,7 @@ import FacultyInfo from '../pages/FacultyInfo';
 import NotAuthorized from '../pages/NotAuthorized';
 import AdminReservation from '../pages/AdminReservation';
 import Profile from '../pages/Profile';
+import EditProfile from '../pages/EditProfile';
 import RoomList from '../pages/RoomList';
 import { ROLE } from '../../api/role/Role';
 import StudentRequests from '../pages/StudentRequests';
@@ -55,7 +56,8 @@ const App = () => {
           <Route path="/signout" element={<SignOut />} />
           <Route path="/faculty" element={<FacultyInfo />} />
           <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
-          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/profile/:_id" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/edit-profile/:_id" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
           <Route path="/roomlist" element={<ProtectedRoute><RoomList /></ProtectedRoute>} />
           <Route path="/reservation" element={<ProtectedRoute><AdminReservation /></ProtectedRoute>} />
           <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />

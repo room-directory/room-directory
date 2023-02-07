@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Col, Container, Image, Row, Button } from 'react-bootstrap';
+import React from 'react';
+import swal from 'sweetalert';
+import { Col, Container, Image, Row, Button, InputGroup, Form } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import { Roles } from 'meteor/alanning:roles';
 import { useTracker } from 'meteor/react-meteor-data';
@@ -9,11 +10,11 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 import { ROLE } from '../../api/role/Role';
+import { updateMethod } from '../../api/base/BaseCollection.methods';
+import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
 /* TODO: Implement Edit profile, review user profile subscription (currently getting all profiles) */
 const EditProfile = () => {
-  const [newID, setNewID] = useState('');
-  const [redirectToReferer, setRedirectToRef] = useState(false);
 
   const { _id } = useParams();
 
@@ -35,7 +36,19 @@ const EditProfile = () => {
   }, [_id]);
 
   const submit = () => {
-    console.log('Working');
+    const fName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_FIRST_NAME).value.toString();
+    const lName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_LAST_NAME).value.toString();
+
+    let collectionName;
+    if (Roles.userIsInRole(Meteor.userId(), [ROLE.USER])) {
+      collectionName = UserProfiles.getCollectionName();
+    } else {
+      collectionName = AdminProfiles.getCollectionName();
+    }
+    const updateData = { id: user._id, firstName: fName, lastName: lName };
+    updateMethod.callPromise({ collectionName, updateData })
+      .catch(error => swal('Error', error.message, 'error'))
+      .then(() => swal('Success', 'Profile updated successfully', 'success'));
   };
 
   return (ready ? (
@@ -59,28 +72,27 @@ const EditProfile = () => {
             <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>{`${user.position}`}</h4> }
         </Row>
         <Row />
-        {/* <Row> */}
-        {/*  <Col> */}
-        {/*    <Button id="profile-reservations" variant="link" onClick={handleModal}><h4>YOUR RESERVATIONS</h4></Button> */}
-        {/*  </Col> */}
-        {/* </Row> */}
         <Row>
           <Col style={{ textAlign: 'right' }}>
+            <Button variant="outline-secondary" href={`/profile/${_id}`}>Return to Profile</Button>
             <Button variant="success" onClick={submit}>Save</Button>
           </Col>
         </Row>
+        <Row>
+          <Col>
+            <InputGroup size="sm">
+              <InputGroup.Text><b>First Name</b></InputGroup.Text>
+              <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_FIRST_NAME} defaultValue={user.firstName ? user.firstName : ''} />
+            </InputGroup>
+          </Col>
+          <Col>
+            <InputGroup size="sm">
+              <InputGroup.Text><b>Last Name</b></InputGroup.Text>
+              <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_LAST_NAME} defaultValue={user.lastName ? user.lastName : ''} />
+            </InputGroup>
+          </Col>
+        </Row>
       </Col>
-
-      {/* <Modal show={modal} onHide={handleModal}> */}
-      {/*  <Modal.Header closeButton> */}
-      {/*    <Modal.Title>Your Reservations</Modal.Title> */}
-      {/*  </Modal.Header> */}
-      {/*  <Modal.Body> */}
-      {/*    <Row> */}
-      {/*      {reservations.map((reservation) => <ProfileReservationsModalItem key={reservation._id} reservation={reservation} />)} */}
-      {/*    </Row> */}
-      {/*  </Modal.Body> */}
-      {/* </Modal> */}
     </Container>
   ) : <LoadingSpinner message="Loading Profile" />);
 };
