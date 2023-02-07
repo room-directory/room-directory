@@ -35,7 +35,7 @@ const FacultyInfo = () => {
               <Dropdown.Item onClick={() => setSortingBy('firstName')}>First Name</Dropdown.Item>
               <Dropdown.Item onClick={() => setSortingBy('lastName')}>Last Name</Dropdown.Item>
               <Dropdown.Item onClick={() => setSortingBy('role')}>Role</Dropdown.Item>
-              <Dropdown.Item onClick={() => setSortingBy('office')}>Office</Dropdown.Item>
+              <Dropdown.Item onClick={() => setSortingBy('officeLocation')}>Office</Dropdown.Item>
               <Dropdown.Item onClick={() => setSortingBy('phone')}>Phone</Dropdown.Item>
               <Dropdown.Item onClick={() => setSortingBy('email')}>Email</Dropdown.Item>
             </DropdownButton>
