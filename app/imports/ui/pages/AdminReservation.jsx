@@ -3,12 +3,12 @@ import { Button, Container, Row, Col, Modal, Form } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
+import DatePicker from 'react-datepicker';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import RoomDropdown from '../components/RoomDropdown';
 import { Room } from '../../api/room/RoomCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
-//import 'react-datepicker/dist/react-datepicker.css';
-import DatePicker from 'react-datepicker';
+// import 'react-datepicker/dist/react-datepicker.css';
 
 function RoomType(room) {
   const lecture = [];
@@ -43,14 +43,13 @@ const AdminReservation = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [date, setDate] = useState(Date);
   const [startDate, setStartDate] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
 
-  /*const handleDate = (chosenDate) => {
+  /* const handleDate = (chosenDate) => {
     setDate(chosenDate);
-  };*/
+  }; */
   const { rooms, ready } = useTracker(() => {
     const subscription = Room.subscribeRoom();
     // Determine if the subscription is ready
@@ -89,38 +88,14 @@ const AdminReservation = () => {
           <Form>
             <Form.Group className="mb-3" controlId="formDate">
               <Form.Label>Date</Form.Label>
-              <DatePicker
-                  required
-                  showIcon
-                  selected={startDate}
-                  dateFormat="MM/dd/yyyy"
-                  onChange={(date) => setStartDate(date)}
-              />
+              <DatePicker required showIcon selected={startDate} dateFormat="MM/dd/yyyy" onChange={(date) => setStartDate(date)} />
             </Form.Group>
             <Form.Group>
               <Col>
                 <Form.Label>Start time</Form.Label>
-                <DatePicker
-                    required
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={15}
-                    timeCaption="Time"
-                    dateFormat="h:mm aa"
-                    selected={startTime}
-                    onChange={(time) => setStartTime(time)}
-                />
+                <DatePicker required showTimeSelect showTimeSelectOnly timeIntervals={15} timeCaption="Time" dateFormat="h:mm aa" selected={startTime} onChange={(time) => setStartTime(time)} />
                 <Form.Label>End time</Form.Label>
-                <DatePicker
-                    required
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={15}
-                    timeCaption="Time"
-                    dateFormat="h:mm aa"
-                    selected={endTime}
-                    onChange={(time) => setEndTime(time)}
-                />
+                <DatePicker required showTimeSelect showTimeSelectOnly timeIntervals={15} timeCaption="Time" dateFormat="h:mm aa" selected={endTime} onChange={(time) => setEndTime(time)} />
               </Col>
 
             </Form.Group>
