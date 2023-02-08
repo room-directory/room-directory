@@ -71,7 +71,7 @@ const DateSelector = createReactClass({
   render() {
     //const today = new Date();
     return <FormGroup controlId="required">
-            <DatePicker required showIcon onChange={this.handleChange} selected={this.state.date} dateFormat="MM/dd/yyyy" placeholderText="Click to select a date" />
+            <DatePicker required showIcon onChange={this.handleChange} selected={this.state.date} showTimeSelect dateFormat="MM/dd/yyyy h:mm aa" id="required_example" />
           </FormGroup>;
   }
 });
