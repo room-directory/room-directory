@@ -8,7 +8,8 @@ function dateToTime(date) {
   const cMonth = date.getMonth() + 1;
   const cYear = date.getFullYear();
   const cHour = date.getUTCHours();
-  const cMin = date.getUTCMinutes();
+  let cMin = date.getUTCMinutes();
+  if (cMin < 10) { cMin = `0${cMin}`; }
   const ampm = cHour >= 12 ? 'pm' : 'am';
 
   return `${cMonth}/${cDay}/${cYear} ${cHour % 12}:${cMin} ${ampm}`;
