@@ -7,6 +7,7 @@ import { PAGE_IDS } from '../utilities/PageIDs';
 import RoomDropdown from '../components/RoomDropdown';
 import { Room } from '../../api/room/RoomCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ReservationCalendar from '../components/ReservationCalendar';
 
 function RoomType(room) {
   const lecture = [];
@@ -44,14 +45,19 @@ const AdminReservation = () => {
   const handleShow = () => setShow(true);
   const { rooms, ready } = useTracker(() => {
     const subscription = Room.subscribeRoom();
+
     // Determine if the subscription is ready
     const rdy = subscription.ready();
+
     const items = Room.find({}).fetch();
+
     return {
       rooms: items,
+
       ready: rdy,
     };
   }, []);
+
   return (ready ? (
     <Container id={PAGE_IDS.ADMIN_RESERVATION} className="py-3">
       <Row>
@@ -69,9 +75,12 @@ const AdminReservation = () => {
             <Dropdown.Header>Study Room</Dropdown.Header>
             {(RoomType(rooms).study).map((room) => <RoomDropdown key={room.type} room={room} />)}
           </DropdownButton>
+        </Col>
+        <Col>
           <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
         </Col>
       </Row>
+      <ReservationCalendar />
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Reserve Room</Modal.Title>
