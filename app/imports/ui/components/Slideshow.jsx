@@ -8,7 +8,7 @@ const Slideshow = () => (
       <img
         className="d-block w-100"
         src="/images/chair.gif"
-        height="400"
+        height="150px"
         alt="First slide"
       />
       <Carousel.Caption>
@@ -19,7 +19,7 @@ const Slideshow = () => (
       <img
         className="d-block w-100"
         src="/images/chair.gif"
-        height="400"
+        height="150px"
         alt="Second slide"
       />
       <Carousel.Caption>
@@ -30,7 +30,7 @@ const Slideshow = () => (
       <img
         className="d-block w-100"
         src="/images/meteor-logo.png"
-        height="400"
+        height="150px"
         alt="Third slide"
       />
 

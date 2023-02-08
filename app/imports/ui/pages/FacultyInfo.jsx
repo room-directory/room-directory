@@ -1,28 +1,29 @@
 import React, { useState } from 'react';
 import { Col, Container, Row, Table, DropdownButton, Dropdown } from 'react-bootstrap';
-import { useTracker } from 'meteor/react-meteor-data';
 import Faculty from '../components/Faculty';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
-import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 
 const FacultyInfo = () => {
-  // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-  const { ready, profiles } = useTracker(() => {
-    // Get access to faculty profiles documents.
-    const subscription = FacultyProfiles.subscribeFacultyProfile();
-    // Determine if the subscription is ready
-    const rdy = subscription.ready();
-    // Get the faculty profiles documents
-    const facultyProfileItems = FacultyProfiles.find({}).fetch();
-    return {
-      profiles: facultyProfileItems,
-      ready: rdy,
-    };
-  }, []);
+  const ready = true;
+  const facultyProfiles = [
+    {
+      firstName: 'Carleton', lastName: 'Moore', role: 'Associate Professor', picture: '/images/cam-moore.jpg', office: 'POST 307B', phone: '808-956-6920', email: 'cmoore@hawaii.edu',
+    },
+    {
+      firstName: 'Todd', lastName: 'Tomita', role: 'IT System Admin.', picture: '/images/ICSLogo.jpg', office: 'POST 327', phone: '808-956-7639', email: 'toddtt@hawaii.edu',
+    },
+    {
+      firstName: 'Charles', lastName: 'Shackford', role: 'IT Network/System Admin.', picture: '/images/ICSLogo.jpg', office: 'POST 327', phone: '808-956-4989', email: 'shackfor@hawaii.edu',
+    },
+    {
+      firstName: 'Wesley', lastName: 'Sugimoto', role: 'Admin. and Fiscal Support', picture: '/images/wesley-sugimoto.jpg', office: 'POST 303B', phone: '808-956-8249', email: 'wesleysu@hawaii.edu',
+
+    },
+  ];
   const [sortingBy, setSortingBy] = useState('lastName');
-  profiles.sort((a, b) => a[sortingBy].localeCompare(b[sortingBy]));
+  facultyProfiles.sort((a, b) => a[sortingBy].localeCompare(b[sortingBy]));
   return (ready ? (
     <Container id={PAGE_IDS.FACULTY_INFORMATION} className="py-3">
       <Row className="justify-content-center">
@@ -35,7 +36,7 @@ const FacultyInfo = () => {
               <Dropdown.Item onClick={() => setSortingBy('firstName')}>First Name</Dropdown.Item>
               <Dropdown.Item onClick={() => setSortingBy('lastName')}>Last Name</Dropdown.Item>
               <Dropdown.Item onClick={() => setSortingBy('role')}>Role</Dropdown.Item>
-              <Dropdown.Item onClick={() => setSortingBy('officeLocation')}>Office</Dropdown.Item>
+              <Dropdown.Item onClick={() => setSortingBy('office')}>Office</Dropdown.Item>
               <Dropdown.Item onClick={() => setSortingBy('phone')}>Phone</Dropdown.Item>
               <Dropdown.Item onClick={() => setSortingBy('email')}>Email</Dropdown.Item>
             </DropdownButton>
@@ -50,7 +51,7 @@ const FacultyInfo = () => {
               </tr>
             </thead>
             <tbody>
-              {profiles.map((faculty) => <Faculty key={faculty._id} faculty={faculty} />)}
+              {facultyProfiles.map((profile) => <Faculty key={profile._id} faculty={profile} />)}
             </tbody>
           </Table>
         </Col>
