@@ -1,11 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
+import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
 export const facultyProfilePublications = {
   faculty: 'Faculty',
+  facultyAdmin: 'FacultyAdmin',
 };
 
 class FacultyProfileCollection extends BaseCollection {
@@ -14,9 +16,7 @@ class FacultyProfileCollection extends BaseCollection {
       image: String,
       firstName: String,
       lastName: String,
-      role: String,
       email: String,
-      phone: String,
       officeHours: String,
       officeLocation: String,
     }));
@@ -30,7 +30,7 @@ class FacultyProfileCollection extends BaseCollection {
    * @param condition the condition of the item.
    * @return {String} the docID of the new document.
    */
-  define({ image, firstName, lastName, email, officeHours, officeLocation, role, phone }) {
+  define({ image, firstName, lastName, email, officeHours, officeLocation }) {
     const docID = this._collection.insert({
       image,
       firstName,
@@ -38,8 +38,6 @@ class FacultyProfileCollection extends BaseCollection {
       email,
       officeHours,
       officeLocation,
-      role,
-      phone,
     });
     return docID;
   }
@@ -51,7 +49,7 @@ class FacultyProfileCollection extends BaseCollection {
    * @param quantity the new quantity (optional).
    * @param condition the new condition (optional).
    */
-  update(docID, { image, firstName, lastName, email, officeHours, officeLocation, role, phone }) {
+  update(docID, { image, firstName, lastName, email, officeHours, officeLocation }) {
     const updateData = {};
     if (image) {
       updateData.image = image;
@@ -71,12 +69,6 @@ class FacultyProfileCollection extends BaseCollection {
     if (officeLocation) {
       updateData.officeLocation = officeLocation;
     }
-    if (role) {
-      updateData.role = role;
-    }
-    if (phone) {
-      updateData.phone = phone;
-    }
     this._collection.update(docID, { $set: updateData });
   }
 
@@ -94,25 +86,48 @@ class FacultyProfileCollection extends BaseCollection {
 
   /**
    * Default publication method for entities.
-   * It publishes the entire collection for all users (no login required).
+   * It publishes the entire collection for admin and just the stuff associated to an owner.
    */
   publish() {
     if (Meteor.isServer) {
-      // get the faculty profile collection instance.
+      // get the StuffCollection instance.
       const instance = this;
-      /** This subscription publishes to all users */
+      /** This subscription publishes only the documents associated with the logged in user */
       Meteor.publish(facultyProfilePublications.faculty, function publish() {
-        return instance._collection.find();
+        if (this.userId) {
+          const username = Meteor.users.findOne(this.userId).username;
+          return instance._collection.find({ owner: username });
+        }
+        return this.ready();
+      });
+
+      /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
+      Meteor.publish(facultyProfilePublications.facultyAdmin, function publish() {
+        if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
+          return instance._collection.find();
+        }
+        return this.ready();
       });
     }
   }
 
   /**
-   * Subscription method for faculty profile collection.
+   * Subscription method for stuff owned by the current user.
    */
   subscribeFacultyProfile() {
     if (Meteor.isClient) {
       return Meteor.subscribe(facultyProfilePublications.faculty);
+    }
+    return null;
+  }
+
+  /**
+   * Subscription method for admin users.
+   * It subscribes to the entire collection.
+   */
+  subscribeFacultyProfileAdmin() {
+    if (Meteor.isClient) {
+      return Meteor.subscribe(facultyProfilePublications.facultyAdmin);
     }
     return null;
   }
@@ -140,9 +155,7 @@ class FacultyProfileCollection extends BaseCollection {
     const email = doc.email;
     const officeHours = doc.officeHours;
     const officeLocation = doc.officeLocation;
-    const phone = doc.phone;
-    const role = doc.role;
-    return { image, firstName, lastName, email, officeHours, officeLocation, phone, role };
+    return { image, firstName, lastName, email, officeHours, officeLocation };
   }
 }
 
