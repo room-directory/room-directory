@@ -13,7 +13,10 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
     "react-bootstrap-icons": "^1.10.2",
+<<<<<<< HEAD
     "react-datepicker": "^4.10.0",
+=======
+>>>>>>> parent of c755969 (Merge branch 'main' into issue-067)
     "react-dom": "^18.2.0",
     "react-router": "^6.6.0",
     "react-router-dom": "^6.6.0",

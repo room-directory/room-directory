@@ -8,9 +8,12 @@ import { PAGE_IDS } from '../utilities/PageIDs';
 import RoomDropdown from '../components/RoomDropdown';
 import { Room } from '../../api/room/RoomCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
+<<<<<<< HEAD
 import DateSelector from '../components/DateSelector';
 import 'react-datepicker/dist/react-datepicker.css';
 // import 'react-datepicker/dist/react-datepicker.css';
+=======
+>>>>>>> parent of c755969 (Merge branch 'main' into issue-067)
 
 function RoomType(room) {
   const lecture = [];
@@ -43,8 +46,10 @@ function RoomType(room) {
 /* An interactive page with different components that reflects the reservations made. */
 const AdminReservation = () => {
   const [show, setShow] = useState(false);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+<<<<<<< HEAD
   const [startDate, setStartDate] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
@@ -52,6 +57,8 @@ const AdminReservation = () => {
   /* const handleDate = (chosenDate) => {
     setDate(chosenDate);
   }; */
+=======
+>>>>>>> parent of c755969 (Merge branch 'main' into issue-067)
   const { rooms, ready } = useTracker(() => {
     const subscription = Room.subscribeRoom();
     // Determine if the subscription is ready
@@ -90,6 +97,7 @@ const AdminReservation = () => {
           <Form>
             <Form.Group className="mb-3" controlId="formDate">
               <Form.Label>Date</Form.Label>
+<<<<<<< HEAD
               <DatePicker required showIcon selected={startDate} dateFormat="MM/dd/yyyy" onChange={(date) => setStartDate(date)} />
             </Form.Group>
             <Form.Group>
@@ -100,6 +108,14 @@ const AdminReservation = () => {
                 <DatePicker required showTimeSelect showTimeSelectOnly timeIntervals={15} timeCaption="Time" dateFormat="h:mm aa" selected={endTime} onChange={(time) => setEndTime(time)} />
               </Col>
 
+=======
+              <Form.Control placeholder="Enter date" />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Time</Form.Label>
+              <Form.Control placeholder="Start" />
+              <Form.Control placeholder="End" />
+>>>>>>> parent of c755969 (Merge branch 'main' into issue-067)
             </Form.Group>
             <Form.Group>
               <div>
