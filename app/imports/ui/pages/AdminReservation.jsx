@@ -7,7 +7,7 @@ import { PAGE_IDS } from '../utilities/PageIDs';
 import RoomDropdown from '../components/RoomDropdown';
 import { Room } from '../../api/room/RoomCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
-import DateSelector from '../components/DateSelector';
+//import DateSelector from '../components/DateSelector';
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from 'react-datepicker';
 
@@ -49,9 +49,9 @@ const AdminReservation = () => {
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
 
-  const handleDate = (chosenDate) => {
+  /*const handleDate = (chosenDate) => {
     setDate(chosenDate);
-  };
+  };*/
   const { rooms, ready } = useTracker(() => {
     const subscription = Room.subscribeRoom();
     // Determine if the subscription is ready
