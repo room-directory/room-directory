@@ -5,7 +5,6 @@ import { _ } from 'meteor/underscore';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
-import { stuffPublications } from '../stuff/StuffCollection';
 
 export const roomResourcePublications = {
   resource: 'Resource',
@@ -100,16 +99,15 @@ class RoomResourceCollection extends BaseCollection {
       // get the StuffCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(roomResourcePublications.room, function publish() {
+      Meteor.publish(roomResourcePublications.resource, function publish() {
         if (this.userId) {
-          const username = Meteor.users.findOne(this.userId).username;
-          return instance._collection.find({ owner: username });
+          return instance._collection.find();
         }
         return this.ready();
       });
 
       /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(stuffPublications.stuffAdmin, function publish() {
+      Meteor.publish(roomResourcePublications.resourceAdmin, function publish() {
         if (this.userId && Roles.userIsInRole(this.userId, ROLE.ADMIN)) {
           return instance._collection.find();
         }

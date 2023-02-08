@@ -15,7 +15,7 @@
   ],
 
   "defaultReservationData": [
-    { "reservation_id": "test", "firstName": "admin", "lastName": "foo", "email": "admin@foo.com", "roomNumber": "301", "startTime": "2023-02-01T08:00:00Z", "endTime": "2023-02-01T09:00:00Z" },
+    { "reservation_id": "test", "firstName": "admin", "lastName": "foo", "email": "admin@foo.com", "roomNumber": "301", "startTime": "2023-02-01T08:00:00Z", "endTime": "2023-02-01T09:01:00Z" },
     { "reservation_id": "test", "firstName": "John", "lastName": "foo", "email": "john@foo.com", "roomNumber": "302", "startTime": "2023-02-02T15:15:00Z", "endTime": "2023-02-02T16:15:00Z" }
   ],
 
@@ -25,6 +25,357 @@
     {"roomNumber": "315", "type": "office", "capacity": 10},
     {"roomNumber": "302", "type": "conference", "capacity": 30},
     {"roomNumber": "304", "type": "study room", "capacity": 5}
+  ],
+
+  "defaultFacultyData": [
+    {
+      "firstName": "Kyungim",
+      "lastName": "Baek",
+      "role": "Associate Professor",
+      "image": "/images/kyungim-baek.jpg",
+      "officeLocation": "POST 303F",
+      "officeHours": "Not Available",
+      "phone": "808-956-8560",
+      "email": "kyungim@hawaii.edu"
+    },
+    {
+      "firstName": "Mahdi",
+      "lastName": "Belcaid",
+      "role": "Assistant Research Professor",
+      "image": "/images/mahdi-belcaid.png",
+      "officeLocation": "POST 306B",
+      "officeHours": "Not Available",
+      "phone": "808-956-6049",
+      "email": "mahdi@hawaii.edu"
+    },
+    {
+      "firstName": "Edo",
+      "lastName": "Biagioni",
+      "role": "Associate Professor",
+      "image": "/images/edo-biagioni.jpg",
+      "officeLocation": "POST 305F",
+      "officeHours": "Not Available",
+      "phone": "808-956-3891",
+      "email": "esb@hawaii.edu"
+    },
+    {
+      "firstName": "Kim",
+      "lastName": "Binsted",
+      "role": "Professor",
+      "image": "/images/kim-binsted.jpg",
+      "officeLocation": "POST 303D",
+      "officeHours": "Not Available",
+      "phone": "808-956-6107",
+      "email": "binsted@hawaii.edu"
+    },
+    {
+      "firstName": "Henri",
+      "lastName": "Casanova",
+      "role": "Professor",
+      "image": "/images/henri-casanova.jpg",
+      "officeLocation": "POST 310C",
+      "officeHours": "Not Available",
+      "phone": "808-956-2649",
+      "email": "henric@hawaii.edu"
+    },
+    {
+      "firstName": "Martha",
+      "lastName": "Crosby",
+      "role": "Professor",
+      "image": "/images/martha-crosby.jpg",
+      "officeLocation": "POST 305D",
+      "officeHours": "Not Available",
+      "phone": "808-956-3493",
+      "email": "crosby@hawaii.edu"
+    },
+    {
+      "firstName": "Barbara",
+      "lastName": "Endicott-Popovsky",
+      "role": "Associate Professor",
+      "image": "/images/barbara-endicott-popovsky.jpg",
+      "officeLocation": "Not Available",
+      "officeHours": "Not Available",
+      "phone": "No Phone Contact",
+      "email": "endicott@uw.edu"
+    },
+    {
+      "firstName": "Richard",
+      "lastName": "Halverson",
+      "role": "Instructor",
+      "image": "/images/richard-halverson.jpg",
+      "officeLocation": "Not Available",
+      "officeHours": "Not Available",
+      "phone": "No Phone Contact",
+      "email": "richardh@hawaii.edu"
+    },
+    {
+      "firstName": "Philip",
+      "lastName": "Johnson",
+      "role": "Professor",
+      "image": "/images/philip-johnson.jpeg",
+      "officeLocation": "POST 307A",
+      "officeHours": "Not Available",
+      "phone": "808-956-3489",
+      "email": "johnson@hawaii.edu"
+    },
+    {
+      "firstName": "Jason",
+      "lastName": "Leigh",
+      "role": "Professor",
+      "image": "/images/jason-leigh.jpg",
+      "officeLocation": "Keller 102A",
+      "officeHours": "Not Available",
+      "phone": "808-956-9164",
+      "email": "leighj@hawaii.edu"
+    },
+    {
+      "firstName": "Depeng",
+      "lastName": "Li",
+      "role": "Associate Professor",
+      "image": "/images/depeng-li.jpg",
+      "officeLocation": "POST 314D",
+      "officeHours": "Not Available",
+      "phone": "808-956-3973",
+      "email": "depengli@hawaii.edu"
+    },
+    {
+      "firstName": "Carleton",
+      "lastName": "Moore",
+      "role": "Associate Professor",
+      "image": "/images/cam-moore.jpg",
+      "officeLocation": "POST 307B",
+      "officeHours": "Not Available",
+      "phone": "808-956-6920",
+      "email": "cmoore@hawaii.edu"
+    },
+    {
+      "firstName": "Ravi",
+      "lastName": "Narayan",
+      "role": "Instructor",
+      "image": "/images/ravi-narayan.jpg",
+      "officeLocation": "POST 314A",
+      "officeHours": "Not Available",
+      "phone": "No Phone Contact",
+      "email": "rnarayan@hawaii.edu"
+    },
+    {
+      "firstName": "Michael",
+      "lastName": "Ogawa",
+      "role": "Faculty Specialist",
+      "image": "/images/michael-ogawa.jpg",
+      "officeLocation": "POST 314B",
+      "officeHours": "Not Available",
+      "phone": "808-956-5069",
+      "email": "ogawam@hawaii.edu"
+    },
+    {
+      "firstName": "Dusko",
+      "lastName": "Pavlovic",
+      "role": "Professor",
+      "image": "/images/dusko-pavlovic.jpg",
+      "officeLocation": "POST 311B",
+      "officeHours": "Not Available",
+      "phone": "808-956-9639",
+      "email": "dusko@hawaii.edu"
+    },
+    {
+      "firstName": "Anthony",
+      "lastName": "Peruma",
+      "role": "Assistant Professor",
+      "image": "/images/anthony-peruma.jpg",
+      "officeLocation": "POST 310B",
+      "officeHours": "Not Available",
+      "phone": "No Phone Contact",
+      "email": "peruma@hawaii.edu"
+    },
+    {
+      "firstName": "Guylaine",
+      "lastName": "Poisson",
+      "role": "Professor",
+      "image": "/images/guylaine-poisson.jpg",
+      "officeLocation": "POST 303C",
+      "officeHours": "Not Available",
+      "phone": "808-956-3496",
+      "email": "guylaine@hawaii.edu"
+    },
+    {
+      "firstName": "Scott",
+      "lastName": "Robertson",
+      "role": "Professor",
+      "image": "/images/scott-robertson.jpg",
+      "officeLocation": "POST 317",
+      "officeHours": "Not Available",
+      "phone": "808-956-3500",
+      "email": "scottpr@hawaii.edu"
+    },
+    {
+      "firstName": "Peter",
+      "lastName": "Sadowski",
+      "role": "Assistant Professor",
+      "image": "/images/peter-sadowski.jpg",
+      "officeLocation": "POST 306C",
+      "officeHours": "Not Available",
+      "phone": "808-956-2023",
+      "email": "psadow@hawaii.edu"
+    },
+    {
+      "firstName": "Peter",
+      "lastName": "Seidel",
+      "role": "Associate Professor",
+      "image": "/images/peter-seidel.jpg",
+      "officeLocation": "POST 311A",
+      "officeHours": "Not Available",
+      "phone": "808-956-6068",
+      "email": "pseidel@hawaii.edu"
+    },
+    {
+      "firstName": "Nodari",
+      "lastName": "Sitchinava",
+      "role": "Associate Professor",
+      "image": "/images/nodari-sitchinava.jpg",
+      "officeLocation": "POST 309C",
+      "officeHours": "Not Available",
+      "phone": "808-956-3581",
+      "email": "nodari@hawaii.edu"
+    },
+    {
+      "firstName": "Dan",
+      "lastName": "Suthers",
+      "role": "Professor",
+      "image": "/images/dan-suthers.jpg",
+      "officeLocation": "POST 309B",
+      "officeHours": "Not Available",
+      "phone": "808-956-3890",
+      "email": "suthers@hawaii.edu"
+    },
+    {
+      "firstName": "Peter",
+      "lastName": "Washington",
+      "role": "Assistant Professor",
+      "image": "/images/peter-washington.png",
+      "officeLocation": "POST 312B",
+      "officeHours": "Not Available",
+      "phone": "No Phone Contact",
+      "email": "pyw@hawaii.edu"
+    },
+    {
+      "firstName": "David",
+      "lastName": "Chin",
+      "role": "Professor Emeritus",
+      "image": "/images/david-chin.jpg",
+      "officeLocation": "POST 303G",
+      "officeHours": "Not Available",
+      "phone": "No Phone Contact",
+      "email": "chin@hawaii.edu"
+    },
+    {
+      "firstName": "Stephen",
+      "lastName": "Itoga",
+      "role": "Professor Emeritus",
+      "image": "/images/stephen-itoga.jpg",
+      "officeLocation": "POST 303G",
+      "officeHours": "Not Available",
+      "phone": "No Phone Contact",
+      "email": "itoga@hawaii.edu"
+    },
+    {
+      "firstName": "David",
+      "lastName": "Pager",
+      "role": "Professor Emeritus",
+      "image": "/images/david-pager.jpg",
+      "officeLocation": "POST 303G",
+      "officeHours": "Not Available",
+      "phone": "No Phone Contact",
+      "email": "No Email Contact"
+    },
+    {
+      "firstName": "Brent",
+      "lastName": "Aurenheimer",
+      "role": "Professor",
+      "image": "/images/ICSLogo.jpg",
+      "officeLocation": "Not Available",
+      "officeHours": "Not Available",
+      "phone": "No Phone Contact",
+      "email": "brent@csufresno.edu"
+    },
+    {
+      "firstName": "Rick",
+      "lastName": "Kazman",
+      "role": "Professor",
+      "image": "/images/rick-kazman.jpg",
+      "officeLocation": "Shidler C-401c",
+      "officeHours": "Not Available",
+      "phone": "808-956-6948",
+      "email": "kazman@hawaii.edu"
+    },
+    {
+      "firstName": "Alice",
+      "lastName": "Koniges",
+      "role": "Computational Scientist",
+      "image": "/images/alice-koniges.jpg",
+      "officeLocation": "Not Available",
+      "officeHours": "Not Available",
+      "phone": "No Phone Contact",
+      "email": "koniges@hawaii.edu"
+    },
+    {
+      "firstName": "Dennis",
+      "lastName": "Streveler",
+      "role": "Unknown",
+      "image": "/images/dennis-streveler.jpg",
+      "officeLocation": "Not Available",
+      "officeHours": "Not Available",
+      "phone": "No Phone Contact",
+      "email": "strev@hawaii.edu"
+    },
+    {
+      "firstName": "Kenny",
+      "lastName": "Quibilan",
+      "role": "Undergraduate Academic Advisor",
+      "image": "/images/kenny-quibilan.png",
+      "officeLocation": "POST 303A",
+      "officeHours": "Not Available",
+      "phone": "808-956-5428",
+      "email": "kennydq@hawaii.edu"
+    },
+    {
+      "firstName": "Todd",
+      "lastName": "Tomita",
+      "role": "IT System Admin.",
+      "image": "/images/ICSLogo.jpg",
+      "officeLocation": "POST 327",
+      "officeHours": "Not Available",
+      "phone": "808-956-7639",
+      "email": "toddtt@hawaii.edu"
+    },
+    {
+      "firstName": "Charles",
+      "lastName": "Shackford",
+      "role": "IT Network/System Admin.",
+      "image": "/images/ICSLogo.jpg",
+      "officeLocation": "POST 327",
+      "officeHours": "Not Available",
+      "phone": "808-956-4989",
+      "email": "shackfor@hawaii.edu"
+    },
+    {
+      "firstName": "Wesley",
+      "lastName": "Sugimoto",
+      "role": "Admin. and Fiscal Support",
+      "image": "/images/wesley-sugimoto.jpg",
+      "officeLocation": "POST 303B",
+      "officeHours": "Not Available",
+      "phone": "808-956-8249",
+      "email": "wesleysu@hawaii.edu"
+    }
+  ],
+
+  "defaultRoomResourceData": [
+    {"roomNumber": "301", "capacity": 20, "chairs": 25, "desks": 10, "tv": 1, "phoneNumber": "929-2991", "dataJacks": 4 },
+    {"roomNumber": "318", "capacity": 20, "chairs": 35, "desks": 10, "tv": 1, "phoneNumber": "929-2991", "dataJacks": 4},
+    {"roomNumber": "315", "capacity": 10, "chairs": 30, "desks": 10, "tv": 1, "phoneNumber": "929-2991", "dataJacks": 4},
+    {"roomNumber": "302", "capacity": 30, "chairs": 25, "desks": 10, "tv": 1, "phoneNumber": "929-6454", "dataJacks": 4},
+    {"roomNumber": "304", "capacity": 5 , "chairs": 50, "desks": 20, "tv": 4, "phoneNumber": "929-4212", "dataJacks": 12}
   ],
 
   "public": {
