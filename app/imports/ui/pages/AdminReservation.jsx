@@ -7,8 +7,6 @@ import { PAGE_IDS } from '../utilities/PageIDs';
 import RoomDropdown from '../components/RoomDropdown';
 import { Room } from '../../api/room/RoomCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
-import DateSelector from '../components/DateSelector';
-import 'react-datepicker/dist/react-datepicker.css';
 
 function RoomType(room) {
   const lecture = [];
@@ -83,7 +81,6 @@ const AdminReservation = () => {
             <Form.Group className="mb-3" controlId="formDate">
               <Form.Label>Date</Form.Label>
               <Form.Control placeholder="Enter date" />
-              <DateSelector/>
             </Form.Group>
             <Form.Group>
               <Form.Label>Time</Form.Label>
