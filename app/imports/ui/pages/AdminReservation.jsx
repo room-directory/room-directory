@@ -46,8 +46,6 @@ const AdminReservation = () => {
   const handleShow = () => setShow(true);
   const [date, setDate] = useState(Date);
   const [startDate, setStartDate] = useState(new Date());
-  const [startTime, setStartTime] = useState(new Date());
-  const [endTime, setEndTime] = useState(new Date());
 
   const handleDate = (chosenDate) => {
     setDate(chosenDate);
@@ -94,35 +92,16 @@ const AdminReservation = () => {
                   required
                   showIcon
                   selected={startDate}
-                  dateFormat="MM/dd/yyyy"
                   onChange={(date) => setStartDate(date)}
               />
+              <Form.Label>{startDate.toDateString()}</Form.Label>
             </Form.Group>
             <Form.Group>
-              <Col>
-                <Form.Label>Start time</Form.Label>
-                <DatePicker
-                    required
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={15}
-                    timeCaption="Time"
-                    dateFormat="h:mm aa"
-                    selected={startTime}
-                    onChange={(time) => setStartTime(time)}
-                />
-                <Form.Label>End time</Form.Label>
-                <DatePicker
-                    required
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={15}
-                    timeCaption="Time"
-                    dateFormat="h:mm aa"
-                    selected={endTime}
-                    onChange={(time) => setEndTime(time)}
-                />
-              </Col>
+              <Form.Label>Time</Form.Label>
+
+              <Form.Control placeholder="Start" />
+
+              <Form.Control placeholder="End" />
 
             </Form.Group>
             <Form.Group>
