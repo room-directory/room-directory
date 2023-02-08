@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { Stuffs } from '../../api/stuff/StuffCollection';
 import { Reservations } from '../../api/reservation/ReservationCollection';
 import { Room } from '../../api/room/RoomCollection';
-import { RoomResources } from '../../api/room/RoomResourceCollection';
 /* eslint-disable no-console */
 
 // Initialize the database with a default stuff data document.
@@ -21,12 +20,6 @@ function addReservationData(data) {
 function addRoomData(data) {
   console.log(`  Adding: (${data.roomNumber})`);
   Room.define(data);
-}
-
-// Initialize the database with a default room resource data document.
-function addRoomResourceData(data) {
-  console.log(`  Adding: (${data.roomNumber})`);
-  RoomResources.define(data);
 }
 
 // Initialize the StuffsCollection if empty.
@@ -50,13 +43,5 @@ if (Room.count() === 0) {
   if (Meteor.settings.defaultRoomData) {
     console.log('Creating default room data.');
     Meteor.settings.defaultRoomData.map(data => addRoomData(data));
-  }
-}
-
-// Initialize the RoomResourceCollection if empty.
-if (RoomResources.count() === 0) {
-  if (Meteor.settings.defaultRoomResourceData) {
-    console.log('Creating default room Resource data.');
-    Meteor.settings.defaultRoomResourceData.map(data => addRoomResourceData(data));
   }
 }

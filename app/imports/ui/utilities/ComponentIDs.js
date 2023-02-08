@@ -25,11 +25,8 @@ export const COMPONENT_IDS = {
   SIGN_UP_FORM_LAST_NAME: 'sign-up-form-last-name',
   SIGN_UP_FORM_EMAIL: 'sign-up-form-email',
   SIGN_UP_FORM_PASSWORD: 'sign-up-form-password',
+  SIGN_UP_FORM_POSITION: 'sign-up-form-position',
   SIGN_UP_FORM_SUBMIT: 'sign-up-form-submit',
   FACULTY_INFORMATION_SORT: 'faculty-information-sort',
   ADMIN_RESERVATION: 'admin-reservation',
-
-  // EDIT PROFILE
-  EDIT_PROFILE_FORM_FIRST_NAME: 'edit-profile-form-first-name',
-  EDIT_PROFILE_FORM_LAST_NAME: 'edit-profile-form-last-name',
 };
