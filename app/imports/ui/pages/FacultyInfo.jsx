@@ -1,40 +1,29 @@
 import React, { useState } from 'react';
 import { Col, Container, Row, Table, DropdownButton, Dropdown } from 'react-bootstrap';
-import { useTracker } from 'meteor/react-meteor-data';
 import Faculty from '../components/Faculty';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
-import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 
 const FacultyInfo = () => {
-  // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-  const { ready, profiles } = useTracker(() => {
-    // Get access to faculty profiles documents.
-    const subscription = FacultyProfiles.subscribeFacultyProfile();
-    // Determine if the subscription is ready
-    const rdy = subscription.ready();
-    // Get the faculty profiles documents
-    const facultyProfileItems = FacultyProfiles.find({}).fetch();
-    return {
-      profiles: facultyProfileItems,
-      ready: rdy,
-    };
-  }, []);
+  const ready = true;
+  const facultyProfiles = [
+    {
+      firstName: 'Carleton', lastName: 'Moore', role: 'Associate Professor', picture: '/images/cam-moore.jpg', office: 'POST 307B', phone: '808-956-6920', email: 'cmoore@hawaii.edu',
+    },
+    {
+      firstName: 'Todd', lastName: 'Tomita', role: 'IT System Admin.', picture: '/images/ICSLogo.jpg', office: 'POST 327', phone: '808-956-7639', email: 'toddtt@hawaii.edu',
+    },
+    {
+      firstName: 'Charles', lastName: 'Shackford', role: 'IT Network/System Admin.', picture: '/images/ICSLogo.jpg', office: 'POST 327', phone: '808-956-4989', email: 'shackfor@hawaii.edu',
+    },
+    {
+      firstName: 'Wesley', lastName: 'Sugimoto', role: 'Admin. and Fiscal Support', picture: '/images/wesley-sugimoto.jpg', office: 'POST 303B', phone: '808-956-8249', email: 'wesleysu@hawaii.edu',
+
+    },
+  ];
   const [sortingBy, setSortingBy] = useState('lastName');
-  const [category, setCategory] = useState('Last Name');
-  profiles.sort(function (a, b) {
-    if (a[sortingBy] === b[sortingBy]) {
-      return a.lastName.localeCompare(b.lastName);
-    }
-    if (['Not Available', 'No Email Contact', 'No Phone Contact', 'Unknown'].includes(a[sortingBy])) {
-      return 1;
-    }
-    if (['Not Available', 'No Email Contact', 'No Phone Contact', 'Unknown'].includes(b[sortingBy])) {
-      return -1;
-    }
-    return a[sortingBy].localeCompare(b[sortingBy]);
-  });
+  facultyProfiles.sort((a, b) => a[sortingBy].localeCompare(b[sortingBy]));
   return (ready ? (
     <Container id={PAGE_IDS.FACULTY_INFORMATION} className="py-3">
       <Row className="justify-content-center">
@@ -43,13 +32,13 @@ const FacultyInfo = () => {
             <h2>Faculty Information</h2>
           </Col>
           <Col style={{ display: 'flex' }}>
-            <DropdownButton id={COMPONENT_IDS.FACULTY_INFORMATION_SORT} title={`Sort by: ${category}`}>
-              <Dropdown.Item onClick={() => { setSortingBy('firstName'); setCategory('First Name'); }}>First Name</Dropdown.Item>
-              <Dropdown.Item onClick={() => { setSortingBy('lastName'); setCategory('Last Name'); }}>Last Name</Dropdown.Item>
-              <Dropdown.Item onClick={() => { setSortingBy('role'); setCategory('Role'); }}>Role</Dropdown.Item>
-              <Dropdown.Item onClick={() => { setSortingBy('officeLocation'); setCategory('Office'); }}>Office</Dropdown.Item>
-              <Dropdown.Item onClick={() => { setSortingBy('phone'); setCategory('Phone'); }}>Phone</Dropdown.Item>
-              <Dropdown.Item onClick={() => { setSortingBy('email'); setCategory('Email'); }}>Email</Dropdown.Item>
+            <DropdownButton id={COMPONENT_IDS.FACULTY_INFORMATION_SORT} title="Sort by">
+              <Dropdown.Item onClick={() => setSortingBy('firstName')}>First Name</Dropdown.Item>
+              <Dropdown.Item onClick={() => setSortingBy('lastName')}>Last Name</Dropdown.Item>
+              <Dropdown.Item onClick={() => setSortingBy('role')}>Role</Dropdown.Item>
+              <Dropdown.Item onClick={() => setSortingBy('office')}>Office</Dropdown.Item>
+              <Dropdown.Item onClick={() => setSortingBy('phone')}>Phone</Dropdown.Item>
+              <Dropdown.Item onClick={() => setSortingBy('email')}>Email</Dropdown.Item>
             </DropdownButton>
           </Col>
           <Table hover>
@@ -62,7 +51,7 @@ const FacultyInfo = () => {
               </tr>
             </thead>
             <tbody>
-              {profiles.map((faculty) => <Faculty key={faculty._id} faculty={faculty} />)}
+              {facultyProfiles.map((profile) => <Faculty key={profile._id} faculty={profile} />)}
             </tbody>
           </Table>
         </Col>

@@ -39,7 +39,7 @@ const RoomList = () => {
         </ButtonGroup>
       </Row>
       <Row>
-        <Image className="py-3" src="/images/ICS3rdFloorDiagram.png" />
+        <Image className="py-3" src="https://s3.studylib.net/store/data/008760066_1-87f59ec4ef3268fd5d1c8de9e355c1b9.png" />
       </Row>
       <Row>
         {rooms.map((room) => <RoomInfoModal key={room.roomNumber} room={room} />)}

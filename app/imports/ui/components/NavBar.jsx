@@ -53,7 +53,7 @@ const NavBar = ({ highlight, changeHighlight, counter, incrementCounter, decreme
                 </NavDropdown>
               ) : (
                 <NavDropdown id={COMPONENT_IDS.NAVBAR_CURRENT_USER} title={currentUser}>
-                  <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_PROFILE} as={NavLink} to={`/profile/${user._id}`}><PersonFill /> Profile</NavDropdown.Item>
+                  <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_PROFILE} as={NavLink} to="/profile"><PersonFill /> Profile</NavDropdown.Item>
                   <NavDropdown.Item id={COMPONENT_IDS.NAVBAR_SIGN_OUT} as={NavLink} to="/signout"><BoxArrowRight /> Sign out</NavDropdown.Item>
                 </NavDropdown>
               )}
@@ -68,10 +68,9 @@ const NavBar = ({ highlight, changeHighlight, counter, incrementCounter, decreme
             <Nav className="me-auto justify-content-start">
               <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_INFORMATION} as={NavLink} to="/faculty" key="Faculty" className={counter === 1 ? highlight : ''}>Faculty Information</Nav.Link>
               { currentUser !== '' ?
-                ([
-                  <Nav.Link id={COMPONENT_IDS.NAVBAR_ROOM_LIST} as={NavLink} to="/roomlist" key="add" className={counter === 2 ? highlight : ''}>Room List</Nav.Link>,
-                  <Nav.Link id={COMPONENT_IDS.NAVBAR_ADMIN_RESERVATION} as={NavLink} to="/reservation" key="reservation" className={counter === 5 ? highlight : ''}>View Room Reservations</Nav.Link>,
-                ])
+                (
+                  <Nav.Link id={COMPONENT_IDS.NAVBAR_ROOM_LIST} as={NavLink} to="/roomlist" key="add" className={counter === 2 ? highlight : ''}>Room List</Nav.Link>
+                )
                 : ''}
               { currentUser !== '' && user?.position === 'faculty' ?
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_STUDENT_REQUESTS} as={NavLink} to="/studentrequests" key="requests">View Student Requests</Nav.Link>
@@ -82,6 +81,7 @@ const NavBar = ({ highlight, changeHighlight, counter, incrementCounter, decreme
               { currentUser !== '' && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? ([
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_STUDENT_REQUESTS} as={NavLink} to="/studentrequests" key="requests" className={counter === 3 ? highlight : ''}>View Student Requests</Nav.Link>,
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_REQUESTS} as={NavLink} to="/facultyrequests" key="admin" className={counter === 4 ? highlight : ''}>View Faculty Requests</Nav.Link>,
+                <Nav.Link id={COMPONENT_IDS.NAVBAR_ADMIN_RESERVATION} as={NavLink} to="/adminreservation" key="reservation" className={counter === 5 ? highlight : ''}>View Room Reservations</Nav.Link>,
               ])
                 : ''}
             </Nav>
