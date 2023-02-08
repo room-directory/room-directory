@@ -7,8 +7,7 @@ import { PAGE_IDS } from '../utilities/PageIDs';
 import RoomDropdown from '../components/RoomDropdown';
 import { Room } from '../../api/room/RoomCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
-//import DateSelector from '../components/DateSelector';
-import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 
 function RoomType(room) {
