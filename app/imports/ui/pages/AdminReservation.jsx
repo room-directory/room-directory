@@ -8,6 +8,7 @@ import RoomDropdown from '../components/RoomDropdown';
 import { Room } from '../../api/room/RoomCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ReservationCalendar from '../components/ReservationCalendar';
+import { Reservations } from '../../api/reservation/ReservationCollection';
 
 function RoomType(room) {
   const lecture = [];
@@ -43,18 +44,19 @@ const AdminReservation = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const { rooms, ready } = useTracker(() => {
-    const subscription = Room.subscribeRoom();
-
+  const { rooms, reservations, ready } = useTracker(() => {
+    const roomSubscription = Room.subscribeRoom();
+    const reserveSubscription = Reservations.subscribeReservation();
     // Determine if the subscription is ready
-    const rdy = subscription.ready();
-
-    const items = Room.find({}).fetch();
+    const rdy1 = roomSubscription.ready();
+    const rdy2 = reserveSubscription.ready();
+    const roomItems = Room.find().fetch();
+    const reserveItems = Reservations.find().fetch();
 
     return {
-      rooms: items,
-
-      ready: rdy,
+      rooms: roomItems,
+      reservations: reserveItems,
+      ready: rdy1 && rdy2,
     };
   }, []);
 
@@ -80,7 +82,9 @@ const AdminReservation = () => {
           <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
         </Col>
       </Row>
-      <ReservationCalendar />
+      <Row>
+        {reservations && reservations.map((reservation) => <ReservationCalendar key={reservation.reservation_id} reservation={reservation} />)}
+      </Row>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Reserve Room</Modal.Title>

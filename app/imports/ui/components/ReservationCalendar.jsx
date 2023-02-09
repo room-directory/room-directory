@@ -5,31 +5,59 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'fullcalendar-reactwrapper/dist/css/fullcalendar.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Reservations } from '../../api/reservation/ReservationCollection';
 
 // TO DO: work on fixing the settings of the calendar
 
 const localizer = momentLocalizer(moment);
-const events = [
-  {
-    id: Reservations.reservation_id,
-    // start: Reservations.reservation_id.startTime(),
-    // end: Reservations.reservation_id.endTime(),
-    // title: Reservations.reservation_id.firstName + Reservations.reservation_id.lastName,
-    start: new Date(),
-    end: new Date(moment().add(1, 'days')),
-    title: 'Sample',
-  }];
 
-const ReservationCalendar = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+const ReservationCalendar = ({ reservation }) => {
+  // const [selectedDate, setSelectedDate] = useState(new Date());
+  const events = [
+    {
+      start: reservation.startTime,
+      end: reservation.endTime,
+      resource: reservation.reservation_id,
+      title: reservation.firstName,
+      desc: reservation.email,
+      allDay: false,
+    },
+  ];
+
+  const event = events.map(item => item.title);
+
+  const BlockTime = (
+    <span style={{
+      display: 'block',
+      backgroundColor: '#003f18',
+      height: '100%',
+      width: '100%',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      opacity: 10,
+      zIndex: 1,
+    }}
+    >
+      {event.title}
+    </span>
+  );
+
   return (
     <div>
       <Calendar
         localizer={localizer}
+        defaultView="week"
+        views={['week', 'day']}
         events={events}
-        defaultDate={selectedDate}
-        onNavigate={date => setSelectedDate(date)}
+        // startAccessor="start"
+        // endAccessor="end"
+        // defaultDate={selectedDate}
+        // onNavigate={date => setSelectedDate(date)}
+        components={{
+          event: BlockTime,
+        }}
       />
     </div>
   );
