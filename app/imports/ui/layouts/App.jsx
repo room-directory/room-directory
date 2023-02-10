@@ -19,7 +19,7 @@ import AdminReservation from '../pages/AdminReservation';
 import Profile from '../pages/Profile';
 import RoomList from '../pages/RoomList';
 import { ROLE } from '../../api/role/Role';
-import StudentRequests from '../pages/StudentRequests';
+import ListStudentRequests from '../pages/ListStudentRequests';
 import FacultyRequests from '../pages/FacultyRequests';
 import RequestRoomForm from '../pages/RequestRoomForm';
 import AddReservation from '../pages/AddReservation';
@@ -63,7 +63,7 @@ const App = () => {
           <Route path="/admin" element={<AdminProtectedRoute><ListStuffAdmin /></AdminProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/studentrequests" element={<ProtectedRoute><StudentRequests /></ProtectedRoute>} />
+          <Route path="/studentrequests" element={<ProtectedRoute><ListStudentRequests /></ProtectedRoute>} />
           <Route path="/facultyrequests" element={<ProtectedRoute><FacultyRequests /></ProtectedRoute>} />
           <Route path="/requestroomform" element={<ProtectedRoute><RequestRoomForm /></ProtectedRoute>} />
           <Route path="/addReservation" element={<ProtectedRoute><AddReservation /></ProtectedRoute>} />

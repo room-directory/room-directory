@@ -2,8 +2,8 @@ import React from 'react';
 import { Col, Container, Row, Table, Button } from 'react-bootstrap';
 import { PAGE_IDS } from '../utilities/PageIDs';
 
-/* Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
-const StudentRequests = () => (
+/* Renders a table containing all of the Student Request documents. Use <StudentRequest> to render each row. */
+const ListStudentRequests = () => (
   <Container id={PAGE_IDS.STUDENT_REQUESTS} className="py-3">
     <Row className="justify-content-center">
       <Col md={10}>
@@ -52,4 +52,4 @@ const StudentRequests = () => (
   </Container>
 );
 
-export default StudentRequests;
+export default ListStudentRequests;
