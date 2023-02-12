@@ -6,7 +6,7 @@ import { RoomResources } from '../../api/room/RoomResourceCollection';
 import LoadingSpinner from './LoadingSpinner';
 
 /** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
-const RoomInfoModal = ({ room, display, setDisplay }) => {
+const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);

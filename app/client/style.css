@@ -850,7 +850,13 @@ body {
   white-space: nowrap;
 }
 
-svg path {
-  color:red;
-  fill: orange; !important;
+path {
+  fill: white;
+  pointer-events: auto;
+}
+
+.room:hover {
+  fill: lightgreen;
+}
+svg {
 }

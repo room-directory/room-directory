@@ -375,7 +375,9 @@
     {"roomNumber": "318", "capacity": 20, "chairs": 35, "desks": 10, "tv": 1, "phoneNumber": "929-2991", "dataJacks": 4},
     {"roomNumber": "315", "capacity": 10, "chairs": 30, "desks": 10, "tv": 1, "phoneNumber": "929-2991", "dataJacks": 4},
     {"roomNumber": "302", "capacity": 30, "chairs": 25, "desks": 10, "tv": 1, "phoneNumber": "929-6454", "dataJacks": 4},
-    {"roomNumber": "304", "capacity": 5 , "chairs": 50, "desks": 20, "tv": 4, "phoneNumber": "929-4212", "dataJacks": 12}
+    {"roomNumber": "304", "capacity": 5 , "chairs": 50, "desks": 20, "tv": 4, "phoneNumber": "929-4212", "dataJacks": 12},
+    {"roomNumber": "318B", "capacity": 30, "chairs": 25, "desks": 10, "tv": 1, "phoneNumber": "929-6454", "dataJacks": 4},
+    {"roomNumber": "318A", "capacity": 30, "chairs": 25, "desks": 10, "tv": 1, "phoneNumber": "929-6454", "dataJacks": 4}
   ],
 
   "public": {

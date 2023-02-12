@@ -43,9 +43,11 @@ const RoomList = () => {
         <Image className="py-3" src="/images/ICS3rdFloorDiagram.png" />
       </Row>
       <Row>
-        {rooms.map((room) => <RoomInfoModal key={room.roomNumber} room={room} />)}
+        {console.log(rooms.find(room => room.roomNumber === '318'))}
+        {rooms.map((room) => <RoomInfoModal key={room.roomNumber} room={room}/>)}
       </Row>
-      <SvgComponent />
+      {console.log(rooms)}
+      <SvgComponent rooms={rooms} />
     </Container>
   )
     : <LoadingSpinner />
