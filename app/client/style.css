@@ -849,3 +849,15 @@ body {
   width: 1px;
   white-space: nowrap;
 }
+
+path {
+  fill: white;
+  pointer-events: auto;
+}
+
+.room:hover {
+  fill: lightgreen;
+  cursor: pointer;
+}
+svg {
+}
