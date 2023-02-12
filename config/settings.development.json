@@ -22,6 +22,8 @@
   "defaultRoomData": [
     {"roomNumber": "301", "type": "lecture", "capacity": 20},
     {"roomNumber": "318", "type": "lecture", "capacity": 20},
+    {"roomNumber": "318A", "type": "lecture", "capacity": 20},
+    {"roomNumber": "318B", "type": "lecture", "capacity": 20},
     {"roomNumber": "315", "type": "office", "capacity": 10},
     {"roomNumber": "302", "type": "conference", "capacity": 30},
     {"roomNumber": "304", "type": "study room", "capacity": 5}

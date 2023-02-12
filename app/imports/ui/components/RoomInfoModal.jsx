@@ -6,12 +6,11 @@ import { RoomResources } from '../../api/room/RoomResourceCollection';
 import LoadingSpinner from './LoadingSpinner';
 
 /** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
-const RoomInfoModal = ({ room, display, setDisplay }) => {
+const RoomInfoModal = ({ room }) => {
   const [show, setShow] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleCloseSvg = () => setDisplay;
-  const [showMore, setShowMore] = useState(false);
   const { ready, resources } = useTracker(() => {
     const subscription = RoomResources.subscribeRoomResource();
     const rdy = subscription.ready();
@@ -26,7 +25,7 @@ const RoomInfoModal = ({ room, display, setDisplay }) => {
       <Button variant="light" className="border border-dark sharp me-3" onClick={handleShow}>
         Room #{resources.roomNumber} Info
       </Button>
-      <Modal show={display} onHide={setDisplay}>
+      <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Room #{resources.roomNumber}</Modal.Title>
         </Modal.Header>
@@ -88,7 +87,7 @@ const RoomInfoModal = ({ room, display, setDisplay }) => {
           </Table>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" onClick={setDisplay}>
+          <Button variant="danger" onClick={handleClose}>
             Close
           </Button>
         </Modal.Footer>
@@ -104,8 +103,6 @@ RoomInfoModal.propTypes = {
     type: PropTypes.string,
     _id: PropTypes.string,
   }).isRequired,
-  display: PropTypes.bool,
-  setDisplay: PropTypes.func,
 };
 
 export default RoomInfoModal;

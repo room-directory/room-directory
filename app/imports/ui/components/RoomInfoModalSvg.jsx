@@ -23,9 +23,7 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
   }, []);
   return (ready ? (
     <Col className="col-2 pb-4">
-      <Button variant="light" className="border border-dark sharp me-3" onClick={handleShow}>
-        Room #{resources.roomNumber} Info
-      </Button>
+
       <Modal show={display} onHide={setDisplay}>
         <Modal.Header closeButton>
           <Modal.Title>Room #{resources.roomNumber}</Modal.Title>
@@ -98,7 +96,7 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
     <LoadingSpinner />
   );
 };
-RoomInfoModal.propTypes = {
+RoomInfoModalSvg.propTypes = {
   room: PropTypes.shape({
     roomNumber: PropTypes.string,
     type: PropTypes.string,
@@ -108,4 +106,4 @@ RoomInfoModal.propTypes = {
   setDisplay: PropTypes.func,
 };
 
-export default RoomInfoModal;
+export default RoomInfoModalSvg;
