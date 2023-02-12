@@ -5,6 +5,7 @@ import { Room } from '../../api/room/RoomCollection';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import LoadingSpinner from '../components/LoadingSpinner';
 import RoomInfoModal from '../components/RoomInfoModal';
+import SvgComponent from '../components/SvgComponent';
 
 // const mockupRooms = [{ roomNumber: '001' }, { roomNumber: '002' }, { roomNumber: '003' }, { roomNumber: '004' }, { roomNumber: '005' }, { roomNumber: '006' }, { roomNumber: '007' },
 //   { roomNumber: '008' }, { roomNumber: '009' }, { roomNumber: '010' }];
@@ -44,6 +45,7 @@ const RoomList = () => {
       <Row>
         {rooms.map((room) => <RoomInfoModal key={room.roomNumber} room={room} />)}
       </Row>
+      <SvgComponent />
     </Container>
   )
     : <LoadingSpinner />

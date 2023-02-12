@@ -849,3 +849,8 @@ body {
   width: 1px;
   white-space: nowrap;
 }
+
+svg path {
+  color:red;
+  fill: orange; !important;
+}
