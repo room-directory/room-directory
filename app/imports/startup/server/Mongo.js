@@ -4,6 +4,7 @@ import { Reservations } from '../../api/reservation/ReservationCollection';
 import { Room } from '../../api/room/RoomCollection';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 import { RoomResources } from '../../api/room/RoomResourceCollection';
+import { Club } from '../../api/club/ClubCollection';
 /* eslint-disable no-console */
 
 // Initialize the database with a default stuff data document.
@@ -34,6 +35,12 @@ function addFacultyProfileData(data) {
 function addRoomResourceData(data) {
   console.log(`  Adding: (${data.roomNumber})`);
   RoomResources.define(data);
+}
+
+// Initialize the database with a default club data document.
+function addClubData(data) {
+  console.log(`  Adding: (${data.clubName})`);
+  Club.define(data);
 }
 
 // Initialize the StuffsCollection if empty.
@@ -72,5 +79,13 @@ if (RoomResources.count() === 0) {
   if (Meteor.settings.defaultRoomResourceData) {
     console.log('Creating default room Resource data.');
     Meteor.settings.defaultRoomResourceData.map(data => addRoomResourceData(data));
+  }
+}
+
+// Initialize the ClubCollection if empty.
+if (Club.count() === 0) {
+  if (Meteor.settings.defaultClubData) {
+    console.log('Creating default Club data.');
+    Meteor.settings.defaultClubData.map(data => addClubData(data));
   }
 }

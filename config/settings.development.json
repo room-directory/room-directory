@@ -382,6 +382,10 @@
     {"roomNumber": "318A", "capacity": 30, "chairs": 25, "desks": 10, "tv": 1, "phoneNumber": "929-6454", "dataJacks": 4}
   ],
 
+  "defaultClubData": [
+    {"clubName":  "testClub", "rio":  ["Student1", "Student2", "Student3", "Student4", "Student5", "Student6"], "advisor":  ["Advisor1", "Advisor2"]}
+  ],
+
   "public": {
     "development": true
   }
