@@ -857,6 +857,7 @@ path {
 
 .room:hover {
   fill: lightgreen;
+  cursor: pointer;
 }
 svg {
 }

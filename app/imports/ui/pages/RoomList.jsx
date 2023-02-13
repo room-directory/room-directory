@@ -45,7 +45,7 @@ const RoomList = () => {
           </div>
         </ButtonGroup>
       </Row>
-      {showSvg ? (
+      {!showSvg ? (
         <Container>
           <Row>
             <Image className="py-3" src="/images/ICS3rdFloorDiagram.png" />

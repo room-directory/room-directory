@@ -7,10 +7,6 @@ import LoadingSpinner from './LoadingSpinner';
 
 /** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
 const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const handleCloseSvg = () => setDisplay;
   const [showMore, setShowMore] = useState(false);
   const { ready, resources } = useTracker(() => {
     const subscription = RoomResources.subscribeRoomResource();
@@ -23,7 +19,6 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
   }, []);
   return (ready ? (
     <Col className="col-2 pb-4">
-
       <Modal show={display} onHide={setDisplay}>
         <Modal.Header closeButton>
           <Modal.Title>Room #{resources.roomNumber}</Modal.Title>
@@ -101,9 +96,16 @@ RoomInfoModalSvg.propTypes = {
     roomNumber: PropTypes.string,
     type: PropTypes.string,
     _id: PropTypes.string,
-  }).isRequired,
-  display: PropTypes.bool,
-  setDisplay: PropTypes.func,
+  }),
+  display: PropTypes.bool.isRequired,
+  setDisplay: PropTypes.func.isRequired,
+};
+RoomInfoModalSvg.defaultProps = {
+  room: PropTypes.shape({
+    roomNNumber: PropTypes.string,
+    type: PropTypes.string,
+    _id: PropTypes.string,
+  }),
 };
 
 export default RoomInfoModalSvg;
