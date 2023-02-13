@@ -21,6 +21,7 @@ const FacultyInfo = () => {
       ready: rdy,
     };
   }, []);
+  // create sorting method
   const [sortingBy, setSortingBy] = useState('lastName');
   const [category, setCategory] = useState('Last Name');
   profiles.sort(function (a, b) {
