@@ -383,7 +383,8 @@
   ],
 
   "defaultClubData": [
-    {"clubName":  "testClub", "rio":  ["Student1", "Student2", "Student3", "Student4", "Student5", "Student6"], "advisor":  ["Advisor1", "Advisor2"]}
+    {"clubName":  "testClub", "rio":  ["Student1", "Student2", "Student3", "Student4", "Student5", "Student6"], "advisor":  ["Advisor1", "Advisor2"]},
+    {"clubName":  "testClub2", "rio":  "Student1", "advisor":  "Advisor1"}
   ],
 
   "public": {

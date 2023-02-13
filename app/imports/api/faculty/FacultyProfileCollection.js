@@ -16,9 +16,9 @@ class FacultyProfileCollection extends BaseCollection {
       lastName: String,
       role: String,
       email: String,
-      phone: String,
+      phone: [String],
       officeHours: String,
-      officeLocation: String,
+      officeLocation: [String],
     }));
   }
 
