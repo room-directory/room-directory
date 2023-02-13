@@ -16,14 +16,14 @@ class AdminProfileCollection extends BaseProfileCollection {
    * @param firstName The first name.
    * @param lastName The last name.
    */
-  define({ email, firstName, lastName, password }) {
+  define({ image, email, firstName, lastName, password }) {
     if (Meteor.isServer) {
       // console.log('define', email, firstName, lastName, password);
       const username = email;
       const user = this.findOne({ email, firstName, lastName });
       if (!user) {
         const role = ROLE.ADMIN;
-        const profileID = this._collection.insert({ email, firstName, lastName, userID: this.getFakeUserId(), role });
+        const profileID = this._collection.insert({ image, email, firstName, lastName, userID: this.getFakeUserId(), role });
         const userID = Users.define({ username, role, password });
         this._collection.update(profileID, { $set: { userID } });
         return profileID;
@@ -39,9 +39,15 @@ class AdminProfileCollection extends BaseProfileCollection {
    * @param firstName new first name (optional).
    * @param lastName new last name (optional).
    */
-  update(docID, { firstName, lastName }) {
+  update(docID, { image, email, firstName, lastName }) {
     this.assertDefined(docID);
     const updateData = {};
+    if (image) {
+      updateData.image = image;
+    }
+    if (email) {
+      updateData.email = email;
+    }
     if (firstName) {
       updateData.firstName = firstName;
     }
