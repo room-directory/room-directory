@@ -24,6 +24,7 @@ import StudentRequests from '../pages/StudentRequests';
 import FacultyRequests from '../pages/FacultyRequests';
 import RequestRoomForm from '../pages/RequestRoomForm';
 import AddReservation from '../pages/AddReservation';
+import AdminManage from '../pages/AdminManage';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -60,6 +61,7 @@ const App = () => {
           <Route path="/edit-profile/:_id" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
           <Route path="/roomlist" element={<ProtectedRoute><RoomList /></ProtectedRoute>} />
           <Route path="/reservation" element={<ProtectedRoute><AdminReservation /></ProtectedRoute>} />
+          <Route path="/manage" element={<ProtectedRoute><AdminManage /></ProtectedRoute>} />
           <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
           <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
           <Route path="/admin" element={<AdminProtectedRoute><ListStuffAdmin /></AdminProtectedRoute>} />
