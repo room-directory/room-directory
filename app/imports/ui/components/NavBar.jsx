@@ -11,6 +11,8 @@ import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 
+/* make navigation guide its own component */
+
 const NavBar = ({ highlight, changeHighlight, counter, incrementCounter, decrementCounter, resetCounter }) => {
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   const { currentUser, user, ready } = useTracker(() => {
