@@ -59,7 +59,7 @@ const AdminManage = () => {
     };
   }, []);
   return (ready ? (
-    <Container id={PAGE_IDS.ADMIN_RESERVATION} className="py-3 elevated-container">
+    <Container id={PAGE_IDS.ADMIN_MANAGE} className="py-3 elevated-container">
       <Row className="d-flex">
         <Col style={{ width: '100%' }}>
           <Button variant="primary" onClick={handleShow}>Make Reservation</Button>

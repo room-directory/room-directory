@@ -29,7 +29,7 @@ export const COMPONENT_IDS = {
   SIGN_UP_FORM_POSITION: 'sign-up-form-position',
   SIGN_UP_FORM_SUBMIT: 'sign-up-form-submit',
   FACULTY_INFORMATION_SORT: 'faculty-information-sort',
-  ADMIN_RESERVATION: 'admin-reservation',
+  ADMIN_MANAGE: 'admin-manage',
 
   // EDIT PROFILE
   EDIT_PROFILE_FORM_FIRST_NAME: 'edit-profile-form-first-name',
