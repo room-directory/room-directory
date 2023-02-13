@@ -70,7 +70,7 @@ const NavBar = ({ highlight, changeHighlight, counter, incrementCounter, decreme
               { currentUser !== '' ?
                 ([
                   <Nav.Link id={COMPONENT_IDS.NAVBAR_ROOM_LIST} as={NavLink} to="/roomlist" key="add" className={counter === 2 ? highlight : ''}>Room List</Nav.Link>,
-                  <Nav.Link id={COMPONENT_IDS.NAVBAR_ADMIN_RESERVATION} as={NavLink} to="/reservation" key="reservation" className={counter === 5 ? highlight : ''}>View Room Reservations</Nav.Link>,
+                  <Nav.Link id={COMPONENT_IDS.NAVBAR_ADMIN_MANAGE} as={NavLink} to="/manage" key="manage" className={counter === 5 ? highlight : ''}>Admin Management</Nav.Link>,
                 ])
                 : ''}
               { currentUser !== '' && user?.position === 'faculty' ?
