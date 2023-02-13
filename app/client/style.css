@@ -853,3 +853,15 @@ body {
 .elevated-container {
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 }
+
+path {
+  fill: white;
+  pointer-events: auto;
+}
+
+.room:hover {
+  fill: lightgreen;
+  cursor: pointer;
+}
+svg {
+}

@@ -95,28 +95,29 @@ const NavBar = ({ highlight, changeHighlight, counter, incrementCounter, decreme
           ) : (
             ''
           )}
+          {location.pathname === '/' ?
+            (
+              <div className="hole me-3">
+                {counter === 0 && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
+                  <button type="button" onClick={() => { changeHighlight(); incrementCounter(); }} className="position-sticky bottom-0 end-0 btn btn-outline-primary text-nowrap" id="tutorial-button">
+                    How to navigate
+                  </button>
+                ) : ''}
+                {counter > 0 && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
+                  <Button type="button" variant="light" onClick={() => { changeHighlight(); resetCounter(); }} className="position-sticky bottom-0 end-0 btn btn-outline-danger">
+                    Quit
+                  </Button>
+                ) : ''}
+              </div>
+            ) : ''}
+          {location.pathname !== '/' && counter > 0 ? (
+            <Link to="/">
+              <Button type="button" variant="light" className="position-sticky bottom-0 end-0 btn btn-outline-primary text-nowrap">GO back</Button>
+            </Link>
+          ) :
+            ''}
         </Container>
-        {location.pathname === '/' ?
-          (
-            <div className="hole me-3">
-              {counter === 0 && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
-                <button type="button" onClick={() => { changeHighlight(); incrementCounter(); }} className="position-sticky bottom-0 end-0 btn btn-outline-primary text-nowrap" id="tutorial-button">
-                  How to navigate
-                </button>
-              ) : ''}
-              {counter > 0 && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
-                <Button type="button" variant="light" onClick={() => { changeHighlight(); resetCounter(); }} className="position-sticky bottom-0 end-0 btn btn-outline-danger">
-                  Quit
-                </Button>
-              ) : ''}
-            </div>
-          ) : ''}
-        {location.pathname !== '/' && counter > 0 ? (
-          <Link to="/">
-            <Button type="button" variant="light" className="position-sticky bottom-0 end-0 btn btn-outline-primary text-nowrap">GO back</Button>
-          </Link>
-        ) :
-          ''}
+
       </Navbar>
     </nav>
   ) : <ProgressBar />;
