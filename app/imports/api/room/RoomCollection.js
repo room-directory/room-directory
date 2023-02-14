@@ -14,12 +14,15 @@ class RoomCollection extends BaseCollection {
   constructor() {
     super('Room', new SimpleSchema({
       roomNumber: String,
+      building: String,
       type: {
         type: String,
         allowedValues: roomType,
         defaultValue: 'conference',
       },
-      capacity: Number,
+      occupants: Array,
+      'occupants.$': String,
+      squareFt: Number,
     }));
   }
 
@@ -31,11 +34,13 @@ class RoomCollection extends BaseCollection {
    * @param condition the condition of the item.
    * @return {String} the docID of the new document.
    */
-  define({ roomNumber, type, capacity }) {
+  define({ roomNumber, building, type, occupants, squareFt }) {
     const docID = this._collection.insert({
       roomNumber,
+      building,
       type,
-      capacity,
+      occupants,
+      squareFt,
     });
     return docID;
   }
@@ -47,16 +52,22 @@ class RoomCollection extends BaseCollection {
    * @param quantity the new quantity (optional).
    * @param condition the new condition (optional).
    */
-  update(docID, { roomNumber, type, capacity }) {
+  update(docID, { roomNumber, building, type, occupants, squareFt }) {
     const updateData = {};
     if (roomNumber) {
       updateData.roomNumber = roomNumber;
     }
+    if (building) {
+      updateData.building = building;
+    }
     if (type) {
       updateData.type = type;
     }
-    if (_.isNumber(capacity)) {
-      updateData.capacity = capacity;
+    if (occupants.length > 0) {
+      updateData.occupants = occupants;
+    }
+    if (_.isNumber(squareFt)) {
+      updateData.squareFt = squareFt;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -119,9 +130,11 @@ class RoomCollection extends BaseCollection {
   dumpOne(docID) {
     const doc = this.findDoc(docID);
     const roomNumber = doc.roomNumber;
+    const building = doc.building;
     const type = doc.type;
-    const capacity = doc.capacity;
-    return { roomNumber, type, capacity };
+    const occupants = doc.occupants;
+    const squareFt = doc.squareFt;
+    return { roomNumber, building, type, occupants, squareFt };
   }
 }
 
