@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
-import { Card, Col, Row, Button } from 'react-bootstrap';
-import { removeItMethod } from '../../api/base/BaseCollection.methods';
+import { Card, Col, Row, Button, Modal, Form } from 'react-bootstrap';
+import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
+import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
 const ProfileTable = ({ account, eventKey }) => {
+  const [show, setShow] = useState(false);
 
   const del = () => {
     const collectionName = UserProfiles.getCollectionName();
@@ -29,6 +31,21 @@ const ProfileTable = ({ account, eventKey }) => {
     });
   };
 
+  const positionList = ['student', 'faculty', 'office'];
+
+  const submit = () => {
+    const newFirstName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FIRST_NAME_ADMIN).value;
+    const newLastName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_LAST_NAME_ADMIN).value;
+    const newPosition = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_POSITION_ADMIN).value;
+
+    const updateData = { id: account._id, email: account.email, firstName: newFirstName, lastName: newLastName, position: newPosition };
+    const collectionName = UserProfiles.getCollectionName();
+
+    updateMethod.callPromise({ collectionName, updateData })
+      .catch(error => swal('Error', error.message, 'error'))
+      .then(() => swal('Success', 'Profile updated successfully', 'success'));
+  };
+
   return (
     <Card style={{ border: 'none', borderRadius: 0 }}>
       <Card.Header style={eventKey % 2 === 0 ? { backgroundColor: 'whitesmoke', border: 'none' } : { backgroundColor: '#fbfbfb', border: 'none' }}>
@@ -37,10 +54,53 @@ const ProfileTable = ({ account, eventKey }) => {
           <Col>{`${account.firstName}`}</Col>
           <Col>{account.email}</Col>
           <Col>{account.position}</Col>
-          <Col xs={1}><Button variant="primary">Edit</Button></Col>
+          <Col xs={1}><Button variant="primary" onClick={() => setShow(true)}>Edit</Button></Col>
           <Col xs={1}><Button variant="danger" onClick={del}>Delete</Button></Col>
         </Row>
       </Card.Header>
+
+      {
+        show ? (
+          <Modal show={show} onHide={() => setShow(false)} centered dialogClassName="modal-90w">
+            <Modal.Header closeButton />
+            <Modal.Body>
+              <h4>Edit Profile</h4>
+              <Form>
+                <Row style={{ paddingBottom: 20 }}>
+                  <Row>
+                    <Col>
+                      <Form.Group>
+                        First Name *
+                        <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FIRST_NAME_ADMIN} defaultValue={account.firstName ? account.firstName : ''} />
+                      </Form.Group>
+                    </Col>
+                    <Col>
+                      <Form.Group>
+                        Last Name *
+                        <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_LAST_NAME_ADMIN} defaultValue={account.lastName ? account.lastName : ''} />
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Form.Group>
+                      Position *
+                      <Form.Select id={COMPONENT_IDS.EDIT_PROFILE_POSITION_ADMIN} placeholder="Select a position" options={positionList} style={{ marginBottom: 5 }} defaultValue={account.position ? account.position : ''}>
+                        <option disabled>Select</option>
+                        {positionList.map((name, index) => (
+                          <option value={name} key={index}>{name}</option>
+                        ))}
+                      </Form.Select>
+                    </Form.Group>
+                  </Row>
+                </Row>
+                <Button variant="primary" type="submit" style={{ position: 'absolute', marginTop: 20, bottom: 10, marginLeft: 10 }} alt="Submit Changes" onClick={submit}>
+                  Submit Changes
+                </Button>
+              </Form>
+            </Modal.Body>
+          </Modal>
+        ) : ''
+      }
     </Card>
   );
 };
