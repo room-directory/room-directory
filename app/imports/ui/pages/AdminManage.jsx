@@ -12,6 +12,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import ProfileTable from '../components/ProfileTable';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
+import RoomTable from '../components/RoomTable';
 
 function RoomType(room) {
   const lecture = [];
@@ -71,25 +72,27 @@ const AdminManage = () => {
     <Container id={PAGE_IDS.ADMIN_MANAGE} className="py-3 elevated-container">
       <Row className="d-flex">
         <Col style={{ width: '100%' }}>
-          <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
+          <Button variant="primary" onClick={handleShow} style={{ marginBottom: 10 }}>Make Reservation</Button>
           <Tabs
             defaultActiveKey="profiles"
             id="uncontrolled-tab-example"
             className="mb-3"
           >
             <Tab eventKey="profiles" title="Profiles">
-              <Row className="px-m3 py-2">
-                <Col><b>LAST NAME</b></Col>
-                <Col><b>FIRST NAME</b></Col>
-                <Col><b>EMAIL</b></Col>
-                <Col><b>POSITION</b></Col>
-                <Col xs={1} />
-                <Col xs={1} />
+
+              <Row className="px-m3 py-2" style={{ padding: 15 }}>
+                <Col><u>LAST NAME</u></Col>
+                <Col><u>FIRST NAME</u></Col>
+                <Col><u>EMAIL</u></Col>
+                <Col><u>POSITION</u></Col>
+                <Col xs={2} />
               </Row>
-              { profiles.map((account, index) => <ProfileTable key={account} eventKey={`${index}`} account={account} />) }
+              <div>
+                { profiles.map((account, index) => <ProfileTable key={account} eventKey={`${index}`} account={account} />) }
+              </div>
             </Tab>
             <Tab eventKey="rooms" title="Rooms">
-              <DropdownButton title="Select Room...">
+              {/* <DropdownButton title="Select Room...">
                 <Dropdown.Header>Lecture</Dropdown.Header>
                 {(RoomType(rooms).lecture).map((room) => <RoomDropdown key={room.type} room={room} />)}
                 <Dropdown.Divider />
@@ -101,7 +104,16 @@ const AdminManage = () => {
                 <Dropdown.Divider />
                 <Dropdown.Header>Study Room</Dropdown.Header>
                 {(RoomType(rooms).study).map((room) => <RoomDropdown key={room.type} room={room} />)}
-              </DropdownButton>
+              </DropdownButton> */}
+              <Row className="px-m3 py-2" style={{ padding: 15 }}>
+                <Col><u>ROOM NUMBER</u></Col>
+                <Col><u>TYPE</u></Col>
+                <Col><u>CAPACITY</u></Col>
+                <Col xs={2} />
+              </Row>
+              <div>
+                { rooms.map((room, index) => <RoomTable key={room} eventKey={`${index}`} room={room} />) }
+              </div>
             </Tab>
           </Tabs>
         </Col>
@@ -117,8 +129,8 @@ const AdminManage = () => {
           {/*  /> */}
           {/* </Form> */}
         </Col>
-        <Col xs={6} className="d-flex justify-content-end">
-          <div className="text-right">
+        <Col className="d-flex justify-content-end">
+          <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
             <Button variant="success">
               + Add
             </Button>

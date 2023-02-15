@@ -8,7 +8,6 @@ import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
 const ProfileTable = ({ account, eventKey }) => {
   const [show, setShow] = useState(false);
-
   const del = () => {
     const collectionName = UserProfiles.getCollectionName();
     const instance = account._id;
@@ -54,8 +53,12 @@ const ProfileTable = ({ account, eventKey }) => {
           <Col>{`${account.firstName}`}</Col>
           <Col>{account.email}</Col>
           <Col>{account.position}</Col>
-          <Col xs={1}><Button variant="primary" onClick={() => setShow(true)}>Edit</Button></Col>
-          <Col xs={1}><Button variant="danger" onClick={del}>Delete</Button></Col>
+          <Col xs={2}>
+            <Row>
+              <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="primary" onClick={() => setShow(true)}>Edit</Button></Col>
+              <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="danger" onClick={del}>Delete</Button></Col>
+            </Row>
+          </Col>
         </Row>
       </Card.Header>
 
@@ -93,9 +96,11 @@ const ProfileTable = ({ account, eventKey }) => {
                     </Form.Group>
                   </Row>
                 </Row>
-                <Button variant="primary" type="submit" style={{ position: 'absolute', marginTop: 20, bottom: 10, marginLeft: 10 }} alt="Submit Changes" onClick={submit}>
-                  Submit Changes
-                </Button>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: 25 }}>
+                  <Button variant="primary" type="submit" alt="Submit Changes" onClick={submit}>
+                    Submit Changes
+                  </Button>
+                </div>
               </Form>
             </Modal.Body>
           </Modal>
