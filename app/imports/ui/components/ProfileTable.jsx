@@ -1,174 +1,125 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Col, Container, Form, FormControl, Modal, Row, Table } from 'react-bootstrap';
+import swal from 'sweetalert';
+import { Card, Col, Row, Button, Modal, Form } from 'react-bootstrap';
+import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
+import { UserProfiles } from '../../api/user/UserProfileCollection';
+import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
-const ProfileTable = () => {
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [editedRow, setEditedRow] = useState({ email: '',
-    firstName: '',
-    lastName: '',
-    position: '' });
-  const [filterText, setFilterText] = useState('');
-  const [selectedRow, setSelectedRow] = useState(null);
-  const [data, setData] = useState([
-    { email: 'admin@foo.com',
-      firstName: 'Ad',
-      lastName: 'Min',
-      position: 'faculty' },
-    { email: 'john@foo.com',
-      firstName: 'John',
-      lastName: 'Foo',
-      position: 'office' },
-  ]);
-
-  const handleFilterTextChange = (event) => {
-    setFilterText(event.target.value);
+const ProfileTable = ({ account, eventKey }) => {
+  const [show, setShow] = useState(false);
+  const del = () => {
+    const collectionName = UserProfiles.getCollectionName();
+    const instance = account._id;
+    swal({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      dangerMode: true,
+      buttons: true,
+    }).then((result) => {
+      if (result) {
+        removeItMethod.callPromise({ collectionName, instance })
+          .catch(error => swal('Error', error.message, 'error'))
+          .then(() => swal('Profile has been deleted!', {
+            icon: 'success',
+          }));
+      } else {
+        swal('Profile is safe!');
+      }
+    });
   };
 
-  const editRow = (id) => {
-    const newData = [...data];
-    // newData[index].firstName = 'Edited Name';
-    // setData(newData);
-    setData(data.map((row) => (row.email === id ? newData : row)));
-    setShowEditModal(false);
-  };
+  const positionList = ['student', 'faculty', 'office'];
 
-  const deleteRow = (index) => {
-    setData(data.filter((row) => row.index !== index));
-    setShowDeleteModal(false);
-    // const newData = [...data];
-    // newData.splice(index, 1);
-    // setData(newData);
+  const submit = () => {
+    const newFirstName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FIRST_NAME_ADMIN).value;
+    const newLastName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_LAST_NAME_ADMIN).value;
+    const newPosition = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_POSITION_ADMIN).value;
+
+    const updateData = { id: account._id, email: account.email, firstName: newFirstName, lastName: newLastName, position: newPosition };
+    const collectionName = UserProfiles.getCollectionName();
+
+    updateMethod.callPromise({ collectionName, updateData })
+      .catch(error => swal('Error', error.message, 'error'))
+      .then(() => swal('Success', 'Profile updated successfully', 'success'));
   };
 
   return (
-    <Container>
-      <Row>
-        <Col xs={6}>
-          <Form inline className="mb-3">
-            <FormControl
-              type="text"
-              placeholder="Filter by name..."
-              value={filterText}
-              onChange={handleFilterTextChange}
-            />
-          </Form>
-        </Col>
-      </Row>
-      <Row>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Last Name</th>
-              <th>First Name</th>
-              <th>Email</th>
-              <th>Position</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.filter((row) => row.lastName.toLowerCase().includes(filterText.toLowerCase())).map((row, index) => (
-              <tr key={row.email}>
-                <td>{row.lastName}</td>
-                <td>{row.firstName}</td>
-                <td>{row.email}</td>
-                <td>{row.position}</td>
-                <td>
-                  <Button variant="primary" onClick={() => setSelectedRow(row) && setEditedRow(row) && setShowEditModal(true)}>
-                    Edit
-                  </Button>{' '}
-                  <Button variant="danger" onClick={() => setSelectedRow(index) && setShowDeleteModal(true)}>
-                    Delete
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+    <Card style={{ border: 'none', borderRadius: 0 }}>
+      <Card.Header style={eventKey % 2 === 0 ? { backgroundColor: 'whitesmoke', border: 'none' } : { backgroundColor: '#fbfbfb', border: 'none' }}>
+        <Row>
+          <Col>{`${account.lastName}`}</Col>
+          <Col>{`${account.firstName}`}</Col>
+          <Col>{account.email}</Col>
+          <Col>{account.position}</Col>
+          <Col xs={2}>
+            <Row>
+          <Col style={{display: 'flex', justifyContent:'flex-end'}}><Button variant="primary" onClick={() => setShow(true)}>Edit</Button></Col>
+          <Col style={{display: 'flex', justifyContent:'flex-end'}}><Button variant="danger" onClick={del}>Delete</Button></Col>
+            </Row>
+          </Col>
+        </Row>
+      </Card.Header>
 
-        <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Edit Row</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group controlId="lastName">
-                <Form.Label>Last Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={editedRow.lastName}
-                  onChange={(e) => setEditedRow({ ...editedRow, lastName: e.target.value })}
-                />
-              </Form.Group>
-              <Form.Group controlId="firstName">
-                <Form.Label>First Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={editedRow.firstName}
-                  onChange={(e) => setEditedRow({ ...editedRow, firstName: e.target.value })}
-                />
-              </Form.Group>
-              <Form.Group controlId="email">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={editedRow.email}
-                  onChange={(e) => setEditedRow({ ...editedRow, email: e.target.value })}
-                />
-              </Form.Group>
-              <Form.Group controlId="position">
-                <Form.Label>Position</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={editedRow.position}
-                  onChange={(e) => setEditedRow({ ...editedRow, position: e.target.value })}
-                />
-              </Form.Group>
-              <Button variant="primary" type="submit">
-                Save
-              </Button>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowEditModal(false)}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={() => editRow({ lastName: 'TODO: Update last name value', firstName: 'TODO: Update first name value', email: selectedRow.email, position: 'TODO: Update position value' })}>
-              Save
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Delete Row</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            Are you sure you want to delete the row with last name ${selectedRow ? selectedRow.lastName : ''} and email ${selectedRow ? selectedRow.email : ''}?
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
-              Close
-            </Button>
-            <Button variant="danger" onClick={() => deleteRow(selectedRow.email)}>
-              Delete
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </Row>
-    </Container>
+      {
+        show ? (
+          <Modal show={show} onHide={() => setShow(false)} centered dialogClassName="modal-90w">
+            <Modal.Header closeButton />
+            <Modal.Body>
+              <h4>Edit Profile</h4>
+              <Form>
+                <Row style={{ paddingBottom: 20 }}>
+                  <Row>
+                    <Col>
+                      <Form.Group>
+                        First Name *
+                        <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FIRST_NAME_ADMIN} defaultValue={account.firstName ? account.firstName : ''} />
+                      </Form.Group>
+                    </Col>
+                    <Col>
+                      <Form.Group>
+                        Last Name *
+                        <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_LAST_NAME_ADMIN} defaultValue={account.lastName ? account.lastName : ''} />
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Form.Group>
+                      Position *
+                      <Form.Select id={COMPONENT_IDS.EDIT_PROFILE_POSITION_ADMIN} placeholder="Select a position" options={positionList} style={{ marginBottom: 5 }} defaultValue={account.position ? account.position : ''}>
+                        <option disabled>Select</option>
+                        {positionList.map((name, index) => (
+                          <option value={name} key={index}>{name}</option>
+                        ))}
+                      </Form.Select>
+                    </Form.Group>
+                  </Row>
+                </Row>
+                <div style={{display: 'flex', justifyContent:'flex-end', paddingRight: 25}}>
+                <Button variant="primary" type="submit" alt="Submit Changes" onClick={submit}>
+                  Submit Changes
+                </Button>
+                </div>
+              </Form>
+            </Modal.Body>
+          </Modal>
+        ) : ''
+      }
+    </Card>
   );
 };
 
 /* Referencing the Base Collection */
 ProfileTable.propTypes = {
-  profile: PropTypes.shape({
-    email: PropTypes.string,
+  account: PropTypes.shape({
     firstName: PropTypes.string,
     lastName: PropTypes.string,
+    email: PropTypes.string,
     position: PropTypes.string,
+    _id: PropTypes.string,
   }).isRequired,
+  eventKey: PropTypes.string.isRequired,
 };
 
 export default ProfileTable;

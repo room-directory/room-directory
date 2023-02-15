@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Container, Row, Col, Modal, Form, Tabs, Tab } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
+import { _ } from 'meteor/underscore';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DatePicker from 'react-datepicker';
@@ -9,7 +10,8 @@ import RoomDropdown from '../components/RoomDropdown';
 import { Room } from '../../api/room/RoomCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ProfileTable from '../components/ProfileTable';
-import RoomTable from '../components/RoomTable';
+import { UserProfiles } from '../../api/user/UserProfileCollection';
+import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 
 function RoomType(room) {
   const lecture = [];
@@ -48,27 +50,47 @@ const AdminManage = () => {
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
 
-  const { rooms, ready } = useTracker(() => {
-    const subscription = Room.subscribeRoom();
+  const { rooms, profiles, ready } = useTracker(() => {
+    const roomSubscription = Room.subscribeRoom();
+    const profileSubscription = UserProfiles.subscribe();
+    const adminSubscription = AdminProfiles.subscribe();
     // Determine if the subscription is ready
-    const rdy = subscription.ready();
-    const items = Room.find({}).fetch();
+    const rdy = roomSubscription.ready() && profileSubscription.ready() && adminSubscription.ready();
+    const room = Room.find({}).fetch();
+    const user = UserProfiles.find({}, {}).fetch();
+    const admin = AdminProfiles.find({}, {}).fetch();
+    const profile = _.sortBy(user.concat(admin), (obj) => obj.lastName);
     return {
-      rooms: items,
+      rooms: room,
       ready: rdy,
+      profiles: profile,
     };
   }, []);
+
   return (ready ? (
-    <Container id={PAGE_IDS.ADMIN_RESERVATION} className="py-3 elevated-container">
+    <Container id={PAGE_IDS.ADMIN_MANAGE} className="py-3 elevated-container">
       <Row className="d-flex">
         <Col style={{ width: '100%' }}>
-          <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
+          <Button variant="primary" onClick={handleShow} style={{ marginBottom: 10 }}>Make Reservation</Button>
           <Tabs
             defaultActiveKey="profiles"
             id="uncontrolled-tab-example"
             className="mb-3"
           >
             <Tab eventKey="profiles" title="Profiles">
+
+              <Row className="px-m3 py-2" style={{padding:15}}>
+                <Col><u>LAST NAME</u></Col>
+                <Col><u>FIRST NAME</u></Col>
+                <Col><u>EMAIL</u></Col>
+                <Col><u>POSITION</u></Col>
+                <Col xs={2} />
+              </Row>
+              <div>
+              { profiles.map((account, index) => <ProfileTable key={account} eventKey={`${index}`} account={account} />) }
+              </div>
+            </Tab>
+            <Tab eventKey="rooms" title="Rooms">
               <DropdownButton title="Select Room...">
                 <Dropdown.Header>Lecture</Dropdown.Header>
                 {(RoomType(rooms).lecture).map((room) => <RoomDropdown key={room.type} room={room} />)}
@@ -82,14 +104,30 @@ const AdminManage = () => {
                 <Dropdown.Header>Study Room</Dropdown.Header>
                 {(RoomType(rooms).study).map((room) => <RoomDropdown key={room.type} room={room} />)}
               </DropdownButton>
-              <ProfileTable />
-            </Tab>
-            <Tab eventKey="rooms" title="Rooms">
-              <RoomTable />
             </Tab>
           </Tabs>
         </Col>
       </Row>
+      <Row>
+        <Col xs={6}>
+          {/* <Form inline className="mb-3"> */}
+          {/*  <FormControl */}
+          {/*    type="text" */}
+          {/*    placeholder="Filter by name..." */}
+          {/*    // value={} */}
+          {/*    // onChange={} */}
+          {/*  /> */}
+          {/* </Form> */}
+        </Col>
+        <Col className="d-flex justify-content-end">
+          <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
+            <Button variant="success">
+              + Add
+            </Button>
+          </div>
+        </Col>
+      </Row>
+
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Reserve Room</Modal.Title>

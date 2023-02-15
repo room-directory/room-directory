@@ -16,14 +16,14 @@ class UserProfileCollection extends BaseProfileCollection {
    * @param lastName The last name.
    * @param position The position of user: student, faculty, or office.
    */
-  define({ email, firstName, lastName, password, position }) {
+  define({ image, email, firstName, lastName, password, position, joined }) {
     // if (Meteor.isServer) {
     const username = email;
     const user = this.findOne({ email, firstName, lastName });
     if (!user) {
       const role = ROLE.USER;
       const userID = Users.define({ username, role, password });
-      const profileID = this._collection.insert({ email, firstName, lastName, userID, role, position });
+      const profileID = this._collection.insert({ image, email, firstName, lastName, userID, role, position, joined });
       // this._collection.update(profileID, { $set: { userID } });
       return profileID;
     }
@@ -38,9 +38,12 @@ class UserProfileCollection extends BaseProfileCollection {
    * @param firstName new first name (optional).
    * @param lastName new last name (optional).
    */
-  update(docID, { firstName, lastName, position }) {
+  update(docID, { image, firstName, lastName, position }) {
     this.assertDefined(docID);
     const updateData = {};
+    if (image) {
+      updateData.image = image;
+    }
     if (firstName) {
       updateData.firstName = firstName;
     }
@@ -99,11 +102,12 @@ class UserProfileCollection extends BaseProfileCollection {
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
+    const image = doc.image;
     const email = doc.email;
     const firstName = doc.firstName;
     const lastName = doc.lastName;
     const position = doc.position;
-    return { email, firstName, lastName, position }; // CAM this is not enough for the define method. We lose the password.
+    return { image, email, firstName, lastName, position }; // CAM this is not enough for the define method. We lose the password.
   }
 }
 

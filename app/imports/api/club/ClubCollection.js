@@ -1,46 +1,34 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { _ } from 'meteor/underscore';
 import { check } from 'meteor/check';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
-export const roomType = ['conference', 'lecture', 'study room', 'office'];
-export const roomPublications = {
-  room: 'Room',
+export const clubPublications = {
+  club: 'Club',
 };
 
-class RoomCollection extends BaseCollection {
+class ClubCollection extends BaseCollection {
   constructor() {
-    super('Room', new SimpleSchema({
-      roomNumber: String,
-      building: String,
-      type: {
-        type: String,
-        allowedValues: roomType,
-        defaultValue: 'conference',
-      },
-      occupants: Array,
-      'occupants.$': String,
-      squareFt: Number,
+    super('Club', new SimpleSchema({
+      clubName: String,
+      rio: [String],
+      advisor: [String],
     }));
   }
 
   /**
-   * Defines a new Room item.
-   * @param name the name of the item.
-   * @param quantity how many.
-   * @param owner the owner of the item.
-   * @param condition the condition of the item.
+   * Defines a new Club item.
+   * @param clubName name of the club.
+   * @param rio array of students in charge of the club.
+   * @param advisor array of advisors for the club.
    * @return {String} the docID of the new document.
    */
-  define({ roomNumber, building, type, occupants, squareFt }) {
+  define({ clubName, rio, advisor }) {
     const docID = this._collection.insert({
-      roomNumber,
-      building,
-      type,
-      occupants,
-      squareFt,
+      clubName,
+      rio,
+      advisor,
     });
     return docID;
   }
@@ -48,26 +36,20 @@ class RoomCollection extends BaseCollection {
   /**
    * Updates the given document.
    * @param docID the id of the document to update.
-   * @param name the new name (optional).
-   * @param quantity the new quantity (optional).
-   * @param condition the new condition (optional).
+   * @param clubName name of the club (optional).
+   * @param rio array of students in charge of the club (optional).
+   * @param advisor array of advisors for the club (optional).
    */
-  update(docID, { roomNumber, building, type, occupants, squareFt }) {
+  update(docID, { clubName, rio, advisor }) {
     const updateData = {};
-    if (roomNumber) {
-      updateData.roomNumber = roomNumber;
+    if (clubName) {
+      updateData.clubName = clubName;
     }
-    if (building) {
-      updateData.building = building;
+    if (rio) {
+      updateData.rio = rio;
     }
-    if (type) {
-      updateData.type = type;
-    }
-    if (occupants.length > 0) {
-      updateData.occupants = occupants;
-    }
-    if (_.isNumber(squareFt)) {
-      updateData.squareFt = squareFt;
+    if ((advisor)) {
+      updateData.advisor = advisor;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -93,7 +75,7 @@ class RoomCollection extends BaseCollection {
       // get the StuffCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(roomPublications.room, function publish() {
+      Meteor.publish(clubPublications.room, function publish() {
         if (this.userId) {
           return instance._collection.find();
         }
@@ -107,7 +89,7 @@ class RoomCollection extends BaseCollection {
    */
   subscribeRoom() {
     if (true) {
-      return Meteor.subscribe(roomPublications.room);
+      return Meteor.subscribe(clubPublications.room);
     }
     return null;
   }
@@ -129,16 +111,14 @@ class RoomCollection extends BaseCollection {
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
-    const roomNumber = doc.roomNumber;
-    const building = doc.building;
-    const type = doc.type;
-    const occupants = doc.occupants;
-    const squareFt = doc.squareFt;
-    return { roomNumber, building, type, occupants, squareFt };
+    const clubName = doc.clubName;
+    const rio = doc.rio;
+    const advisor = doc.advisor;
+    return { clubName, rio, advisor };
   }
 }
 
 /**
  * Provides the singleton instance of this class to all other entities.
  */
-export const Room = new RoomCollection();
+export const Club = new ClubCollection();
