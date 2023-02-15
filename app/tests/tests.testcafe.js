@@ -1,5 +1,5 @@
 // import { Selector, t } from 'testcafe';
-import { /* manageDatabasePage, */ signOutPage, studentRequestPage, facultyRequestPage, roomListPage, facultyInformationPage, profilePage, adminReservationPage } from './simple.page';
+import { /* manageDatabasePage, */ signOutPage, studentRequestPage, facultyRequestPage, roomListPage, facultyInformationPage, profilePage, adminManagePage } from './simple.page';
 import { landingPage } from './landing.page';
 import { signInPage } from './signin.page';
 import { signUpPage } from './signup.page';
@@ -126,7 +126,7 @@ test('Test that admin pages show up', async () => {
   // student requests
   await navBar.gotoStudentRequestsPage();
   await studentRequestPage.isDisplayed();
-  // admin reservation
-  await navBar.gotoAdminReservationPage();
-  await adminReservationPage.isDisplayed();
+  // admin manage
+  await navBar.gotoAdminManagePage();
+  await adminManagePage.isDisplayed();
 });

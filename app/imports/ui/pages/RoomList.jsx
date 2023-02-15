@@ -1,10 +1,11 @@
 import React from 'react';
-import { Container, Image, Row, Dropdown, DropdownButton, ButtonGroup } from 'react-bootstrap';
+import { Container, Row, Dropdown, DropdownButton, ButtonGroup } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Room } from '../../api/room/RoomCollection';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import LoadingSpinner from '../components/LoadingSpinner';
 import RoomInfoModal from '../components/RoomInfoModal';
+import SvgComponent from '../components/SvgComponent';
 
 /* TODO: change key value */
 const RoomList = () => {
@@ -23,6 +24,7 @@ const RoomList = () => {
       ready: rdy,
     };
   }, []);
+
   return (ready ? (
     <Container id={PAGE_IDS.ROOM_LIST} className="py-3">
       <Row>
@@ -36,7 +38,7 @@ const RoomList = () => {
         </ButtonGroup>
       </Row>
       <Row>
-        <Image className="py-3" src="/images/ICS3rdFloorDiagram.png" />
+        <SvgComponent rooms={rooms} />
       </Row>
       <Row>
         {rooms.map((room) => <RoomInfoModal key={room.roomNumber} room={room} />)}

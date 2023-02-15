@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, Container, Row, Table, DropdownButton, Dropdown } from 'react-bootstrap';
+import { Col, Container, Row, Table, DropdownButton, Dropdown, Form, InputGroup, Button } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import Faculty from '../components/Faculty';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -21,9 +21,18 @@ const FacultyInfo = () => {
       ready: rdy,
     };
   }, []);
+  let profilesList = profiles;
+  // create sorting method
   const [sortingBy, setSortingBy] = useState('lastName');
   const [category, setCategory] = useState('Last Name');
-  profiles.sort(function (a, b) {
+  const [filtered, setFiltered] = useState(false);
+  const [search, setSearch] = useState('');
+  if (filtered) {
+    profilesList = profiles.filter((profile) => `${profile.firstName} ${profile.lastName} ${profile.role} ${profile.email} ${profile.phone} ${profile.officeLocation}`.toLowerCase().includes(search.toLowerCase()));
+  } else {
+    profilesList = profiles;
+  }
+  profilesList.sort(function (a, b) {
     if (a[sortingBy] === b[sortingBy]) {
       return a.lastName.localeCompare(b.lastName);
     }
@@ -42,16 +51,25 @@ const FacultyInfo = () => {
           <Col className="text-center">
             <h2>Faculty Information</h2>
           </Col>
-          <Col style={{ display: 'flex' }}>
-            <DropdownButton id={COMPONENT_IDS.FACULTY_INFORMATION_SORT} title={`Sort by: ${category}`}>
-              <Dropdown.Item onClick={() => { setSortingBy('firstName'); setCategory('First Name'); }}>First Name</Dropdown.Item>
-              <Dropdown.Item onClick={() => { setSortingBy('lastName'); setCategory('Last Name'); }}>Last Name</Dropdown.Item>
-              <Dropdown.Item onClick={() => { setSortingBy('role'); setCategory('Role'); }}>Role</Dropdown.Item>
-              <Dropdown.Item onClick={() => { setSortingBy('officeLocation'); setCategory('Office'); }}>Office</Dropdown.Item>
-              <Dropdown.Item onClick={() => { setSortingBy('phone'); setCategory('Phone'); }}>Phone</Dropdown.Item>
-              <Dropdown.Item onClick={() => { setSortingBy('email'); setCategory('Email'); }}>Email</Dropdown.Item>
-            </DropdownButton>
-          </Col>
+          <Row>
+            <Col style={{ display: 'flex' }}>
+              <DropdownButton id={COMPONENT_IDS.FACULTY_INFORMATION_SORT} title={`Sort by: ${category}`}>
+                <Dropdown.Item onClick={() => { setSortingBy('firstName'); setCategory('First Name'); }}>First Name</Dropdown.Item>
+                <Dropdown.Item onClick={() => { setSortingBy('lastName'); setCategory('Last Name'); }}>Last Name</Dropdown.Item>
+                <Dropdown.Item onClick={() => { setSortingBy('role'); setCategory('Role'); }}>Role</Dropdown.Item>
+                <Dropdown.Item onClick={() => { setSortingBy('officeLocation'); setCategory('Office'); }}>Office</Dropdown.Item>
+                <Dropdown.Item onClick={() => { setSortingBy('phone'); setCategory('Phone'); }}>Phone</Dropdown.Item>
+                <Dropdown.Item onClick={() => { setSortingBy('email'); setCategory('Email'); }}>Email</Dropdown.Item>
+              </DropdownButton>
+            </Col>
+            <Col xs={4} style={{ justifyContent: 'end' }}>
+              <InputGroup id={COMPONENT_IDS.FACULTY_INFORMATION_SEARCH} className="mb-3">
+                <Form.Control aria-label="Name" placeholder="Search for faculty" onChange={(e) => { setSearch(e.target.value); setFiltered(true); }} value={search} />
+                <Button onClick={() => { setFiltered(false); setSearch(''); }}>Clear</Button>
+              </InputGroup>
+            </Col>
+          </Row>
+
           <Table hover>
             <thead>
               <tr>
@@ -62,7 +80,7 @@ const FacultyInfo = () => {
               </tr>
             </thead>
             <tbody>
-              {profiles.map((faculty) => <Faculty key={faculty._id} faculty={faculty} />)}
+              {profilesList.map((faculty) => <Faculty key={faculty._id} faculty={faculty} />)}
             </tbody>
           </Table>
         </Col>

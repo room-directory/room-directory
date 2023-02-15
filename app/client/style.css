@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* Use Open Sans as the default sans serif font. */
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700|Source+Code+Pro:300,400,500,700");
 
@@ -55,6 +56,14 @@ body {
   float: right;
 }
 
+#faculty-information-search {
+  justify-content: end;
+}
+
+#faculty-information-search button {
+  background-color: var(--main-green);
+}
+
 #overlay {
   position: fixed;
   display: block;
@@ -76,15 +85,16 @@ body {
   border-radius: 20%;
 }
 
-.active {
+.active.nav-link {
   color:orange !important;
 }
+
 @media (max-width: 993px) {
   #tutorial-button {
     display: none;
   }
 }
-@charset "UTF-8";
+
 .react-datepicker__year-read-view--down-arrow,
 .react-datepicker__month-read-view--down-arrow,
 .react-datepicker__month-year-read-view--down-arrow, .react-datepicker__navigation-icon::before {
@@ -848,4 +858,20 @@ body {
   padding: 0;
   width: 1px;
   white-space: nowrap;
+}
+
+.elevated-container {
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+path {
+  fill: white;
+  pointer-events: auto;
+}
+
+.room:hover {
+  fill: lightgreen;
+  cursor: pointer;
+}
+svg {
 }
