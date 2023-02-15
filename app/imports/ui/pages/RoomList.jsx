@@ -12,8 +12,6 @@ import SvgComponent from '../components/SvgComponent';
 
 /* TODO: change key value */
 const RoomList = () => {
-  const [showSvg, setShowSvg] = useState(false);
-  const handleShowSvg = () => setShowSvg(!showSvg);
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   const { ready, rooms } = useTracker(() => {
     // Note that this subscription will get cleaned up
@@ -40,9 +38,6 @@ const RoomList = () => {
           <DropdownButton variant="light" title="Floor" className="border border-dark sharp me-3">
             <Dropdown.Item href="#/action-1">3</Dropdown.Item>
           </DropdownButton>
-          <div className="ms-auto">
-            <Button variant="light" type="button" className="btn me-auto" onClick={handleShowSvg}>{showSvg ? 'Map' : 'List'}</Button>
-          </div>
         </ButtonGroup>
       </Row>
       <Row>
