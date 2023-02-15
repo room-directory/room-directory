@@ -71,7 +71,7 @@ const AdminManage = () => {
     <Container id={PAGE_IDS.ADMIN_MANAGE} className="py-3 elevated-container">
       <Row className="d-flex">
         <Col style={{ width: '100%' }}>
-          <Button variant="primary" onClick={handleShow}>Make Reservation</Button>
+          <Button variant="primary" onClick={handleShow} style={{ marginBottom: 10 }}>Make Reservation</Button>
           <Tabs
             defaultActiveKey="profiles"
             id="uncontrolled-tab-example"
