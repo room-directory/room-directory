@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Image, Row, Dropdown, DropdownButton, ButtonGroup, Button } from 'react-bootstrap';
+import { Container, Row, Dropdown, DropdownButton, ButtonGroup, Button } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Room } from '../../api/room/RoomCollection';
 import { PAGE_IDS } from '../utilities/PageIDs';
@@ -45,18 +45,12 @@ const RoomList = () => {
           </div>
         </ButtonGroup>
       </Row>
-      {!showSvg ? (
-        <Container>
-          <Row>
-            <Image className="py-3" src="/images/ICS3rdFloorDiagram.png" />
-          </Row>
-          <Row>
-            {rooms.map((room) => <RoomInfoModal key={room.roomNumber} room={room} />)}
-          </Row>
-        </Container>
-      ) : (
+      <Row>
         <SvgComponent rooms={rooms} />
-      )}
+      </Row>
+      <Row>
+        {rooms.map((room) => <RoomInfoModal key={room.roomNumber} room={room} />)}
+      </Row>
     </Container>
   )
     : <LoadingSpinner />
