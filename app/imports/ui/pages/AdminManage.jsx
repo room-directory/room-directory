@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Button, Container, Row, Col, Modal, Form, Tabs, Tab } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { _ } from 'meteor/underscore';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Dropdown from 'react-bootstrap/Dropdown';
+// import DropdownButton from 'react-bootstrap/DropdownButton';
+// import Dropdown from 'react-bootstrap/Dropdown';
 import DatePicker from 'react-datepicker';
 import { PAGE_IDS } from '../utilities/PageIDs';
-import RoomDropdown from '../components/RoomDropdown';
+// import RoomDropdown from '../components/RoomDropdown';
 import { Room } from '../../api/room/RoomCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ProfileTable from '../components/ProfileTable';
@@ -14,6 +14,7 @@ import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 import RoomTable from '../components/RoomTable';
 
+/*
 function RoomType(room) {
   const lecture = [];
   const office = [];

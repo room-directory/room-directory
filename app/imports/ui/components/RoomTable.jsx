@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, Col, Container, Form, FormControl, Modal, Row, Table } from 'react-bootstrap';
+import { Button, Card, Col, Form, Modal, Row } from 'react-bootstrap';
 import swal from 'sweetalert';
-import { UserProfiles } from '../../api/user/UserProfileCollection';
+// import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { Room } from '../../api/room/RoomCollection';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
@@ -34,9 +34,9 @@ const RoomTable = ({ room, eventKey }) => {
   const typeList = ['conference', 'lecture', 'study room', 'office'];
 
   const submit = () => {
-    const newRoomNumber = document.getElementById(COMPONENT_IDS.EDIT_ROOM_NUMBER_ADMIN).value;
-    const newType = document.getElementById(COMPONENT_IDS.EDIT_ROOM_TYPE_ADMIN).value;
-    const newCapacity = document.getElementById(COMPONENT_IDS.EDIT_ROOM_CAPACITY_ADMIN).value;
+    // const newRoomNumber = document.getElementById(COMPONENT_IDS.EDIT_ROOM_NUMBER_ADMIN).value;
+    // const newType = document.getElementById(COMPONENT_IDS.EDIT_ROOM_TYPE_ADMIN).value;
+    // const newCapacity = document.getElementById(COMPONENT_IDS.EDIT_ROOM_CAPACITY_ADMIN).value;
 
     const updateData = { roomNumber: room.roomNumber, type: room.type, capacity: room.capacity };
     const collectionName = Room.getCollectionName();
@@ -115,6 +115,7 @@ RoomTable.propTypes = {
     type: PropTypes.string,
     capacity: PropTypes.number,
   }).isRequired,
+  eventKey: PropTypes.shape().isRequired,
 };
 
 export default RoomTable;
