@@ -1,23 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Col, Container, Form, FormControl, Row, Table } from 'react-bootstrap';
-// import { useTracker } from 'meteor/react-meteor-data';
-// import { Room } from '../../api/room/RoomCollection';
-// import LoadingSpinner from './LoadingSpinner';
+import { Button, Col, Container, Form, FormControl, Modal, Row, Table } from 'react-bootstrap';
 
 const RoomTable = () => {
-
-  // const { rooms, ready } = useTracker(() => {
-  //   const subscription = Room.subscribeRoom();
-  //   // Determine if the subscription is ready
-  //   const rdy = subscription.ready();
-  //   const items = Room.find({}).fetch();
-  //   return {
-  //     rooms: items,
-  //     ready: rdy,
-  //   };
-  // }, []);
-
+  const [showAddModal, setShowAddModal] = useState(false);
   const [filterText, setFilterText] = useState('');
   const [data, setData] = useState([
     { roomNumber: '301', type: 'lecture', capacity: 20 },
@@ -28,13 +14,10 @@ const RoomTable = () => {
     setFilterText(event.target.value);
   };
 
-  const addRow = () => {
-    setData([
-      ...data,
-      { roomNumber: 'Room Number',
-        type: 'Select Type',
-        capacity: 'Capacity #' },
-    ]);
+  const addRow = (event) => {
+    setData([...data, event]);
+    console.log('Add form submitted');
+    setShowAddModal(false);
   };
 
   const editRow = (index) => {
@@ -64,7 +47,7 @@ const RoomTable = () => {
         </Col>
         <Col xs={6} className="d-flex justify-content-end">
           <div className="text-right">
-            <Button variant="success" onClick={addRow}>
+            <Button variant="success" onClick={() => setShowAddModal(true)}>
               + Add
             </Button>
           </div>
@@ -98,6 +81,38 @@ const RoomTable = () => {
             ))}
           </tbody>
         </Table>
+
+        <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add Room</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={addRow}>
+              <Form.Group controlId="roomNumber">
+                <Form.Label>Room Number</Form.Label>
+                <Form.Control type="text" placeholder="Enter room number" />
+              </Form.Group>
+              <Form.Group controlId="type">
+                <Form.Label>Type</Form.Label>
+                <Form.Control type="text" placeholder="Enter type" />
+              </Form.Group>
+              <Form.Group controlId="capacity">
+                <Form.Label>Capacity</Form.Label>
+                <Form.Control type="number" placeholder="Enter capacity" />
+              </Form.Group>
+              <Button variant="primary" type="submit">
+                Save
+              </Button>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowAddModal(false)}>
+              Close
+            </Button>
+            <Button variant="primary">Save</Button>
+          </Modal.Footer>
+        </Modal>
+
       </Row>
     </Container>
   );
