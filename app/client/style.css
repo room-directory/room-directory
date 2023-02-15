@@ -50,9 +50,17 @@ body {
   flex: 0 !important;
 }
 
-#faculty-information-sort, #faculty-information-search {
+#faculty-information-sort {
   background-color: var(--main-green);
   float: right;
+}
+
+#faculty-information-search {
+  justify-content: end;
+}
+
+#faculty-information-search button {
+  background-color: var(--main-green);
 }
 
 #overlay {
