@@ -371,11 +371,114 @@
   ],
 
   "defaultRoomResourceData": [
-    {"roomNumber": "301", "capacity": 20, "chairs": 25, "desks": 10, "tv": 1, "phoneNumber": "929-2991", "dataJacks": 4 },
-    {"roomNumber": "318", "capacity": 20, "chairs": 35, "desks": 10, "tv": 1, "phoneNumber": "929-2991", "dataJacks": 4},
-    {"roomNumber": "315", "capacity": 10, "chairs": 30, "desks": 10, "tv": 1, "phoneNumber": "929-2991", "dataJacks": 4},
-    {"roomNumber": "302", "capacity": 30, "chairs": 25, "desks": 10, "tv": 1, "phoneNumber": "929-6454", "dataJacks": 4},
-    {"roomNumber": "304", "capacity": 5 , "chairs": 50, "desks": 20, "tv": 4, "phoneNumber": "929-4212", "dataJacks": 12}
+    {
+      "roomNumber": "301",
+      "capacity": 20, "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+        "number":  "123",
+        "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "318",
+      "capacity": 20,
+      "chairs": 35,
+      "desks": 10,
+      "tv": [
+        {
+        "number":  "456",
+        "location": "makai" },
+        {
+          "number":  "123",
+          "location": "mauka" }
+      ],
+      "phoneNumber": "929-2991",
+      "dataJacks": [{
+        "number":  "123",
+        "location": "windward"}]
+    },
+    {
+      "roomNumber": "315",
+      "capacity": 10,
+      "chairs": 30,
+      "desks": 10,
+      "tv": [{
+        "number":  "789",
+        "location": "windward" }],
+      "phoneNumber": "929-2991",
+      "dataJacks": [{
+        "number":  "123",
+        "location": "windward"}]
+    },
+    {
+      "roomNumber": "302",
+      "capacity": 30,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "012",
+        "location": "mauka"}],
+      "phoneNumber": "929-6454",
+      "dataJacks": [{
+        "number":  "123",
+        "location": "windward"}]
+    },
+    {
+      "roomNumber": "304",
+      "capacity": 5 ,
+      "chairs": 50,
+      "desks": 20,
+      "tv": [{
+        "number":  "345",
+        "location": "leeward"}],
+      "phoneNumber": "929-4212",
+      "dataJacks": [{
+        "number":  "123",
+        "location": "windward"}]
+    },
+    {
+      "roomNumber": "318B",
+      "capacity": 30,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "678",
+        "location": "makai"}],
+      "phoneNumber": "929-6454",
+      "dataJacks": [{
+        "number":  "123",
+        "location": "windward"}]
+    },
+    {
+      "roomNumber": "318A",
+      "capacity": 30,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "901",
+        "location": "mauka"}],
+      "phoneNumber": "929-6454",
+      "dataJacks": [{
+        "number":  "123",
+        "location": "windward"}]
+    }
+  ],
+
+  "defaultClubData": [
+    {"clubName":  "testClub", "rio":  ["Student1", "Student2", "Student3", "Student4", "Student5", "Student6"], "advisor":  ["Advisor1", "Advisor2"]},
+    {"clubName":  "testClub2", "rio":  "Student1", "advisor":  "Advisor1"}
   ],
 
   "public": {

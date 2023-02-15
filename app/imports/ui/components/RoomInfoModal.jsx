@@ -20,6 +20,7 @@ const RoomInfoModal = ({ room }) => {
       ready: rdy,
     };
   }, []);
+
   return (ready ? (
     <Col className="col-2 pb-4">
       <Button variant="light" className="border border-dark sharp me-3" onClick={handleShow}>
@@ -55,7 +56,7 @@ const RoomInfoModal = ({ room }) => {
                       </tr>
                       <tr>
                         <th scope="row">TV</th>
-                        <td className="ps-1">{resources.tv}</td>
+                        <td className="ps-1">{resources.tv.length}</td>
                       </tr>
                       <tr>
                         <th scope="row">Phone number</th>
@@ -63,7 +64,7 @@ const RoomInfoModal = ({ room }) => {
                       </tr>
                       <tr>
                         <th scope="row">Data jacks</th>
-                        <td className="ps-1">{resources.dataJacks}</td>
+                        <td className="ps-1">{resources.dataJacks.length}</td>
                       </tr>
                     </div>
                   </Collapse>

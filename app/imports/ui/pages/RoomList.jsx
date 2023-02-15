@@ -6,9 +6,6 @@ import { PAGE_IDS } from '../utilities/PageIDs';
 import LoadingSpinner from '../components/LoadingSpinner';
 import RoomInfoModal from '../components/RoomInfoModal';
 
-// const mockupRooms = [{ roomNumber: '001' }, { roomNumber: '002' }, { roomNumber: '003' }, { roomNumber: '004' }, { roomNumber: '005' }, { roomNumber: '006' }, { roomNumber: '007' },
-//   { roomNumber: '008' }, { roomNumber: '009' }, { roomNumber: '010' }];
-
 /* TODO: change key value */
 const RoomList = () => {
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker

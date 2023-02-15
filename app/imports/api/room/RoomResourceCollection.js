@@ -18,9 +18,13 @@ class RoomResourceCollection extends BaseCollection {
       capacity: Number,
       chairs: Number,
       desks: Number,
-      tv: Number,
       phoneNumber: String,
-      dataJacks: Number,
+      tv: [Object],
+      'tv.$.number': String,
+      'tv.$.location': String,
+      dataJacks: [Object],
+      'dataJacks.$.number': String,
+      'dataJacks.$.location': String,
     }));
   }
 
