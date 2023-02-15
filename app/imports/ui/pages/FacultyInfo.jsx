@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, Container, Row, Table, DropdownButton, Dropdown } from 'react-bootstrap';
+import { Col, Container, Row, Table, DropdownButton, Dropdown, Form, InputGroup, Button } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import Faculty from '../components/Faculty';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -21,21 +21,29 @@ const FacultyInfo = () => {
       ready: rdy,
     };
   }, []);
+  let profilesList = profiles;
   // create sorting method
   const [sortingBy, setSortingBy] = useState('lastName');
   const [category, setCategory] = useState('Last Name');
-  profiles.sort(function (a, b) {
-    if (a[sortingBy] === b[sortingBy]) {
-      return a.lastName.localeCompare(b.lastName);
-    }
-    if (['Not Available', 'No Email Contact', 'No Phone Contact', 'Unknown'].includes(a[sortingBy])) {
-      return 1;
-    }
-    if (['Not Available', 'No Email Contact', 'No Phone Contact', 'Unknown'].includes(b[sortingBy])) {
-      return -1;
-    }
-    return a[sortingBy].localeCompare(b[sortingBy]);
-  });
+  const [filtered, setFiltered] = useState(false);
+  if (filtered) {
+    profilesList = profiles.filter((profile) => `${profile.firstName} ${profile.lastName}`.includes('a'));
+  } else {
+    profiles.sort(function (a, b) {
+      if (a[sortingBy] === b[sortingBy]) {
+        return a.lastName.localeCompare(b.lastName);
+      }
+      if (['Not Available', 'No Email Contact', 'No Phone Contact', 'Unknown'].includes(a[sortingBy])) {
+        return 1;
+      }
+      if (['Not Available', 'No Email Contact', 'No Phone Contact', 'Unknown'].includes(b[sortingBy])) {
+        return -1;
+      }
+      return a[sortingBy].localeCompare(b[sortingBy]);
+    });
+    profilesList = profiles;
+  }
+
   return (ready ? (
     <Container id={PAGE_IDS.FACULTY_INFORMATION} className="py-3">
       <Row className="justify-content-center">
@@ -53,6 +61,13 @@ const FacultyInfo = () => {
               <Dropdown.Item onClick={() => { setSortingBy('email'); setCategory('Email'); }}>Email</Dropdown.Item>
             </DropdownButton>
           </Col>
+          <Col>
+            <InputGroup id={COMPONENT_IDS.FACULTY_INFORMATION_SEARCH} className="mb-3">
+              <InputGroup.Text>Search for faculty by name</InputGroup.Text>
+              <Form.Control aria-label="Name" onChange={() => { setFiltered(true); }} />
+              <Button onClick={() => setFiltered(false)}>Clear</Button>
+            </InputGroup>
+          </Col>
           <Table hover>
             <thead>
               <tr>
@@ -63,7 +78,7 @@ const FacultyInfo = () => {
               </tr>
             </thead>
             <tbody>
-              {profiles.map((faculty) => <Faculty key={faculty._id} faculty={faculty} />)}
+              {profilesList.map((faculty) => <Faculty key={faculty._id} faculty={faculty} />)}
             </tbody>
           </Table>
         </Col>

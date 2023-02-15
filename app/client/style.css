@@ -50,7 +50,7 @@ body {
   flex: 0 !important;
 }
 
-#faculty-information-sort {
+#faculty-information-sort, #faculty-information-search {
   background-color: var(--main-green);
   float: right;
 }
