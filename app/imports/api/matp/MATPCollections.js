@@ -27,7 +27,6 @@ class MATPClass {
       Reservations,
       Room,
       RoomResources,
-      Stuffs,
     ];
     /*
      * A list of collection class instances in the order required for them to be sequentially loaded from a file.
@@ -41,7 +40,6 @@ class MATPClass {
       Reservations,
       Room,
       RoomResources,
-      Stuffs,
     ];
 
     /*
