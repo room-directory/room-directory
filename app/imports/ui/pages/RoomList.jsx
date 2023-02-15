@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Container, Image, Row, Dropdown, DropdownButton, ButtonGroup, Button } from 'react-bootstrap';
+import React from 'react';
+import { Container, Row, Dropdown, DropdownButton, ButtonGroup } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Room } from '../../api/room/RoomCollection';
 import { PAGE_IDS } from '../utilities/PageIDs';
@@ -12,8 +12,6 @@ import SvgComponent from '../components/SvgComponent';
 
 /* TODO: change key value */
 const RoomList = () => {
-  const [showSvg, setShowSvg] = useState(false);
-  const handleShowSvg = () => setShowSvg(!showSvg);
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   const { ready, rooms } = useTracker(() => {
     // Note that this subscription will get cleaned up
@@ -40,23 +38,14 @@ const RoomList = () => {
           <DropdownButton variant="light" title="Floor" className="border border-dark sharp me-3">
             <Dropdown.Item href="#/action-1">3</Dropdown.Item>
           </DropdownButton>
-          <div className="ms-auto">
-            <Button variant="light" type="button" className="btn me-auto" onClick={handleShowSvg}>{showSvg ? 'Map' : 'List'}</Button>
-          </div>
         </ButtonGroup>
       </Row>
-      {!showSvg ? (
-        <Container>
-          <Row>
-            <Image className="py-3" src="/images/ICS3rdFloorDiagram.png" />
-          </Row>
-          <Row>
-            {rooms.map((room) => <RoomInfoModal key={room.roomNumber} room={room} />)}
-          </Row>
-        </Container>
-      ) : (
+      <Row>
         <SvgComponent rooms={rooms} />
-      )}
+      </Row>
+      <Row>
+        {rooms.map((room) => <RoomInfoModal key={room.roomNumber} room={room} />)}
+      </Row>
     </Container>
   )
     : <LoadingSpinner />
