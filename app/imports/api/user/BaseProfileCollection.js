@@ -12,6 +12,7 @@ rolesToCollectionNames[ROLE.USER] = 'UserProfileCollection';
 class BaseProfileCollection extends BaseCollection {
   constructor(type, schema) {
     super(type, schema.extend(new SimpleSchema({
+      image: String,
       email: String,
       firstName: String,
       lastName: String,
@@ -20,6 +21,10 @@ class BaseProfileCollection extends BaseCollection {
         type: String,
         allowedValues: ['student', 'faculty', 'office'],
         optional: true,
+      },
+      joined: {
+        type: Date,
+        defaultValue: new Date(),
       },
       userID: /^[23456789ABCDEFGHJKLMNPQRSTWXYZabcdefghijkmnopqrstuvwxyz]{17}$/,
     })));

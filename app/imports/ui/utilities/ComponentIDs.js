@@ -36,4 +36,7 @@ export const COMPONENT_IDS = {
   // EDIT PROFILE
   EDIT_PROFILE_FORM_FIRST_NAME: 'edit-profile-form-first-name',
   EDIT_PROFILE_FORM_LAST_NAME: 'edit-profile-form-last-name',
+  EDIT_PROFILE_FIRST_NAME_ADMIN: 'edit-profile-first-name-admin',
+  EDIT_PROFILE_LAST_NAME_ADMIN: 'edit-profile-last-name-admin',
+  EDIT_PROFILE_POSITION_ADMIN: 'edit-profile-position-admin',
 };
