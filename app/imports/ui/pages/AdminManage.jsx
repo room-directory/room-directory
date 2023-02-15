@@ -78,7 +78,8 @@ const AdminManage = () => {
             className="mb-3"
           >
             <Tab eventKey="profiles" title="Profiles">
-              <Row className="px-m3 py-2">
+
+              <Row className="px-m3 py-2" style={{padding:10}}>
                 <Col><b>LAST NAME</b></Col>
                 <Col><b>FIRST NAME</b></Col>
                 <Col><b>EMAIL</b></Col>
@@ -86,7 +87,9 @@ const AdminManage = () => {
                 <Col xs={1} />
                 <Col xs={1} />
               </Row>
+              <div>
               { profiles.map((account, index) => <ProfileTable key={account} eventKey={`${index}`} account={account} />) }
+              </div>
             </Tab>
             <Tab eventKey="rooms" title="Rooms">
               <DropdownButton title="Select Room...">
@@ -117,8 +120,8 @@ const AdminManage = () => {
           {/*  /> */}
           {/* </Form> */}
         </Col>
-        <Col xs={6} className="d-flex justify-content-end">
-          <div className="text-right">
+        <Col className="d-flex justify-content-end">
+          <div className="text-right" style={{ paddingRight: 30, paddingTop: 10 }}>
             <Button variant="success">
               + Add
             </Button>

@@ -54,8 +54,8 @@ const ProfileTable = ({ account, eventKey }) => {
           <Col>{`${account.firstName}`}</Col>
           <Col>{account.email}</Col>
           <Col>{account.position}</Col>
-          <Col xs={1}><Button variant="primary" onClick={() => setShow(true)}>Edit</Button></Col>
-          <Col xs={1}><Button variant="danger" onClick={del}>Delete</Button></Col>
+          <Col xs={1}><Button variant="primary" style={{display: 'flex', justifyContent:'flex-end'}} onClick={() => setShow(true)}>Edit</Button></Col>
+          <Col xs={1}><Button variant="danger" style={{display: 'flex', justifyContent:'flex-end'}} onClick={del}>Delete</Button></Col>
         </Row>
       </Card.Header>
 
@@ -93,9 +93,11 @@ const ProfileTable = ({ account, eventKey }) => {
                     </Form.Group>
                   </Row>
                 </Row>
-                <Button variant="primary" type="submit" style={{ position: 'absolute', marginTop: 20, bottom: 10, marginLeft: 10 }} alt="Submit Changes" onClick={submit}>
+                <div style={{display: 'flex', justifyContent:'flex-end', paddingRight: 20}}>
+                <Button variant="primary" type="submit" alt="Submit Changes" onClick={submit}>
                   Submit Changes
                 </Button>
+                </div>
               </Form>
             </Modal.Body>
           </Modal>
