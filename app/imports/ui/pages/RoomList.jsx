@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Dropdown, DropdownButton, ButtonGroup, Button } from 'react-bootstrap';
+import { Container, Row, Dropdown, DropdownButton, ButtonGroup } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Room } from '../../api/room/RoomCollection';
 import { PAGE_IDS } from '../utilities/PageIDs';
