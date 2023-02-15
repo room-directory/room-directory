@@ -1,120 +1,110 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Col, Container, Form, FormControl, Modal, Row, Table } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, FormControl, Modal, Row, Table } from 'react-bootstrap';
+import swal from 'sweetalert';
+import { UserProfiles } from '../../api/user/UserProfileCollection';
+import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
+import { Room } from '../../api/room/RoomCollection';
+import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
-const RoomTable = () => {
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [filterText, setFilterText] = useState('');
-  const [data, setData] = useState([
-    { roomNumber: '301', type: 'lecture', capacity: 20 },
-    { roomNumber: '315', type: 'office', capacity: 10 },
-  ]);
-
-  const handleFilterTextChange = (event) => {
-    setFilterText(event.target.value);
+const RoomTable = ({ room, eventKey }) => {
+  const [show, setShow] = useState(false);
+  const del = () => {
+    const collectionName = Room.getCollectionName();
+    const instance = room.roomNumber;
+    swal({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      dangerMode: true,
+      buttons: true,
+    }).then((result) => {
+      if (result) {
+        removeItMethod.callPromise({ collectionName, instance })
+          .catch(error => swal('Error', error.message, 'error'))
+          .then(() => swal('Room has been deleted!', {
+            icon: 'success',
+          }));
+      } else {
+        swal('Room is safe!');
+      }
+    });
   };
 
-  const addRow = (event) => {
-    setData([...data, event]);
-    console.log('Add form submitted');
-    setShowAddModal(false);
-  };
+  const typeList = ['conference', 'lecture', 'study room', 'office'];
 
-  const editRow = (index) => {
-    const newData = [...data];
-    newData[index].roomNumber = 'Edited Room';
-    setData(newData);
-  };
+  const submit = () => {
+    const newRoomNumber = document.getElementById(COMPONENT_IDS.EDIT_ROOM_NUMBER_ADMIN).value;
+    const newType = document.getElementById(COMPONENT_IDS.EDIT_ROOM_TYPE_ADMIN).value;
+    const newCapacity = document.getElementById(COMPONENT_IDS.EDIT_ROOM_CAPACITY_ADMIN).value;
 
-  const deleteRow = (index) => {
-    const newData = [...data];
-    newData.splice(index, 1);
-    setData(newData);
+    const updateData = { roomNumber: room.roomNumber, type: room.type, capacity: room.capacity };
+    const collectionName = Room.getCollectionName();
+
+    updateMethod.callPromise({ collectionName, updateData })
+      .catch(error => swal('Error', error.message, 'error'))
+      .then(() => swal('Success', 'Room updated successfully', 'success'));
   };
 
   return (
-    <Container>
-      <Row>
-        <Col xs={6}>
-          <Form inline className="mb-3">
-            <FormControl
-              type="text"
-              placeholder="Filter by room..."
-              value={filterText}
-              onChange={handleFilterTextChange}
-            />
-          </Form>
-        </Col>
-        <Col xs={6} className="d-flex justify-content-end">
-          <div className="text-right">
-            <Button variant="success" onClick={() => setShowAddModal(true)}>
-              + Add
-            </Button>
-          </div>
-        </Col>
-      </Row>
-      <Row>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Room Number</th>
-              <th>Type</th>
-              <th>Capacity</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.filter((row) => row.roomNumber.toLowerCase().includes(filterText.toLowerCase())).map((row, index) => (
-              <tr key={row.roomNumber}>
-                <td>{row.roomNumber}</td>
-                <td>{row.type}</td>
-                <td>{row.capacity}</td>
-                <td>
-                  <Button variant="primary" onClick={() => editRow(index)}>
-                    Edit
-                  </Button>{' '}
-                  <Button variant="danger" onClick={() => deleteRow(index)}>
-                    Delete
+    <Card style={{ border: 'none', borderRadius: 0 }}>
+      <Card.Header style={eventKey % 2 === 0 ? { backgroundColor: 'whitesmoke', border: 'none' } : { backgroundColor: '#fbfbfb', border: 'none' }}>
+        <Row>
+          <Col>{`${room.roomNumber}`}</Col>
+          <Col>{room.type}</Col>
+          <Col>{room.capacity}</Col>
+          <Col xs={2}>
+            <Row>
+              <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="primary" onClick={() => setShow(true)}>Edit</Button></Col>
+              <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="danger" onClick={del}>Delete</Button></Col>
+            </Row>
+          </Col>
+        </Row>
+      </Card.Header>
+      {
+        show ? (
+          <Modal show={show} onHide={() => setShow(false)} centered dialogClassName="modal-90w">
+            <Modal.Header closeButton />
+            <Modal.Body>
+              <h4>Edit Room</h4>
+              <Form>
+                <Row style={{ paddingBottom: 20 }}>
+                  <Row>
+
+                    <Form.Group>
+                      Room Number *
+                      <Form.Control id={COMPONENT_IDS.EDIT_ROOM_NUMBER_ADMIN} defaultValue={room.roomNumber ? room.roomNumber : ''} />
+                    </Form.Group>
+                  </Row>
+                  <Row>
+                    <Form.Group>
+                      Room Type *
+                      <Form.Select id={COMPONENT_IDS.EDIT_ROOM_TYPE_ADMIN} placeholder="Select a type" options={typeList} style={{ marginBottom: 5 }} defaultValue={room.type ? room.type : ''}>
+                        <option disabled>Select</option>
+                        {typeList.map((name, index) => (
+                          <option value={name} key={index}>{name}</option>
+                        ))}
+                      </Form.Select>
+                    </Form.Group>
+                  </Row>
+                  <Row>
+                    <Form.Group>
+                      Room Capacity *
+                      <Form.Control id={COMPONENT_IDS.EDIT_ROOM_CAPACITY_ADMIN} defaultValue={room.capacity ? room.capacity : ''} />
+                    </Form.Group>
+                  </Row>
+                </Row>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: 25 }}>
+                  <Button variant="primary" type="submit" alt="Submit Changes" onClick={submit}>
+                    Submit Changes
                   </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-
-        <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Add Room</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form onSubmit={addRow}>
-              <Form.Group controlId="roomNumber">
-                <Form.Label>Room Number</Form.Label>
-                <Form.Control type="text" placeholder="Enter room number" />
-              </Form.Group>
-              <Form.Group controlId="type">
-                <Form.Label>Type</Form.Label>
-                <Form.Control type="text" placeholder="Enter type" />
-              </Form.Group>
-              <Form.Group controlId="capacity">
-                <Form.Label>Capacity</Form.Label>
-                <Form.Control type="number" placeholder="Enter capacity" />
-              </Form.Group>
-              <Button variant="primary" type="submit">
-                Save
-              </Button>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowAddModal(false)}>
-              Close
-            </Button>
-            <Button variant="primary">Save</Button>
-          </Modal.Footer>
-        </Modal>
-
-      </Row>
-    </Container>
+                </div>
+              </Form>
+            </Modal.Body>
+          </Modal>
+        ) : ''
+      }
+    </Card>
   );
 };
 

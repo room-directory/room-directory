@@ -12,6 +12,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import ProfileTable from '../components/ProfileTable';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
+import RoomTable from '../components/RoomTable';
 
 function RoomType(room) {
   const lecture = [];
@@ -79,7 +80,7 @@ const AdminManage = () => {
           >
             <Tab eventKey="profiles" title="Profiles">
 
-              <Row className="px-m3 py-2" style={{padding:15}}>
+              <Row className="px-m3 py-2" style={{ padding: 15 }}>
                 <Col><u>LAST NAME</u></Col>
                 <Col><u>FIRST NAME</u></Col>
                 <Col><u>EMAIL</u></Col>
@@ -87,11 +88,11 @@ const AdminManage = () => {
                 <Col xs={2} />
               </Row>
               <div>
-              { profiles.map((account, index) => <ProfileTable key={account} eventKey={`${index}`} account={account} />) }
+                { profiles.map((account, index) => <ProfileTable key={account} eventKey={`${index}`} account={account} />) }
               </div>
             </Tab>
             <Tab eventKey="rooms" title="Rooms">
-              <DropdownButton title="Select Room...">
+              {/* <DropdownButton title="Select Room...">
                 <Dropdown.Header>Lecture</Dropdown.Header>
                 {(RoomType(rooms).lecture).map((room) => <RoomDropdown key={room.type} room={room} />)}
                 <Dropdown.Divider />
@@ -103,7 +104,16 @@ const AdminManage = () => {
                 <Dropdown.Divider />
                 <Dropdown.Header>Study Room</Dropdown.Header>
                 {(RoomType(rooms).study).map((room) => <RoomDropdown key={room.type} room={room} />)}
-              </DropdownButton>
+              </DropdownButton> */}
+              <Row className="px-m3 py-2" style={{ padding: 15 }}>
+                <Col><u>ROOM NUMBER</u></Col>
+                <Col><u>TYPE</u></Col>
+                <Col><u>CAPACITY</u></Col>
+                <Col xs={2} />
+              </Row>
+              <div>
+                { rooms.map((room, index) => <RoomTable key={room} eventKey={`${index}`} room={room} />) }
+              </div>
             </Tab>
           </Tabs>
         </Col>
