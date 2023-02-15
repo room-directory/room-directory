@@ -69,7 +69,7 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
                         </tr>
                         <tr>
                           <th scope="row">TV</th>
-                          <td className="ps-1">{resources.tv}</td>
+                          <td className="ps-1">{resources.tv.length}</td>
                         </tr>
                         <tr>
                           <th scope="row">Phone number</th>
@@ -77,7 +77,7 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
                         </tr>
                         <tr>
                           <th scope="row">Data jacks</th>
-                          <td className="ps-1">{resources.dataJacks}</td>
+                          <td className="ps-1">{resources.dataJacks.length}</td>
                         </tr>
                       </div>
                     </Collapse>
