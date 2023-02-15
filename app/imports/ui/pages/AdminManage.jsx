@@ -79,7 +79,7 @@ const AdminManage = () => {
           >
             <Tab eventKey="profiles" title="Profiles">
 
-              <Row className="px-m3 py-2" style={{padding:15}}>
+              <Row className="px-m3 py-2" style={{ padding: 15 }}>
                 <Col><u>LAST NAME</u></Col>
                 <Col><u>FIRST NAME</u></Col>
                 <Col><u>EMAIL</u></Col>
@@ -87,7 +87,7 @@ const AdminManage = () => {
                 <Col xs={2} />
               </Row>
               <div>
-              { profiles.map((account, index) => <ProfileTable key={account} eventKey={`${index}`} account={account} />) }
+                { profiles.map((account, index) => <ProfileTable key={account} eventKey={`${index}`} account={account} />) }
               </div>
             </Tab>
             <Tab eventKey="rooms" title="Rooms">
