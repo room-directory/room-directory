@@ -483,6 +483,11 @@
     {"clubName":  "testClub2", "rio":  "Student1", "advisor":  "Advisor1"}
   ],
 
+  "defaultFacultyRequest": [
+    { "requestID": "testID0", "firstName": "John", "lastName": "Foo", "email": "john@foo.com", "roomNumber": 303, "startTime": "2023-02-01T06:00:00Z", "endTime": "2023-02-01T08:00:00Z", "date": "2023-02-01", "status": "approved", "reason": "Test Reason", "numPeople": 20 },
+    { "requestID": "testID1", "firstName": "Jane", "lastName": "Foo", "email": "jane@foo.com", "roomNumber": 318, "startTime": "2023-02-01T06:00:00Z", "endTime": "2023-02-01T08:00:00Z", "date": "2023-02-01", "status": "denied", "reason": "Test Reason", "numPeople": 5 }
+  ],
+
   "public": {
     "development": true
   }
