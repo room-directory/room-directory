@@ -6,20 +6,21 @@ import { NavLink } from 'react-router-dom';
 const Footer = () => {
   const divStyle = { paddingTop: '15px' };
   return (
-    <footer className="mt-auto bg-light">
+    <footer className="mt-auto bg-light text-center">
       <Container style={divStyle}>
-        <Col className="text-center">
-          <Image src="/images/uh-logo.jpg" roundedCircle />
+        <Col>
           <Row>
-            <br />
             <Col>
-              <a href="http://ics-software-engineering.github.io/meteor-application-template-production">Room Directory Home Page</a>
+              <Image src="/images/uh-logo.jpg" roundedCircle />
             </Col>
             <Col>
-              <a href="https://github.com/room-directory/room-directory">Contact Us</a>
+              <a href="https://room-directory.github.io/" className="text-white">Room Directory Home Page</a>
             </Col>
             <Col>
-              <NavLink to="/signup">Register</NavLink>
+              <a href="https://github.com/room-directory/room-directory" className="text-white">Contact Us</a>
+            </Col>
+            <Col>
+              <NavLink to="/signup" className="text-white">Register</NavLink>
             </Col>
           </Row>
           <br />
