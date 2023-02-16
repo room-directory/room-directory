@@ -8,7 +8,6 @@ import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
 const ProfileTable = ({ account, eventKey }) => {
   const [show, setShow] = useState(false);
-
   const del = () => {
     const collectionName = UserProfiles.getCollectionName();
     const instance = account._id;

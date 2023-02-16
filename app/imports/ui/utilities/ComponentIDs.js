@@ -29,7 +29,9 @@ export const COMPONENT_IDS = {
   SIGN_UP_FORM_POSITION: 'sign-up-form-position',
   SIGN_UP_FORM_SUBMIT: 'sign-up-form-submit',
   FACULTY_INFORMATION_SORT: 'faculty-information-sort',
+  FACULTY_INFORMATION_SEARCH: 'faculty-information-search',
   ADMIN_MANAGE: 'admin-manage',
+  ADMIN_RESERVATION: 'admin-reservation',
 
   // EDIT PROFILE
   EDIT_PROFILE_FORM_FIRST_NAME: 'edit-profile-form-first-name',
@@ -37,4 +39,11 @@ export const COMPONENT_IDS = {
   EDIT_PROFILE_FIRST_NAME_ADMIN: 'edit-profile-first-name-admin',
   EDIT_PROFILE_LAST_NAME_ADMIN: 'edit-profile-last-name-admin',
   EDIT_PROFILE_POSITION_ADMIN: 'edit-profile-position-admin',
+
+  // EDIT ROOM
+  EDIT_ROOM_NUMBER_ADMIN:
+    'edit-room-number-admin',
+  EDIT_ROOM_TYPE_ADMIN:
+      'edit-room-type-admin',
+  EDIT_ROOM_CAPACITY_ADMIN: 'edit-room-capacity-admin',
 };

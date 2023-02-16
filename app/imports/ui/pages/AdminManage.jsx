@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import { Button, Container, Row, Col, Modal, Form, Tabs, Tab } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { _ } from 'meteor/underscore';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Dropdown from 'react-bootstrap/Dropdown';
+// import DropdownButton from 'react-bootstrap/DropdownButton';
+// import Dropdown from 'react-bootstrap/Dropdown';
 import DatePicker from 'react-datepicker';
 import { PAGE_IDS } from '../utilities/PageIDs';
-import RoomDropdown from '../components/RoomDropdown';
+// import RoomDropdown from '../components/RoomDropdown';
 import { Room } from '../../api/room/RoomCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ProfileTable from '../components/ProfileTable';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
+import RoomTable from '../components/RoomTable';
 
+/*
 function RoomType(room) {
   const lecture = [];
   const office = [];
@@ -91,7 +93,7 @@ const AdminManage = () => {
               </div>
             </Tab>
             <Tab eventKey="rooms" title="Rooms">
-              <DropdownButton title="Select Room...">
+              {/* <DropdownButton title="Select Room...">
                 <Dropdown.Header>Lecture</Dropdown.Header>
                 {(RoomType(rooms).lecture).map((room) => <RoomDropdown key={room.type} room={room} />)}
                 <Dropdown.Divider />
@@ -103,7 +105,16 @@ const AdminManage = () => {
                 <Dropdown.Divider />
                 <Dropdown.Header>Study Room</Dropdown.Header>
                 {(RoomType(rooms).study).map((room) => <RoomDropdown key={room.type} room={room} />)}
-              </DropdownButton>
+              </DropdownButton> */}
+              <Row className="px-m3 py-2" style={{ padding: 15 }}>
+                <Col><u>ROOM NUMBER</u></Col>
+                <Col><u>TYPE</u></Col>
+                <Col><u>CAPACITY</u></Col>
+                <Col xs={2} />
+              </Row>
+              <div>
+                { rooms.map((room, index) => <RoomTable key={room} eventKey={`${index}`} room={room} />) }
+              </div>
             </Tab>
           </Tabs>
         </Col>

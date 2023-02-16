@@ -56,6 +56,14 @@ body {
   float: right;
 }
 
+#faculty-information-search {
+  justify-content: end;
+}
+
+#faculty-information-search button {
+  background-color: var(--main-green);
+}
+
 #overlay {
   position: fixed;
   display: block;
