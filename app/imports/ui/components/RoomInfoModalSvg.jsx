@@ -62,6 +62,16 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
                   <th scope="row">Room type</th>
                   <td>Conference</td>
                 </tr>
+                <tr>
+                  <th scope="row">Square Feet</th>
+                  <td>{room.squareFt}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Occupants</th>
+                  <td>
+                    {room.occupants.length}
+                  </td>
+                </tr>
                 { currentUser !== '' && (user?.position === 'office' || Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) ?
                   ([
                     <tr>
@@ -133,6 +143,8 @@ RoomInfoModalSvg.propTypes = {
   room: PropTypes.shape({
     roomNumber: PropTypes.string,
     type: PropTypes.string,
+    occupants: PropTypes.arrayOf(PropTypes.string),
+    squareFt: PropTypes.number,
     _id: PropTypes.string,
   }),
   display: PropTypes.bool.isRequired,
