@@ -11,6 +11,7 @@ import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 import { ROLE } from '../../api/role/Role';
 import RoomInfoModalDetails from './RoomInfoModalDetails';
 
+/* TODO: display names of occupants */
 /** The RoomInfoModalSVG appears at the bottom of the Room List page. */
 const RoomInfoModal = ({ room }) => {
   const [show, setShow] = useState(false);
@@ -46,7 +47,17 @@ const RoomInfoModal = ({ room }) => {
             <thead>
               <tr>
                 <th scope="row">Room type</th>
-                <td>Conference</td>
+                <td>{room.type.toUpperCase()}</td>
+              </tr>
+              <tr>
+                <th scope="row">Square Feet</th>
+                <td>{room.squareFt}</td>
+              </tr>
+              <tr>
+                <th scope="row">Occupants</th>
+                <td>
+                  {room.occupants.length}
+                </td>
               </tr>
               { currentUser !== '' && (user?.position === 'office' || Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) ?
                 ([
@@ -118,6 +129,8 @@ RoomInfoModal.propTypes = {
   room: PropTypes.shape({
     roomNumber: PropTypes.string,
     type: PropTypes.string,
+    occupants: PropTypes.arrayOf(PropTypes.string),
+    squareFt: PropTypes.number,
     _id: PropTypes.string,
   }).isRequired,
 };

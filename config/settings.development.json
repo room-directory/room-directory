@@ -20,7 +20,7 @@
   ],
 
   "defaultRoomData": [
-    {"roomNumber": "301", "building": "POST", "type": "lecture", "occupants": ["BWmRadttWBJ2HfGGg"], "squareFt": 20},
+    {"roomNumber": "301", "building": "POST", "type": "lecture", "occupants": ["x76isFyiZpWF9L6iD"], "squareFt": 20},
     {"roomNumber": "318", "building": "POST", "type": "lecture", "occupants": ["BWmRadttWBJ2HfGGg"], "squareFt": 20},
     {"roomNumber": "318A", "building": "POST", "type": "lecture", "occupants": ["BWmRadttWBJ2HfGGg"], "squareFt": 20},
     {"roomNumber": "318B", "building": "POST", "type": "lecture", "occupants": ["PHjNS7SEQE8LZd46J"], "squareFt": 20},
