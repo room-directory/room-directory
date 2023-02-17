@@ -9,6 +9,7 @@ import LoadingSpinner from './LoadingSpinner';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 import { ROLE } from '../../api/role/Role';
+import RoomInfoModalDetails from './RoomInfoModalDetails';
 
 /* TODO: implement into RoomInfoModal.jsx file */
 /** The RoomInfoModalSVG appears when clicking on a room in the Room List page. */
@@ -61,7 +62,7 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
                   <th scope="row">Room type</th>
                   <td>Conference</td>
                 </tr>
-                {currentUser !== '' && (user?.position === 'office' || Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) ?
+                { currentUser !== '' && (user?.position === 'office' || Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) ?
                   ([
                     <tr>
                       <th scope="row">Capacity</th>
@@ -70,24 +71,30 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
                     <tr>
                       <th scope="row" className="align-top">Resources</th>
                       <td>
-                        <tr className="d-flex">
-                          <th scope="row" className="pe-3">Chairs</th>
-                          <td className="ps-5">{resources.chairs}</td>
+                        <tr>
+                          <th scope="row">Chairs: </th>
+                          <td className="ps-3">{resources.chairs}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">TV: </th>
+                          <td className="ps-3">{resources.tv.length}</td>
                         </tr>
                         <Collapse in={showMore}>
                           <div>
-                            <tr>
-                              <th scope="row">TV</th>
-                              <td className="ps-1">{resources.tv.length}</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Phone number</th>
-                              <td className="ps-1">{resources.phoneNumber}</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">Data jacks</th>
-                              <td className="ps-1">{resources.dataJacks.length}</td>
-                            </tr>
+                            {resources.tv.map((tv) => <RoomInfoModalDetails key={tv.number} details={tv} />)}
+                          </div>
+                        </Collapse>
+                        <tr>
+                          <th scope="row">Phone number: </th>
+                          <td className="ps-3">{resources.phoneNumber}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Data jacks: </th>
+                          <td className="ps-3">{resources.dataJacks.length}</td>
+                        </tr>
+                        <Collapse in={showMore}>
+                          <div>
+                            {resources.dataJacks.map((dataJacks) => <RoomInfoModalDetails key={dataJacks.number} details={dataJacks} />)}
                           </div>
                         </Collapse>
                         <button
@@ -97,7 +104,7 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
                           aria-expanded={showMore}
                           className="btn btn-link"
                         >
-                          {showMore ? 'Show less' : 'Show more'}
+                          {showMore ? 'Show less' : 'Show More'}
                         </button>
                       </td>
                     </tr>,
