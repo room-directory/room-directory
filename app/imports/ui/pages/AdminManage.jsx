@@ -126,7 +126,7 @@ const AdminManage = () => {
               </div>
               <Col className="d-flex justify-content-end">
                 <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
-                  <Button variant="success" onClick={() => {setShowAddRoom(true); console.log("wow")}}>
+                  <Button variant="success" onClick={() => setShowAddRoom(true)}>
                     + Add Room
                   </Button>
                 </div>
