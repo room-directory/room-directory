@@ -67,6 +67,7 @@ const NavBar = ({ highlight, changeHighlight, counter, incrementCounter, decreme
           <Navbar.Collapse id={COMPONENT_IDS.NAVBAR_COLLAPSE}>
             <Nav className="me-auto justify-content-start">
               <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_INFORMATION} as={NavLink} to="/faculty" key="Faculty" className={counter === 1 ? highlight : ''}>Faculty Information</Nav.Link>
+              <Nav.Link id={COMPONENT_IDS.NAVBAR_CLUB_INFORMATION} as={NavLink} to="/club" key="Club">Club Information</Nav.Link>
               { currentUser !== '' ?
                 ([
                   <Nav.Link id={COMPONENT_IDS.NAVBAR_ROOM_LIST} as={NavLink} to="/roomlist" key="add" className={counter === 2 ? highlight : ''}>Room List</Nav.Link>,

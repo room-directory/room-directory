@@ -75,7 +75,7 @@ class ClubCollection extends BaseCollection {
       // get the StuffCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(clubPublications.room, function publish() {
+      Meteor.publish(clubPublications.club, function publish() {
         if (this.userId) {
           return instance._collection.find();
         }
@@ -87,9 +87,9 @@ class ClubCollection extends BaseCollection {
   /**
    * Subscription method for stuff owned by the current user.
    */
-  subscribeRoom() {
-    if (true) {
-      return Meteor.subscribe(clubPublications.room);
+  subscribeClub() {
+    if (Meteor.isClient) {
+      return Meteor.subscribe(clubPublications.club);
     }
     return null;
   }

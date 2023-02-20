@@ -8,6 +8,7 @@ import { StudentRequests } from '../request/StudentRequestCollection';
 import { Reservations } from '../reservation/ReservationCollection';
 import { Room } from '../room/RoomCollection';
 import { RoomResources } from '../room/RoomResourceCollection';
+import { Club } from '../club/ClubCollection';
 
 class MATPClass {
   collections;
@@ -27,6 +28,7 @@ class MATPClass {
       Reservations,
       Room,
       RoomResources,
+      Club,
       Stuffs,
     ];
     /*
@@ -41,6 +43,7 @@ class MATPClass {
       Reservations,
       Room,
       RoomResources,
+      Club,
       Stuffs,
     ];
 
