@@ -115,7 +115,7 @@ RoomTable.propTypes = {
     type: PropTypes.string,
     capacity: PropTypes.number,
   }).isRequired,
-  eventKey: PropTypes.shape().isRequired,
+  eventKey: PropTypes.string.isRequired,
 };
 
 export default RoomTable;
