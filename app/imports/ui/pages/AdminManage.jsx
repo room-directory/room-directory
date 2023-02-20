@@ -13,6 +13,7 @@ import ProfileTable from '../components/ProfileTable';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 import RoomTable from '../components/RoomTable';
+import AddRoomModal from '../components/AddRoomModal';
 
 /*
 function RoomType(room) {
@@ -51,7 +52,7 @@ const AdminManage = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
-  const [showAdd, setShowAdd] = useState(false);
+  const [showAddRoom, setShowAddRoom] = useState(false);
 
   const { rooms, profiles, ready } = useTracker(() => {
     const roomSubscription = Room.subscribeRoom();
@@ -95,7 +96,7 @@ const AdminManage = () => {
               <Col className="d-flex justify-content-end">
                 <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
                   <Button variant="success">
-                    + Add Room {showAdd ? 'wow' : ''}
+                    + Add
                   </Button>
                 </div>
               </Col>
@@ -125,8 +126,8 @@ const AdminManage = () => {
               </div>
               <Col className="d-flex justify-content-end">
                 <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
-                  <Button variant="success">
-                    + Add
+                  <Button variant="success" onClick={() => {setShowAddRoom(true); console.log("wow")}}>
+                    + Add Room
                   </Button>
                 </div>
               </Col>
@@ -212,6 +213,7 @@ const AdminManage = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      <AddRoomModal setShowAddRoom={setShowAddRoom} showAddRoom={showAddRoom} />
     </Container>
   ) : <LoadingSpinner />);
 };

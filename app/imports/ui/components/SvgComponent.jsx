@@ -12,7 +12,6 @@ const SvgComponent = ({ rooms }) => {
   const handleRoomNumber = (number) => setRoomNumber(number);
   const getRoomNumber = () => roomNumber;
   const showResourceModal = (number) => {
-    showDisplay();
     handleRoomNumber(number.currentTarget.id);
     showDisplay();
   };
