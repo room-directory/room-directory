@@ -8,6 +8,7 @@ import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } 
 // import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { Room } from '../../api/room/RoomCollection';
+import { RoomResources } from '../../api/room/RoomResourceCollection';
 
 const typeList = ['conference', 'lecture', 'study room', 'office'];
 const buildingList = ['POST', 'building2'];
@@ -28,14 +29,12 @@ const formSchema = new SimpleSchema({
   'occupants.$': String,
   squareFt: Number,
 });
-
 const bridge = new SimpleSchema2Bridge(formSchema);
-
 const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
   const submit = (data, formRef) => {
     const { roomNumber, building, type, occupants, squareFt } = data;
-    const definitionData = { roomNumber, building, type, occupants, squareFt };
-    const collectionName = Room.getCollectionName();
+    let definitionData = { roomNumber, building, type, occupants, squareFt };
+    let collectionName = Room.getCollectionName();
     if (Room.findOne({ roomNumber: data.roomNumber, building: data.building })) {
       swal('Error', 'That room exists already!', 'error');
       return;
@@ -43,6 +42,10 @@ const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
     defineMethod.callPromise({ collectionName, definitionData })
       .catch(error => swal('Error', error.message, 'error'))
       .then(() => swal('Success', 'Room added successfully', 'success'));
+    collectionName = RoomResources.getCollectionName();
+    definitionData = { roomNumber, capacity: -1, chairs: -1, desks: -1, phoneNumber: '-1', tv: [{ number: 'unknown', location: 'somewhere' }], dataJacks: [{ number: 'unkown', location: 'somewhere' }] };
+    defineMethod.callPromise({ collectionName, definitionData })
+      .catch(error => swal('Error', error.message, 'error'));
     formRef.reset();
   };
 
