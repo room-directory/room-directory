@@ -68,7 +68,7 @@ class ClubCollection extends BaseCollection {
 
   /**
    * Default publication method for entities.
-   * It publishes the entire collection for admin and just the stuff associated to an owner.
+   * It publishes the entire collection for all users (no login required).
    */
   publish() {
     if (Meteor.isServer) {
@@ -76,10 +76,7 @@ class ClubCollection extends BaseCollection {
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
       Meteor.publish(clubPublications.club, function publish() {
-        if (this.userId) {
-          return instance._collection.find();
-        }
-        return this.ready();
+        return instance._collection.find();
       });
     }
   }
