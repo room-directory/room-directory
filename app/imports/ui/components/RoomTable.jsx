@@ -72,8 +72,15 @@ const RoomTable = ({ room, eventKey }) => {
                   <Row>
 
                     <Form.Group>
+                      Building *
+                      <Form.Control id={COMPONENT_IDS.EDIT_BUILDING_ADMIN} defaultValue={room.building ? room.building : ''} disabled />
+                    </Form.Group>
+                  </Row>
+                  <Row>
+
+                    <Form.Group>
                       Room Number *
-                      <Form.Control id={COMPONENT_IDS.EDIT_ROOM_NUMBER_ADMIN} defaultValue={room.roomNumber ? room.roomNumber : ''} />
+                      <Form.Control id={COMPONENT_IDS.EDIT_ROOM_NUMBER_ADMIN} defaultValue={room.roomNumber ? room.roomNumber : ''} disabled />
                     </Form.Group>
                   </Row>
                   <Row>
@@ -111,11 +118,12 @@ const RoomTable = ({ room, eventKey }) => {
 /* Referencing the Room Collection */
 RoomTable.propTypes = {
   room: PropTypes.shape({
+    building: PropTypes.string,
     roomNumber: PropTypes.string,
     type: PropTypes.string,
     capacity: PropTypes.number,
   }).isRequired,
-  eventKey: PropTypes.shape().isRequired,
+  eventKey: PropTypes.string.isRequired,
 };
 
 export default RoomTable;

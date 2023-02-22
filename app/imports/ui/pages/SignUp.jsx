@@ -23,6 +23,7 @@ const SignUp = () => {
     lastName: String,
     email: String,
     password: String,
+    image: String,
     position: {
       type: String,
       allowedValues: ['student', 'faculty', 'office'],
@@ -71,6 +72,7 @@ const SignUp = () => {
                 <TextField id={COMPONENT_IDS.SIGN_UP_FORM_LAST_NAME} name="lastName" placeholder="Last name" />
                 <TextField id={COMPONENT_IDS.SIGN_UP_FORM_EMAIL} name="email" placeholder="E-mail address" />
                 <TextField id={COMPONENT_IDS.SIGN_UP_FORM_PASSWORD} name="password" placeholder="Password" type="password" />
+                <TextField id={COMPONENT_IDS.SIGN_UP_FORM_IMAGE} name="image" placeholder="Image" />
                 <SelectField id={COMPONENT_IDS.SIGN_UP_FORM_POSITION} name="position" placeholder="Position" />
                 <ErrorsField />
                 <SubmitField id={COMPONENT_IDS.SIGN_UP_FORM_SUBMIT} />

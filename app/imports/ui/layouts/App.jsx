@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
+import { useTracker } from 'meteor/react-meteor-data';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
@@ -26,9 +27,17 @@ import RequestRoomForm from '../pages/RequestRoomForm';
 import AddReservation from '../pages/AddReservation';
 import AdminManage from '../pages/AdminManage';
 import ClubInfo from '../pages/ClubInfo';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
+  const { ready } = useTracker(() => {
+    const rdy = Roles.subscription.ready();
+    return {
+      ready: rdy,
+    };
+  });
+  console.log(`App Roles ${ready}`);
   const [overlay, setOverlay] = useState(false);
   const changeOverlay = () => setOverlay(!overlay);
   const [highlight, setHighlight] = useState('');
@@ -63,7 +72,7 @@ const App = () => {
           <Route path="/edit-profile/:_id" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
           <Route path="/roomlist" element={<ProtectedRoute><RoomList /></ProtectedRoute>} />
           <Route path="/reservation" element={<ProtectedRoute><AdminReservation /></ProtectedRoute>} />
-          <Route path="/manage" element={<ProtectedRoute><AdminManage /></ProtectedRoute>} />
+          <Route path="/manage" element={<AdminProtectedRoute ready={ready}><AdminManage /></AdminProtectedRoute>} />
           <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
           <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
           <Route path="/admin" element={<AdminProtectedRoute><ListStuffAdmin /></AdminProtectedRoute>} />
@@ -97,10 +106,13 @@ const ProtectedRoute = ({ children }) => {
  * Checks for Meteor login and admin role before routing to the requested page, otherwise goes to signin page.
  * @param {any} { component: Component, ...rest }
  */
-const AdminProtectedRoute = ({ children }) => {
+const AdminProtectedRoute = ({ ready, children }) => {
   const isLogged = Meteor.userId() !== null;
   if (!isLogged) {
     return <Navigate to="/signin" />;
+  }
+  if (!ready) {
+    return <LoadingSpinner />;
   }
   const isAdmin = Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]);
   console.log('AdminProtectedRoute', isLogged, isAdmin);
@@ -118,10 +130,12 @@ ProtectedRoute.defaultProps = {
 
 // Require a component and location to be passed to each AdminProtectedRoute.
 AdminProtectedRoute.propTypes = {
+  ready: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
 };
 
 AdminProtectedRoute.defaultProps = {
+  ready: false,
   children: <Landing />,
 };
 

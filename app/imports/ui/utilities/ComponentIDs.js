@@ -27,6 +27,7 @@ export const COMPONENT_IDS = {
   SIGN_UP_FORM_LAST_NAME: 'sign-up-form-last-name',
   SIGN_UP_FORM_EMAIL: 'sign-up-form-email',
   SIGN_UP_FORM_PASSWORD: 'sign-up-form-password',
+  SIGN_UP_FORM_IMAGE: 'sign-up-form-image',
   SIGN_UP_FORM_POSITION: 'sign-up-form-position',
   SIGN_UP_FORM_SUBMIT: 'sign-up-form-submit',
   FACULTY_INFORMATION_SORT: 'faculty-information-sort',
@@ -48,4 +49,10 @@ export const COMPONENT_IDS = {
   EDIT_ROOM_TYPE_ADMIN:
       'edit-room-type-admin',
   EDIT_ROOM_CAPACITY_ADMIN: 'edit-room-capacity-admin',
+  EDIT_BUILDING_ADMIN: 'edit-building-admin',
+  // ADD ROOM
+  ADD_ROOM_NUMBER_ADMIN: 'add-room-number-admin',
+  ADD_ROOM_TYPE_ADMIN: 'add-room-type-admin',
+  ADD_ROOM_CAPACITY_ADMIN: 'add-room-capacity-admin',
+
 };

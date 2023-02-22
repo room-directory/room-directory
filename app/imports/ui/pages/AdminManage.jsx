@@ -13,6 +13,7 @@ import ProfileTable from '../components/ProfileTable';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 import RoomTable from '../components/RoomTable';
+import AddRoomModal from '../components/AddRoomModal';
 
 /*
 function RoomType(room) {
@@ -51,6 +52,7 @@ const AdminManage = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
+  const [showAddRoom, setShowAddRoom] = useState(false);
 
   const { rooms, profiles, ready } = useTracker(() => {
     const roomSubscription = Room.subscribeRoom();
@@ -89,8 +91,15 @@ const AdminManage = () => {
                 <Col xs={2} />
               </Row>
               <div>
-                { profiles.map((account, index) => <ProfileTable key={account} eventKey={`${index}`} account={account} />) }
+                { profiles.map((account, index) => <ProfileTable key={account._id} eventKey={`${index}`} account={account} />) }
               </div>
+              <Col className="d-flex justify-content-end">
+                <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
+                  <Button variant="success">
+                    + Add
+                  </Button>
+                </div>
+              </Col>
             </Tab>
             <Tab eventKey="rooms" title="Rooms">
               {/* <DropdownButton title="Select Room...">
@@ -113,8 +122,15 @@ const AdminManage = () => {
                 <Col xs={2} />
               </Row>
               <div>
-                { rooms.map((room, index) => <RoomTable key={room} eventKey={`${index}`} room={room} />) }
+                { rooms.map((room, index) => <RoomTable key={room._id} eventKey={`${index}`} room={room} />) }
               </div>
+              <Col className="d-flex justify-content-end">
+                <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
+                  <Button variant="success" onClick={() => setShowAddRoom(true)}>
+                    + Add Room
+                  </Button>
+                </div>
+              </Col>
             </Tab>
           </Tabs>
         </Col>
@@ -129,13 +145,6 @@ const AdminManage = () => {
           {/*    // onChange={} */}
           {/*  /> */}
           {/* </Form> */}
-        </Col>
-        <Col className="d-flex justify-content-end">
-          <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
-            <Button variant="success">
-              + Add
-            </Button>
-          </div>
         </Col>
       </Row>
 
@@ -204,6 +213,7 @@ const AdminManage = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      <AddRoomModal setShowAddRoom={setShowAddRoom} showAddRoom={showAddRoom} />
     </Container>
   ) : <LoadingSpinner />);
 };
