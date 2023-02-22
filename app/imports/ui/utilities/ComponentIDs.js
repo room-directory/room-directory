@@ -55,4 +55,10 @@ export const COMPONENT_IDS = {
   ADD_ROOM_TYPE_ADMIN: 'add-room-type-admin',
   ADD_ROOM_CAPACITY_ADMIN: 'add-room-capacity-admin',
 
+  // EDIT FACULTY
+  EDIT_FACULTY_OFFICE_HOURS_ADMIN: 'edit-faculty-office-hours-admin',
+  EDIT_FACULTY_OFFICE_LOCATION_ADMIN: 'edit-faculty-office-location-admin',
+  EDIT_FACULTY_ROLE_ADMIN: 'edit-faculty-role-admin',
+  EDIT_FACULTY_PHONE_ADMIN: 'edit-faculty-phone-admin',
+
 };
