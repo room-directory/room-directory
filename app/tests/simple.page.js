@@ -28,3 +28,4 @@ export const adminManagePage = new SimplePage(PAGE_IDS.ADMIN_MANAGE);
 export const profilePage = new SimplePage(PAGE_IDS.PROFILE);
 export const roomListPage = new SimplePage(PAGE_IDS.ROOM_LIST);
 export const facultyInformationPage = new SimplePage(PAGE_IDS.FACULTY_INFORMATION);
+export const clubInformationPage = new SimplePage(PAGE_IDS.CLUB_INFORMATION);

@@ -1,5 +1,5 @@
 // import { Selector, t } from 'testcafe';
-import { /* manageDatabasePage, */ signOutPage, studentRequestPage, facultyRequestPage, roomListPage, facultyInformationPage, profilePage, adminManagePage } from './simple.page';
+import { /* manageDatabasePage, */ signOutPage, studentRequestPage, facultyRequestPage, roomListPage, facultyInformationPage, clubInformationPage, profilePage, adminManagePage } from './simple.page';
 import { landingPage } from './landing.page';
 import { signInPage } from './signin.page';
 import { signUpPage } from './signup.page';
@@ -45,8 +45,12 @@ test('Test that sign up and sign out work', async () => {
 test('Test that non-signed in user pages show up', async () => {
   // default pages
   await landingPage.isDisplayedLoggedin();
+  // Faculty Information
   await navBar.gotoFacultyInformationPage();
   await facultyInformationPage.isDisplayed();
+  // Club Information
+  await navBar.gotoClubInformationPage();
+  await clubInformationPage.isDisplayed();
 });
 
 test('Test that student pages show up', async () => {

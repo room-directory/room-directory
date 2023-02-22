@@ -155,6 +155,15 @@ class NavBar {
     }
     await t.click(`#${COMPONENT_IDS.NAVBAR_FACULTY_INFORMATION}`);
   }
+
+  /* Go to the Club Information Page. */
+  async gotoClubInformationPage() {
+    const visible = await Selector(`#${COMPONENT_IDS.NAVBAR_COLLAPSE}`).visible;
+    if (!visible) {
+      await t.click('button.navbar-toggler');
+    }
+    await t.click(`#${COMPONENT_IDS.NAVBAR_CLUB_INFORMATION}`);
+  }
 }
 
 export const navBar = new NavBar();
