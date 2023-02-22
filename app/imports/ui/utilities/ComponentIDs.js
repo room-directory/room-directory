@@ -9,6 +9,7 @@ export const COMPONENT_IDS = {
   NAVBAR_CURRENT_USER: 'navbar-current-user',
   NAVBAR_LANDING_PAGE: 'navbar-landing-page',
   NAVBAR_FACULTY_INFORMATION: 'navbar-faculty-information',
+  NAVBAR_CLUB_INFORMATION: 'navbar-club-information',
   NAVBAR_ADMIN_RESERVATION: 'navbar-admin-reservation',
   NAVBAR_ADMIN_MANAGE: 'navbar-admin-manage',
   NAVBAR_COLLAPSE: 'navbar-collapse',
@@ -26,10 +27,12 @@ export const COMPONENT_IDS = {
   SIGN_UP_FORM_LAST_NAME: 'sign-up-form-last-name',
   SIGN_UP_FORM_EMAIL: 'sign-up-form-email',
   SIGN_UP_FORM_PASSWORD: 'sign-up-form-password',
+  SIGN_UP_FORM_IMAGE: 'sign-up-form-image',
   SIGN_UP_FORM_POSITION: 'sign-up-form-position',
   SIGN_UP_FORM_SUBMIT: 'sign-up-form-submit',
   FACULTY_INFORMATION_SORT: 'faculty-information-sort',
   FACULTY_INFORMATION_SEARCH: 'faculty-information-search',
+  CLUB_INFORMATION_SEARCH: 'club-information-search',
   ADMIN_MANAGE: 'admin-manage',
   ADMIN_RESERVATION: 'admin-reservation',
 
@@ -46,4 +49,10 @@ export const COMPONENT_IDS = {
   EDIT_ROOM_TYPE_ADMIN:
       'edit-room-type-admin',
   EDIT_ROOM_CAPACITY_ADMIN: 'edit-room-capacity-admin',
+  EDIT_BUILDING_ADMIN: 'edit-building-admin',
+  // ADD ROOM
+  ADD_ROOM_NUMBER_ADMIN: 'add-room-number-admin',
+  ADD_ROOM_TYPE_ADMIN: 'add-room-type-admin',
+  ADD_ROOM_CAPACITY_ADMIN: 'add-room-capacity-admin',
+
 };

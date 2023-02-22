@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
+import { Meteor } from 'meteor/meteor';
 import { Modal, Button, Table, Collapse, Col } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
+import { Roles } from 'meteor/alanning:roles';
 import { RoomResources } from '../../api/room/RoomResourceCollection';
 import LoadingSpinner from './LoadingSpinner';
+import { UserProfiles } from '../../api/user/UserProfileCollection';
+import { AdminProfiles } from '../../api/user/AdminProfileCollection';
+import { ROLE } from '../../api/role/Role';
+import RoomInfoModalDetails from './RoomInfoModalDetails';
 
-/** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
+/* TODO: implement into RoomInfoModal.jsx file */
+/** The RoomInfoModalSVG appears when clicking on a room in the Room List page. */
 const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
   const [showMore, setShowMore] = useState(false);
-  const { ready, resources } = useTracker(() => {
+  const currUser = Meteor.user() ? Meteor.user().username : '';
+  const { currentUser, ready, user, resources } = useTracker(() => {
     const subscription = RoomResources.subscribeRoomResource();
     const rdy = subscription.ready();
     let roomResource = room;
@@ -17,8 +25,12 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
     } else {
       roomResource = undefined;
     }
+    let usr = UserProfiles.findOne({ email: currUser }, {});
+    if (usr === undefined) (usr = AdminProfiles.findOne({ email: currUser }, {}));
     return {
+      currentUser: currUser,
       resources: roomResource,
+      user: usr,
       ready: rdy,
     };
   }, []);
@@ -51,52 +63,67 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
                   <td>Conference</td>
                 </tr>
                 <tr>
-                  <th scope="row">Capacity</th>
-                  <td>{resources.capacity}</td>
+                  <th scope="row">Square Feet</th>
+                  <td>{room.squareFt}</td>
                 </tr>
                 <tr>
-                  <th scope="row" className="align-top">Resources</th>
+                  <th scope="row">Occupants</th>
                   <td>
-                    <tr className="d-flex">
-                      <th scope="row" className="pe-3">Chairs</th>
-                      <td className="ps-5">{resources.chairs}</td>
-                    </tr>
-                    <Collapse in={showMore}>
-                      <div>
-                        <tr>
-                          <th scope="row">Desks</th>
-                          <td className="ps-1">{resources.desks}</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">TV</th>
-                          <td className="ps-1">{resources.tv.length}</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Phone number</th>
-                          <td className="ps-1">{resources.phoneNumber}</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Data jacks</th>
-                          <td className="ps-1">{resources.dataJacks.length}</td>
-                        </tr>
-                      </div>
-                    </Collapse>
-                    <button
-                      type="button"
-                      onClick={() => setShowMore(!showMore)}
-                      aria-controls="example-collapse-text"
-                      aria-expanded={showMore}
-                      className="btn btn-link"
-                    >
-                      {showMore ? 'Show less' : 'Show more'}
-                    </button>
+                    {room.occupants.length}
                   </td>
                 </tr>
-                <tr>
-                  <th scope="row">
-                    <a href="/list">Reserve</a>
-                  </th>
-                </tr>
+                { currentUser !== '' && (user?.position === 'office' || Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) ?
+                  ([
+                    <tr>
+                      <th scope="row">Capacity</th>
+                      <td>{resources.capacity}</td>
+                    </tr>,
+                    <tr>
+                      <th scope="row" className="align-top">Resources</th>
+                      <td>
+                        <tr>
+                          <th scope="row">Chairs: </th>
+                          <td className="ps-3">{resources.chairs}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">TV: </th>
+                          <td className="ps-3">{resources.tv.length}</td>
+                        </tr>
+                        <Collapse in={showMore}>
+                          <div>
+                            {resources.tv.map((tv) => <RoomInfoModalDetails key={tv.number} details={tv} />)}
+                          </div>
+                        </Collapse>
+                        <tr>
+                          <th scope="row">Phone number: </th>
+                          <td className="ps-3">{resources.phoneNumber}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Data jacks: </th>
+                          <td className="ps-3">{resources.dataJacks.length}</td>
+                        </tr>
+                        <Collapse in={showMore}>
+                          <div>
+                            {resources.dataJacks.map((dataJacks) => <RoomInfoModalDetails key={dataJacks.number} details={dataJacks} />)}
+                          </div>
+                        </Collapse>
+                        <button
+                          type="button"
+                          onClick={() => setShowMore(!showMore)}
+                          aria-controls="example-collapse-text"
+                          aria-expanded={showMore}
+                          className="btn btn-link"
+                        >
+                          {showMore ? 'Show less' : 'Show More'}
+                        </button>
+                      </td>
+                    </tr>,
+                    // <tr>
+                    //   <th scope="row">
+                    //     <a href="/list">Reserve</a>
+                    //   </th>
+                    // </tr>,
+                  ]) : ''}
               </thead>
             </Table>
           </Modal.Body>
@@ -116,6 +143,8 @@ RoomInfoModalSvg.propTypes = {
   room: PropTypes.shape({
     roomNumber: PropTypes.string,
     type: PropTypes.string,
+    occupants: PropTypes.arrayOf(PropTypes.string),
+    squareFt: PropTypes.number,
     _id: PropTypes.string,
   }),
   display: PropTypes.bool.isRequired,

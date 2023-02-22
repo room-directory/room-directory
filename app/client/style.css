@@ -64,6 +64,10 @@ body {
   background-color: var(--main-green);
 }
 
+#club-information-search button {
+  background-color: var(--main-green);
+}
+
 #overlay {
   position: fixed;
   display: block;
