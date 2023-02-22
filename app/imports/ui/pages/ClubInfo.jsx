@@ -52,6 +52,7 @@ const ClubInfo = () => {
                 <th>Club Name</th>
                 <th>RIO Student(s)</th>
                 <th>Advisor(s)</th>
+                <th>Website</th>
               </tr>
             </thead>
             <tbody>
