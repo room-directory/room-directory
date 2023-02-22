@@ -14,22 +14,17 @@ const Footer = () => {
         <Col>
           <Row>
             <Col>
-              <Image src="/images/uh-logo.jpg" roundedCircle style={{ width: '200px' }} />
+              <Image src="/images/uh-logo.jpg" roundedCircle style={{ width: '135px' }} />
             </Col>
             <Col>
               <h4 style={green}>About Us</h4>
               <hr style={white} />
               <p style={green}>The goal of Room Directory is to create user friendly interface for office space management of the ICS department</p>
-              <a href="https://room-directory.github.io/" className="text-white">Room Directory Home Page</a>
             </Col>
             <Col>
               <h4 style={green}>Useful Links</h4>
               <hr style={white} />
-              <NavLink to="/" className="text-white">Home</NavLink>
-              <br />
-              <NavLink to="/signin" className="text-white">Sign In</NavLink>
-              <br />
-              <NavLink to="/signup" className="text-white">Sign Up</NavLink>
+              <a href="https://room-directory.github.io/" className="text-white">Room Directory Home Page</a>
               <br />
               <NavLink to="/faculty" className="text-white">Faculty Information</NavLink>
               <br />
@@ -41,7 +36,6 @@ const Footer = () => {
               <a href="https://github.com/room-directory/room-directory" className="text-white"> <Github size={30} /> </a>
             </Col>
           </Row>
-          <br />
         </Col>
       </Container>
     </footer>
