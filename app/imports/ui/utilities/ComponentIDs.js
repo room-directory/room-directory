@@ -9,6 +9,7 @@ export const COMPONENT_IDS = {
   NAVBAR_CURRENT_USER: 'navbar-current-user',
   NAVBAR_LANDING_PAGE: 'navbar-landing-page',
   NAVBAR_FACULTY_INFORMATION: 'navbar-faculty-information',
+  NAVBAR_CLUB_INFORMATION: 'navbar-club-information',
   NAVBAR_ADMIN_RESERVATION: 'navbar-admin-reservation',
   NAVBAR_ADMIN_MANAGE: 'navbar-admin-manage',
   NAVBAR_COLLAPSE: 'navbar-collapse',
@@ -31,6 +32,7 @@ export const COMPONENT_IDS = {
   SIGN_UP_FORM_SUBMIT: 'sign-up-form-submit',
   FACULTY_INFORMATION_SORT: 'faculty-information-sort',
   FACULTY_INFORMATION_SEARCH: 'faculty-information-search',
+  CLUB_INFORMATION_SEARCH: 'club-information-search',
   ADMIN_MANAGE: 'admin-manage',
   ADMIN_RESERVATION: 'admin-reservation',
 

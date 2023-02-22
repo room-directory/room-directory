@@ -12,6 +12,7 @@ class ClubCollection extends BaseCollection {
   constructor() {
     super('Club', new SimpleSchema({
       clubName: String,
+      website: String,
       rio: [String],
       advisor: [String],
     }));
@@ -24,9 +25,10 @@ class ClubCollection extends BaseCollection {
    * @param advisor array of advisors for the club.
    * @return {String} the docID of the new document.
    */
-  define({ clubName, rio, advisor }) {
+  define({ clubName, website, rio, advisor }) {
     const docID = this._collection.insert({
       clubName,
+      website,
       rio,
       advisor,
     });
@@ -40,10 +42,13 @@ class ClubCollection extends BaseCollection {
    * @param rio array of students in charge of the club (optional).
    * @param advisor array of advisors for the club (optional).
    */
-  update(docID, { clubName, rio, advisor }) {
+  update(docID, { clubName, website, rio, advisor }) {
     const updateData = {};
     if (clubName) {
       updateData.clubName = clubName;
+    }
+    if (website) {
+      updateData.website = website;
     }
     if (rio) {
       updateData.rio = rio;
@@ -68,18 +73,15 @@ class ClubCollection extends BaseCollection {
 
   /**
    * Default publication method for entities.
-   * It publishes the entire collection for admin and just the stuff associated to an owner.
+   * It publishes the entire collection for all users (no login required).
    */
   publish() {
     if (Meteor.isServer) {
       // get the StuffCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(clubPublications.room, function publish() {
-        if (this.userId) {
-          return instance._collection.find();
-        }
-        return this.ready();
+      Meteor.publish(clubPublications.club, function publish() {
+        return instance._collection.find();
       });
     }
   }
@@ -87,9 +89,9 @@ class ClubCollection extends BaseCollection {
   /**
    * Subscription method for stuff owned by the current user.
    */
-  subscribeRoom() {
-    if (true) {
-      return Meteor.subscribe(clubPublications.room);
+  subscribeClub() {
+    if (Meteor.isClient) {
+      return Meteor.subscribe(clubPublications.club);
     }
     return null;
   }
@@ -112,9 +114,10 @@ class ClubCollection extends BaseCollection {
   dumpOne(docID) {
     const doc = this.findDoc(docID);
     const clubName = doc.clubName;
+    const website = doc.website;
     const rio = doc.rio;
     const advisor = doc.advisor;
-    return { clubName, rio, advisor };
+    return { clubName, website, rio, advisor };
   }
 }
 

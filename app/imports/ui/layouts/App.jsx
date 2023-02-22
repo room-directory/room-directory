@@ -26,6 +26,7 @@ import FacultyRequests from '../pages/FacultyRequests';
 import RequestRoomForm from '../pages/RequestRoomForm';
 import AddReservation from '../pages/AddReservation';
 import AdminManage from '../pages/AdminManage';
+import ClubInfo from '../pages/ClubInfo';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
@@ -65,6 +66,7 @@ const App = () => {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signout" element={<SignOut />} />
           <Route path="/faculty" element={<FacultyInfo />} />
+          <Route path="/club" element={<ClubInfo />} />
           <Route path="/home" element={<ProtectedRoute><Landing /></ProtectedRoute>} />
           <Route path="/profile/:_id" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/edit-profile/:_id" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
