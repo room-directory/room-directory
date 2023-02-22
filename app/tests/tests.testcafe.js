@@ -45,10 +45,8 @@ test('Test that sign up and sign out work', async () => {
 test('Test that non-signed in user pages show up', async () => {
   // default pages
   await landingPage.isDisplayedLoggedin();
-  // Faculty Information
   await navBar.gotoFacultyInformationPage();
   await facultyInformationPage.isDisplayed();
-  // Club Information
   await navBar.gotoClubInformationPage();
   await clubInformationPage.isDisplayed();
 });
@@ -61,6 +59,8 @@ test('Test that student pages show up', async () => {
   await landingPage.isDisplayedLoggedin();
   await navBar.gotoFacultyInformationPage();
   await facultyInformationPage.isDisplayed();
+  await navBar.gotoClubInformationPage();
+  await clubInformationPage.isDisplayed();
   // Profile
   await navBar.gotoProfilePage();
   await profilePage.isDisplayed();
@@ -79,6 +79,8 @@ test('Test that faculty user pages show up', async () => {
   await landingPage.isDisplayedLoggedin();
   await navBar.gotoFacultyInformationPage();
   await facultyInformationPage.isDisplayed();
+  await navBar.gotoClubInformationPage();
+  await clubInformationPage.isDisplayed();
   // Profile
   await navBar.gotoProfilePage();
   await profilePage.isDisplayed();
@@ -100,6 +102,8 @@ test('Test that Office user pages show up', async () => {
   await landingPage.isDisplayedLoggedin();
   await navBar.gotoFacultyInformationPage();
   await facultyInformationPage.isDisplayed();
+  await navBar.gotoClubInformationPage();
+  await clubInformationPage.isDisplayed();
   // Profile
   await navBar.gotoProfilePage();
   await profilePage.isDisplayed();
@@ -121,6 +125,8 @@ test('Test that admin pages show up', async () => {
   await landingPage.isDisplayedLoggedin();
   await navBar.gotoFacultyInformationPage();
   await facultyInformationPage.isDisplayed();
+  await navBar.gotoClubInformationPage();
+  await clubInformationPage.isDisplayed();
   // Room List
   await navBar.gotoRoomListPage();
   await roomListPage.isDisplayed();
