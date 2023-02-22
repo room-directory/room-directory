@@ -37,15 +37,15 @@ const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
     let collectionName = Room.getCollectionName();
     if (Room.findOne({ roomNumber: data.roomNumber, building: data.building })) {
       swal('Error', 'That room exists already!', 'error');
-      return;
+    } else {
+      defineMethod.callPromise({ collectionName, definitionData })
+        .catch(error => swal('Error', error.message, 'error'))
+        .then(() => swal('Success', 'Room added successfully', 'success'));
+      collectionName = RoomResources.getCollectionName();
+      definitionData = { roomNumber, capacity: -1, chairs: -1, desks: -1, phoneNumber: '-1', tv: [{ number: 'unknown', location: 'somewhere' }], dataJacks: [{ number: 'unkown', location: 'somewhere' }] };
+      defineMethod.callPromise({ collectionName, definitionData })
+        .catch(error => swal('Error', error.message, 'error'));
     }
-    defineMethod.callPromise({ collectionName, definitionData })
-      .catch(error => swal('Error', error.message, 'error'))
-      .then(() => swal('Success', 'Room added successfully', 'success'));
-    collectionName = RoomResources.getCollectionName();
-    definitionData = { roomNumber, capacity: -1, chairs: -1, desks: -1, phoneNumber: '-1', tv: [{ number: 'unknown', location: 'somewhere' }], dataJacks: [{ number: 'unkown', location: 'somewhere' }] };
-    defineMethod.callPromise({ collectionName, definitionData })
-      .catch(error => swal('Error', error.message, 'error'));
     formRef.reset();
   };
 
