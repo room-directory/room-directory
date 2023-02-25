@@ -13,6 +13,8 @@ class ClubCollection extends BaseCollection {
     super('Club', new SimpleSchema({
       clubName: String,
       website: String,
+      image: String,
+      description: String,
       rio: [String],
       advisor: [String],
     }));
@@ -25,10 +27,12 @@ class ClubCollection extends BaseCollection {
    * @param advisor array of advisors for the club.
    * @return {String} the docID of the new document.
    */
-  define({ clubName, website, rio, advisor }) {
+  define({ clubName, website, image, description, rio, advisor }) {
     const docID = this._collection.insert({
       clubName,
       website,
+      image,
+      description,
       rio,
       advisor,
     });
@@ -42,13 +46,19 @@ class ClubCollection extends BaseCollection {
    * @param rio array of students in charge of the club (optional).
    * @param advisor array of advisors for the club (optional).
    */
-  update(docID, { clubName, website, rio, advisor }) {
+  update(docID, { clubName, website, image, description, rio, advisor }) {
     const updateData = {};
     if (clubName) {
       updateData.clubName = clubName;
     }
     if (website) {
       updateData.website = website;
+    }
+    if (image) {
+      updateData.image = image;
+    }
+    if (description) {
+      updateData.description = description;
     }
     if (rio) {
       updateData.rio = rio;
@@ -115,9 +125,11 @@ class ClubCollection extends BaseCollection {
     const doc = this.findDoc(docID);
     const clubName = doc.clubName;
     const website = doc.website;
+    const image = doc.image;
+    const description = doc.description;
     const rio = doc.rio;
     const advisor = doc.advisor;
-    return { clubName, website, rio, advisor };
+    return { clubName, website, image, description, rio, advisor };
   }
 }
 

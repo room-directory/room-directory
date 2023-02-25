@@ -49,10 +49,11 @@ const ClubInfo = () => {
           <Table hover>
             <thead>
               <tr>
+                <th> </th>
                 <th>Club Name</th>
+                <th>Description</th>
                 <th>RIO Student(s)</th>
                 <th>Advisor(s)</th>
-                <th>Website</th>
               </tr>
             </thead>
             <tbody>
