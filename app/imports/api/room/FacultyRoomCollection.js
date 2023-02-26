@@ -11,23 +11,23 @@ export const facultyRoomPublications = {
 class FacultyRoomCollection extends BaseCollection {
   constructor() {
     super('RoomResources', new SimpleSchema({
-      roomID: String,
-      facultyID: String,
+      building: String,
+      roomNumber: String,
+      facultyEmail: String,
     }));
   }
 
   /**
    * Defines a new Room item.
-   * @param name the name of the item.
-   * @param quantity how many.
-   * @param owner the owner of the item.
-   * @param condition the condition of the item.
-   * @return {String} the docID of the new document.
+   * @param building the building the room is in.
+   * @param roomNumber the room number of the room.
+   * @param facultyEmail the email of the faculty member.
    */
-  define({ roomID, facultyID }) {
+  define({ building, roomNumber, facultyEmail }) {
     const docID = this._collection.insert({
-      roomID,
-      facultyID,
+      building,
+      roomNumber,
+      facultyEmail,
     });
     return docID;
   }
@@ -35,17 +35,20 @@ class FacultyRoomCollection extends BaseCollection {
   /**
    * Updates the given document.
    * @param docID the id of the document to update.
-   * @param name the new name (optional).
-   * @param quantity the new quantity (optional).
-   * @param condition the new condition (optional).
+   * @param building the building the room is in. (optional)
+   * @param roomNumber the room number of the room. (optional)
+   * @param facultyEmail the email of the faculty member. (optional)
    */
-  update(docID, { roomID, facultyID }) {
+  update(docID, { building, roomNumber, facultyEmail }) {
     const updateData = {};
-    if (roomID) {
-      updateData.roomID = roomID;
+    if (building) {
+      updateData.building = building;
     }
-    if (facultyID) {
-      updateData.facultyID = facultyID;
+    if (roomNumber) {
+      updateData.roomNumber = roomNumber;
+    }
+    if (facultyEmail) {
+      updateData.facultyEmail = facultyEmail;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -107,9 +110,10 @@ class FacultyRoomCollection extends BaseCollection {
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
-    const roomID = doc.roomID;
-    const facultyID = doc.facultyID;
-    return { roomID, facultyID };
+    const building = doc.building;
+    const roomNumber = doc.roomNumber;
+    const facultyEmail = doc.facultyEmail;
+    return { building, roomNumber, facultyEmail };
   }
 }
 
