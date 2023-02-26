@@ -14,6 +14,7 @@ import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 import RoomTable from '../components/RoomTable';
 import AddRoomModal from '../components/AddRoomModal';
+import AddUserModal from '../components/AddUserModal';
 
 /*
 function RoomType(room) {
@@ -53,6 +54,7 @@ const AdminManage = () => {
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
   const [showAddRoom, setShowAddRoom] = useState(false);
+  const [showAddUser, setShowAddUser] = useState(false);
 
   const { rooms, profiles, ready } = useTracker(() => {
     const roomSubscription = Room.subscribeRoom();
@@ -95,7 +97,7 @@ const AdminManage = () => {
               </div>
               <Col className="d-flex justify-content-end">
                 <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
-                  <Button variant="success">
+                  <Button variant="success" onClick={() => setShowAddUser(true)}>
                     + Add
                   </Button>
                 </div>
@@ -214,6 +216,7 @@ const AdminManage = () => {
         </Modal.Footer>
       </Modal>
       <AddRoomModal setShowAddRoom={setShowAddRoom} showAddRoom={showAddRoom} />
+      <AddUserModal setShowAddUser={setShowAddUser} showAddUser={showAddUser} />
     </Container>
   ) : <LoadingSpinner />);
 };
