@@ -134,6 +134,26 @@ const AdminManage = () => {
                 </div>
               </Col>
             </Tab>
+            <Tab eventKey="clubs" title="Clubs">
+
+              <Row className="px-m3 py-2" style={{ padding: 15 }}>
+                <Col><u>LAST NAME</u></Col>
+                <Col><u>FIRST NAME</u></Col>
+                <Col><u>EMAIL</u></Col>
+                <Col><u>POSITION</u></Col>
+                <Col xs={2} />
+              </Row>
+              <div>
+                { profiles.map((account, index) => <ProfileTable key={account._id} eventKey={`${index}`} account={account} />) }
+              </div>
+              <Col className="d-flex justify-content-end">
+                <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
+                  <Button variant="success" onClick={() => setShowAddUser(true)}>
+                    + Add
+                  </Button>
+                </div>
+              </Col>
+            </Tab>
           </Tabs>
         </Col>
       </Row>
