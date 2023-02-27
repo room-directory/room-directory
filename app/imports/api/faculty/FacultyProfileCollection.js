@@ -52,7 +52,6 @@ class FacultyProfileCollection extends BaseCollection {
    * @param condition the new condition (optional).
    */
   update(docID, { image, firstName, lastName, email, officeHours, officeLocation, role, phone }) {
-    this.assertDefined(docID);
     const updateData = {};
     if (image) {
       updateData.image = image;

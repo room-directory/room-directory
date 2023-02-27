@@ -12,6 +12,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import ProfileTable from '../components/ProfileTable';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
+import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 import RoomTable from '../components/RoomTable';
 import AddRoomModal from '../components/AddRoomModal';
 
@@ -54,7 +55,7 @@ const AdminManage = () => {
   const [endTime, setEndTime] = useState(new Date());
   const [showAddRoom, setShowAddRoom] = useState(false);
 
-  const { rooms, profiles, ready } = useTracker(() => {
+  const { rooms, profiles, faculty, ready } = useTracker(() => {
     const roomSubscription = Room.subscribeRoom();
     const profileSubscription = UserProfiles.subscribe();
     const adminSubscription = AdminProfiles.subscribe();
@@ -64,10 +65,12 @@ const AdminManage = () => {
     const user = UserProfiles.find({}, {}).fetch();
     const admin = AdminProfiles.find({}, {}).fetch();
     const profile = _.sortBy(user.concat(admin), (obj) => obj.lastName);
+    const faculty = FacultyProfiles.find({},{}).fetch();
     return {
       rooms: room,
       ready: rdy,
       profiles: profile,
+      faculty: faculty,
     };
   }, []);
 
@@ -91,7 +94,7 @@ const AdminManage = () => {
                 <Col xs={2} />
               </Row>
               <div>
-                { profiles.map((account, index) => <ProfileTable key={account._id} eventKey={`${index}`} account={account} />) }
+                { profiles.map((account, index) => <ProfileTable key={account._id} eventKey={`${index}`} account={account} faculty={faculty} />) }
               </div>
               <Col className="d-flex justify-content-end">
                 <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>

@@ -9,8 +9,11 @@ import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 import { useTracker } from 'meteor/react-meteor-data';
 import LoadingSpinner from './LoadingSpinner';
 
-const ProfileTable = ({ account, eventKey }) => {
+const ProfileTable = ({ account, eventKey, faculty }) => {
   const [show, setShow] = useState(false);
+  console.log(faculty);
+  const facultyDoc = faculty.find(x => x.email === account.email);
+  console.log(facultyDoc);
   const del = () => {
     const collectionName = UserProfiles.getCollectionName();
     const instance = account._id;
@@ -34,18 +37,6 @@ const ProfileTable = ({ account, eventKey }) => {
   };
 
   const positionList = ['student', 'faculty', 'office'];
-  const { ready, faculty } = useTracker(() => {
-    // Get access to faculty faculty documents.
-    const subscription = FacultyProfiles.subscribeFacultyProfile();
-    // Determine if the subscription is ready
-    const rdy = subscription.ready();
-    // Get the faculty faculty documents
-    const facultyData = FacultyProfiles.find({email: account.email}, {limit: 1} ).fetch()[0];
-    return {
-      faculty: facultyData,
-      ready: rdy,
-    };
-  }, []);
   // console.log(FacultyProfiles.find({email: account.email}, {}).fetch()[0]);
 
   const submit = () => {
@@ -56,23 +47,23 @@ const ProfileTable = ({ account, eventKey }) => {
     const newLocation = document.getElementById(COMPONENT_IDS.EDIT_FACULTY_OFFICE_LOCATION_ADMIN).value.split(", ");
     const newRole = document.getElementById(COMPONENT_IDS.EDIT_FACULTY_ROLE_ADMIN).value;
     const newPhone = document.getElementById(COMPONENT_IDS.EDIT_FACULTY_PHONE_ADMIN).value.split(", ");
-    const facultyUpdate = { id: faculty._id, firstName: newFirstName, lastName: newLastName, email: account.email, officeHours: newHours, officeLocation: newLocation, role: newRole, phone: newPhone };
+    const facultyUpdate = { id: facultyDoc._id, firstName: newFirstName, lastName: newLastName, email: account.email, officeHours: newHours, officeLocation: newLocation, role: newRole, phone: newPhone };
     console.log(facultyUpdate);
-    const facultyCollectionName = FacultyProfiles.getPublicationName();
+    const facultyCollectionName = FacultyProfiles.getCollectionName();
     // console.log(facultyCollectionName);
     console.log(UserProfiles.getCollectionName());
-    // const updateData = { id: account._id, email: account.email, firstName: newFirstName, lastName: newLastName, position: newPosition };
-    // const collectionName = UserProfiles.getCollectionName();
-    // updateMethod.callPromise({ collectionName, updateData })
-      // .catch(error => swal('Error', error.message, 'error'))
-      // .then(() => swal('Success', 'Profile updated successfully', 'success'));
+    const updateData = { id: account._id, email: account.email, firstName: newFirstName, lastName: newLastName, position: newPosition };
+    const collectionName = UserProfiles.getCollectionName();
+    updateMethod.callPromise({ collectionName, updateData })
+      .catch(error => swal('Error', error.message, 'error'))
+      .then(() => swal('Success', 'Profile updated successfully', 'success'));
     updateMethod.callPromise({ facultyCollectionName, facultyUpdate })
         .catch(error => console.log('Error', error.message, 'error'))
         .then(() => console.log('Success', 'Faculty updated successfully', 'success'));
 
   };
-  console.log(faculty);
-  return (ready ?(
+  // console.log(faculty);
+  return (
     <Card style={{ border: 'none', borderRadius: 0 }}>
       <Card.Header style={eventKey % 2 === 0 ? { backgroundColor: 'whitesmoke', border: 'none' } : { backgroundColor: '#fbfbfb', border: 'none' }}>
         <Row>
@@ -127,32 +118,32 @@ const ProfileTable = ({ account, eventKey }) => {
                         <Row>
                           <Form.Group>
                             Role *
-                            <Form.Control id={COMPONENT_IDS.EDIT_FACULTY_ROLE_ADMIN} defaultValue={faculty.role ? faculty.role : ''} />
+                            <Form.Control id={COMPONENT_IDS.EDIT_FACULTY_ROLE_ADMIN} defaultValue={facultyDoc.role ? facultyDoc.role : ''} />
                           </Form.Group>
                         </Row>
                         <Row>
                           <Form.Group>
                             Phone *
-                            <Form.Control id={COMPONENT_IDS.EDIT_FACULTY_PHONE_ADMIN} defaultValue={faculty.phone ? faculty.phone : ''} />
+                            <Form.Control id={COMPONENT_IDS.EDIT_FACULTY_PHONE_ADMIN} defaultValue={facultyDoc.phone ? facultyDoc.phone : ''} />
                           </Form.Group>
                         </Row>
                         <Row>
                           <Form.Group>
                             Email *
-                            <Form.Control defaultValue={faculty.email ? faculty.email : ''} disabled />
+                            <Form.Control defaultValue={facultyDoc.email ? facultyDoc.email : ''} disabled />
                           </Form.Group>
                         </Row>
                         <Row>
                           <Col>
                             <Form.Group>
                               Office Location *
-                              <Form.Control id={COMPONENT_IDS.EDIT_FACULTY_OFFICE_LOCATION_ADMIN} defaultValue={faculty.officeLocation ? faculty.officeLocation : ''} />
+                              <Form.Control id={COMPONENT_IDS.EDIT_FACULTY_OFFICE_LOCATION_ADMIN} defaultValue={facultyDoc.officeLocation ? facultyDoc.officeLocation : ''} />
                             </Form.Group>
                           </Col>
                           <Col>
                             <Form.Group>
                               Office Hours *
-                              <Form.Control id={COMPONENT_IDS.EDIT_FACULTY_OFFICE_HOURS_ADMIN} defaultValue={faculty.officeHours ? faculty.officeHours : ''} />
+                              <Form.Control id={COMPONENT_IDS.EDIT_FACULTY_OFFICE_HOURS_ADMIN} defaultValue={facultyDoc.officeHours ? facultyDoc.officeHours : ''} />
                             </Form.Group>
                           </Col>
                         </Row>
@@ -170,7 +161,7 @@ const ProfileTable = ({ account, eventKey }) => {
         ) : ''
       }
     </Card>
-  ): <LoadingSpinner message="Loading User Information" />);
+  )
 };
 
 /* Referencing the Base Collection */
