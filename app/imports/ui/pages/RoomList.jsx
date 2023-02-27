@@ -1,11 +1,11 @@
-import React from 'react';
-import { Container, Row, Dropdown, DropdownButton, ButtonGroup } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Container, Row, Dropdown, DropdownButton, ButtonGroup, Table } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Room } from '../../api/room/RoomCollection';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import LoadingSpinner from '../components/LoadingSpinner';
-import RoomInfoModal from '../components/RoomInfoModal';
 import SvgComponent from '../components/SvgComponent';
+import RoomListTableRow from '../components/RoomListTableRow';
 
 /* TODO: change key value */
 const RoomList = () => {
@@ -24,6 +24,7 @@ const RoomList = () => {
       ready: rdy,
     };
   }, []);
+  const [hoverRoom, setHoverRoom] = useState('default');
 
   return (ready ? (
     <Container id={PAGE_IDS.ROOM_LIST} className="py-3">
@@ -38,10 +39,18 @@ const RoomList = () => {
         </ButtonGroup>
       </Row>
       <Row>
-        <SvgComponent rooms={rooms} />
-      </Row>
-      <Row>
-        {rooms.map((room) => <RoomInfoModal key={room.roomNumber} room={room} />)}
+        <SvgComponent rooms={rooms} hoverRoom={hoverRoom} />
+        <Table striped>
+          <thead>
+            <tr>
+              <th>Room Number</th>
+              <th>Room type</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rooms.map((room) => <RoomListTableRow room={room} hoverRoom={hoverRoom} setHoverRoom={setHoverRoom} key={room._id} />)}
+          </tbody>
+        </Table>
       </Row>
     </Container>
   )
