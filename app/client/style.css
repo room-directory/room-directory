@@ -873,9 +873,34 @@ path {
   pointer-events: auto;
 }
 
-.room:hover {
-  fill: lightgreen;
+.room {
+  animation: room-hover 1s infinite alternate;
   cursor: pointer;
+}
+
+.room2 {
+  fill: lightgreen;
+}
+
+.not-ics-room:hover {
+  animation: not-ics-room-hover 1s infinite alternate;
+}
+
+@keyframes room-hover {
+  from {
+    fill: white;
+  }
+  to {
+    fill: lightgreen;
+  }
+}
+@keyframes not-ics-room-hover {
+  from {
+    fill: white;
+  }
+  to {
+    fill: red;
+  }
 }
 
 svg {

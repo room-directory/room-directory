@@ -49,32 +49,35 @@ const Profile = () => {
 
   return (ready ? (
     <Container id={PAGE_IDS.PROFILE} className="py-3">
-      <Col className="align-content-center text-center py-5">
-        <Row className="justify-content-center pb-4">
-          <Image id="profile-image" roundedCircle className="h-25 w-25" src="https://archive.org/services/img/twitter-default-pfp" />
-        </Row>
-        <Row>
-          <h2 id="profile-name" style={{ textTransform: 'uppercase' }}>{`${user.firstName} ${user.lastName}`}</h2>
-        </Row>
-        <Row>
-          {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
-            <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>ADMIN</h4>
-          ) :
-            <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>{`${user.position}`}</h4> }
-        </Row>
-        <Row>
-          <Col>
-            <Button id="profile-reservations" variant="link" onClick={handleModal}><h4>YOUR RESERVATIONS</h4></Button>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
+      <Row className="justify-content-center pb-4">
+        <Col sm={3}>
+          <Row className="p-3">
+            <Image id="profile-image" roundedCircle src="https://archive.org/services/img/twitter-default-pfp" />
+          </Row>
+          <Row>
             { Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) || thisUser._id === _id ? (
               <Button id="profile-reservations" href={`/edit-profile/${_id}`} variant="outline-secondary">Edit Profile</Button>
             ) : '' }
-          </Col>
-        </Row>
-      </Col>
+          </Row>
+        </Col>
+        <Col sm={1} />
+        <Col sm={6} className="p-3">
+          <Row>
+            <h2 id="profile-name" style={{ textTransform: 'uppercase' }}>{`${user.firstName} ${user.lastName}`}</h2>
+          </Row>
+          <Row>
+            {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
+              <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>ADMIN</h4>
+            ) :
+              <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>{`${user.position}`}</h4> }
+          </Row>
+          <Row>
+            <Col>
+              <Button id="profile-reservations" variant="link" onClick={handleModal}><h4>YOUR RESERVATIONS</h4></Button>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
 
       <Modal show={modal} onHide={handleModal}>
         <Modal.Header closeButton>

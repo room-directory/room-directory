@@ -1,48 +1,33 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { _ } from 'meteor/underscore';
 import { check } from 'meteor/check';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
-export const roomType = ['conference', 'lecture', 'study room', 'office'];
-export const roomPublications = {
-  room: 'Room',
+export const facultyRoomPublications = {
+  facultyRoom: 'FacultyRoom',
 };
 
-class RoomCollection extends BaseCollection {
+class FacultyRoomCollection extends BaseCollection {
   constructor() {
-    super('Room', new SimpleSchema({
-      roomNumber: String,
+    super('RoomResources', new SimpleSchema({
       building: String,
-      type: {
-        type: String,
-        allowedValues: roomType,
-        defaultValue: 'conference',
-      },
-      isICS: Boolean,
-      occupants: Array,
-      'occupants.$': String,
-      squareFt: Number,
+      roomNumber: String,
+      facultyEmail: String,
     }));
   }
 
   /**
    * Defines a new Room item.
-   * @param name the name of the item.
-   * @param quantity how many.
-   * @param owner the owner of the item.
-   * @param condition the condition of the item.
-   * @return {String} the docID of the new document.
+   * @param building the building the room is in.
+   * @param roomNumber the room number of the room.
+   * @param facultyEmail the email of the faculty member.
    */
-  define({ roomNumber, building, type, isICS, occupants, squareFt }) {
+  define({ building, roomNumber, facultyEmail }) {
     const docID = this._collection.insert({
-      roomNumber,
       building,
-      type,
-      isICS,
-      occupants,
-      squareFt,
+      roomNumber,
+      facultyEmail,
     });
     return docID;
   }
@@ -50,29 +35,20 @@ class RoomCollection extends BaseCollection {
   /**
    * Updates the given document.
    * @param docID the id of the document to update.
-   * @param name the new name (optional).
-   * @param quantity the new quantity (optional).
-   * @param condition the new condition (optional).
+   * @param building the building the room is in. (optional)
+   * @param roomNumber the room number of the room. (optional)
+   * @param facultyEmail the email of the faculty member. (optional)
    */
-  update(docID, { roomNumber, building, type, isICS, occupants, squareFt }) {
+  update(docID, { building, roomNumber, facultyEmail }) {
     const updateData = {};
-    if (roomNumber) {
-      updateData.roomNumber = roomNumber;
-    }
     if (building) {
       updateData.building = building;
     }
-    if (type) {
-      updateData.type = type;
+    if (roomNumber) {
+      updateData.roomNumber = roomNumber;
     }
-    if (isICS) {
-      updateData.isICS = isICS;
-    }
-    if (occupants.length > 0) {
-      updateData.occupants = occupants;
-    }
-    if (_.isNumber(squareFt)) {
-      updateData.squareFt = squareFt;
+    if (facultyEmail) {
+      updateData.facultyEmail = facultyEmail;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -98,7 +74,7 @@ class RoomCollection extends BaseCollection {
       // get the StuffCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(roomPublications.room, function publish() {
+      Meteor.publish(facultyRoomPublications.facultyRoom, function publish() {
         if (this.userId) {
           return instance._collection.find();
         }
@@ -110,9 +86,9 @@ class RoomCollection extends BaseCollection {
   /**
    * Subscription method for stuff owned by the current user.
    */
-  subscribeRoom() {
-    if (true) {
-      return Meteor.subscribe(roomPublications.room);
+  subscribeRoomResource() {
+    if (Meteor.isClient) {
+      return Meteor.subscribe(facultyRoomPublications.facultyRoom);
     }
     return null;
   }
@@ -134,17 +110,14 @@ class RoomCollection extends BaseCollection {
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
-    const roomNumber = doc.roomNumber;
     const building = doc.building;
-    const type = doc.type;
-    const isICS = doc.isICS;
-    const occupants = doc.occupants;
-    const squareFt = doc.squareFt;
-    return { roomNumber, building, type, isICS, occupants, squareFt };
+    const roomNumber = doc.roomNumber;
+    const facultyEmail = doc.facultyEmail;
+    return { building, roomNumber, facultyEmail };
   }
 }
 
 /**
  * Provides the singleton instance of this class to all other entities.
  */
-export const Room = new RoomCollection();
+export const FacultyRooms = new FacultyRoomCollection();
