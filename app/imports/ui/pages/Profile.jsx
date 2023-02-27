@@ -50,7 +50,7 @@ const Profile = () => {
   return (ready ? (
     <Container id={PAGE_IDS.PROFILE} className="py-3">
       <Row className="justify-content-center pb-4">
-        <Col sm={4}>
+        <Col sm={3}>
           <Row className="p-3">
             <Image id="profile-image" roundedCircle src="https://archive.org/services/img/twitter-default-pfp" />
           </Row>
@@ -61,7 +61,7 @@ const Profile = () => {
           </Row>
         </Col>
         <Col sm={1} />
-        <Col sm={7} className="p-3">
+        <Col sm={6} className="p-3">
           <Row>
             <h2 id="profile-name" style={{ textTransform: 'uppercase' }}>{`${user.firstName} ${user.lastName}`}</h2>
           </Row>
