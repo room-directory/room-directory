@@ -48,11 +48,12 @@ export const COMPONENT_IDS = {
     'edit-room-number-admin',
   EDIT_ROOM_TYPE_ADMIN:
       'edit-room-type-admin',
+  EDIT_ROOM_ICS_ADMIN: 'edit-room-ics-admin',
   EDIT_ROOM_CAPACITY_ADMIN: 'edit-room-capacity-admin',
   EDIT_BUILDING_ADMIN: 'edit-building-admin',
   // ADD ROOM
   ADD_ROOM_NUMBER_ADMIN: 'add-room-number-admin',
   ADD_ROOM_TYPE_ADMIN: 'add-room-type-admin',
-  ADD_ROOM_CAPACITY_ADMIN: 'add-room-capacity-admin',
+  ADD_ROOM_CAPACITY_ADMIN: 'add-room-capacity-admin'
 
 };

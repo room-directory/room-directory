@@ -126,13 +126,7 @@ const AdminManage = () => {
               <div>
                 { rooms.map((room, index) => <RoomTable key={room._id} eventKey={`${index}`} room={room} />) }
               </div>
-              <Col className="d-flex justify-content-end">
-                <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
-                  <Button variant="success" onClick={() => setShowAddRoom(true)}>
-                    + Add Room
-                  </Button>
-                </div>
-              </Col>
+
             </Tab>
           </Tabs>
         </Col>
@@ -215,7 +209,6 @@ const AdminManage = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <AddRoomModal setShowAddRoom={setShowAddRoom} showAddRoom={showAddRoom} />
       <AddUserModal setShowAddUser={setShowAddUser} showAddUser={showAddUser} />
     </Container>
   ) : <LoadingSpinner />);

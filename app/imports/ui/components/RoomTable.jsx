@@ -38,7 +38,7 @@ const RoomTable = ({ room, eventKey }) => {
     // const newType = document.getElementById(COMPONENT_IDS.EDIT_ROOM_TYPE_ADMIN).value;
     // const newCapacity = document.getElementById(COMPONENT_IDS.EDIT_ROOM_CAPACITY_ADMIN).value;
 
-    const updateData = { roomNumber: room.roomNumber, type: room.type, capacity: room.capacity };
+    const updateData = { roomNumber: room.roomNumber, type: room.type, isICS: room.isICS, capacity: room.capacity };
     const collectionName = Room.getCollectionName();
 
     updateMethod.callPromise({ collectionName, updateData })
@@ -56,7 +56,6 @@ const RoomTable = ({ room, eventKey }) => {
           <Col xs={2}>
             <Row>
               <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="primary" onClick={() => setShow(true)}>Edit</Button></Col>
-              <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="danger" onClick={del}>Delete</Button></Col>
             </Row>
           </Col>
         </Row>
@@ -96,6 +95,12 @@ const RoomTable = ({ room, eventKey }) => {
                   </Row>
                   <Row>
                     <Form.Group>
+                      Is Managed by ICS Department *
+                      <Form.Check id={COMPONENT_IDS.EDIT_ROOM_ICS_ADMIN} defaultChecked={room.isICS}/>
+                    </Form.Group>
+                  </Row>
+                  <Row>
+                    <Form.Group>
                       Room Capacity *
                       <Form.Control id={COMPONENT_IDS.EDIT_ROOM_CAPACITY_ADMIN} defaultValue={room.capacity ? room.capacity : ''} />
                     </Form.Group>
@@ -120,6 +125,7 @@ RoomTable.propTypes = {
   room: PropTypes.shape({
     building: PropTypes.string,
     roomNumber: PropTypes.string,
+    isICS: PropTypes.bool,
     type: PropTypes.string,
     capacity: PropTypes.number,
   }).isRequired,
