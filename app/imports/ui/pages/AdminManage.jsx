@@ -15,6 +15,8 @@ import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 import RoomTable from '../components/RoomTable';
 import AddRoomModal from '../components/AddRoomModal';
 import AddUserModal from '../components/AddUserModal';
+import FacultyTable from '../components/FacultyTable';
+import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 
 /*
 function RoomType(room) {
@@ -56,20 +58,23 @@ const AdminManage = () => {
   const [showAddRoom, setShowAddRoom] = useState(false);
   const [showAddUser, setShowAddUser] = useState(false);
 
-  const { rooms, profiles, ready } = useTracker(() => {
+  const { rooms, profiles, facultyInfo, ready } = useTracker(() => {
     const roomSubscription = Room.subscribeRoom();
     const profileSubscription = UserProfiles.subscribe();
     const adminSubscription = AdminProfiles.subscribe();
+    const facultySubscription = FacultyProfiles.subscribeFacultyProfile();
     // Determine if the subscription is ready
-    const rdy = roomSubscription.ready() && profileSubscription.ready() && adminSubscription.ready();
+    const rdy = roomSubscription.ready() && profileSubscription.ready() && adminSubscription.ready() && facultySubscription.ready();
     const room = Room.find({}).fetch();
     const user = UserProfiles.find({}, {}).fetch();
     const admin = AdminProfiles.find({}, {}).fetch();
     const profile = _.sortBy(user.concat(admin), (obj) => obj.lastName);
+    const faculty = FacultyProfiles.find({}).fetch();
     return {
       rooms: room,
       ready: rdy,
       profiles: profile,
+      facultyInfo: faculty,
     };
   }, []);
 
@@ -92,8 +97,28 @@ const AdminManage = () => {
                 <Col><u>POSITION</u></Col>
                 <Col xs={2} />
               </Row>
-              <div>
+              <div className="verticalScroll">
                 { profiles.map((account, index) => <ProfileTable key={account._id} eventKey={`${index}`} account={account} />) }
+              </div>
+              <Col className="d-flex justify-content-end">
+                <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
+                  <Button variant="success" onClick={() => setShowAddUser(true)}>
+                    + Add
+                  </Button>
+                </div>
+              </Col>
+            </Tab>
+            <Tab eventKey="faculty" title="Faculty">
+
+              <Row className="px-m3 py-2" style={{ padding: 15 }}>
+                <Col><u>LAST NAME</u></Col>
+                <Col><u>FIRST NAME</u></Col>
+                <Col><u>EMAIL</u></Col>
+                <Col><u>OFFICE</u></Col>
+                <Col xs={2} />
+              </Row>
+              <div className="verticalScroll">
+                { facultyInfo.map((faculty, index) => <FacultyTable key={faculty._id} eventKey={`${index}`} faculty={faculty} />) }
               </div>
               <Col className="d-flex justify-content-end">
                 <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
@@ -123,7 +148,7 @@ const AdminManage = () => {
                 <Col><u>CAPACITY</u></Col>
                 <Col xs={2} />
               </Row>
-              <div>
+              <div className="verticalScroll">
                 { rooms.map((room, index) => <RoomTable key={room._id} eventKey={`${index}`} room={room} />) }
               </div>
               <Col className="d-flex justify-content-end">
