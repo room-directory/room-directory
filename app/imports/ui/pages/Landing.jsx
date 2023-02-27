@@ -5,19 +5,29 @@ import Slideshow from '../components/Slideshow';
 
 /* A simple static component to render some text for the landing page. */
 const Landing = () => (
-  <Container fluid id={PAGE_IDS.LANDING} className="p-0 m-0">
+  <Container
+    fluid
+    id={PAGE_IDS.LANDING}
+    className="p-0 m-0"
+    style={{
+      backgroundImage: "url('/images/post.jpg')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    }}
+  >
+
     <Row>
-      <Slideshow />
+      {/*  <Slideshow /> */}
+      {/* </Row> */}
+      {/* <Row className="text-center h-50" id="instruction"> */}
+      {/*  <Col> */}
+      {/*    Room directory is cool and useful. */}
+      {/*  </Col> */}
+      {/*  <Col> */}
+      {/*    Click on buttons to do things on website. */}
+      {/*  </Col> */}
     </Row>
-    <Row className="text-center h-50" id="instruction">
-      <Col>
-        Room directory is cool and useful.
-      </Col>
-      <Col>
-        Click on buttons to do things on website.
-      </Col>
-    </Row>
-    <div />
+    {/* <div /> */}
   </Container>
 );
 
