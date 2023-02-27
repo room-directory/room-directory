@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Col, Container, Row, Table, DropdownButton, Dropdown, Form, InputGroup, Button } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
+import { Meteor } from 'meteor/meteor';
 import Faculty from '../components/Faculty';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
@@ -9,7 +10,9 @@ import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 
 const FacultyInfo = () => {
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
-  const { ready, profiles } = useTracker(() => {
+  const { currentUser, ready, profiles } = useTracker(() => {
+    // Get access to current user
+    const currUser = Meteor.user() ? Meteor.user().username : '';
     // Get access to faculty profiles documents.
     const subscription = FacultyProfiles.subscribeFacultyProfile();
     // Determine if the subscription is ready
@@ -17,6 +20,7 @@ const FacultyInfo = () => {
     // Get the faculty profiles documents
     const facultyProfileItems = FacultyProfiles.find({}).fetch();
     return {
+      currentUser: currUser,
       profiles: facultyProfileItems,
       ready: rdy,
     };
@@ -27,7 +31,9 @@ const FacultyInfo = () => {
   const [category, setCategory] = useState('Last Name');
   const [filtered, setFiltered] = useState(false);
   const [search, setSearch] = useState('');
-  if (filtered) {
+  if (filtered && currentUser !== '') {
+    profilesList = profiles.filter((profile) => `${profile.firstName} ${profile.lastName} ${profile.role} ${profile.email} ${profile.phone} ${profile.officeLocation} ${profile.officeHours}`.toLowerCase().includes(search.toLowerCase()));
+  } else if (filtered) {
     profilesList = profiles.filter((profile) => `${profile.firstName} ${profile.lastName} ${profile.role} ${profile.email} ${profile.phone} ${profile.officeLocation}`.toLowerCase().includes(search.toLowerCase()));
   } else {
     profilesList = profiles;
@@ -47,7 +53,7 @@ const FacultyInfo = () => {
   return (ready ? (
     <Container id={PAGE_IDS.FACULTY_INFORMATION} className="py-3">
       <Row className="justify-content-center">
-        <Col md={8}>
+        <Col md={9}>
           <Col className="text-center">
             <h2>Faculty Information</h2>
           </Col>
@@ -57,9 +63,14 @@ const FacultyInfo = () => {
                 <Dropdown.Item onClick={() => { setSortingBy('firstName'); setCategory('First Name'); }}>First Name</Dropdown.Item>
                 <Dropdown.Item onClick={() => { setSortingBy('lastName'); setCategory('Last Name'); }}>Last Name</Dropdown.Item>
                 <Dropdown.Item onClick={() => { setSortingBy('role'); setCategory('Role'); }}>Role</Dropdown.Item>
-                <Dropdown.Item onClick={() => { setSortingBy('officeLocation'); setCategory('Office'); }}>Office</Dropdown.Item>
                 <Dropdown.Item onClick={() => { setSortingBy('phone'); setCategory('Phone'); }}>Phone</Dropdown.Item>
                 <Dropdown.Item onClick={() => { setSortingBy('email'); setCategory('Email'); }}>Email</Dropdown.Item>
+                <Dropdown.Item onClick={() => { setSortingBy('officeLocation'); setCategory('Office Location'); }}>Office Location</Dropdown.Item>
+                { currentUser !== '' ?
+                  ([
+                    <Dropdown.Item onClick={() => { setSortingBy('officeHours'); setCategory('Office Hours'); }}>Office Hours</Dropdown.Item>,
+                  ])
+                  : ''}
               </DropdownButton>
             </Col>
             <Col xs={4} style={{ justifyContent: 'end' }}>
@@ -76,11 +87,16 @@ const FacultyInfo = () => {
                 <th> </th>
                 <th>Name</th>
                 <th>Contact Info</th>
-                <th>Office</th>
+                <th>Office Location</th>
+                { currentUser !== '' ?
+                  ([
+                    <th>Office Hours</th>,
+                  ])
+                  : ''}
               </tr>
             </thead>
             <tbody>
-              {profilesList.map((faculty) => <Faculty key={faculty._id} faculty={faculty} />)}
+              {profilesList.map((faculty) => <Faculty key={faculty._id} faculty={faculty} user={currentUser} />)}
             </tbody>
           </Table>
         </Col>

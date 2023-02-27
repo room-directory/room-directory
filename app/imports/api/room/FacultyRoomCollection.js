@@ -4,37 +4,30 @@ import { check } from 'meteor/check';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
-export const clubPublications = {
-  club: 'Club',
+export const facultyRoomPublications = {
+  facultyRoom: 'FacultyRoom',
 };
 
-class ClubCollection extends BaseCollection {
+class FacultyRoomCollection extends BaseCollection {
   constructor() {
-    super('Club', new SimpleSchema({
-      clubName: String,
-      website: String,
-      image: String,
-      description: String,
-      rio: [String],
-      advisor: [String],
+    super('RoomResources', new SimpleSchema({
+      building: String,
+      roomNumber: String,
+      facultyEmail: String,
     }));
   }
 
   /**
-   * Defines a new Club item.
-   * @param clubName name of the club.
-   * @param rio array of students in charge of the club.
-   * @param advisor array of advisors for the club.
-   * @return {String} the docID of the new document.
+   * Defines a new Room item.
+   * @param building the building the room is in.
+   * @param roomNumber the room number of the room.
+   * @param facultyEmail the email of the faculty member.
    */
-  define({ clubName, website, image, description, rio, advisor }) {
+  define({ building, roomNumber, facultyEmail }) {
     const docID = this._collection.insert({
-      clubName,
-      website,
-      image,
-      description,
-      rio,
-      advisor,
+      building,
+      roomNumber,
+      facultyEmail,
     });
     return docID;
   }
@@ -42,29 +35,20 @@ class ClubCollection extends BaseCollection {
   /**
    * Updates the given document.
    * @param docID the id of the document to update.
-   * @param clubName name of the club (optional).
-   * @param rio array of students in charge of the club (optional).
-   * @param advisor array of advisors for the club (optional).
+   * @param building the building the room is in. (optional)
+   * @param roomNumber the room number of the room. (optional)
+   * @param facultyEmail the email of the faculty member. (optional)
    */
-  update(docID, { clubName, website, image, description, rio, advisor }) {
+  update(docID, { building, roomNumber, facultyEmail }) {
     const updateData = {};
-    if (clubName) {
-      updateData.clubName = clubName;
+    if (building) {
+      updateData.building = building;
     }
-    if (website) {
-      updateData.website = website;
+    if (roomNumber) {
+      updateData.roomNumber = roomNumber;
     }
-    if (image) {
-      updateData.image = image;
-    }
-    if (description) {
-      updateData.description = description;
-    }
-    if (rio) {
-      updateData.rio = rio;
-    }
-    if ((advisor)) {
-      updateData.advisor = advisor;
+    if (facultyEmail) {
+      updateData.facultyEmail = facultyEmail;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -83,15 +67,18 @@ class ClubCollection extends BaseCollection {
 
   /**
    * Default publication method for entities.
-   * It publishes the entire collection for all users (no login required).
+   * It publishes the entire collection for admin and just the stuff associated to an owner.
    */
   publish() {
     if (Meteor.isServer) {
       // get the StuffCollection instance.
       const instance = this;
       /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(clubPublications.club, function publish() {
-        return instance._collection.find();
+      Meteor.publish(facultyRoomPublications.facultyRoom, function publish() {
+        if (this.userId) {
+          return instance._collection.find();
+        }
+        return this.ready();
       });
     }
   }
@@ -99,9 +86,9 @@ class ClubCollection extends BaseCollection {
   /**
    * Subscription method for stuff owned by the current user.
    */
-  subscribeClub() {
+  subscribeRoomResource() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(clubPublications.club);
+      return Meteor.subscribe(facultyRoomPublications.facultyRoom);
     }
     return null;
   }
@@ -123,17 +110,14 @@ class ClubCollection extends BaseCollection {
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
-    const clubName = doc.clubName;
-    const website = doc.website;
-    const image = doc.image;
-    const description = doc.description;
-    const rio = doc.rio;
-    const advisor = doc.advisor;
-    return { clubName, website, image, description, rio, advisor };
+    const building = doc.building;
+    const roomNumber = doc.roomNumber;
+    const facultyEmail = doc.facultyEmail;
+    return { building, roomNumber, facultyEmail };
   }
 }
 
 /**
  * Provides the singleton instance of this class to all other entities.
  */
-export const Club = new ClubCollection();
+export const FacultyRooms = new FacultyRoomCollection();
