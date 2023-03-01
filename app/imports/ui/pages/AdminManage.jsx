@@ -8,6 +8,7 @@ import DatePicker from 'react-datepicker';
 import { PAGE_IDS } from '../utilities/PageIDs';
 // import RoomDropdown from '../components/RoomDropdown';
 import { Room } from '../../api/room/RoomCollection';
+import { RoomResources } from '../../api/room/RoomResourceCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ProfileTable from '../components/ProfileTable';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
@@ -56,18 +57,21 @@ const AdminManage = () => {
   const [showAddRoom, setShowAddRoom] = useState(false);
   const [showAddUser, setShowAddUser] = useState(false);
 
-  const { rooms, profiles, ready } = useTracker(() => {
+  const { rooms, resources, profiles, ready } = useTracker(() => {
     const roomSubscription = Room.subscribeRoom();
     const profileSubscription = UserProfiles.subscribe();
     const adminSubscription = AdminProfiles.subscribe();
+    const resourcesSubscription = RoomResources.subscribeRoomResourceAdmin();
     // Determine if the subscription is ready
-    const rdy = roomSubscription.ready() && profileSubscription.ready() && adminSubscription.ready();
-    const room = Room.find({}).fetch();
+    const rdy = roomSubscription.ready() && profileSubscription.ready() && adminSubscription.ready() && resourcesSubscription.ready();
+    const room = Room.find({}, {}).fetch();
+    const resource = RoomResources.find({}, {}).fetch();
     const user = UserProfiles.find({}, {}).fetch();
     const admin = AdminProfiles.find({}, {}).fetch();
     const profile = _.sortBy(user.concat(admin), (obj) => obj.lastName);
     return {
       rooms: room,
+      resources: resource,
       ready: rdy,
       profiles: profile,
     };
@@ -124,7 +128,7 @@ const AdminManage = () => {
                 <Col xs={2} />
               </Row>
               <div>
-                { rooms.map((room, index) => <RoomTable key={room._id} eventKey={`${index}`} room={room} />) }
+                { rooms.map((room, index) => <RoomTable key={room._id} eventKey={`${index}`} room={room} resources={resources.find(x => x.roomNumber === room.roomNumber)} />) }
               </div>
 
             </Tab>

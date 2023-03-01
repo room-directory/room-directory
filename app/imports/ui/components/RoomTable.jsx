@@ -7,7 +7,7 @@ import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.meth
 import { Room } from '../../api/room/RoomCollection';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
-const RoomTable = ({ room, eventKey }) => {
+const RoomTable = ({ room, resources, eventKey }) => {
   const [show, setShow] = useState(false);
   const del = () => {
     const collectionName = Room.getCollectionName();
@@ -105,6 +105,37 @@ const RoomTable = ({ room, eventKey }) => {
                       <Form.Control id={COMPONENT_IDS.EDIT_ROOM_CAPACITY_ADMIN} defaultValue={room.capacity ? room.capacity : ''} />
                     </Form.Group>
                   </Row>
+                  <Row>
+                    <Form.Group>
+                      Chairs *
+                      <Form.Control defaultValue={resources.chairs ? resources.chairs : ''} />
+                    </Form.Group>
+                  </Row>
+                  <Row>
+                    <Form.Group>
+                      Desks *
+                      <Form.Control defaultValue={resources.desks ? resources.desks : ''} />
+                    </Form.Group>
+                  </Row>
+                  <Row>
+                    <Form.Group>
+                      TVs *
+                      <Form.Control defaultValue={resources.tv ? resources.tv : ''} />
+                    </Form.Group>
+                  </Row>
+                  <Row>
+                    <Form.Group>
+                      Phone # *
+                      <Form.Control defaultValue={resources.phoneNumber ? resources.phoneNumber : ''} />
+                    </Form.Group>
+                  </Row>
+                  <Row>
+                    <Form.Group>
+                      Data Jacks *
+                      <Form.Control defaultValue={resources.dataJacks ? resources.dataJacks : ''} />
+                    </Form.Group>
+                  </Row>
+
                 </Row>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: 25 }}>
                   <Button variant="primary" type="submit" alt="Submit Changes" onClick={submit}>
