@@ -17,6 +17,8 @@ import AddRoomModal from '../components/AddRoomModal';
 import AddUserModal from '../components/AddUserModal';
 import FacultyTable from '../components/FacultyTable';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
+import { Club } from '../../api/club/ClubCollection';
+import ClubTable from '../components/ClubTable';
 
 /*
 function RoomType(room) {
@@ -58,23 +60,26 @@ const AdminManage = () => {
   const [showAddRoom, setShowAddRoom] = useState(false);
   const [showAddUser, setShowAddUser] = useState(false);
 
-  const { rooms, profiles, facultyInfo, ready } = useTracker(() => {
+  const { rooms, profiles, facultyInfo, clubs, ready } = useTracker(() => {
     const roomSubscription = Room.subscribeRoom();
     const profileSubscription = UserProfiles.subscribe();
     const adminSubscription = AdminProfiles.subscribe();
     const facultySubscription = FacultyProfiles.subscribeFacultyProfile();
+    const clubSubscription = Club.subscribeClub();
     // Determine if the subscription is ready
-    const rdy = roomSubscription.ready() && profileSubscription.ready() && adminSubscription.ready() && facultySubscription.ready();
+    const rdy = roomSubscription.ready() && profileSubscription.ready() && adminSubscription.ready() && facultySubscription.ready() && clubSubscription.ready();
     const room = Room.find({}).fetch();
     const user = UserProfiles.find({}, {}).fetch();
     const admin = AdminProfiles.find({}, {}).fetch();
     const profile = _.sortBy(user.concat(admin), (obj) => obj.lastName);
     const faculty = FacultyProfiles.find({}).fetch();
+    const club = Club.find({}).fetch();
     return {
       rooms: room,
       ready: rdy,
       profiles: profile,
       facultyInfo: faculty,
+      clubs: club,
     };
   }, []);
 
@@ -162,19 +167,16 @@ const AdminManage = () => {
             <Tab eventKey="clubs" title="Clubs">
 
               <Row className="px-m3 py-2" style={{ padding: 15 }}>
-                <Col><u>LAST NAME</u></Col>
-                <Col><u>FIRST NAME</u></Col>
-                <Col><u>EMAIL</u></Col>
-                <Col><u>POSITION</u></Col>
+                <Col><u>CLUB NAME</u></Col>
                 <Col xs={2} />
               </Row>
               <div>
-                { profiles.map((account, index) => <ProfileTable key={account._id} eventKey={`${index}`} account={account} />) }
+                { clubs.map((club, index) => <ClubTable key={club._id} eventKey={`${index}`} club={club} />) }
               </div>
               <Col className="d-flex justify-content-end">
                 <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
                   <Button variant="success" onClick={() => setShowAddUser(true)}>
-                    + Add
+                    + Add Club
                   </Button>
                 </div>
               </Col>
