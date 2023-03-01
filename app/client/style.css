@@ -913,3 +913,9 @@ footer a:link {
 footer a:hover {
   color: lightgreen !important;
 }
+
+.verticalScroll {
+  height: 50vh;
+  overflow-y: scroll;
+  width: 100%;
+}

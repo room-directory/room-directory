@@ -6,8 +6,8 @@ const Faculty = ({ faculty, user }) => (
   <tr>
     <td><img alt="" src={faculty.image} width="180" height="180" /></td>
     <td>{`${faculty.firstName} ${faculty.lastName}`}<br />{faculty.role}</td>
-    <td>{faculty.email}<br />{faculty.phone}</td>
-    <td>{faculty.officeLocation}</td>
+    <td>{faculty.email} {faculty.phone.map((phone) => <div>{phone}</div>)}</td>
+    <td>{faculty.officeLocation.map((office) => <div>{office}</div>)}</td>
     { user !== '' ?
       ([
         <td>{faculty.officeHours}</td>,
