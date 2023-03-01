@@ -19,6 +19,7 @@ import FacultyTable from '../components/FacultyTable';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 import { Club } from '../../api/club/ClubCollection';
 import ClubTable from '../components/ClubTable';
+import AddClubModal from '../components/AddClubModal';
 
 /*
 function RoomType(room) {
@@ -59,6 +60,7 @@ const AdminManage = () => {
   const [endTime, setEndTime] = useState(new Date());
   const [showAddRoom, setShowAddRoom] = useState(false);
   const [showAddUser, setShowAddUser] = useState(false);
+  const [showAddClub, setShowAddClub] = useState(false);
 
   const { rooms, profiles, facultyInfo, clubs, ready } = useTracker(() => {
     const roomSubscription = Room.subscribeRoom();
@@ -175,7 +177,7 @@ const AdminManage = () => {
               </div>
               <Col className="d-flex justify-content-end">
                 <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
-                  <Button variant="success" onClick={() => setShowAddUser(true)}>
+                  <Button variant="success" onClick={() => setShowAddClub(true)}>
                     + Add Club
                   </Button>
                 </div>
@@ -264,6 +266,7 @@ const AdminManage = () => {
       </Modal>
       <AddRoomModal setShowAddRoom={setShowAddRoom} showAddRoom={showAddRoom} />
       <AddUserModal setShowAddUser={setShowAddUser} showAddUser={showAddUser} />
+      <AddClubModal setshowAddClub={setShowAddClub} showAddClub={showAddClub} />
     </Container>
   ) : <LoadingSpinner />);
 };
