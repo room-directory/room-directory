@@ -1,29 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
-import { Card, Col, Row, Button, Modal, Alert } from 'react-bootstrap';
-import SimpleSchema from 'simpl-schema';
+import { Card, Col, Row, Button, Modal } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 
-const formSchema = new SimpleSchema({
-  firstName: String,
-  lastName: String,
-  email: String,
-  role: String,
-  image: String,
-  phone: [String],
-  officeHours: String,
-  officeLocation: [String],
-});
-
-const bridge = new SimpleSchema2Bridge(formSchema);
+const bridge = new SimpleSchema2Bridge(FacultyProfiles._schema);
 
 const FacultyTable = ({ faculty, eventKey }) => {
   const [show, setShow] = useState(false);
-  const [editError, setEditError] = useState('');
 
   const del = () => {
     const collectionName = FacultyProfiles.getCollectionName();
@@ -50,10 +37,13 @@ const FacultyTable = ({ faculty, eventKey }) => {
   const submit = (data) => {
     const { firstName, lastName, role, image, email, phone, officeLocation, officeHours } = data;
     const collectionName = FacultyProfiles.getCollectionName();
-    const updateData = { id: faculty._id, firstName, lastName, role, image, email, phone, officeLocation, officeHours };
+    // convert phone numbers and office locations to an array
+    const phoneArray = (phone.includes(',') ? phone.replace(/\s+/g, '').split(',') : phone);
+    const officeLocationArray = (officeLocation.includes(',') ? officeLocation.replace(/\s+/g, '').split(',') : officeLocation);
+    const updateData = { id: faculty._id, phone: phoneArray, firstName, lastName, role, image, email, officeLocation: officeLocationArray, officeHours };
     // edit the FacultyProfiles collection
     updateMethod.callPromise({ collectionName, updateData })
-      .catch((err) => setEditError(err.reason))
+      .catch((err) => swal('Error', err.message, 'error'))
       .then(() => swal('Success', 'Faculty edited successfully', 'success'));
   };
 
@@ -114,14 +104,6 @@ const FacultyTable = ({ faculty, eventKey }) => {
                   <ErrorsField />
                 </Row>
               </AutoForm>
-              {editError === '' ? (
-                ''
-              ) : (
-                <Alert variant="danger">
-                  <Alert.Heading>Editing faculty was not successful</Alert.Heading>
-                  {editError}
-                </Alert>
-              )}
             </Modal.Body>
           </Modal>
         ) : ''
