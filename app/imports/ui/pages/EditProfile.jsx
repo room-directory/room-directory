@@ -68,7 +68,7 @@ const EditProfile = () => {
           <Image id="profile-image" roundedCircle className="h-25 w-25" src={user.image} />
         </Row>
         <Dropdown drop="up-centered" id={COMPONENT_IDS.EDIT_PROFILE_FORM_PFP} onSelect={pfpUpdate}>
-          <Dropdown.Toggle id="dropdown-basic">
+          <Dropdown.Toggle variant="success" id="dropdown-basic">
             Change Profile Picture
           </Dropdown.Toggle>
 
