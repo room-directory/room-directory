@@ -38,19 +38,21 @@ const RoomList = () => {
           </DropdownButton>
         </ButtonGroup>
       </Row>
-      <Row>
+      <Row className="d-flex w-auto flex-nowrap">
         <SvgComponent rooms={rooms} hoverRoom={hoverRoom} />
-        <Table striped>
-          <thead>
-            <tr>
-              <th>Room Number</th>
-              <th>Room type</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rooms.map((room) => <RoomListTableRow room={room} hoverRoom={hoverRoom} setHoverRoom={setHoverRoom} key={room._id} />)}
-          </tbody>
-        </Table>
+        <div className="w-25 room-list-table">
+          <Table responsive className="room-list-table">
+            <thead>
+              <tr>
+                <th>Room Number</th>
+                <th>Room type</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rooms.map((room) => <RoomListTableRow room={room} hoverRoom={hoverRoom} setHoverRoom={setHoverRoom} key={room._id} />)}
+            </tbody>
+          </Table>
+        </div>
       </Row>
     </Container>
   )

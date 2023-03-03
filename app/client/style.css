@@ -902,8 +902,12 @@ path {
     fill: red;
   }
 }
-
+.room-list-table {
+  height: 661px;
+  overflow-y: auto;
+}
 svg {
+  transform: scale(0.9, 0.9);
 }
 
 footer a:link {

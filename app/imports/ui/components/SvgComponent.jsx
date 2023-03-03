@@ -52,7 +52,7 @@ const SvgComponent = ({ rooms, hoverRoom }) => {
     }
   });
   return (
-    <Container fluid>
+    <Container fluid className="w-auto m-0 p-0">
       <svg
         id="svg2"
         width={863.578}
