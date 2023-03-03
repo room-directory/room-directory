@@ -73,9 +73,11 @@ const EditProfile = () => {
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item eventKey="/images/cam-moore.jpg"><Image rounded height={50} width={50} src="/images/cam-moore.jpg" /> PFP 1</Dropdown.Item>
-            <Dropdown.Item eventKey="/images/depeng-li.jpg"><Image roundedCircle height={50} width={50} src="/images/depeng-li.jpg" /> PFP 2</Dropdown.Item>
-            <Dropdown.Item eventKey="">Something else</Dropdown.Item>
+            <Dropdown.Item eventKey="/images/case.png"><Image roundedCircle height={50} width={50} src="/images/case.png" /> PFP 1</Dropdown.Item>
+            <Dropdown.Item eventKey="/images/keyboard.png"><Image roundedCircle height={50} width={50} src="/images/keyboard.png" /> PFP 2</Dropdown.Item>
+            <Dropdown.Item eventKey="/images/monitor.png"><Image roundedCircle height={50} width={50} src="/images/monitor.png" /> PFP 3</Dropdown.Item>
+            <Dropdown.Item eventKey="/images/mouse.jpg"><Image roundedCircle height={50} width={50} src="/images/mouse.jpg" /> PFP 4</Dropdown.Item>
+            <Dropdown.Item eventKey="/images/speaker.png"><Image roundedCircle height={50} width={50} src="/images/speaker.png" /> PFP 5</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
         <Row>
