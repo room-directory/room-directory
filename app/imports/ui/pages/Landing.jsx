@@ -3,6 +3,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { PAGE_IDS } from '../utilities/PageIDs';
 
 /* A simple static component to render some text for the landing page. */
+
 const sentences = [
   'Creating a user friendly interface for office space management of the ICS department.',
   'Welcome to the ICS Room Directory!',
@@ -30,7 +31,7 @@ const Landing = () => {
     <Container
       fluid
       id={PAGE_IDS.LANDING}
-      className="p-0 m-0"
+      className="p-0 m-0 overflow-hidden"
       style={{
         backgroundImage: "url('../images/post.png')",
         backgroundSize: 'cover',

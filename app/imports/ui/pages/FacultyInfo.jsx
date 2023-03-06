@@ -39,14 +39,17 @@ const FacultyInfo = () => {
     profilesList = profiles;
   }
   profilesList.sort(function (a, b) {
-    if (a[sortingBy] === b[sortingBy]) {
+    if (a[sortingBy] === b[sortingBy] || (Array.isArray(a[sortingBy]) && Array.isArray(b[sortingBy]) && a[sortingBy][0] === b[sortingBy][0])) {
       return a.lastName.localeCompare(b.lastName);
     }
-    if (['Not Available', 'No Email Contact', 'No Phone Contact', 'Unknown'].includes(a[sortingBy])) {
+    if (['Not Available', 'No Email Contact', 'No Phone Contact', 'Unknown'].includes(a[sortingBy]) || a[sortingBy][0] === 'Not Available') {
       return 1;
     }
-    if (['Not Available', 'No Email Contact', 'No Phone Contact', 'Unknown'].includes(b[sortingBy])) {
+    if (['Not Available', 'No Email Contact', 'No Phone Contact', 'Unknown'].includes(b[sortingBy]) || b[sortingBy][0] === 'Not Available') {
       return -1;
+    }
+    if (['phone', 'officeLocation'].includes(sortingBy)) {
+      return a[sortingBy][0].localeCompare(b[sortingBy][0]);
     }
     return a[sortingBy].localeCompare(b[sortingBy]);
   });

@@ -15,6 +15,11 @@ import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 import RoomTable from '../components/RoomTable';
 import AddRoomModal from '../components/AddRoomModal';
 import AddUserModal from '../components/AddUserModal';
+import FacultyTable from '../components/FacultyTable';
+import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
+import AddFacultyModal from '../components/AddFacultyModal';
+import { Club } from '../../api/club/ClubCollection';
+import ClubTable from '../components/ClubTable';
 
 /*
 function RoomType(room) {
@@ -55,21 +60,28 @@ const AdminManage = () => {
   const [endTime, setEndTime] = useState(new Date());
   const [showAddRoom, setShowAddRoom] = useState(false);
   const [showAddUser, setShowAddUser] = useState(false);
+  const [showAddFaculty, setShowAddFaculty] = useState(false);
 
-  const { rooms, profiles, ready } = useTracker(() => {
+  const { rooms, profiles, facultyInfo, clubs, ready } = useTracker(() => {
     const roomSubscription = Room.subscribeRoom();
     const profileSubscription = UserProfiles.subscribe();
     const adminSubscription = AdminProfiles.subscribe();
+    const facultySubscription = FacultyProfiles.subscribeFacultyProfile();
+    const clubSubscription = Club.subscribeClub();
     // Determine if the subscription is ready
-    const rdy = roomSubscription.ready() && profileSubscription.ready() && adminSubscription.ready();
+    const rdy = roomSubscription.ready() && profileSubscription.ready() && adminSubscription.ready() && facultySubscription.ready() && clubSubscription.ready();
     const room = Room.find({}).fetch();
     const user = UserProfiles.find({}, {}).fetch();
     const admin = AdminProfiles.find({}, {}).fetch();
     const profile = _.sortBy(user.concat(admin), (obj) => obj.lastName);
+    const faculty = FacultyProfiles.find({}).fetch();
+    const club = Club.find({}).fetch();
     return {
       rooms: room,
       ready: rdy,
       profiles: profile,
+      facultyInfo: faculty,
+      clubs: club,
     };
   }, []);
 
@@ -92,12 +104,32 @@ const AdminManage = () => {
                 <Col><u>POSITION</u></Col>
                 <Col xs={2} />
               </Row>
-              <div>
+              <div className="verticalScroll">
                 { profiles.map((account, index) => <ProfileTable key={account._id} eventKey={`${index}`} account={account} />) }
               </div>
               <Col className="d-flex justify-content-end">
                 <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
                   <Button variant="success" onClick={() => setShowAddUser(true)}>
+                    + Add
+                  </Button>
+                </div>
+              </Col>
+            </Tab>
+            <Tab eventKey="faculty" title="Faculty">
+
+              <Row className="px-m3 py-2" style={{ padding: 15 }}>
+                <Col><u>LAST NAME</u></Col>
+                <Col><u>FIRST NAME</u></Col>
+                <Col><u>EMAIL</u></Col>
+                <Col><u>OFFICE</u></Col>
+                <Col xs={2} />
+              </Row>
+              <div className="verticalScroll">
+                { facultyInfo.map((faculty, index) => <FacultyTable key={faculty._id} eventKey={`${index}`} faculty={faculty} />) }
+              </div>
+              <Col className="d-flex justify-content-end">
+                <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
+                  <Button variant="success" onClick={() => setShowAddFaculty(true)}>
                     + Add
                   </Button>
                 </div>
@@ -123,13 +155,30 @@ const AdminManage = () => {
                 <Col><u>CAPACITY</u></Col>
                 <Col xs={2} />
               </Row>
-              <div>
+              <div className="verticalScroll">
                 { rooms.map((room, index) => <RoomTable key={room._id} eventKey={`${index}`} room={room} />) }
               </div>
               <Col className="d-flex justify-content-end">
                 <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
                   <Button variant="success" onClick={() => setShowAddRoom(true)}>
                     + Add Room
+                  </Button>
+                </div>
+              </Col>
+            </Tab>
+            <Tab eventKey="clubs" title="Clubs">
+
+              <Row className="px-m3 py-2" style={{ padding: 15 }}>
+                <Col><u>CLUB NAME</u></Col>
+                <Col xs={2} />
+              </Row>
+              <div>
+                { clubs.map((club, index) => <ClubTable key={club._id} eventKey={`${index}`} club={club} />) }
+              </div>
+              <Col className="d-flex justify-content-end">
+                <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
+                  <Button variant="success" onClick={() => setShowAddUser(true)}>
+                    + Add Club
                   </Button>
                 </div>
               </Col>
@@ -217,6 +266,7 @@ const AdminManage = () => {
       </Modal>
       <AddRoomModal setShowAddRoom={setShowAddRoom} showAddRoom={showAddRoom} />
       <AddUserModal setShowAddUser={setShowAddUser} showAddUser={showAddUser} />
+      <AddFacultyModal setShowAddFaculty={setShowAddFaculty} showAddFaculty={showAddFaculty} />
     </Container>
   ) : <LoadingSpinner />);
 };

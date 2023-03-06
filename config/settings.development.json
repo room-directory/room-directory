@@ -20,13 +20,1222 @@
   ],
 
   "defaultRoomData": [
-    {"roomNumber": "301", "building": "POST", "type": "lecture", "occupants": ["x76isFyiZpWF9L6iD"], "squareFt": 20},
-    {"roomNumber": "318", "building": "POST", "type": "lecture", "occupants": ["BWmRadttWBJ2HfGGg"], "squareFt": 20},
-    {"roomNumber": "318A", "building": "POST", "type": "lecture", "occupants": ["BWmRadttWBJ2HfGGg"], "squareFt": 20},
-    {"roomNumber": "318B", "building": "POST", "type": "lecture", "occupants": ["PHjNS7SEQE8LZd46J"], "squareFt": 20},
-    {"roomNumber": "315", "building": "POST", "type": "office", "occupants": ["PHjNS7SEQE8LZd46J"], "squareFt": 10},
-    {"roomNumber": "302", "building": "POST", "type": "conference", "occupants": ["PHjNS7SEQE8LZd46J"], "squareFt": 30},
-    {"roomNumber": "304", "building": "POST", "type": "study room", "occupants": ["PHjNS7SEQE8LZd46J"], "squareFt": 5}
+    {"roomNumber": "301", "building": "POST", "type": "lecture", "isICS": true, "occupants": ["x76isFyiZpWF9L6iD"], "squareFt": 20},
+    {"roomNumber": "303", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "303A", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "303B", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "303C", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "303D", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "303E", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "303F", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "305", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "305A", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "305B", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "305C", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "305D", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "305E", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "305F", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "305G", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "306", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "306A", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "306B", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "306C", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "306D", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "307", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "307A", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "307B", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "307C", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "309", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "309A", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "309B", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "309C", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "310", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "310A", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "310B", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "310C", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "312", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "312A", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "312B", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "312C", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "314", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "314A", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "314B", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "314C", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "314D", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "314E", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "314F", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "314G", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "314H", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "314I", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "316", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "317", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20},
+    {"roomNumber": "318", "building": "POST", "type": "lecture", "isICS": true, "occupants": ["BWmRadttWBJ2HfGGg"], "squareFt": 20},
+    {"roomNumber": "318A", "building": "POST", "type": "lecture", "isICS": true, "occupants": ["BWmRadttWBJ2HfGGg"], "squareFt": 20},
+    {"roomNumber": "318B", "building": "POST", "type": "lecture", "isICS": true, "occupants": ["PHjNS7SEQE8LZd46J"], "squareFt": 20},
+    {"roomNumber": "319", "building": "POST", "type": "lecture", "isICS": true, "occupants": ["PHjNS7SEQE8LZd46J"], "squareFt": 20},
+    {"roomNumber": "315", "building": "POST", "type": "office", "isICS": true, "occupants": ["PHjNS7SEQE8LZd46J"], "squareFt": 10},
+    {"roomNumber": "302", "building": "POST", "type": "conference", "isICS": true, "occupants": ["PHjNS7SEQE8LZd46J"], "squareFt": 30},
+    {"roomNumber": "304", "building": "POST", "type": "study room", "isICS": true, "occupants": ["PHjNS7SEQE8LZd46J"], "squareFt": 5},
+    {"roomNumber": "327", "building": "POST", "type": "office", "isICS": true, "occupants": ["PHjNS7SEQE8LZd46J", "fjkd"], "squareFt": 5},
+    {"roomNumber": "328", "building": "POST", "type": "office", "isICS": true, "occupants": ["PHjNS7SEQE8LZd46J", "fjkd"], "squareFt": 5}
+  ],
+
+  "defaultRoomResourceData": [
+    {
+      "roomNumber": "301",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "303",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "303A",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "303B",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "303C",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "303D",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "303E",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "303F",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "305",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "305A",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "305B",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "305C",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "305D",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "305E",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "305F",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "305G",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "306",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "306A",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "306B",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "306C",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "306D",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "307",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "307A",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },{
+      "roomNumber": "307B",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "307C",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "309",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "309A",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "309B",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "309C",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "310",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "310A",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "310B",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "310C",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "312",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "312A",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "312B",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "312C",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "314",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "314A",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "314B",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "314C",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "314D",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "314E",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "314F",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "314G",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "314H",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "314I",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "316",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "317",
+      "capacity": 20,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "123",
+        "location": "mauka"}],
+      "phoneNumber": "929-2991",
+      "dataJacks": [
+        {
+          "number":  "123",
+          "location": "windward"},
+        {
+          "number":  "011",
+          "location": "leeward"},
+        {
+          "number":  "012",
+          "location": "leeward"}
+      ]
+    },
+    {
+      "roomNumber": "318",
+      "capacity": 20,
+      "chairs": 35,
+      "desks": 10,
+      "tv": [
+        {
+          "number":  "456",
+          "location": "makai" },
+        {
+          "number":  "123",
+          "location": "mauka" }
+      ],
+      "phoneNumber": "929-2991",
+      "dataJacks": [{
+        "number":  "123",
+        "location": "windward"}]
+    },
+    {
+      "roomNumber": "319",
+      "capacity": 20,
+      "chairs": 35,
+      "desks": 10,
+      "tv": [
+        {
+          "number":  "456",
+          "location": "makai" },
+        {
+          "number":  "123",
+          "location": "mauka" }
+      ],
+      "phoneNumber": "929-2991",
+      "dataJacks": [{
+        "number":  "123",
+        "location": "windward"}]
+    },
+    {
+      "roomNumber": "315",
+      "capacity": 10,
+      "chairs": 30,
+      "desks": 10,
+      "tv": [{
+        "number":  "789",
+        "location": "windward" }],
+      "phoneNumber": "929-2991",
+      "dataJacks": [{
+        "number":  "123",
+        "location": "windward"}]
+    },
+    {
+      "roomNumber": "302",
+      "capacity": 30,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "012",
+        "location": "mauka"}],
+      "phoneNumber": "929-6454",
+      "dataJacks": [{
+        "number":  "123",
+        "location": "windward"}]
+    },
+    {
+      "roomNumber": "304",
+      "capacity": 5 ,
+      "chairs": 50,
+      "desks": 20,
+      "tv": [{
+        "number":  "345",
+        "location": "leeward"}],
+      "phoneNumber": "929-4212",
+      "dataJacks": [{
+        "number":  "123",
+        "location": "windward"}]
+    },
+    {
+      "roomNumber": "318B",
+      "capacity": 30,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "678",
+        "location": "makai"}],
+      "phoneNumber": "929-6454",
+      "dataJacks": [{
+        "number":  "123",
+        "location": "windward"}]
+    },
+    {
+      "roomNumber": "318A",
+      "capacity": 30,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "901",
+        "location": "mauka"}],
+      "phoneNumber": "929-6454",
+      "dataJacks": [{
+        "number":  "123",
+        "location": "windward"}]
+    },
+    {
+      "roomNumber": "327",
+      "capacity": 30,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "901",
+        "location": "mauka"}],
+      "phoneNumber": "929-6454",
+      "dataJacks": [{
+        "number":  "123",
+        "location": "windward"}]
+    },
+    {
+      "roomNumber": "328",
+      "capacity": 30,
+      "chairs": 25,
+      "desks": 10,
+      "tv": [{
+        "number":  "901",
+        "location": "mauka"}],
+      "phoneNumber": "929-6454",
+      "dataJacks": [{
+        "number":  "123",
+        "location": "windward"}]
+    }
   ],
 
   "defaultFacultyData": [
@@ -369,112 +1578,6 @@
       "officeHours": "Not Available",
       "phone": "808-956-8249",
       "email": "wesleysu@hawaii.edu"
-    }
-  ],
-
-  "defaultRoomResourceData": [
-    {
-      "roomNumber": "301",
-      "capacity": 20, "chairs": 25,
-      "desks": 10,
-      "tv": [{
-        "number":  "123",
-        "location": "mauka"}],
-      "phoneNumber": "929-2991",
-      "dataJacks": [
-        {
-        "number":  "123",
-        "location": "windward"},
-        {
-          "number":  "011",
-          "location": "leeward"},
-        {
-          "number":  "012",
-          "location": "leeward"}
-      ]
-    },
-    {
-      "roomNumber": "318",
-      "capacity": 20,
-      "chairs": 35,
-      "desks": 10,
-      "tv": [
-        {
-        "number":  "456",
-        "location": "makai" },
-        {
-          "number":  "123",
-          "location": "mauka" }
-      ],
-      "phoneNumber": "929-2991",
-      "dataJacks": [{
-        "number":  "123",
-        "location": "windward"}]
-    },
-    {
-      "roomNumber": "315",
-      "capacity": 10,
-      "chairs": 30,
-      "desks": 10,
-      "tv": [{
-        "number":  "789",
-        "location": "windward" }],
-      "phoneNumber": "929-2991",
-      "dataJacks": [{
-        "number":  "123",
-        "location": "windward"}]
-    },
-    {
-      "roomNumber": "302",
-      "capacity": 30,
-      "chairs": 25,
-      "desks": 10,
-      "tv": [{
-        "number":  "012",
-        "location": "mauka"}],
-      "phoneNumber": "929-6454",
-      "dataJacks": [{
-        "number":  "123",
-        "location": "windward"}]
-    },
-    {
-      "roomNumber": "304",
-      "capacity": 5 ,
-      "chairs": 50,
-      "desks": 20,
-      "tv": [{
-        "number":  "345",
-        "location": "leeward"}],
-      "phoneNumber": "929-4212",
-      "dataJacks": [{
-        "number":  "123",
-        "location": "windward"}]
-    },
-    {
-      "roomNumber": "318B",
-      "capacity": 30,
-      "chairs": 25,
-      "desks": 10,
-      "tv": [{
-        "number":  "678",
-        "location": "makai"}],
-      "phoneNumber": "929-6454",
-      "dataJacks": [{
-        "number":  "123",
-        "location": "windward"}]
-    },
-    {
-      "roomNumber": "318A",
-      "capacity": 30,
-      "chairs": 25,
-      "desks": 10,
-      "tv": [{
-        "number":  "901",
-        "location": "mauka"}],
-      "phoneNumber": "929-6454",
-      "dataJacks": [{
-        "number":  "123",
-        "location": "windward"}]
     }
   ],
 

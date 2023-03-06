@@ -16,7 +16,6 @@
  */
 body {
   --bs-light-rgb: var(--matr-navbar-bg-rgb);
-  overflow-x: hidden;
 }
 
 /* Set the SignIn and SignUp alerts background. */
@@ -875,12 +874,41 @@ path {
   pointer-events: auto;
 }
 
-.room:hover {
-  fill: lightgreen;
+.room {
+  animation: room-hover 1s infinite alternate;
   cursor: pointer;
 }
 
+.room2 {
+  fill: lightgreen;
+}
+
+.not-ics-room:hover {
+  animation: not-ics-room-hover 1s infinite alternate;
+}
+
+@keyframes room-hover {
+  from {
+    fill: white;
+  }
+  to {
+    fill: lightgreen;
+  }
+}
+@keyframes not-ics-room-hover {
+  from {
+    fill: white;
+  }
+  to {
+    fill: red;
+  }
+}
+.room-list-table {
+  height: 80vh;
+  overflow-y: auto;
+}
 svg {
+  transform: scale(0.9, 0.9);
 }
 
 footer a:link {
@@ -890,7 +918,6 @@ footer a:link {
 footer a:hover {
   color: lightgreen !important;
 }
-
 
 .type{
   overflow: fragments;
@@ -908,3 +935,22 @@ footer a:hover {
   font-weight: bold;
   text-align: center;
 }
+
+.verticalScroll {
+  height: 50vh;
+  overflow-y: scroll;
+  width: 100%;
+}
+.map-container {
+  height: 662px;
+  overflow: auto
+}
+svg {
+  /*transform: scale(2);*/
+  /*overflow: visible;*/
+}
+
+#blue-number {
+  pointer-events: none;
+}
+

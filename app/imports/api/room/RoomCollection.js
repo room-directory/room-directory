@@ -20,6 +20,7 @@ class RoomCollection extends BaseCollection {
         allowedValues: roomType,
         defaultValue: 'conference',
       },
+      isICS: Boolean,
       occupants: Array,
       'occupants.$': String,
       squareFt: Number,
@@ -34,11 +35,12 @@ class RoomCollection extends BaseCollection {
    * @param condition the condition of the item.
    * @return {String} the docID of the new document.
    */
-  define({ roomNumber, building, type, occupants, squareFt }) {
+  define({ roomNumber, building, type, isICS, occupants, squareFt }) {
     const docID = this._collection.insert({
       roomNumber,
       building,
       type,
+      isICS,
       occupants,
       squareFt,
     });
@@ -52,7 +54,7 @@ class RoomCollection extends BaseCollection {
    * @param quantity the new quantity (optional).
    * @param condition the new condition (optional).
    */
-  update(docID, { roomNumber, building, type, occupants, squareFt }) {
+  update(docID, { roomNumber, building, type, isICS, occupants, squareFt }) {
     const updateData = {};
     if (roomNumber) {
       updateData.roomNumber = roomNumber;
@@ -62,6 +64,9 @@ class RoomCollection extends BaseCollection {
     }
     if (type) {
       updateData.type = type;
+    }
+    if (isICS) {
+      updateData.isICS = isICS;
     }
     if (occupants.length > 0) {
       updateData.occupants = occupants;
@@ -132,9 +137,10 @@ class RoomCollection extends BaseCollection {
     const roomNumber = doc.roomNumber;
     const building = doc.building;
     const type = doc.type;
+    const isICS = doc.isICS;
     const occupants = doc.occupants;
     const squareFt = doc.squareFt;
-    return { roomNumber, building, type, occupants, squareFt };
+    return { roomNumber, building, type, isICS, occupants, squareFt };
   }
 }
 
