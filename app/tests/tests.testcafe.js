@@ -1,8 +1,9 @@
 // import { Selector, t } from 'testcafe';
-import { /* manageDatabasePage, */ signOutPage, studentRequestPage, facultyRequestPage, roomListPage, facultyInformationPage, clubInformationPage, profilePage, adminManagePage } from './simple.page';
+import { /* manageDatabasePage, */ signOutPage, studentRequestPage, facultyRequestPage, roomListPage, clubInformationPage, profilePage, adminManagePage } from './simple.page';
 import { landingPage } from './landing.page';
 import { signInPage } from './signin.page';
 import { signUpPage } from './signup.page';
+import { facultyInformationPage } from './facultyInformation.page';
 import { navBar } from './navbar.component';
 // import { COMPONENT_IDS } from '../imports/ui/utilities/ComponentIDs';
 
@@ -139,4 +140,21 @@ test('Test that admin pages show up', async () => {
   // admin manage
   await navBar.gotoAdminManagePage();
   await adminManagePage.isDisplayed();
+});
+
+test('Test that all faculty information page functions work', async () => {
+  await navBar.gotoSignInPage();
+  await signInPage.signin(adminCredentials.username, adminCredentials.password);
+  await navBar.isLoggedIn(adminCredentials.username);
+  // default pages
+  await landingPage.isDisplayedLoggedin();
+  await navBar.gotoFacultyInformationPage();
+  await facultyInformationPage.isDisplayed();
+  await facultyInformationPage.sortBy('-first-name');
+  await facultyInformationPage.sortBy('-last-name');
+  await facultyInformationPage.sortBy('-role');
+  await facultyInformationPage.sortBy('-email');
+  await facultyInformationPage.sortBy('-phone');
+  await facultyInformationPage.sortBy('-office-location');
+  await facultyInformationPage.sortBy('-office-hours');
 });

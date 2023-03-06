@@ -63,15 +63,15 @@ const FacultyInfo = () => {
           <Row>
             <Col style={{ display: 'flex' }}>
               <DropdownButton id={COMPONENT_IDS.FACULTY_INFORMATION_SORT} title={`Sort by: ${category}`}>
-                <Dropdown.Item onClick={() => { setSortingBy('firstName'); setCategory('First Name'); }}>First Name</Dropdown.Item>
-                <Dropdown.Item onClick={() => { setSortingBy('lastName'); setCategory('Last Name'); }}>Last Name</Dropdown.Item>
-                <Dropdown.Item onClick={() => { setSortingBy('role'); setCategory('Role'); }}>Role</Dropdown.Item>
-                <Dropdown.Item onClick={() => { setSortingBy('phone'); setCategory('Phone'); }}>Phone</Dropdown.Item>
-                <Dropdown.Item onClick={() => { setSortingBy('email'); setCategory('Email'); }}>Email</Dropdown.Item>
-                <Dropdown.Item onClick={() => { setSortingBy('officeLocation'); setCategory('Office Location'); }}>Office Location</Dropdown.Item>
+                <Dropdown.Item id={COMPONENT_IDS.FACULTY_INFORMATION_SORT_FIRST_NAME} onClick={() => { setSortingBy('firstName'); setCategory('First Name'); }}>First Name</Dropdown.Item>
+                <Dropdown.Item id={COMPONENT_IDS.FACULTY_INFORMATION_SORT_LAST_NAME} onClick={() => { setSortingBy('lastName'); setCategory('Last Name'); }}>Last Name</Dropdown.Item>
+                <Dropdown.Item id={COMPONENT_IDS.FACULTY_INFORMATION_SORT_ROLE} onClick={() => { setSortingBy('role'); setCategory('Role'); }}>Role</Dropdown.Item>
+                <Dropdown.Item id={COMPONENT_IDS.FACULTY_INFORMATION_SORT_EMAIL} onClick={() => { setSortingBy('email'); setCategory('Email'); }}>Email</Dropdown.Item>
+                <Dropdown.Item id={COMPONENT_IDS.FACULTY_INFORMATION_SORT_PHONE} onClick={() => { setSortingBy('phone'); setCategory('Phone'); }}>Phone</Dropdown.Item>
+                <Dropdown.Item id={COMPONENT_IDS.FACULTY_INFORMATION_SORT_OFFICE_LOCATION} onClick={() => { setSortingBy('officeLocation'); setCategory('Office Location'); }}>Office Location</Dropdown.Item>
                 { currentUser !== '' ?
                   ([
-                    <Dropdown.Item onClick={() => { setSortingBy('officeHours'); setCategory('Office Hours'); }}>Office Hours</Dropdown.Item>,
+                    <Dropdown.Item id={COMPONENT_IDS.FACULTY_INFORMATION_SORT_OFFICE_HOURS} onClick={() => { setSortingBy('officeHours'); setCategory('Office Hours'); }}>Office Hours</Dropdown.Item>,
                   ])
                   : ''}
               </DropdownButton>
