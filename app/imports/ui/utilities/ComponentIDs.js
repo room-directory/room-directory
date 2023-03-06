@@ -42,6 +42,9 @@ export const COMPONENT_IDS = {
   EDIT_PROFILE_FIRST_NAME_ADMIN: 'edit-profile-first-name-admin',
   EDIT_PROFILE_LAST_NAME_ADMIN: 'edit-profile-last-name-admin',
   EDIT_PROFILE_POSITION_ADMIN: 'edit-profile-position-admin',
+  EDIT_DESKS_ADMIN: 'edit-room-desks-admin',
+  EDIT_PHONE_ADMIN: 'edit-room-phone-admin',
+  EDIT_CHAIRS_ADMIN: 'edit-room-chairs-admin',
 
   // EDIT ROOM
   EDIT_ROOM_NUMBER_ADMIN:

@@ -14,7 +14,7 @@ import ProfileTable from '../components/ProfileTable';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 import RoomTable from '../components/RoomTable';
-import AddRoomModal from '../components/AddRoomModal';
+// import AddRoomModal from '../components/AddRoomModal';
 import AddUserModal from '../components/AddUserModal';
 import FacultyTable from '../components/FacultyTable';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
@@ -58,7 +58,7 @@ const AdminManage = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
-  const [showAddRoom, setShowAddRoom] = useState(false);
+  // const [showAddRoom, setShowAddRoom] = useState(false);
   const [showAddUser, setShowAddUser] = useState(false);
 
   const { rooms, profiles, facultyInfo, resources, clubs, ready } = useTracker(() => {

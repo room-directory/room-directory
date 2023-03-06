@@ -80,7 +80,7 @@ class RoomCollection extends BaseCollection {
   /**
    * A stricter form of remove that throws an error if the document or docID could not be found in this collection.
    * @param { String | Object } name A document or docID in this collection.
-   * @returns true
+   * @returns boolean
    */
   removeIt(name) {
     const doc = this.findDoc(name);
