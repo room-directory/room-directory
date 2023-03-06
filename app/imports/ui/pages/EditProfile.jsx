@@ -1,6 +1,6 @@
 import React from 'react';
 import swal from 'sweetalert';
-import { Col, Container, Image, Row, Button, InputGroup, Form } from 'react-bootstrap';
+import { Col, Container, Image, Row, Button, InputGroup, Form, Dropdown } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import { Roles } from 'meteor/alanning:roles';
 import { useTracker } from 'meteor/react-meteor-data';
@@ -17,6 +17,7 @@ import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 const EditProfile = () => {
 
   const { _id } = useParams();
+  let pfp;
 
   const { ready, user } = useTracker(() => {
     // Get access to Reservations and User Profile documents.
@@ -45,10 +46,14 @@ const EditProfile = () => {
     } else {
       collectionName = AdminProfiles.getCollectionName();
     }
-    const updateData = { id: user._id, firstName: fName, lastName: lName };
+    const updateData = { id: user._id, firstName: fName, lastName: lName, image: pfp };
     updateMethod.callPromise({ collectionName, updateData })
       .catch(error => swal('Error', error.message, 'error'))
       .then(() => swal('Success', 'Profile updated successfully', 'success'));
+  };
+
+  const pfpUpdate = (src) => {
+    pfp = src;
   };
 
   return (ready ? (
@@ -60,8 +65,21 @@ const EditProfile = () => {
       </Row>
       <Col className="align-content-center text-center py-5">
         <Row className="justify-content-center pb-4">
-          <Image id="profile-image" roundedCircle className="h-25 w-25" src="https://archive.org/services/img/twitter-default-pfp" />
+          <Image id="profile-image" roundedCircle className="h-25 w-25" src={user.image} />
         </Row>
+        <Dropdown drop="up-centered" id={COMPONENT_IDS.EDIT_PROFILE_FORM_PFP} onSelect={pfpUpdate}>
+          <Dropdown.Toggle variant="success" id="dropdown-basic">
+            Change Profile Picture
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item eventKey="/images/case.png"><Image roundedCircle height={50} width={50} src="/images/case.png" /> PFP 1</Dropdown.Item>
+            <Dropdown.Item eventKey="/images/keyboard.png"><Image roundedCircle height={50} width={50} src="/images/keyboard.png" /> PFP 2</Dropdown.Item>
+            <Dropdown.Item eventKey="/images/monitor.png"><Image roundedCircle height={50} width={50} src="/images/monitor.png" /> PFP 3</Dropdown.Item>
+            <Dropdown.Item eventKey="/images/mouse.jpg"><Image roundedCircle height={50} width={50} src="/images/mouse.jpg" /> PFP 4</Dropdown.Item>
+            <Dropdown.Item eventKey="/images/speaker.png"><Image roundedCircle height={50} width={50} src="/images/speaker.png" /> PFP 5</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
         <Row>
           <h2 id="profile-name" style={{ textTransform: 'uppercase' }}>{`${user.firstName} ${user.lastName}`}</h2>
         </Row>

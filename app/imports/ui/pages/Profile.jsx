@@ -52,7 +52,7 @@ const Profile = () => {
       <Row className="justify-content-center pb-4">
         <Col sm={3}>
           <Row className="p-3">
-            <Image id="profile-image" roundedCircle src="https://archive.org/services/img/twitter-default-pfp" />
+            <Image id="profile-image" roundedCircle src={user.image} />
           </Row>
           <Row>
             { Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) || thisUser._id === _id ? (

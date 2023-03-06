@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
-import { Card, Col, Row, Button } from 'react-bootstrap';
-import { removeItMethod } from '../../api/base/BaseCollection.methods';
+import { Card, Col, Row, Button, Modal } from 'react-bootstrap';
+import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
+import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
+
+const bridge = new SimpleSchema2Bridge(FacultyProfiles._schema);
 
 const FacultyTable = ({ faculty, eventKey }) => {
   const [show, setShow] = useState(false);
@@ -30,21 +34,18 @@ const FacultyTable = ({ faculty, eventKey }) => {
     });
   };
 
-  /*
-  const submit = () => {
-    const newFirstName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FIRST_NAME_ADMIN).value;
-    const newLastName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_LAST_NAME_ADMIN).value;
-    const newPosition = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_POSITION_ADMIN).value;
-
-    const updateData = { id: account._id, email: account.email, firstName: newFirstName, lastName: newLastName, position: newPosition };
-    const collectionName = UserProfiles.getCollectionName();
-
+  const submit = (data) => {
+    const { firstName, lastName, role, image, email, phone, officeLocation, officeHours } = data;
+    const collectionName = FacultyProfiles.getCollectionName();
+    // convert phone numbers and office locations to an array
+    const phoneArray = (phone.includes(',') ? phone.replace(/\s+/g, '').split(',') : phone);
+    const officeLocationArray = (officeLocation.includes(',') ? officeLocation.replace(/\s+/g, '').split(',') : officeLocation);
+    const updateData = { id: faculty._id, phone: phoneArray, firstName, lastName, role, image, email, officeLocation: officeLocationArray, officeHours };
+    // edit the FacultyProfiles collection
     updateMethod.callPromise({ collectionName, updateData })
-      .catch(error => swal('Error', error.message, 'error'))
-      .then(() => swal('Success', 'Profile updated successfully', 'success'));
+      .catch((err) => swal('Error', err.message, 'error'))
+      .then(() => swal('Success', 'Faculty edited successfully', 'success'));
   };
-
-   */
 
   return (
     <Card style={{ border: 'none', borderRadius: 0 }}>
@@ -64,48 +65,48 @@ const FacultyTable = ({ faculty, eventKey }) => {
       </Card.Header>
 
       {
-        show ? ''
-          /* <Modal show={show} onHide={() => setShow(false)} centered dialogClassName="modal-90w">
+        show ? (
+          <Modal show={show} onHide={() => setShow(false)} centered dialogClassName="modal-90w">
             <Modal.Header closeButton />
             <Modal.Body>
-              <h4>Edit Profile</h4>
-              <Form>
-                <Row style={{ paddingBottom: 20 }}>
-                  <Row>
-                    <Col>
-                      <Form.Group>
-                        First Name *
-                        <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FIRST_NAME_ADMIN} defaultValue={account.firstName ? account.firstName : ''} />
-                      </Form.Group>
-                    </Col>
-                    <Col>
-                      <Form.Group>
-                        Last Name *
-                        <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_LAST_NAME_ADMIN} defaultValue={account.lastName ? account.lastName : ''} />
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Form.Group>
-                      Position *
-                      <Form.Select id={COMPONENT_IDS.EDIT_PROFILE_POSITION_ADMIN} placeholder="Select a position" options={positionList} style={{ marginBottom: 5 }} defaultValue={account.position ? account.position : ''}>
-                        <option disabled>Select</option>
-                        {positionList.map((name, index) => (
-                          <option value={name} key={index}>{name}</option>
-                        ))}
-                      </Form.Select>
-                    </Form.Group>
-                  </Row>
+              <h4>Edit Faculty</h4>
+              <AutoForm schema={bridge} onSubmit={data => submit(data)} model={faculty}>
+                <Row>
+                  <Col>
+                    <TextField name="firstName" placeholder="First name" />
+                  </Col>
+                  <Col>
+                    <TextField name="lastName" placeholder="Last name" />
+                  </Col>
                 </Row>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: 25 }}>
-                  <Button variant="primary" type="submit" alt="Submit Changes" onClick={submit}>
-                    Submit Changes
-                  </Button>
-                </div>
-              </Form>
+                <Row>
+                  <Col>
+                    <TextField name="role" placeholder="Faculty role" />
+                  </Col>
+                  <Col>
+                    <TextField name="email" placeholder="Email" />
+                  </Col>
+                </Row>
+                <Row>
+                  <TextField name="image" placeholder="Image link" />
+                </Row>
+                <Row>
+                  <TextField name="phone" placeholder="Phone" help="Please separate phone numbers using commas." />
+                </Row>
+                <Row>
+                  <TextField name="officeLocation" placeholder="Office Location" help="Please separate offices using commas." />
+                </Row>
+                <Row>
+                  <TextField name="officeHours" placeholder="Office Hours" />
+                </Row>
+                <Row>
+                  <SubmitField value="Submit" />
+                  <ErrorsField />
+                </Row>
+              </AutoForm>
             </Modal.Body>
-          </Modal> */
-          : ''
+          </Modal>
+        ) : ''
       }
     </Card>
   );
@@ -116,8 +117,12 @@ FacultyTable.propTypes = {
   faculty: PropTypes.shape({
     firstName: PropTypes.string,
     lastName: PropTypes.string,
+    image: PropTypes.string,
     email: PropTypes.string,
+    role: PropTypes.string,
     officeLocation: PropTypes.arrayOf(PropTypes.string),
+    phone: PropTypes.arrayOf(PropTypes.string),
+    officeHours: PropTypes.string,
     _id: PropTypes.string,
   }).isRequired,
   eventKey: PropTypes.string.isRequired,

@@ -34,7 +34,7 @@ const ClubInfo = () => {
   return (ready ? (
     <Container id={PAGE_IDS.CLUB_INFORMATION} className="py-3">
       <Row className="justify-content-center">
-        <Col md={8}>
+        <Col md={9}>
           <Col className="text-center">
             <h2>Club Information</h2>
           </Col>

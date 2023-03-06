@@ -6,7 +6,7 @@ import { removeItMethod } from '../../api/base/BaseCollection.methods';
 import { Club } from '../../api/club/ClubCollection';
 
 const ClubTable = ({ club, eventKey }) => {
-  const [show, setShow] = useState(false);
+  const [setShow] = useState(false);
 
   const del = () => {
     const collectionName = Club.getCollectionName();

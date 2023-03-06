@@ -1,12 +1,14 @@
 @charset "UTF-8";
 /* Use Open Sans as the default sans serif font. */
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,700|Source+Code+Pro:300,400,500,700");
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
 
 /* Set up some CSS variables to theme the application. */
 :root {
   --main-green: #024731;
   --matr-navbar-bg: #003F18;
   --matr-navbar-bg-rgb: 0, 63, 24;
+  --n: 53;
 }
 
 /* Change bootstrap variable values.
@@ -14,7 +16,6 @@
  */
 body {
   --bs-light-rgb: var(--matr-navbar-bg-rgb);
-  overflow-x: hidden;
 }
 
 /* Set the SignIn and SignUp alerts background. */
@@ -902,8 +903,12 @@ path {
     fill: red;
   }
 }
-
+.room-list-table {
+  height: 80vh;
+  overflow-y: auto;
+}
 svg {
+  transform: scale(0.9, 0.9);
 }
 
 footer a:link {
@@ -914,8 +919,38 @@ footer a:hover {
   color: lightgreen !important;
 }
 
+.type{
+  overflow: fragments;
+  background-repeat:no-repeat;
+  white-space: nowrap;
+  border-right: 2px solid;
+  width: 0;
+  animation: typing 1.5s steps(30, end) forwards, blinking 1s infinite;
+}
+
+.cont{
+  display: inline-block;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+
 .verticalScroll {
   height: 50vh;
   overflow-y: scroll;
   width: 100%;
 }
+.map-container {
+  height: 662px;
+  overflow: auto
+}
+svg {
+  /*transform: scale(2);*/
+  /*overflow: visible;*/
+}
+
+#blue-number {
+  pointer-events: none;
+}
+
