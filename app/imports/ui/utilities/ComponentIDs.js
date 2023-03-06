@@ -45,12 +45,14 @@ export const COMPONENT_IDS = {
   EDIT_PROFILE_POSITION_ADMIN: 'edit-profile-position-admin',
 
   // EDIT ROOM
-  EDIT_ROOM_NUMBER_ADMIN:
-    'edit-room-number-admin',
-  EDIT_ROOM_TYPE_ADMIN:
-      'edit-room-type-admin',
+  EDIT_ROOM_NUMBER_ADMIN: 'edit-room-number-admin',
+  EDIT_ROOM_TYPE_ADMIN: 'edit-room-type-admin',
   EDIT_ROOM_CAPACITY_ADMIN: 'edit-room-capacity-admin',
   EDIT_BUILDING_ADMIN: 'edit-building-admin',
+  EDIT_ROOM_OCCUPANTS_ADMIN: 'edit-room-occupants-admin',
+  EDIT_ROOM_SQFT_ADMIN: 'edit-room-sqft-admin',
+  EDIT_ROOM_ISICS_ADMIN: 'edit-room-isics-admin',
+
   // ADD ROOM
   ADD_ROOM_NUMBER_ADMIN: 'add-room-number-admin',
   ADD_ROOM_TYPE_ADMIN: 'add-room-type-admin',
