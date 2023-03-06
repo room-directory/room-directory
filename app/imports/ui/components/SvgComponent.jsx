@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import RoomInfoModalSvg from './RoomInfoModalSvg';
 import { Container, Button } from 'react-bootstrap';
 
-const SvgComponent = ({ rooms, hoverRoom }) => {
+const SvgComponent = ({ rooms, hoverRoom, scale }) => {
   const [display, setDisplay] = useState(false);
   const showDisplay = () => setDisplay(true);
   const hideDisplay = () => setDisplay(false);
@@ -50,14 +50,18 @@ const SvgComponent = ({ rooms, hoverRoom }) => {
     if (element) {
       element.setAttribute('class', 'room');
     }
+    scale
   });
   return (
-    <Container fluid className="w-auto m-0 p-0">
+    <>
       <svg
         id="svg2"
-        width={863.578}
-        height={661.19843}
+        // width={863.578}
+        // height={661.19843}
+        width={scale * 863.578}
+        height={scale * 661.19843}
         viewBox="0 0 507.98706 388.94025"
+        // viewBox="0 0 1000 400"
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs id="defs6" />
@@ -1028,7 +1032,7 @@ const SvgComponent = ({ rooms, hoverRoom }) => {
       </svg>
       <span id="default" />
       <RoomInfoModalSvg room={rooms.find(room => room.roomNumber === getRoomNumber())} key={getRoomNumber()} display={display} setDisplay={hideDisplay} />
-    </Container>
+    </>
   );
 };
 SvgComponent.propTypes = {
@@ -1040,6 +1044,7 @@ SvgComponent.propTypes = {
     }).isRequired,
   ).isRequired,
   hoverRoom: PropTypes.string,
+  scale: PropTypes.int,
 };
 
 export default SvgComponent;

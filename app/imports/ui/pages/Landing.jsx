@@ -5,7 +5,7 @@ import Slideshow from '../components/Slideshow';
 
 /* A simple static component to render some text for the landing page. */
 const Landing = () => (
-  <Container fluid id={PAGE_IDS.LANDING} className="p-0 m-0">
+  <Container fluid id={PAGE_IDS.LANDING} className="p-0 m-0 overflow-hidden">
     <Row>
       <Slideshow />
     </Row>

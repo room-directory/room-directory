@@ -14,7 +14,6 @@
  */
 body {
   --bs-light-rgb: var(--matr-navbar-bg-rgb);
-  overflow-x: hidden;
 }
 
 /* Set the SignIn and SignUp alerts background. */
@@ -903,7 +902,7 @@ path {
   }
 }
 .room-list-table {
-  height: 661px;
+  height: 80vh;
   overflow-y: auto;
 }
 svg {
@@ -922,4 +921,16 @@ footer a:hover {
   height: 50vh;
   overflow-y: scroll;
   width: 100%;
+}
+.map-container {
+  height: 662px;
+  overflow: auto
+}
+svg {
+  /*transform: scale(2);*/
+  /*overflow: visible;*/
+}
+
+#blue-number {
+  pointer-events: none;
 }
