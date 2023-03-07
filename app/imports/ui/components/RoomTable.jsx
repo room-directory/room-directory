@@ -3,17 +3,18 @@ import PropTypes from 'prop-types';
 import { Button, Card, Col, Modal, Row } from 'react-bootstrap';
 import swal from 'sweetalert';
 // import { UserProfiles } from '../../api/user/UserProfileCollection';
-import { updateMethod } from '../../api/base/BaseCollection.methods';
-import { Room } from '../../api/room/RoomCollection';
-import { COMPONENT_IDS } from '../utilities/ComponentIDs';
-import { RoomResources } from '../../api/room/RoomResourceCollection';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { AutoForm, ErrorsField, SubmitField, SelectField, TextField, NumField } from 'uniforms-bootstrap5';
-import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
+import { updateMethod } from '../../api/base/BaseCollection.methods';
+import { Room } from '../../api/room/RoomCollection';
+// import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+// import { RoomResources } from '../../api/room/RoomResourceCollection';
+
+// import TextField from 'uniforms-bootstrap5/src/TextField';
 
 const bridge = new SimpleSchema2Bridge(Room._schema);
 
-const RoomTable = ({ room, resources, faculty, eventKey }) => {
+const RoomTable = ({ room, faculty, eventKey }) => {
   const [show, setShow] = useState(false);
   /* const del = () => {
     const collectionName = Room.getCollectionName();
@@ -39,18 +40,18 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
 
   const typeList = ['conference', 'lecture', 'study room', 'office'];
 
-  const submit = () => {
-    const newType = document.getElementById(COMPONENT_IDS.EDIT_ROOM_TYPE_ADMIN).value;
-    const newCapacity = document.getElementById(COMPONENT_IDS.EDIT_ROOM_CAPACITY_ADMIN).value;
-    const newOwner = document.getElementById(COMPONENT_IDS.EDIT_ROOM_ICS_ADMIN).checked;
+  const submit = (data) => {
+    // const newType = document.getElementById(COMPONENT_IDS.EDIT_ROOM_TYPE_ADMIN).value;
+    // const newCapacity = document.getElementById(COMPONENT_IDS.EDIT_ROOM_CAPACITY_ADMIN).value;
+    // const newOwner = document.getElementById(COMPONENT_IDS.EDIT_ROOM_ICS_ADMIN).checked;
 
-    const newChairs = Number(document.getElementById(COMPONENT_IDS.EDIT_CHAIRS_ADMIN).value);
-    const newDesks = Number(document.getElementById(COMPONENT_IDS.EDIT_DESKS_ADMIN).value);
-    const newPhone = document.getElementById(COMPONENT_IDS.EDIT_PHONE_ADMIN).value;
+    // const newChairs = Number(document.getElementById(COMPONENT_IDS.EDIT_CHAIRS_ADMIN).value);
+    // const newDesks = Number(document.getElementById(COMPONENT_IDS.EDIT_DESKS_ADMIN).value);
+    // const newPhone = document.getElementById(COMPONENT_IDS.EDIT_PHONE_ADMIN).value;
     const { building, roomNumber, type, isICS, squareFt, occupants } = data;
     const occupantArray = (occupants.includes(',') ? occupants.replace(/\s+/g, '').split(',') : occupants);
-    let updateData = { id: room._id, roomNumber: room.roomNumber, building: room.building, type, isICS, squareFt, occupants: occupantArray };
-    let collectionName = Room.getCollectionName();
+    const updateData = { id: room._id, roomNumber: roomNumber, building: building, type, isICS, squareFt, occupants: occupantArray };
+    const collectionName = Room.getCollectionName();
 
     updateMethod.callPromise({ collectionName, updateData })
       .catch(error => swal('Error', error.message, 'error'))
@@ -58,12 +59,12 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
 
     console.log(room);
 
-    updateData = { id: resources._id, chairs: newChairs, desks: newDesks, phone: newPhone, capacity: newCapacity };
+    /* updateData = { id: resources._id, chairs: newChairs, desks: newDesks, phone: newPhone, capacity: newCapacity };
     collectionName = RoomResources.getCollectionName();
 
     updateMethod.callPromise({ collectionName, updateData })
       .catch(error => swal('Error', error.message, 'error'))
-      .then(() => swal('Success', 'Room updated successfully', 'success'));
+      .then(() => swal('Success', 'Room updated successfully', 'success')); */
 
   };
 
@@ -103,93 +104,13 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
               <h4>Edit Room</h4>
               <AutoForm schema={bridge} onSubmit={data => submit(data)} model={room}>
                 <Row>
-                  <Form.Group>
-                    Building *
-                    <Form.Control id={COMPONENT_IDS.EDIT_BUILDING_ADMIN} defaultValue={room.building ? room.building : ''} disabled />
-                  </Form.Group>
+                  <Col>
+                    <TextField name="building" placeholder="Building" disabled />
+                  </Col>
+                  <Col>
+                    <TextField name="roomNumber" placeholder="Room Number" disabled />
+                  </Col>
                 </Row>
-                <Row>
-                  <Form.Group>
-                    Room Number *
-                    <Form.Control id={COMPONENT_IDS.EDIT_ROOM_NUMBER_ADMIN} defaultValue={room.roomNumber ? room.roomNumber : ''} disabled />
-                  </Form.Group>
-                </Row>
-                <Row>
-                  <Form.Group>
-                    Room Type *
-                    <Form.Select id={COMPONENT_IDS.EDIT_ROOM_TYPE_ADMIN} placeholder="Select a type" options={typeList} style={{ marginBottom: 5 }} defaultValue={room.type ? room.type : ''}>
-                      <option disabled>Select</option>
-                      {typeList.map((name, index) => (
-                          <option value={name} key={index}>{name}</option>
-                        ))}
-                    </Form.Select>
-                  </Form.Group>
-                </Row>
-                <Row>
-                  <Form.Group>
-                    Is Managed by ICS Department *
-                    <Form.Check id={COMPONENT_IDS.EDIT_ROOM_ICS_ADMIN} defaultChecked={room.isICS} />
-                  </Form.Group>
-                </Row>
-                <Row>
-                  <Form.Group>
-                    Room Capacity *
-                    <Form.Control id={COMPONENT_IDS.EDIT_ROOM_CAPACITY_ADMIN} defaultValue={resources.capacity ? resources.capacity : ''} />
-                  </Form.Group>
-                </Row>
-                <Row>
-                  <Form.Group>
-                    Chairs *
-                    <Form.Control id={COMPONENT_IDS.EDIT_CHAIRS_ADMIN} defaultValue={resources.chairs ? resources.chairs : ''} />
-                  </Form.Group>
-                </Row>
-                <Row>
-                  <Form.Group>
-                    Desks *
-                    <Form.Control id={COMPONENT_IDS.EDIT_DESKS_ADMIN} defaultValue={resources.desks ? resources.desks : ''} />
-                  </Form.Group>
-                </Row>
-                <Row>
-                  <Form.Group>
-                    TVs *
-                    {resources.tv.map((tvs) => (
-                      <Row key={tvs.value}>
-                        <Col><Form.Control defaultValue={tvs.location ? tvs.location : ''} /></Col>
-                        <Col><Form.Control defaultValue={tvs.number ? tvs.number : ''} /></Col>
-                        <Col style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                          <Button>-</Button>
-                        </Col>
-                      </Row>
-                    ))}
-                    <Button>Add TV</Button>
-                  </Form.Group>
-                </Row>
-                <Row>
-                  <Form.Group>
-                    Phone # *
-                    <Form.Control id={COMPONENT_IDS.EDIT_PHONE_ADMIN} defaultValue={resources.phoneNumber ? resources.phoneNumber : ''} />
-                  </Form.Group>
-                </Row>
-                <Row>
-                  <Form.Group>
-                    Data Jacks *
-                      {resources.dataJacks.map((jack) => (
-                        <Row key={jack.value}>
-                          <Col>
-                            <Form.Control defaultValue={jack.location ? jack.location : ''} />
-                          </Col>
-                          <Col>
-                            <Form.Control defaultValue={jack.number ? jack.number : ''} />
-                          </Col>
-                          <Col style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <Button>-</Button>
-                          </Col>
-                        </Row>
-                      ))}
-                      <Button>Add Jack</Button>
-                    </Form.Group>
-                  </Row>
-
                 <Row>
                   <SelectField name="type" allowedValues={typeList} placeholder="Room Type" />
                 </Row>
@@ -197,10 +118,13 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
                   <SelectField name="isICS" allowedValues={['Yes', 'No']} placeholder="ICS Room" />
                 </Row>
                 <Row>
-                  <NumField name="squareFt" icon="user" decimal={false} />
+                  <NumField name="squareFt" icon="user" />
                 </Row>
                 <Row>
                   <TextField name="occupants" placeholder="Occupants" help="Please separate occupants by using commas." />
+                </Row>
+                <Row>
+                  <NumField name="chairs" icon="user" />
                 </Row>
                 <SubmitField value="Submit" />
                 <ErrorsField />
@@ -219,12 +143,12 @@ RoomTable.propTypes = {
     _id: PropTypes.string,
     building: PropTypes.string,
     roomNumber: PropTypes.string,
-    isICS: PropTypes.bool,
+    isICS: PropTypes.string,
     type: PropTypes.string,
     occupants: PropTypes.arrayOf(PropTypes.string),
     squareFt: PropTypes.number,
   }).isRequired,
-  resources: PropTypes.shape({
+  /* resources: PropTypes.shape({
     _id: PropTypes.string,
     chairs: PropTypes.number,
     desks: PropTypes.number,
@@ -238,7 +162,7 @@ RoomTable.propTypes = {
       number: PropTypes.string,
       location: PropTypes.string,
     })),
-  }).isRequired,
+  }).isRequired, */
   faculty: PropTypes.arrayOf(PropTypes.shape({
     firstName: PropTypes.string,
     lastName: PropTypes.string,
