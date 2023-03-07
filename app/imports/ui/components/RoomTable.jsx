@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, Col, Form, Modal, Row } from 'react-bootstrap';
+import { Button, Card, Col, Modal, Row } from 'react-bootstrap';
 import swal from 'sweetalert';
+import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
+import { AutoForm, ErrorsField, SubmitField, SelectField, TextField, NumField } from 'uniforms-bootstrap5';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { Room } from '../../api/room/RoomCollection';
-import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+
+const bridge = new SimpleSchema2Bridge(Room._schema);
 
 const RoomTable = ({ room, eventKey }) => {
   const [show, setShow] = useState(false);
@@ -32,13 +35,11 @@ const RoomTable = ({ room, eventKey }) => {
 
   const typeList = ['conference', 'lecture', 'study room', 'office'];
 
-  const submit = () => {
-    const newType = document.getElementById(COMPONENT_IDS.EDIT_ROOM_TYPE_ADMIN).value;
-    const newIsICS = document.getElementById(COMPONENT_IDS.EDIT_ROOM_ISICS_ADMIN).value;
-    let newSquareFt = document.getElementById(COMPONENT_IDS.EDIT_ROOM_SQFT_ADMIN).value;
-    newSquareFt = parseInt(newSquareFt, 10);
-
-    const updateData = { id: room._id, roomNumber: room.roomNumber, building: room.building, type: newType, isICS: newIsICS, squareFt: newSquareFt };
+  const submit = (data) => {
+    // eslint-disable-next-line no-unused-vars
+    const { building, roomNumber, type, isICS, squareFt, occupants } = data;
+    const occupantArray = (occupants.includes(',') ? occupants.replace(/\s+/g, '').split(',') : occupants);
+    const updateData = { id: room._id, roomNumber: room.roomNumber, building: room.building, type, isICS, squareFt, occupants: occupantArray };
     const collectionName = Room.getCollectionName();
 
     updateMethod.callPromise({ collectionName, updateData })
@@ -69,54 +70,31 @@ const RoomTable = ({ room, eventKey }) => {
             <Modal.Header closeButton />
             <Modal.Body>
               <h4>Edit Room</h4>
-              <Form>
-                <Row style={{ paddingBottom: 20 }}>
-                  <Row>
-                    <Form.Group>
-                      Building *
-                      <Form.Control id={COMPONENT_IDS.EDIT_BUILDING_ADMIN} defaultValue={room.building ? room.building : ''} disabled />
-                    </Form.Group>
-                  </Row>
-                  <Row>
+              <AutoForm schema={bridge} onSubmit={data => submit(data)} model={room}>
 
-                    <Form.Group>
-                      Room Number *
-                      <Form.Control id={COMPONENT_IDS.EDIT_ROOM_NUMBER_ADMIN} defaultValue={room.roomNumber ? room.roomNumber : ''} disabled />
-                    </Form.Group>
-                  </Row>
-                  <Row>
-                    <Form.Group>
-                      Room Type *
-                      <Form.Select id={COMPONENT_IDS.EDIT_ROOM_TYPE_ADMIN} placeholder="Select a type" options={typeList} style={{ marginBottom: 5 }} defaultValue={room.type ? room.type : ''}>
-                        <option disabled>Select</option>
-                        {typeList.map((name, index) => (
-                          <option value={name} key={index}>{name}</option>
-                        ))}
-                      </Form.Select>
-                    </Form.Group>
-                  </Row>
-                  <Row>
-                    <Form.Group>
-                      Is ICS? *
-                      <Form.Select id={COMPONENT_IDS.EDIT_ROOM_ISICS_ADMIN} defaultValue={room.isICS}>
-                        <option>Yes</option>
-                        <option>No</option>
-                      </Form.Select>
-                    </Form.Group>
-                  </Row>
-                  <Row>
-                    <Form.Group>
-                      Square Ft *
-                      <Form.Control id={COMPONENT_IDS.EDIT_ROOM_SQFT_ADMIN} type="number" defaultValue={room.squareFt ? room.squareFt : ''} />
-                    </Form.Group>
-                  </Row>
+                <Row>
+                  <Col>
+                    <TextField name="building" placeholder="Building" disabled />
+                  </Col>
+                  <Col>
+                    <TextField name="roomNumber" placeholder="Room Number" disabled />
+                  </Col>
                 </Row>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: 25 }}>
-                  <Button variant="primary" type="submit" alt="Submit Changes" onClick={submit}>
-                    Submit Changes
-                  </Button>
-                </div>
-              </Form>
+                <Row>
+                  <SelectField name="type" allowedValues={typeList} placeholder="Room Type" />
+                </Row>
+                <Row>
+                  <SelectField name="isICS" allowedValues={['Yes', 'No']} placeholder="ICS Room" />
+                </Row>
+                <Row>
+                  <NumField name="squareFt" icon="user" decimal={false} />
+                </Row>
+                <Row>
+                  <TextField name="occupants" placeholder="Occupants" help="Please separate occupants by using commas." />
+                </Row>
+                <SubmitField value="Submit" />
+                <ErrorsField />
+              </AutoForm>
             </Modal.Body>
           </Modal>
         ) : ''
