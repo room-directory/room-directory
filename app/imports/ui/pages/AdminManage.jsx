@@ -156,11 +156,11 @@ const AdminManage = () => {
               <Row className="px-m3 py-2" style={{ padding: 15 }}>
                 <Col><u>ROOM NUMBER</u></Col>
                 <Col><u>TYPE</u></Col>
-                <Col><u>CAPACITY</u></Col>
+                <Col><u>FACULTY</u></Col>
                 <Col xs={2} />
               </Row>
               <div className="verticalScroll">
-                { rooms.map((room, index) => <RoomTable key={room._id} eventKey={`${index}`} room={room} resources={resources.find(x => x.roomNumber === room.roomNumber)} />) }
+                { rooms.map((room, index) => <RoomTable key={room._id} eventKey={`${index}`} room={room} resources={resources.find(x => x.roomNumber === room.roomNumber)} faculty={facultyInfo} />) }
               </div>
 
             </Tab>

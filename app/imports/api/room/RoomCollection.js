@@ -65,10 +65,10 @@ class RoomCollection extends BaseCollection {
     if (type) {
       updateData.type = type;
     }
-    if (isICS) {
+    if (isICS !== this._collection.find(docID).isICS) {
       updateData.isICS = isICS;
     }
-    if (occupants.length > 0) {
+    if (occupants) {
       updateData.occupants = occupants;
     }
     if (_.isNumber(squareFt)) {

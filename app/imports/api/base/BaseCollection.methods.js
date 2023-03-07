@@ -34,7 +34,7 @@ export const updateMethod = new ValidatedMethod({
   validate: null,
   run({ collectionName, updateData }) {
     if (Meteor.isServer) {
-      // console.log('updateMethod(%o, %o)', collectionName, updateData);
+      console.log('updateMethod(%o, %o, %o)', collectionName, updateData.id, updateData);
       const collection = MATPCollections.getCollection(collectionName);
       collection.assertValidRoleForMethod(this.userId);
       collection.update(updateData.id, updateData);

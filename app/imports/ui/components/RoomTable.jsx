@@ -8,7 +8,7 @@ import { Room } from '../../api/room/RoomCollection';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 import { RoomResources } from '../../api/room/RoomResourceCollection';
 
-const RoomTable = ({ room, resources, eventKey }) => {
+const RoomTable = ({ room, resources, faculty, eventKey }) => {
   const [show, setShow] = useState(false);
   /* const del = () => {
     const collectionName = Room.getCollectionName();
@@ -34,30 +34,33 @@ const RoomTable = ({ room, resources, eventKey }) => {
 
   const typeList = ['conference', 'lecture', 'study room', 'office'];
 
-   const submit = () => {
-     /* const newRoomNumber = document.getElementById(COMPONENT_IDS.EDIT_ROOM_NUMBER_ADMIN).value;
-     const newType = document.getElementById(COMPONENT_IDS.EDIT_ROOM_TYPE_ADMIN).value;
-     const newCapacity = document.getElementById(COMPONENT_IDS.EDIT_ROOM_CAPACITY_ADMIN).value;
-     const newOwner = document.getElementById(COMPONENT_IDS.EDIT_ROOM_ICS_ADMIN).value === "true";
+  const submit = () => {
+    const newType = document.getElementById(COMPONENT_IDS.EDIT_ROOM_TYPE_ADMIN).value;
+    const newCapacity = document.getElementById(COMPONENT_IDS.EDIT_ROOM_CAPACITY_ADMIN).value;
+    const newOwner = document.getElementById(COMPONENT_IDS.EDIT_ROOM_ICS_ADMIN).checked;
 
-     const newChairs = document.getElementById(COMPONENT_IDS.EDIT_CHAIRS_ADMIN).value;
-     const newDesks = document.getElementById(COMPONENT_IDS.EDIT_DESKS_ADMIN).value;
-     const newPhone = document.getElementById(COMPONENT_IDS.EDIT_PHONE_ADMIN).value;
+    const newChairs = Number(document.getElementById(COMPONENT_IDS.EDIT_CHAIRS_ADMIN).value);
+    const newDesks = Number(document.getElementById(COMPONENT_IDS.EDIT_DESKS_ADMIN).value);
+    const newPhone = document.getElementById(COMPONENT_IDS.EDIT_PHONE_ADMIN).value;
 
-     const updateData = { type: newType, isICS: newOwner };
-     const collectionName = Room.getCollectionName();
-     const resourcesUpdate = { chairs: newChairs, desks: newDesks , phone: newPhone, capacity: newCapacity };
-     const resourceCollection = RoomResources.getCollectionName();
-     Room.update(room.docId, { roomNumber: newRoomNumber, type: newType, isICS: newOwner })
+    let updateData = { id: room._id, type: newType, isICS: newOwner };
+    let collectionName = Room.getCollectionName();
 
+    // Room.update(room.docId, { roomNumber: newRoomNumber, type: newType, isICS: newOwner })
 
-     updateMethod.callPromise({ collectionName, updateData })
-         .catch(error => swal('Error', error.message, 'error'))
-         .then(() => swal('Success', 'Room updated successfully', 'success'));
+    updateMethod.callPromise({ collectionName, updateData })
+      .catch(error => swal('Error', error.message, 'error'))
+      .then(() => swal('Success', 'Room updated successfully', 'success'));
 
-     updateMethod.callPromise({ RoomResources, resourcesUpdate })
-       .catch(error => swal('Error', error.message, 'error'))
-       .then(() => swal('Success', 'Room updated successfully', 'success')); */
+    console.log(room);
+
+    updateData = { id: resources._id, chairs: newChairs, desks: newDesks, phone: newPhone, capacity: newCapacity };
+    collectionName = RoomResources.getCollectionName();
+
+    updateMethod.callPromise({ collectionName, updateData })
+      .catch(error => swal('Error', error.message, 'error'))
+      .then(() => swal('Success', 'Room updated successfully', 'success'));
+
   };
 
   return (
@@ -66,7 +69,18 @@ const RoomTable = ({ room, resources, eventKey }) => {
         <Row>
           <Col>{`${room.roomNumber}`}</Col>
           <Col>{room.type}</Col>
-          <Col>{room.capacity}</Col>
+          <Col>{room.occupants.length > 0 ? room.occupants.map((people) => (
+            <Row>
+              <Col>
+                {faculty.find(x => x.email === people).firstName} {faculty.find(x => x.email === people).lastName}
+              </Col>
+              <Col>
+                {faculty.find(x => x.email === people).email}
+              </Col>
+            </Row>
+
+          )) : 'None'}
+          </Col>
           <Col xs={2}>
             <Row>
               <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="primary" onClick={() => setShow(true)}>Edit</Button></Col>
@@ -116,7 +130,7 @@ const RoomTable = ({ room, resources, eventKey }) => {
                   <Row>
                     <Form.Group>
                       Room Capacity *
-                      <Form.Control id={COMPONENT_IDS.EDIT_ROOM_CAPACITY_ADMIN} defaultValue={room.capacity ? room.capacity : ''} />
+                      <Form.Control id={COMPONENT_IDS.EDIT_ROOM_CAPACITY_ADMIN} defaultValue={resources.capacity ? resources.capacity : ''} />
                     </Form.Group>
                   </Row>
                   <Row>
@@ -134,19 +148,15 @@ const RoomTable = ({ room, resources, eventKey }) => {
                   <Row>
                     <Form.Group>
                       TVs *
-                      {resources.tv.map((tvs) =>
-                          <Row key={tvs.value}>
-                            <Col>
-                              <Form.Control defaultValue={tvs.location ? tvs.location : ''} />
-                            </Col>
-                            <Col>
-                              <Form.Control defaultValue={tvs.number ? tvs.number : ''} />
-                            </Col>
-                            <Col style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                              <Button>-</Button>
-                            </Col>
-                          </Row>
-                      )}
+                      {resources.tv.map((tvs) => (
+                        <Row key={tvs.value}>
+                          <Col><Form.Control defaultValue={tvs.location ? tvs.location : ''} /></Col>
+                          <Col><Form.Control defaultValue={tvs.number ? tvs.number : ''} /></Col>
+                          <Col style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <Button>-</Button>
+                          </Col>
+                        </Row>
+                      ))}
                       <Button>Add TV</Button>
                     </Form.Group>
                   </Row>
@@ -159,19 +169,19 @@ const RoomTable = ({ room, resources, eventKey }) => {
                   <Row>
                     <Form.Group>
                       Data Jacks *
-                      {resources.dataJacks.map((jack) =>
-                          <Row key={jack.value}>
-                            <Col>
-                              <Form.Control defaultValue={jack.location ? jack.location : ''} />
-                            </Col>
-                            <Col>
-                              <Form.Control defaultValue={jack.number ? jack.number : ''} />
-                            </Col>
-                            <Col style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                              <Button>-</Button>
-                            </Col>
-                          </Row>
-                      )}
+                      {resources.dataJacks.map((jack) => (
+                        <Row key={jack.value}>
+                          <Col>
+                            <Form.Control defaultValue={jack.location ? jack.location : ''} />
+                          </Col>
+                          <Col>
+                            <Form.Control defaultValue={jack.number ? jack.number : ''} />
+                          </Col>
+                          <Col style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <Button>-</Button>
+                          </Col>
+                        </Row>
+                      ))}
                       <Button>Add Jack</Button>
                     </Form.Group>
                   </Row>
@@ -194,15 +204,18 @@ const RoomTable = ({ room, resources, eventKey }) => {
 /* Referencing the Room Collection */
 RoomTable.propTypes = {
   room: PropTypes.shape({
+    _id: PropTypes.string,
     building: PropTypes.string,
     roomNumber: PropTypes.string,
     isICS: PropTypes.bool,
     type: PropTypes.string,
-    capacity: PropTypes.number,
+    occupants: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   resources: PropTypes.shape({
+    _id: PropTypes.string,
     chairs: PropTypes.number,
     desks: PropTypes.number,
+    capacity: PropTypes.number,
     tv: PropTypes.arrayOf(PropTypes.shape({
       number: PropTypes.string,
       location: PropTypes.string,
@@ -213,6 +226,12 @@ RoomTable.propTypes = {
       location: PropTypes.string,
     })),
   }).isRequired,
+  faculty: PropTypes.arrayOf(PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    role: PropTypes.string,
+    email: PropTypes.string,
+  })).isRequired,
   eventKey: PropTypes.string.isRequired,
 };
 
