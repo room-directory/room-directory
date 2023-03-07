@@ -22,35 +22,6 @@ import AddFacultyModal from '../components/AddFacultyModal';
 import { Club } from '../../api/club/ClubCollection';
 import ClubTable from '../components/ClubTable';
 
-/*
-function RoomType(room) {
-  const lecture = [];
-  const office = [];
-  const conference = [];
-  const study = [];
-
-  for (let i = 0; i < room.length; i++) {
-    if (room[i].type === 'lecture') {
-      lecture.push(room[i]);
-    } else if (room[i].type === 'office') {
-      office.push(room[i]);
-    } else if (room[i].type === 'conference') {
-      conference.push(room[i]);
-    } else if (room[i].type === 'study room') {
-      study.push(room[i]);
-    }
-  }
-  // TO DO: Fix study room type
-  const types = {
-    lecture: lecture,
-    office: office,
-    conference: conference,
-    study: study,
-  };
-
-  return types;
-}
-
 /* An interactive page with different components that reflects the reservations made. */
 const AdminManage = () => {
   const [show, setShow] = useState(false);
@@ -155,8 +126,11 @@ const AdminManage = () => {
               </DropdownButton> */}
               <Row className="px-m3 py-2" style={{ padding: 15 }}>
                 <Col><u>ROOM NUMBER</u></Col>
+                <Col><u>BUILDING</u></Col>
                 <Col><u>TYPE</u></Col>
                 <Col><u>FACULTY</u></Col>
+                <Col><u>IS ICS?</u></Col>
+                <Col><u>SQUARE FT</u></Col>
                 <Col xs={2} />
               </Row>
               <div className="verticalScroll">

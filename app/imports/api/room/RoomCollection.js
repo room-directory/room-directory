@@ -20,7 +20,11 @@ class RoomCollection extends BaseCollection {
         allowedValues: roomType,
         defaultValue: 'conference',
       },
-      isICS: Boolean,
+      isICS: {
+        type: String,
+        allowedValues: ['Yes', 'No'],
+        defaultValue: 'Yes',
+      },
       occupants: Array,
       'occupants.$': String,
       squareFt: Number,
