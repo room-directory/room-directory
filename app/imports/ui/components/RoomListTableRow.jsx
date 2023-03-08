@@ -10,7 +10,7 @@ const RoomListTableRow = ({ room, setHoverRoom }) => {
   const leaveRoom = () => setHoverRoom('');
   return (
     <>
-      <tr onClick={() => setShow(true)} onMouseEnter={activeRoom} onMouseLeave={leaveRoom}>
+      <tr role="button" onClick={() => setShow(true)} onMouseEnter={activeRoom} onMouseLeave={leaveRoom}>
         <td>{room.roomNumber}</td>
         <td>{room.type}</td>
       </tr>
@@ -25,7 +25,7 @@ RoomListTableRow.propTypes = {
     roomNumber: PropTypes.string,
     building: PropTypes.string,
     type: PropTypes.string,
-    ocupants: PropTypes.arrayOf(PropTypes.string),
+    occupants: PropTypes.arrayOf(PropTypes.string),
     squareFt: PropTypes.number,
   }).isRequired,
   setHoverRoom: PropTypes.func.isRequired,
