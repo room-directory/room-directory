@@ -1,6 +1,6 @@
 import React from 'react';
 import swal from 'sweetalert';
-import { Col, Container, Image, Row, Button, InputGroup, Form, Dropdown } from 'react-bootstrap';
+import { Col, Container, Image, Row, Button, InputGroup, Form, Dropdown, Card } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import { Roles } from 'meteor/alanning:roles';
 import { useTracker } from 'meteor/react-meteor-data';
@@ -60,7 +60,7 @@ const EditProfile = () => {
     <Container id={PAGE_IDS.PROFILE} className="py-3">
       <Row>
         <Col>
-          <h1 className="montserrat" style={{ textAlign: 'left', fontSize: '2em' }}>Edit Profile</h1>
+          <h1 className="montserrat" style={{ textAlign: 'center', fontSize: '2em' }}>Edit Profile</h1>
         </Col>
       </Row>
       <Col className="align-content-center text-center py-5">
@@ -87,32 +87,31 @@ const EditProfile = () => {
           {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
             <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>ADMIN</h4>
           ) :
-            <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>{`${user.position}`}</h4> }
+            <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>{`${user.position}`}</h4>}
         </Row>
-        <Row />
-        <Row>
-          <Col style={{ textAlign: 'right' }}>
-            <Button variant="outline-secondary" href={`/profile/${_id}`}>Return to Profile</Button>
-            <Button variant="success" onClick={submit}>Save</Button>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <InputGroup size="sm">
-              <InputGroup.Text><b>First Name</b></InputGroup.Text>
-              <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_FIRST_NAME} defaultValue={user.firstName ? user.firstName : ''} />
-            </InputGroup>
-          </Col>
-          <Col>
-            <InputGroup size="sm">
-              <InputGroup.Text><b>Last Name</b></InputGroup.Text>
-              <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_LAST_NAME} defaultValue={user.lastName ? user.lastName : ''} />
-            </InputGroup>
+        <Row className="justify-content-center">
+          <Col xs={5}>
+            <Card>
+              <Card.Body>
+                <InputGroup size="sm">
+                  <InputGroup.Text><b>First Name</b></InputGroup.Text>
+                  <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_FIRST_NAME} defaultValue={user.firstName ? user.firstName : ''} />
+                </InputGroup>
+                <InputGroup size="sm">
+                  <InputGroup.Text><b>Last Name</b></InputGroup.Text>
+                  <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_LAST_NAME} defaultValue={user.lastName ? user.lastName : ''} />
+                </InputGroup>
+                <Button variant="outline-secondary" href={`/profile/${_id}`}>Return to Profile</Button>
+                <Button variant="success" onClick={submit}>Save</Button>
+              </Card.Body>
+            </Card>
           </Col>
         </Row>
       </Col>
     </Container>
-  ) : <LoadingSpinner message="Loading Profile" />);
+  ) :
+    <LoadingSpinner message="Loading Profile" />
+  );
 };
 
 export default EditProfile;
