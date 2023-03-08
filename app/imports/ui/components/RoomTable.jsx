@@ -123,9 +123,6 @@ const RoomTable = ({ room, faculty, eventKey }) => {
                 <Row>
                   <TextField name="occupants" placeholder="Occupants" help="Please separate occupants by using commas." />
                 </Row>
-                <Row>
-                  <NumField name="chairs" icon="user" />
-                </Row>
                 <SubmitField value="Submit" />
                 <ErrorsField />
               </AutoForm>
