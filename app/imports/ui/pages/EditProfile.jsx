@@ -1,6 +1,6 @@
 import React from 'react';
 import swal from 'sweetalert';
-import { Col, Container, Image, Row, Button, InputGroup, Form, Dropdown, Card } from 'react-bootstrap';
+import { Col, Container, Image, Row, Button, InputGroup, Form, Dropdown } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import { Roles } from 'meteor/alanning:roles';
 import { useTracker } from 'meteor/react-meteor-data';
@@ -72,16 +72,16 @@ const EditProfile = () => {
         </Col>
       </Row>
       <Row className="justify-content-center pb-4">
-        <Col>
+        <Col style={{ textAlign: 'center' }}>
           <Row className="justify-content-center pb-4">
             <Image id="profile-image" roundedCircle className="h-25 w-25" src={user.image} />
           </Row>
-          <Row className="justify-content-center pb-4">
+          <Row className="justify-content-md-center pb-4">
             <Dropdown drop="up-centered" onSelect={pfpUpdate}>
               <Dropdown.Toggle variant="success" id="dropdown-basic">
                 Choose Default Profile Picture
               </Dropdown.Toggle>
-              
+
               <Dropdown.Menu>
                 <Dropdown.Item eventKey="/images/case.png"><Image roundedCircle height={50} width={50} src="/images/case.png" /> PFP 1</Dropdown.Item>
                 <Dropdown.Item eventKey="/images/keyboard.png"><Image roundedCircle height={50} width={50} src="/images/keyboard.png" /> PFP 2</Dropdown.Item>
