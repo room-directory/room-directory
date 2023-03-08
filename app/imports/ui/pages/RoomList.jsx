@@ -34,10 +34,10 @@ const RoomList = () => {
     <Container id={PAGE_IDS.ROOM_LIST} className="py-3 overflow-hidden">
       <Row>
         <ButtonGroup aria-label="Filter group">
-          <DropdownButton variant="light" title="Building" className="border border-dark sharp me-3">
+          <DropdownButton variant="primary" title="Building" className="sharp me-3">
             <Dropdown.Item href="#/action-1">POST</Dropdown.Item>
           </DropdownButton>
-          <DropdownButton variant="light" title="Floor" className="border border-dark sharp me-3">
+          <DropdownButton variant="primary" title="Floor" className=" sharp me-3">
             <Dropdown.Item href="#/action-1">3</Dropdown.Item>
           </DropdownButton>
         </ButtonGroup>
