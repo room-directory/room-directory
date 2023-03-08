@@ -70,13 +70,13 @@ class RoomResourceCollection extends BaseCollection {
     if (_.isNumber(desks)) {
       updateData.desks = desks;
     }
-    if (_.isNumber(tv)) {
+    if (tv) {
       updateData.tv = tv;
     }
-    if (_.isNumber(phoneNumber)) {
+    if (phoneNumber) {
       updateData.phoneNumber = phoneNumber;
     }
-    if (_.isNumber(dataJacks)) {
+    if (dataJacks) {
       updateData.dataJacks = dataJacks;
     }
     this._collection.update(docID, { $set: updateData });

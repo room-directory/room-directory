@@ -8,47 +8,19 @@ import DatePicker from 'react-datepicker';
 import { PAGE_IDS } from '../utilities/PageIDs';
 // import RoomDropdown from '../components/RoomDropdown';
 import { Room } from '../../api/room/RoomCollection';
+import { RoomResources } from '../../api/room/RoomResourceCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ProfileTable from '../components/ProfileTable';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 import RoomTable from '../components/RoomTable';
-import AddRoomModal from '../components/AddRoomModal';
+// import AddRoomModal from '../components/AddRoomModal';
 import AddUserModal from '../components/AddUserModal';
 import FacultyTable from '../components/FacultyTable';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 import AddFacultyModal from '../components/AddFacultyModal';
 import { Club } from '../../api/club/ClubCollection';
 import ClubTable from '../components/ClubTable';
-
-/*
-function RoomType(room) {
-  const lecture = [];
-  const office = [];
-  const conference = [];
-  const study = [];
-
-  for (let i = 0; i < room.length; i++) {
-    if (room[i].type === 'lecture') {
-      lecture.push(room[i]);
-    } else if (room[i].type === 'office') {
-      office.push(room[i]);
-    } else if (room[i].type === 'conference') {
-      conference.push(room[i]);
-    } else if (room[i].type === 'study room') {
-      study.push(room[i]);
-    }
-  }
-  // TO DO: Fix study room type
-  const types = {
-    lecture: lecture,
-    office: office,
-    conference: conference,
-    study: study,
-  };
-
-  return types;
-}
 
 /* An interactive page with different components that reflects the reservations made. */
 const AdminManage = () => {
@@ -58,26 +30,29 @@ const AdminManage = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
-  const [showAddRoom, setShowAddRoom] = useState(false);
+  // const [showAddRoom, setShowAddRoom] = useState(false);
   const [showAddUser, setShowAddUser] = useState(false);
   const [showAddFaculty, setShowAddFaculty] = useState(false);
 
-  const { rooms, profiles, facultyInfo, clubs, ready } = useTracker(() => {
+  const { rooms, profiles, facultyInfo, resources, clubs, ready } = useTracker(() => {
     const roomSubscription = Room.subscribeRoom();
     const profileSubscription = UserProfiles.subscribe();
     const adminSubscription = AdminProfiles.subscribe();
     const facultySubscription = FacultyProfiles.subscribeFacultyProfile();
+    const resourcesSubscription = RoomResources.subscribeRoomResourceAdmin();
     const clubSubscription = Club.subscribeClub();
     // Determine if the subscription is ready
-    const rdy = roomSubscription.ready() && profileSubscription.ready() && adminSubscription.ready() && facultySubscription.ready() && clubSubscription.ready();
-    const room = Room.find({}).fetch();
+    const rdy = roomSubscription.ready() && profileSubscription.ready() && adminSubscription.ready() && facultySubscription.ready() && clubSubscription.ready() && resourcesSubscription.ready();
+    const room = Room.find({}, {}).fetch();
+    const resource = RoomResources.find({}, {}).fetch();
     const user = UserProfiles.find({}, {}).fetch();
     const admin = AdminProfiles.find({}, {}).fetch();
     const profile = _.sortBy(user.concat(admin), (obj) => obj.lastName);
-    const faculty = FacultyProfiles.find({}).fetch();
-    const club = Club.find({}).fetch();
+    const faculty = FacultyProfiles.find({}, {}).fetch();
+    const club = Club.find({}, {}).fetch();
     return {
       rooms: room,
+      resources: resource,
       ready: rdy,
       profiles: profile,
       facultyInfo: faculty,
@@ -151,20 +126,17 @@ const AdminManage = () => {
               </DropdownButton> */}
               <Row className="px-m3 py-2" style={{ padding: 15 }}>
                 <Col><u>ROOM NUMBER</u></Col>
+                <Col><u>BUILDING</u></Col>
                 <Col><u>TYPE</u></Col>
-                <Col><u>CAPACITY</u></Col>
+                <Col><u>FACULTY</u></Col>
+                <Col><u>IS ICS?</u></Col>
+                <Col><u>SQUARE FT</u></Col>
                 <Col xs={2} />
               </Row>
               <div className="verticalScroll">
-                { rooms.map((room, index) => <RoomTable key={room._id} eventKey={`${index}`} room={room} />) }
+                { rooms.map((room, index) => <RoomTable key={room._id} eventKey={`${index}`} room={room} resources={resources.find(x => x.roomNumber === room.roomNumber)} faculty={facultyInfo} />) }
               </div>
-              <Col className="d-flex justify-content-end">
-                <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
-                  <Button variant="success" onClick={() => setShowAddRoom(true)}>
-                    + Add Room
-                  </Button>
-                </div>
-              </Col>
+
             </Tab>
             <Tab eventKey="clubs" title="Clubs">
 
@@ -264,7 +236,6 @@ const AdminManage = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <AddRoomModal setShowAddRoom={setShowAddRoom} showAddRoom={showAddRoom} />
       <AddUserModal setShowAddUser={setShowAddUser} showAddUser={showAddUser} />
       <AddFacultyModal setShowAddFaculty={setShowAddFaculty} showAddFaculty={showAddFaculty} />
     </Container>
