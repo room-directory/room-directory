@@ -14,13 +14,13 @@ import ProfileTable from '../components/ProfileTable';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 import RoomTable from '../components/RoomTable';
-// import AddRoomModal from '../components/AddRoomModal';
 import AddUserModal from '../components/AddUserModal';
 import FacultyTable from '../components/FacultyTable';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 import AddFacultyModal from '../components/AddFacultyModal';
 import { Club } from '../../api/club/ClubCollection';
 import ClubTable from '../components/ClubTable';
+import AddRoomModal from '../components/AddRoomModal';
 
 /* An interactive page with different components that reflects the reservations made. */
 const AdminManage = () => {
@@ -30,7 +30,7 @@ const AdminManage = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
-  // const [showAddRoom, setShowAddRoom] = useState(false);
+  const [showAddRoom, setShowAddRoom] = useState(false);
   const [showAddUser, setShowAddUser] = useState(false);
   const [showAddFaculty, setShowAddFaculty] = useState(false);
 
@@ -136,7 +136,13 @@ const AdminManage = () => {
               <div className="verticalScroll">
                 { rooms.map((room, index) => <RoomTable key={room._id} eventKey={`${index}`} room={room} resources={resources.find(x => x.roomNumber === room.roomNumber)} faculty={facultyInfo} />) }
               </div>
-
+              <Col className="d-flex justify-content-end">
+                <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
+                  <Button variant="success" onClick={() => setShowAddRoom(true)}>
+                    + Add
+                  </Button>
+                </div>
+              </Col>
             </Tab>
             <Tab eventKey="clubs" title="Clubs">
 
@@ -238,6 +244,7 @@ const AdminManage = () => {
       </Modal>
       <AddUserModal setShowAddUser={setShowAddUser} showAddUser={showAddUser} />
       <AddFacultyModal setShowAddFaculty={setShowAddFaculty} showAddFaculty={showAddFaculty} />
+      <AddRoomModal setShowAddRoom={setShowAddRoom} showAddRoom={showAddRoom} />
     </Container>
   ) : <LoadingSpinner />);
 };

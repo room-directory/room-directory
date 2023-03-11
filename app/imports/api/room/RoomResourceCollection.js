@@ -10,6 +10,7 @@ export const roomResourcePublications = {
   resource: 'Resource',
   resourceAdmin: 'ResourceAdmin',
 };
+export const locationType = ['mauka', 'makai', 'windward', 'leeward'];
 
 class RoomResourceCollection extends BaseCollection {
   constructor() {
@@ -21,10 +22,16 @@ class RoomResourceCollection extends BaseCollection {
       phoneNumber: String,
       tv: [Object],
       'tv.$.number': String,
-      'tv.$.location': String,
+      'tv.$.location': {
+        type: String,
+        allowedValues: locationType,
+      },
       dataJacks: [Object],
       'dataJacks.$.number': String,
-      'dataJacks.$.location': String,
+      'dataJacks.$.location': {
+        type: String,
+        allowedValues: locationType,
+      },
     }));
   }
 
