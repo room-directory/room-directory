@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Card, Col, Modal, Row } from 'react-bootstrap';
 import swal from 'sweetalert';
-// import { UserProfiles } from '../../api/user/UserProfileCollection';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
-import { AutoForm, ErrorsField, SubmitField, SelectField, TextField, NumField, ListField } from 'uniforms-bootstrap5';
-import { updateMethod } from '../../api/base/BaseCollection.methods';
+import { AutoForm, ErrorsField, SubmitField, SelectField, TextField, NumField, ListField, ListItemField, AutoField } from 'uniforms-bootstrap5';
+import { PlusLg, Trash3 } from 'react-bootstrap-icons';
+import { updateMethod, removeItMethod } from '../../api/base/BaseCollection.methods';
 import { Room } from '../../api/room/RoomCollection';
 import { RoomResources } from '../../api/room/RoomResourceCollection';
-
-// import TextField from 'uniforms-bootstrap5/src/TextField';
 
 const bridge = new SimpleSchema2Bridge(Room._schema.extend(RoomResources._schema));
 
@@ -17,14 +15,16 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
 
   const [show, setShow] = useState(false);
   const typeList = ['conference', 'lecture', 'study room', 'office'];
+  const locationList = ['mauka', 'makai', 'windward', 'leeward'];
+  // combine the room and room resources object
   const combinedModel = {
     ...room,
     ...resources,
   };
 
-  /* const del = () => {
-    const collectionName = Room.getCollectionName();
-    const instance = room._id;
+  const del = () => {
+    let collectionName = Room.getCollectionName();
+    let instance = room._id;
     swal({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -33,32 +33,43 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
       buttons: true,
     }).then((result) => {
       if (result) {
+        // remove from the room collections
         removeItMethod.callPromise({ collectionName, instance })
           .catch(error => swal('Error', error.message, 'error'))
-          .then(() => swal('Room has been removed from ICS!', {
-            icon: 'success',
-          }));
+          .then(() => {
+            // remove from the room resources collection
+            collectionName = RoomResources.getCollectionName();
+            instance = resources._id;
+
+            removeItMethod.callPromise({ collectionName, instance })
+              .catch(error => swal('Error', error.message, 'error'))
+              .then(() => swal('Room and Room Resources has been removed from ICS!', {
+                icon: 'success',
+              }));
+          });
       } else {
         swal('Room is safe!');
       }
     });
-  }; */
+  };
 
   const submit = (data) => {
-    const { building, roomNumber, type, isICS, squareFt, occupants, chairs, desks, phoneNumber, capacity } = data;
-    const occupantArray = (occupants.includes(',') ? occupants.replace(/\s+/g, '').split(',') : occupants);
-    let updateData = { id: room._id, roomNumber: roomNumber, building: building, type, isICS, squareFt, occupants: occupantArray };
+    const { building, roomNumber, type, isICS, squareFt, occupants, chairs, desks, phoneNumber, capacity, tv, dataJacks } = data;
+    let updateData = { id: room._id, roomNumber: roomNumber, building: building, type, isICS, squareFt, occupants: occupants };
     let collectionName = Room.getCollectionName();
 
-    updateMethod.callPromise({ collectionName, updateData })
-      .catch(error => swal('Error', error.message, 'error'));
-
-    updateData = { id: resources._id, chairs: chairs, desks: desks, phone: phoneNumber, capacity: capacity };
-    collectionName = RoomResources.getCollectionName();
-
+    // update the room collection
     updateMethod.callPromise({ collectionName, updateData })
       .catch(error => swal('Error', error.message, 'error'))
-      .then(() => swal('Success', 'Room updated successfully', 'success'));
+      .then(() => {
+        // update the room resources collection
+        updateData = { id: resources._id, chairs: chairs, desks: desks, phone: phoneNumber, capacity: capacity, tv: tv, dataJacks: dataJacks };
+        collectionName = RoomResources.getCollectionName();
+
+        updateMethod.callPromise({ collectionName, updateData })
+          .catch(error => swal('Error', error.message, 'error'))
+          .then(() => swal('Success', 'Room updated successfully', 'success'));
+      });
 
   };
 
@@ -69,23 +80,22 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
           <Col>{room.building}</Col>
           <Col>{`${room.roomNumber}`}</Col>
           <Col>{room.type}</Col>
-          <Col>{room.occupants.length > 0 ? room.occupants.map((people) => (
-            <Row>
-              <Col>
-                {faculty.find(x => x.email === people).firstName} {faculty.find(x => x.email === people).lastName}
-              </Col>
-              <Col>
-                {faculty.find(x => x.email === people).email}
-              </Col>
-            </Row>
-
-          )) : 'None'}
+          <Col>
+            {room.occupants.length > 0 ? room.occupants.map((people) => (
+              faculty.find(x => x.email === people) ? (
+                <Row>
+                  {faculty.find(x => x.email === people).firstName} {faculty.find(x => x.email === people).lastName} <br />
+                  {faculty.find(x => x.email === people).email}
+                </Row>
+              ) : <Row>{people}</Row>
+            )) : 'None'}
           </Col>
-          <Col>{room.isICS}</Col>
+          <Col>{room.isICS ? 'yes' : 'no'}</Col>
           <Col>{room.squareFt}</Col>
           <Col xs={2}>
             <Row>
               <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="primary" onClick={() => setShow(true)}>Edit</Button></Col>
+              <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="danger" onClick={del}>Delete</Button></Col>
             </Row>
           </Col>
         </Row>
@@ -106,6 +116,9 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
                       <Col>
                         <TextField name="roomNumber" placeholder="Room Number" disabled />
                       </Col>
+                      <Col>
+                        <AutoField name="isICS" placeholder="ICS Room" />
+                      </Col>
                     </Row>
                     <Row>
                       <Col>
@@ -115,32 +128,39 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
                         <SelectField name="type" allowedValues={typeList} placeholder="Room Type" />
                       </Col>
                       <Col>
-                        <SelectField name="isICS" allowedValues={['Yes', 'No']} placeholder="ICS Room" />
+                        <NumField name="capacity" step={1} placeholder="Capacity" />
                       </Col>
                     </Row>
                     <Row>
                       <Col>
-                        <NumField name="chairs" placeholder="Chairs" />
+                        <NumField name="chairs" step={1} placeholder="Chairs" />
                       </Col>
                       <Col>
-                        <NumField name="desks" placeholder="Desks" />
+                        <NumField name="desks" step={1} placeholder="Desks" />
                       </Col>
                       <Col>
-                        <NumField name="capacity" placeholder="Capacity" />
-                      </Col>
-                      <Col>
-                        <NumField name="squareFt" icon="user" />
+                        <NumField name="squareFt" step={1} icon="user" />
                       </Col>
                     </Row>
                     <Row>
-                      <TextField name="occupants" placeholder="Occupants" help="Please separate occupants by using commas." />
+                      <ListField name="occupants" addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
                     </Row>
                   </Col>
                   <Col className="col-3">
-                    <ListField name="tv" placeholder="TV" />
+                    <ListField name="tv" addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
+                      <ListItemField name="$">
+                        <TextField name="number" />
+                        <SelectField name="location" allowedValues={locationList} placeholder="Select location" />
+                      </ListItemField>
+                    </ListField>
                   </Col>
                   <Col className="col-3">
-                    <ListField name="dataJacks" placeholder="Data Jacks" />
+                    <ListField name="dataJacks" addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
+                      <ListItemField name="$">
+                        <TextField name="number" />
+                        <SelectField name="location" allowedValues={locationList} placeholder="Select location" />
+                      </ListItemField>
+                    </ListField>
                   </Col>
                 </Row>
                 <SubmitField value="Submit" />
@@ -160,7 +180,7 @@ RoomTable.propTypes = {
     _id: PropTypes.string,
     building: PropTypes.string,
     roomNumber: PropTypes.string,
-    isICS: PropTypes.string,
+    isICS: PropTypes.bool,
     type: PropTypes.string,
     occupants: PropTypes.arrayOf(PropTypes.string),
     squareFt: PropTypes.number,

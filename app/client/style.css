@@ -100,6 +100,7 @@ body {
   }
 }
 
+/*
 .react-datepicker__year-read-view--down-arrow,
 .react-datepicker__month-read-view--down-arrow,
 .react-datepicker__month-year-read-view--down-arrow, .react-datepicker__navigation-icon::before {
@@ -864,15 +865,18 @@ body {
   width: 1px;
   white-space: nowrap;
 }
+*/
 
 .elevated-container {
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/*
 path {
   fill: white;
   pointer-events: auto;
 }
+*/
 
 .room {
   animation: room-hover 1s infinite alternate;
@@ -952,6 +956,15 @@ svg {
 
 #blue-number {
   pointer-events: none;
+}
+
+.listIcons {
+  transform: scale(1.5,1.5);
+  fill: black;
+}
+
+.roomSvg {
+  fill: white;
 }
 
 

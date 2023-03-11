@@ -21,9 +21,8 @@ class RoomCollection extends BaseCollection {
         defaultValue: 'conference',
       },
       isICS: {
-        type: String,
-        allowedValues: ['Yes', 'No'],
-        defaultValue: 'Yes',
+        type: Boolean,
+        defaultValue: true,
       },
       occupants: Array,
       'occupants.$': String,

@@ -95,6 +95,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
         viewBox="0 0 507.98706 388.94025"
         // viewBox="0 0 1000 400"
         xmlns="http://www.w3.org/2000/svg"
+        className="roomSvg"
       >
         <defs id="defs6" />
         <g
