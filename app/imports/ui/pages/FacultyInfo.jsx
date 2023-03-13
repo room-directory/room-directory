@@ -32,7 +32,7 @@ const FacultyInfo = () => {
   const [filtered, setFiltered] = useState(false);
   const [search, setSearch] = useState('');
   if (filtered && currentUser !== '') {
-    profilesList = profiles.filter((profile) => `${profile.firstName} ${profile.lastName} ${profile.role} ${profile.email} ${profile.phone} ${profile.officeLocation} ${profile.officeHours}`.toLowerCase().includes(search.toLowerCase()));
+    profilesList = profiles.filter((profile) => `${profile.firstName} ${profile.lastName} ${profile.role} ${profile.email} ${profile.phone} ${profile.officeLocation}`.toLowerCase().includes(search.toLowerCase()));
   } else if (filtered) {
     profilesList = profiles.filter((profile) => `${profile.firstName} ${profile.lastName} ${profile.role} ${profile.email} ${profile.phone} ${profile.officeLocation}`.toLowerCase().includes(search.toLowerCase()));
   } else {

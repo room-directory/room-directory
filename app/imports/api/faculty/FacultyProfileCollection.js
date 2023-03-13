@@ -4,6 +4,7 @@ import { check } from 'meteor/check';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
 
+export const daysOfWeek = ['M', 'T', 'W', 'R', 'F'];
 export const facultyProfilePublications = {
   faculty: 'Faculty',
 };
@@ -17,7 +18,12 @@ class FacultyProfileCollection extends BaseCollection {
       role: String,
       email: String,
       phone: [String],
-      officeHours: String,
+      days: {
+        type: [String],
+        allowedValues: daysOfWeek,
+      },
+      startTime: { type: String, optional: true },
+      endTime: { type: String, optional: true },
       officeLocation: [String],
     }));
   }

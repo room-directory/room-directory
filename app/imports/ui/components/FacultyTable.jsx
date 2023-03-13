@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import swal from 'sweetalert';
 import { Card, Col, Row, Button, Modal } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
+import DatePicker from 'react-datepicker';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
@@ -35,12 +36,12 @@ const FacultyTable = ({ faculty, eventKey }) => {
   };
 
   const submit = (data) => {
-    const { firstName, lastName, role, image, email, phone, officeLocation, officeHours } = data;
+    const { firstName, lastName, role, image, email, phone, officeLocation, days, startTime, endTime } = data;
     const collectionName = FacultyProfiles.getCollectionName();
     // convert phone numbers and office locations to an array
     const phoneArray = (phone.includes(',') ? phone.replace(/\s+/g, '').split(',') : phone);
     const officeLocationArray = (officeLocation.includes(',') ? officeLocation.replace(/\s+/g, '').split(',') : officeLocation);
-    const updateData = { id: faculty._id, phone: phoneArray, firstName, lastName, role, image, email, officeLocation: officeLocationArray, officeHours };
+    const updateData = { id: faculty._id, phone: phoneArray, firstName, lastName, role, image, email, officeLocation: officeLocationArray, days, startTime, endTime };
     // edit the FacultyProfiles collection
     updateMethod.callPromise({ collectionName, updateData })
       .catch((err) => swal('Error', err.message, 'error'))
@@ -95,6 +96,18 @@ const FacultyTable = ({ faculty, eventKey }) => {
                 </Row>
                 <Row>
                   <TextField name="officeLocation" placeholder="Office Location" help="Please separate offices using commas." />
+                </Row>
+                <Row>
+                  <DatePicker
+                    name="startTime"
+                    showTimeSelect
+                    showTimeSelectOnly
+                    timeFormat="HH:mm"
+                    timeIntervals={30}
+                    timeCaption="time"
+                    dateFormat="h:mm aa"
+                    className="form-view"
+                  />
                 </Row>
                 <Row>
                   <TextField name="officeHours" placeholder="Office Hours" />
