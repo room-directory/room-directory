@@ -72,7 +72,7 @@ const App = () => {
           <Route path="/edit-profile/:_id" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
           <Route path="/roomlist" element={<ProtectedRoute><RoomList /></ProtectedRoute>} />
           <Route path="/reservation" element={<ProtectedRoute><AdminReservation /></ProtectedRoute>} />
-          <Route path="/manage" element={<AdminProtectedRoute ready={ready}><AdminManage /></AdminProtectedRoute>} />
+          <Route path="/manage" element={<ProtectedRoute><AdminManage /></ProtectedRoute>} />
           <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
           <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
           <Route path="/admin" element={<AdminProtectedRoute><ListStuffAdmin /></AdminProtectedRoute>} />
