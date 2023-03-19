@@ -1304,7 +1304,7 @@
       "lastName": "Endicott-Popovsky",
       "role": "Associate Professor",
       "image": "/images/barbara-endicott-popovsky.jpg",
-      "officeLocation": "Not Available",
+      "officeLocation": [],
       "officeHours": "Not Available",
       "phone": "No Phone Contact",
       "email": "endicott@uw.edu"
@@ -1314,7 +1314,7 @@
       "lastName": "Halverson",
       "role": "Instructor",
       "image": "/images/richard-halverson.jpg",
-      "officeLocation": "Not Available",
+      "officeLocation": [],
       "officeHours": "Not Available",
       "phone": "No Phone Contact",
       "email": "richardh@hawaii.edu"
@@ -1504,7 +1504,7 @@
       "lastName": "Aurenheimer",
       "role": "Professor",
       "image": "/images/ICSLogo.jpg",
-      "officeLocation": "Not Available",
+      "officeLocation": [],
       "officeHours": "Not Available",
       "phone": "No Phone Contact",
       "email": "brent@csufresno.edu"
@@ -1524,7 +1524,7 @@
       "lastName": "Koniges",
       "role": "Computational Scientist",
       "image": "/images/alice-koniges.jpg",
-      "officeLocation": "Not Available",
+      "officeLocation": [],
       "officeHours": "Not Available",
       "phone": "No Phone Contact",
       "email": "koniges@hawaii.edu"
@@ -1534,7 +1534,7 @@
       "lastName": "Streveler",
       "role": "Unknown",
       "image": "/images/dennis-streveler.jpg",
-      "officeLocation": "Not Available",
+      "officeLocation": [],
       "officeHours": "Not Available",
       "phone": "No Phone Contact",
       "email": "strev@hawaii.edu"
