@@ -20,7 +20,10 @@ class RoomCollection extends BaseCollection {
         allowedValues: roomType,
         defaultValue: 'conference',
       },
-      isICS: Boolean,
+      isICS: {
+        type: Boolean,
+        defaultValue: true,
+      },
       occupants: Array,
       'occupants.$': String,
       squareFt: Number,
@@ -65,10 +68,10 @@ class RoomCollection extends BaseCollection {
     if (type) {
       updateData.type = type;
     }
-    if (isICS) {
+    if (isICS !== this._collection.find(docID).isICS) {
       updateData.isICS = isICS;
     }
-    if (occupants.length > 0) {
+    if (occupants) {
       updateData.occupants = occupants;
     }
     if (_.isNumber(squareFt)) {
@@ -80,7 +83,7 @@ class RoomCollection extends BaseCollection {
   /**
    * A stricter form of remove that throws an error if the document or docID could not be found in this collection.
    * @param { String | Object } name A document or docID in this collection.
-   * @returns true
+   * @returns boolean
    */
   removeIt(name) {
     const doc = this.findDoc(name);

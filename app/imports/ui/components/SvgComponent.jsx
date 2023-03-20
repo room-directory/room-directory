@@ -3,8 +3,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import RoomInfoModalSvg from './RoomInfoModalSvg';
 import { Container, Button } from 'react-bootstrap';
+window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
 
-const SvgComponent = ({ rooms, hoverRoom }) => {
+const SvgComponent = ({ rooms, hoverRoom, scale }) => {
   const [display, setDisplay] = useState(false);
   const showDisplay = () => setDisplay(true);
   const hideDisplay = () => setDisplay(false);
@@ -13,6 +14,36 @@ const SvgComponent = ({ rooms, hoverRoom }) => {
   const handleRoomNumber = (number) => setRoomNumber(number);
   const getRoomNumber = () => roomNumber;
 
+  const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl, {trigger: "hover", container: "body"});
+  })
+  const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+  const tooltipslist2 = tooltips.forEach(element => new bootstrap.Tooltip(element, {trigger: "hover"}));
+  const hideTooltips = () => {
+    const tooltips = document.getElementsByClassName('tooltip')
+    if (tooltips.item(0) !== null) {
+      tooltips.item(0).remove();
+    }
+  }
+
+
+
+  rooms.map(room => {
+    element = document.getElementById(room.roomNumber);
+    if (element) {
+      element.setAttribute('data-bs-toggle', 'tooltip');
+      element.setAttribute('data-bs-placement', 'top');
+      element.setAttribute('data-trigger', 'hover');
+      element.setAttribute('role', 'button');
+      if (room.occupants.length < 1) {
+        element.setAttribute('title', 'Empty');
+      } else {
+        element.setAttribute('title', room.occupants)
+      }
+    }
+
+  })
   const isRoom = (element) => {
     // rooms.find(room => room.roomNumber === element.currentTarget.id) ? true : false
     if (rooms.find(room => room.roomNumber === element.currentTarget.id)) {
@@ -50,15 +81,21 @@ const SvgComponent = ({ rooms, hoverRoom }) => {
     if (element) {
       element.setAttribute('class', 'room');
     }
+    scale
   });
+  document.body.addEventListener('click', hideTooltips(), true);
   return (
-    <Container fluid>
+    <>
       <svg
         id="svg2"
-        width={863.578}
-        height={661.19843}
+        // width={863.578}
+        // height={661.19843}
+        width={scale * 863.578}
+        height={scale * 661.19843}
         viewBox="0 0 507.98706 388.94025"
+        // viewBox="0 0 1000 400"
         xmlns="http://www.w3.org/2000/svg"
+        className="roomSvg"
       >
         <defs id="defs6" />
         <g
@@ -744,10 +781,11 @@ const SvgComponent = ({ rooms, hoverRoom }) => {
           />
           <path
             id="318A"
+            data-bs-toggle="tooltip"
+            title={`Room`}
+            data-bs-placement="top"
             onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
             className=""
-            onMouseEnter={(e) => setClass(e)}
-            onMouseLeave={(e) => removeClass(e)}
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
             d="m 159.00967,398.49365 v -1.88379 -1.88233 h 2.86377 c 2.792,0 2.86377,-0.004 2.86377,-0.1538 0,-0.0846 -0.0574,-0.51689 -0.12744,-0.96094 -0.10703,-0.67815 -0.19298,-0.93986 -0.54199,-1.63184 -0.35653,-0.70691 -0.5144,-0.92117 -1.10889,-1.50586 -0.59986,-0.58998 -0.80936,-0.73802 -1.56298,-1.10595 -0.7428,-0.36265 -0.98087,-0.43884 -1.62745,-0.52442 l -0.75879,-0.10107 v -23.60742 -23.60596 h 3.64893 3.64892 v 1.6084 1.6084 h 2.23536 2.23681 v -1.6084 -1.6084 h 17.37891 17.3789 v 1.6084 1.6084 h 2.23683 2.23534 v -1.6084 -1.6084 h 17.34083 17.33935 v 1.6084 1.6084 h 1.09863 1.09864 v 1.16894 c 0,1.34575 0.11922,1.1852 -1.00342,1.34619 -0.53813,0.0772 -0.80276,0.17223 -1.53222,0.55079 -0.75191,0.39021 -0.97365,0.55361 -1.51173,1.10888 -0.83898,0.86581 -1.36864,1.8696 -1.56152,2.96485 -0.0722,0.40996 -0.13752,0.85197 -0.14502,0.98144 l -0.0132,0.23437 2.88428,0.0205 2.88282,0.022 v 7.45166 7.45313 h 3.88329 3.88477 v 15.22119 15.22266 h -2.74658 -2.74658 v -1.64796 -1.64794 h -2.23536 -2.23681 v 1.64794 1.64796 h -17.33936 -17.34082 v -1.64796 -1.64794 h -2.23535 -2.23682 v 1.64794 1.64796 H 188.1586 170.77969 v -1.64796 -1.64794 h -2.23681 -2.23536 v 1.64794 1.64796 h -3.64892 z m 0,-4.15869 v -2.70703 c 0,-2.52584 0.01,-2.70731 0.1377,-2.70703 0.0755,1.6e-4 0.443,0.0508 0.81592,0.11132 0.98363,0.15968 2.00107,0.71352 2.87842,1.56739 0.55827,0.54333 0.71563,0.75863 1.07666,1.47363 0.30128,0.5967 0.44578,0.99055 0.5039,1.37256 0.0448,0.29477 0.0995,0.61482 0.12158,0.71191 l 0.0395,0.17725 h -2.78614 z m 82.30372,-41.6632 0.0366,-0.17724 c 0.0202,-0.0971 0.0755,-0.41859 0.12305,-0.71484 0.0603,-0.37596 0.21425,-0.79014 0.5083,-1.37256 0.35328,-0.69972 0.5204,-0.9314 1.03565,-1.43262 0.85713,-0.8338 1.89086,-1.38749 2.92822,-1.56885 0.40997,-0.0716 0.78983,-0.13466 0.84375,-0.13916 0.0767,-0.007 0.0982,0.58046 0.0982,2.69825 v 2.70702 h -2.7876 z"
@@ -841,6 +879,9 @@ const SvgComponent = ({ rooms, hoverRoom }) => {
           />
           <path
             id={325}
+            title="Not under ICS"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
             onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
             className=""
             onMouseEnter={(e) => setClass(e)}
@@ -1028,7 +1069,7 @@ const SvgComponent = ({ rooms, hoverRoom }) => {
       </svg>
       <span id="default" />
       <RoomInfoModalSvg room={rooms.find(room => room.roomNumber === getRoomNumber())} key={getRoomNumber()} display={display} setDisplay={hideDisplay} />
-    </Container>
+    </>
   );
 };
 SvgComponent.propTypes = {
@@ -1040,6 +1081,7 @@ SvgComponent.propTypes = {
     }).isRequired,
   ).isRequired,
   hoverRoom: PropTypes.string,
+  scale: PropTypes.number,
 };
 
 export default SvgComponent;
