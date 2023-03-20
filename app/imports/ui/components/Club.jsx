@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 /** Renders a single row in the Club Information table. See pages/ClubInfo.jsx. */
 const Club = ({ club }) => (
   <tr>
-    <td><a href={club.website}><img alt="Club logo" src={club.image} width="180" height="180" /></a></td>
+    <td><a href={club.website} target="_blank" rel="noopener noreferrer"><img alt="Club logo" src={club.image} width="180" height="180" /></a></td>
     <td>{club.clubName}</td>
     <td>{club.description}</td>
     <td><ul>{club.rio.map((student) => <li>{student}</li>)}</ul></td>

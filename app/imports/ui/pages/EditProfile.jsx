@@ -39,6 +39,7 @@ const EditProfile = () => {
   const submit = () => {
     const fName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_FIRST_NAME).value.toString();
     const lName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_LAST_NAME).value.toString();
+    const custompfp = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_PFP).value.toString();
 
     let collectionName;
     if (Roles.userIsInRole(Meteor.userId(), [ROLE.USER])) {
@@ -46,10 +47,17 @@ const EditProfile = () => {
     } else {
       collectionName = AdminProfiles.getCollectionName();
     }
+
+    if (custompfp !== '') {
+      pfp = custompfp;
+    }
+
     const updateData = { id: user._id, firstName: fName, lastName: lName, image: pfp };
     updateMethod.callPromise({ collectionName, updateData })
       .catch(error => swal('Error', error.message, 'error'))
       .then(() => swal('Success', 'Profile updated successfully', 'success'));
+
+    document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_PFP).value = '';
   };
 
   const pfpUpdate = (src) => {
@@ -60,59 +68,74 @@ const EditProfile = () => {
     <Container id={PAGE_IDS.PROFILE} className="py-3">
       <Row>
         <Col>
-          <h1 className="montserrat" style={{ textAlign: 'left', fontSize: '2em' }}>Edit Profile</h1>
+          <h1 className="montserrat" style={{ textAlign: 'center', fontSize: '2em' }}>Edit Profile</h1>
         </Col>
       </Row>
-      <Col className="align-content-center text-center py-5">
-        <Row className="justify-content-center pb-4">
-          <Image id="profile-image" roundedCircle className="h-25 w-25" src={user.image} />
-        </Row>
-        <Dropdown drop="up-centered" id={COMPONENT_IDS.EDIT_PROFILE_FORM_PFP} onSelect={pfpUpdate}>
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
-            Change Profile Picture
-          </Dropdown.Toggle>
+      <Row className="justify-content-center pb-4">
+        <Col style={{ textAlign: 'center' }}>
+          <Row className="justify-content-center pb-4">
+            <Image id="profile-image" roundedCircle className="h-25 w-25" src={user.image} />
+          </Row>
+          <Row className="justify-content-md-center pb-4">
+            <Dropdown drop="up-centered" onSelect={pfpUpdate}>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                Choose Default Profile Picture
+              </Dropdown.Toggle>
 
-          <Dropdown.Menu>
-            <Dropdown.Item eventKey="/images/case.png"><Image roundedCircle height={50} width={50} src="/images/case.png" /> PFP 1</Dropdown.Item>
-            <Dropdown.Item eventKey="/images/keyboard.png"><Image roundedCircle height={50} width={50} src="/images/keyboard.png" /> PFP 2</Dropdown.Item>
-            <Dropdown.Item eventKey="/images/monitor.png"><Image roundedCircle height={50} width={50} src="/images/monitor.png" /> PFP 3</Dropdown.Item>
-            <Dropdown.Item eventKey="/images/mouse.jpg"><Image roundedCircle height={50} width={50} src="/images/mouse.jpg" /> PFP 4</Dropdown.Item>
-            <Dropdown.Item eventKey="/images/speaker.png"><Image roundedCircle height={50} width={50} src="/images/speaker.png" /> PFP 5</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-        <Row>
-          <h2 id="profile-name" style={{ textTransform: 'uppercase' }}>{`${user.firstName} ${user.lastName}`}</h2>
-        </Row>
-        <Row>
-          {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
-            <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>ADMIN</h4>
-          ) :
-            <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>{`${user.position}`}</h4> }
-        </Row>
-        <Row />
-        <Row>
-          <Col style={{ textAlign: 'right' }}>
-            <Button variant="outline-secondary" href={`/profile/${_id}`}>Return to Profile</Button>
-            <Button variant="success" onClick={submit}>Save</Button>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
+              <Dropdown.Menu>
+                <Dropdown.Item eventKey="/images/case.png"><Image roundedCircle height={50} width={50} src="/images/case.png" /> PFP 1</Dropdown.Item>
+                <Dropdown.Item eventKey="/images/keyboard.png"><Image roundedCircle height={50} width={50} src="/images/keyboard.png" /> PFP 2</Dropdown.Item>
+                <Dropdown.Item eventKey="/images/monitor.png"><Image roundedCircle height={50} width={50} src="/images/monitor.png" /> PFP 3</Dropdown.Item>
+                <Dropdown.Item eventKey="/images/mouse.jpg"><Image roundedCircle height={50} width={50} src="/images/mouse.jpg" /> PFP 4</Dropdown.Item>
+                <Dropdown.Item eventKey="/images/speaker.png"><Image roundedCircle height={50} width={50} src="/images/speaker.png" /> PFP 5</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Row>
+          <Row className="justify-content-center pb-4">
             <InputGroup size="sm">
-              <InputGroup.Text><b>First Name</b></InputGroup.Text>
-              <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_FIRST_NAME} defaultValue={user.firstName ? user.firstName : ''} />
+              <InputGroup.Text><b>Custom Image Link</b></InputGroup.Text>
+              <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_PFP} defaultValue="" />
             </InputGroup>
-          </Col>
-          <Col>
-            <InputGroup size="sm">
-              <InputGroup.Text><b>Last Name</b></InputGroup.Text>
-              <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_LAST_NAME} defaultValue={user.lastName ? user.lastName : ''} />
-            </InputGroup>
-          </Col>
-        </Row>
-      </Col>
+          </Row>
+        </Col>
+        <Col sm={1} />
+        <Col>
+          <Row>
+            <h2 id="profile-name" style={{ textTransform: 'uppercase' }}>{`${user.firstName} ${user.lastName}`}</h2>
+          </Row>
+          <Row>
+            {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
+              <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>ADMIN</h4>
+            ) :
+              <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>{`${user.position}`}</h4> }
+          </Row>
+          <Row />
+          <Row className="p-3">
+            <Col>
+              <InputGroup size="sm">
+                <InputGroup.Text><b>First Name</b></InputGroup.Text>
+                <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_FIRST_NAME} defaultValue={user.firstName ? user.firstName : ''} />
+              </InputGroup>
+            </Col>
+            <Col>
+              <InputGroup size="sm">
+                <InputGroup.Text><b>Last Name</b></InputGroup.Text>
+                <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_LAST_NAME} defaultValue={user.lastName ? user.lastName : ''} />
+              </InputGroup>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+      <Row>
+        <Col style={{ textAlign: 'center' }}>
+          <Button variant="outline-secondary" href={`/profile/${_id}`}>Return to Profile</Button>
+          <Button variant="success" onClick={submit}>Save</Button>
+        </Col>
+      </Row>
     </Container>
-  ) : <LoadingSpinner message="Loading Profile" />);
+  ) :
+    <LoadingSpinner message="Loading Profile" />
+  );
 };
 
 export default EditProfile;

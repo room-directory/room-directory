@@ -4,7 +4,10 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { _ } from 'meteor/underscore';
 // import DropdownButton from 'react-bootstrap/DropdownButton';
 // import Dropdown from 'react-bootstrap/Dropdown';
+import { Meteor } from 'meteor/meteor';
 import DatePicker from 'react-datepicker';
+import { Roles } from 'meteor/alanning:roles';
+import { ROLE } from '../../api/role/Role';
 import { PAGE_IDS } from '../utilities/PageIDs';
 // import RoomDropdown from '../components/RoomDropdown';
 import { Room } from '../../api/room/RoomCollection';
@@ -14,13 +17,13 @@ import ProfileTable from '../components/ProfileTable';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 import RoomTable from '../components/RoomTable';
-// import AddRoomModal from '../components/AddRoomModal';
 import AddUserModal from '../components/AddUserModal';
 import FacultyTable from '../components/FacultyTable';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 import AddFacultyModal from '../components/AddFacultyModal';
 import { Club } from '../../api/club/ClubCollection';
 import ClubTable from '../components/ClubTable';
+import AddRoomModal from '../components/AddRoomModal';
 
 /* An interactive page with different components that reflects the reservations made. */
 const AdminManage = () => {
@@ -30,11 +33,15 @@ const AdminManage = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
-  // const [showAddRoom, setShowAddRoom] = useState(false);
+  const [showAddRoom, setShowAddRoom] = useState(false);
   const [showAddUser, setShowAddUser] = useState(false);
   const [showAddFaculty, setShowAddFaculty] = useState(false);
 
-  const { rooms, profiles, facultyInfo, resources, clubs, ready } = useTracker(() => {
+  const { rooms, profiles, facultyInfo, resources, clubs, ready, currUser, user } = useTracker(() => {
+    const curUser = Meteor.user() ? Meteor.user().username : '';
+    let usr = UserProfiles.findOne({ email: curUser }, {});
+    if (usr === undefined) (usr = AdminProfiles.findOne({ email: curUser }, {}));
+
     const roomSubscription = Room.subscribeRoom();
     const profileSubscription = UserProfiles.subscribe();
     const adminSubscription = AdminProfiles.subscribe();
@@ -45,9 +52,9 @@ const AdminManage = () => {
     const rdy = roomSubscription.ready() && profileSubscription.ready() && adminSubscription.ready() && facultySubscription.ready() && clubSubscription.ready() && resourcesSubscription.ready();
     const room = Room.find({}, {}).fetch();
     const resource = RoomResources.find({}, {}).fetch();
-    const user = UserProfiles.find({}, {}).fetch();
+    const userp = UserProfiles.find({}, {}).fetch();
     const admin = AdminProfiles.find({}, {}).fetch();
-    const profile = _.sortBy(user.concat(admin), (obj) => obj.lastName);
+    const profile = _.sortBy(userp.concat(admin), (obj) => obj.lastName);
     const faculty = FacultyProfiles.find({}, {}).fetch();
     const club = Club.find({}, {}).fetch();
     return {
@@ -57,6 +64,8 @@ const AdminManage = () => {
       profiles: profile,
       facultyInfo: faculty,
       clubs: club,
+      currUser: curUser,
+      user: usr,
     };
   }, []);
 
@@ -70,48 +79,50 @@ const AdminManage = () => {
             id="uncontrolled-tab-example"
             className="mb-3"
           >
-            <Tab eventKey="profiles" title="Profiles">
-
-              <Row className="px-m3 py-2" style={{ padding: 15 }}>
-                <Col><u>LAST NAME</u></Col>
-                <Col><u>FIRST NAME</u></Col>
-                <Col><u>EMAIL</u></Col>
-                <Col><u>POSITION</u></Col>
-                <Col xs={2} />
-              </Row>
-              <div className="verticalScroll">
-                { profiles.map((account, index) => <ProfileTable key={account._id} eventKey={`${index}`} account={account} />) }
-              </div>
-              <Col className="d-flex justify-content-end">
-                <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
-                  <Button variant="success" onClick={() => setShowAddUser(true)}>
-                    + Add
-                  </Button>
+            { (currUser !== '' && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) || (currUser !== '' && user?.position === 'office') ? (
+              <Tab eventKey="profiles" title="Profiles">
+                <Row className="px-m3 py-2" style={{ padding: 15 }}>
+                  <Col><u>LAST NAME</u></Col>
+                  <Col><u>FIRST NAME</u></Col>
+                  <Col><u>EMAIL</u></Col>
+                  <Col><u>POSITION</u></Col>
+                  <Col xs={2} />
+                </Row>
+                <div className="verticalScroll">
+                  { profiles.map((account, index) => <ProfileTable key={account._id} eventKey={`${index}`} account={account} />) }
                 </div>
-              </Col>
-            </Tab>
-            <Tab eventKey="faculty" title="Faculty">
-
-              <Row className="px-m3 py-2" style={{ padding: 15 }}>
-                <Col><u>LAST NAME</u></Col>
-                <Col><u>FIRST NAME</u></Col>
-                <Col><u>EMAIL</u></Col>
-                <Col><u>OFFICE</u></Col>
-                <Col xs={2} />
-              </Row>
-              <div className="verticalScroll">
-                { facultyInfo.map((faculty, index) => <FacultyTable key={faculty._id} eventKey={`${index}`} faculty={faculty} />) }
-              </div>
-              <Col className="d-flex justify-content-end">
-                <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
-                  <Button variant="success" onClick={() => setShowAddFaculty(true)}>
-                    + Add
-                  </Button>
+                <Col className="d-flex justify-content-end">
+                  <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
+                    <Button variant="success" onClick={() => setShowAddUser(true)}>
+                      + Add
+                    </Button>
+                  </div>
+                </Col>
+              </Tab>
+            ) : ''}
+            { currUser !== '' && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? ([
+              <Tab eventKey="faculty" title="Faculty">
+                <Row className="px-m3 py-2" style={{ padding: 15 }}>
+                  <Col><u>LAST NAME</u></Col>
+                  <Col><u>FIRST NAME</u></Col>
+                  <Col><u>EMAIL</u></Col>
+                  <Col><u>OFFICE</u></Col>
+                  <Col xs={2} />
+                </Row>
+                <div className="verticalScroll">
+                  { facultyInfo.map((faculty, index) => <FacultyTable key={faculty._id} eventKey={`${index}`} faculty={faculty} />) }
                 </div>
-              </Col>
-            </Tab>
-            <Tab eventKey="rooms" title="Rooms">
-              {/* <DropdownButton title="Select Room...">
+                <Col className="d-flex justify-content-end">
+                  <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
+                    <Button variant="success" onClick={() => setShowAddFaculty(true)}>
+                      + Add
+                    </Button>
+                  </div>
+                </Col>
+              </Tab>,
+              // ) : ''}
+              <Tab eventKey="rooms" title="Rooms">
+                {/* <DropdownButton title="Select Room...">
                 <Dropdown.Header>Lecture</Dropdown.Header>
                 {(RoomType(rooms).lecture).map((room) => <RoomDropdown key={room.type} room={room} />)}
                 <Dropdown.Divider />
@@ -124,37 +135,43 @@ const AdminManage = () => {
                 <Dropdown.Header>Study Room</Dropdown.Header>
                 {(RoomType(rooms).study).map((room) => <RoomDropdown key={room.type} room={room} />)}
               </DropdownButton> */}
-              <Row className="px-m3 py-2" style={{ padding: 15 }}>
-                <Col><u>ROOM NUMBER</u></Col>
-                <Col><u>BUILDING</u></Col>
-                <Col><u>TYPE</u></Col>
-                <Col><u>FACULTY</u></Col>
-                <Col><u>IS ICS?</u></Col>
-                <Col><u>SQUARE FT</u></Col>
-                <Col xs={2} />
-              </Row>
-              <div className="verticalScroll">
-                { rooms.map((room, index) => <RoomTable key={room._id} eventKey={`${index}`} room={room} resources={resources.find(x => x.roomNumber === room.roomNumber)} faculty={facultyInfo} />) }
-              </div>
-
-            </Tab>
-            <Tab eventKey="clubs" title="Clubs">
-
-              <Row className="px-m3 py-2" style={{ padding: 15 }}>
-                <Col><u>CLUB NAME</u></Col>
-                <Col xs={2} />
-              </Row>
-              <div>
-                { clubs.map((club, index) => <ClubTable key={club._id} eventKey={`${index}`} club={club} />) }
-              </div>
-              <Col className="d-flex justify-content-end">
-                <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
-                  <Button variant="success" onClick={() => setShowAddUser(true)}>
-                    + Add Club
-                  </Button>
+                <Row className="px-m3 py-2" style={{ padding: 15 }}>
+                  <Col><u>ROOM NUMBER</u></Col>
+                  <Col><u>BUILDING</u></Col>
+                  <Col><u>TYPE</u></Col>
+                  <Col><u>FACULTY</u></Col>
+                  <Col><u>IS ICS?</u></Col>
+                  <Col><u>SQUARE FT</u></Col>
+                  <Col xs={2} />
+                </Row>
+                <div className="verticalScroll">
+                  { rooms.map((room, index) => <RoomTable key={room._id} eventKey={`${index}`} room={room} resources={resources.find(x => x.roomNumber === room.roomNumber)} faculty={facultyInfo} />) }
                 </div>
-              </Col>
-            </Tab>
+                <Col className="d-flex justify-content-end">
+                  <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
+                    <Button variant="success" onClick={() => setShowAddRoom(true)}>
+                      + Add
+                    </Button>
+                  </div>
+                </Col>
+              </Tab>,
+              <Tab eventKey="clubs" title="Clubs">
+                <Row className="px-m3 py-2" style={{ padding: 15 }}>
+                  <Col><u>CLUB NAME</u></Col>
+                  <Col xs={2} />
+                </Row>
+                <div>
+                  { clubs.map((club, index) => <ClubTable key={club._id} eventKey={`${index}`} club={club} />) }
+                </div>
+                <Col className="d-flex justify-content-end">
+                  <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
+                    <Button variant="success" onClick={() => setShowAddUser(true)}>
+                      + Add Club
+                    </Button>
+                  </div>
+                </Col>
+              </Tab>,
+            ]) : ''}
           </Tabs>
         </Col>
       </Row>
@@ -238,6 +255,7 @@ const AdminManage = () => {
       </Modal>
       <AddUserModal setShowAddUser={setShowAddUser} showAddUser={showAddUser} />
       <AddFacultyModal setShowAddFaculty={setShowAddFaculty} showAddFaculty={showAddFaculty} />
+      <AddRoomModal setShowAddRoom={setShowAddRoom} showAddRoom={showAddRoom} />
     </Container>
   ) : <LoadingSpinner />);
 };
