@@ -8,7 +8,6 @@ import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.meth
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 
 const bridge = new SimpleSchema2Bridge(UserProfiles._schema);
-const positionList = ['student', 'faculty', 'office'];
 
 const ProfileTable = ({ account, eventKey }) => {
   const [show, setShow] = useState(false);
@@ -78,7 +77,10 @@ const ProfileTable = ({ account, eventKey }) => {
                   </Col>
                 </Row>
                 <Row>
-                  <SelectField name="position" allowedValues={positionList} placeholder="Select position" />
+                  <TextField name="image" placeholder="Image link" />
+                </Row>
+                <Row>
+                  <SelectField name="position" placeholder="Select position" />
                 </Row>
                 <Row>
                   <SubmitField value="Submit" />
@@ -99,6 +101,7 @@ ProfileTable.propTypes = {
     firstName: PropTypes.string,
     lastName: PropTypes.string,
     email: PropTypes.string,
+    image: PropTypes.string,
     position: PropTypes.string,
     _id: PropTypes.string,
   }).isRequired,
