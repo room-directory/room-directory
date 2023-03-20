@@ -3,11 +3,25 @@ import PropTypes from 'prop-types';
 import swal from 'sweetalert';
 import { Card, Col, Row, Button, Modal } from 'react-bootstrap';
 import { AutoForm, ErrorsField, SubmitField, TextField, SelectField } from 'uniforms-bootstrap5';
+import SimpleSchema from 'simpl-schema';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 
-const bridge = new SimpleSchema2Bridge(UserProfiles._schema);
+const positionList = ['student', 'faculty', 'office'];
+
+const formSchema = new SimpleSchema({
+  firstName: String,
+  lastName: String,
+  image: String,
+  position: {
+    type: String,
+    allowedValues: positionList,
+    defaultValue: 'student',
+  },
+});
+
+const bridge = new SimpleSchema2Bridge(formSchema);
 
 const ProfileTable = ({ account, eventKey }) => {
   const [show, setShow] = useState(false);
