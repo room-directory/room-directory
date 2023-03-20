@@ -35,6 +35,7 @@ export const COMPONENT_IDS = {
   CLUB_INFORMATION_SEARCH: 'club-information-search',
   ADMIN_MANAGE: 'admin-manage',
   ADMIN_RESERVATION: 'admin-reservation',
+  ROOM_LIST_SORT: 'room-list-sort',
 
   // EDIT PROFILE
   EDIT_PROFILE_FORM_FIRST_NAME: 'edit-profile-form-first-name',
@@ -61,5 +62,4 @@ export const COMPONENT_IDS = {
   ADD_ROOM_NUMBER_ADMIN: 'add-room-number-admin',
   ADD_ROOM_TYPE_ADMIN: 'add-room-type-admin',
   ADD_ROOM_CAPACITY_ADMIN: 'add-room-capacity-admin',
-
 };

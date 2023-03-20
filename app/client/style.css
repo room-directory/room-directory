@@ -954,3 +954,7 @@ svg {
   pointer-events: none;
 }
 
+#room-list-sort button {
+  background-color: var(--main-green);
+}
+

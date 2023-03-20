@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Container, Row, Dropdown, DropdownButton, ButtonGroup, Table, Button } from 'react-bootstrap';
+import { Container, Row, Dropdown, DropdownButton, ButtonGroup, Table, Button, Icon } from 'react-bootstrap';
+import { BsPlus, BsDash } from 'react-icons/bs';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Room } from '../../api/room/RoomCollection';
 import { PAGE_IDS } from '../utilities/PageIDs';
 import LoadingSpinner from '../components/LoadingSpinner';
 import SvgComponent from '../components/SvgComponent';
 import RoomListTableRow from '../components/RoomListTableRow';
+import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
 /* TODO: change key value */
 const RoomList = () => {
@@ -27,21 +29,21 @@ const RoomList = () => {
   const [hoverRoom, setHoverRoom] = useState('default');
   const [scale, setScale] = useState(1);
   const changeScale = () => {
-    setScale(scale + 1);
+    <Icon as={BsPlus}>setScale(scale + 1)</Icon>;
     setScale((scale % 2) + 1);
   };
   return (ready ? (
     <Container id={PAGE_IDS.ROOM_LIST} className="py-3 overflow-hidden">
-      <Row>
+      <Row id={COMPONENT_IDS.ROOM_LIST_SORT}>
         <ButtonGroup aria-label="Filter group">
-          <DropdownButton variant="primary" title="Building" className="sharp me-3">
+          <DropdownButton title="Building" className="me-3 table-borderless">
             <Dropdown.Item href="#/action-1">POST</Dropdown.Item>
           </DropdownButton>
-          <DropdownButton variant="primary" title="Floor" className=" sharp me-3">
+          <DropdownButton title="Floor" className="me-3 table-borderless">
             <Dropdown.Item href="#/action-1">3</Dropdown.Item>
           </DropdownButton>
         </ButtonGroup>
-        <Button className="w-auto" onClick={() => changeScale()}>{scale === 1 ? 'Zoom in' : 'Zoom out'}</Button>
+        <Button className="w-auto me-3 border table-borderless" onClick={() => changeScale()}>{scale === 1 ? 'Zoom in' : 'Zoom out'}</Button>
       </Row>
       <Row className="d-flex w-auto h-auto flex-nowrap">
         <div className="map-container" style={{ width: 870 }}>
