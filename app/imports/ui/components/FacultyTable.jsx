@@ -81,7 +81,7 @@ const FacultyTable = ({ faculty, eventKey }) => {
                 </Row>
                 <Row>
                   <Col>
-                    <TextField name="role" placeholder="Faculty role" />
+                    <TextField name="role" placeholder="Faculty role" label="Job Title" />
                   </Col>
                   <Col>
                     <TextField name="email" placeholder="Email" />
