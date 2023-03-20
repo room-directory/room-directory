@@ -1,23 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Modal, Row } from 'react-bootstrap';
+import { Alert, Col, Modal, Row } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
-import SimpleSchema from 'simpl-schema';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { Club } from '../../api/club/ClubCollection';
 
-const formSchema = new SimpleSchema({
-  clubName: String,
-  website: String,
-  image: String,
-  description: String,
-  rio: Array,
-  advisor: Array,
-});
-
-const bridge = new SimpleSchema2Bridge(formSchema);
+const bridge = new SimpleSchema2Bridge(Club._schema);
 
 const AddClubModal = ({ showAddClub, setShowAddClub }) => {
   const [error, setError] = useState('');
@@ -43,19 +33,21 @@ const AddClubModal = ({ showAddClub, setShowAddClub }) => {
             <TextField name="clubName" placeholder="Club Name" />
           </Row>
           <Row>
-            <TextField name="website" placeholder="Website Link" />
+            <Col>
+              <TextField name="website" placeholder="Website Link" />
+            </Col>
+            <Col>
+              <TextField name="image" placeholder="Club Logo Link" />
+            </Col>
           </Row>
           <Row>
-            <TextField name="image" placeholder="Logo Link" />
+            <TextField name="description" placeholder="Club Description" />
           </Row>
           <Row>
-            <TextField name="description" placeholder="Description" />
+            <TextField name="rio" placeholder="Rio Officers" help="Please separate names using commas." />
           </Row>
           <Row>
-            <TextField name="rio" placeholder="Officers" />
-          </Row>
-          <Row>
-            <TextField name="advisor" placeholder="Advisor(s)" />
+            <TextField name="advisor" placeholder="Advisor" help="Please separate names using commas." />
           </Row>
           <Row>
             <SubmitField value="Submit" />
