@@ -40,16 +40,4 @@ export const COMPONENT_IDS = {
   EDIT_PROFILE_FORM_FIRST_NAME: 'edit-profile-form-first-name',
   EDIT_PROFILE_FORM_LAST_NAME: 'edit-profile-form-last-name',
   EDIT_PROFILE_FORM_PFP: 'edit-profile-form-pfp',
-  EDIT_PROFILE_FIRST_NAME_ADMIN: 'edit-profile-first-name-admin',
-  EDIT_PROFILE_LAST_NAME_ADMIN: 'edit-profile-last-name-admin',
-  EDIT_PROFILE_POSITION_ADMIN: 'edit-profile-position-admin',
-  EDIT_DESKS_ADMIN: 'edit-room-desks-admin',
-  EDIT_PHONE_ADMIN: 'edit-room-phone-admin',
-  EDIT_CHAIRS_ADMIN: 'edit-room-chairs-admin',
-
-  // ADD ROOM
-  ADD_ROOM_NUMBER_ADMIN: 'add-room-number-admin',
-  ADD_ROOM_TYPE_ADMIN: 'add-room-type-admin',
-  ADD_ROOM_CAPACITY_ADMIN: 'add-room-capacity-admin',
-
 };
