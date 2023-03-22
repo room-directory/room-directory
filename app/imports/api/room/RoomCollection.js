@@ -79,12 +79,11 @@ class RoomCollection extends BaseCollection {
     if (_.isNumber(squareFt)) {
       updateData.squareFt = squareFt;
     }
-    if(notes){
-      if (notes.length > 0 ){
+    if (notes) {
+      if (notes.length > 0) {
         updateData.notes = notes;
-      }
-      else {
-        updateData.notes = "None";
+      } else {
+        updateData.notes = 'None';
       }
     }
     this._collection.update(docID, { $set: updateData });

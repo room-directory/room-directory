@@ -140,6 +140,7 @@ RoomInfoModal.propTypes = {
     type: PropTypes.string,
     occupants: PropTypes.arrayOf(PropTypes.string),
     squareFt: PropTypes.number,
+    notes: PropTypes.string,
     _id: PropTypes.string,
   }).isRequired,
   show: PropTypes.bool.isRequired,
