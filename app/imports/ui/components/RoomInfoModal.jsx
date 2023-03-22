@@ -105,6 +105,10 @@ const RoomInfoModal = ({ room, show, setShow }) => {
                     </button>
                   </td>
                 </tr>,
+                <tr>
+                  <th scope="row">Room Notes</th>
+                  <td>{room.notes}</td>
+                </tr>,
                 // <tr>
                 //   <th scope="row">
                 //     <a href="/list">Reserve</a>
