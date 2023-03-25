@@ -54,8 +54,8 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
   };
 
   const submit = (data) => {
-    const { building, roomNumber, type, isICS, squareFt, occupants, chairs, desks, phoneNumber, capacity, tv, dataJacks } = data;
-    let updateData = { id: room._id, roomNumber: roomNumber, building: building, type, isICS, squareFt, occupants: occupants };
+    const { building, roomNumber, type, isICS, squareFt, notes, occupants, chairs, desks, phoneNumber, capacity, tv, dataJacks } = data;
+    let updateData = { id: room._id, roomNumber: roomNumber, building: building, type, isICS, squareFt, notes, occupants: occupants };
     let collectionName = Room.getCollectionName();
 
     // update the room collection
@@ -118,6 +118,9 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
                       </Col>
                       <Col>
                         <AutoField name="isICS" placeholder="ICS Room" />
+                      </Col>
+                      <Col>
+                        <TextField name="notes" placeholder="Notes" />
                       </Col>
                     </Row>
                     <Row>
@@ -184,6 +187,7 @@ RoomTable.propTypes = {
     type: PropTypes.string,
     occupants: PropTypes.arrayOf(PropTypes.string),
     squareFt: PropTypes.number,
+    notes: PropTypes.string,
   }).isRequired,
   resources: PropTypes.shape({
     _id: PropTypes.string,

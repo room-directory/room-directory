@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Modal, Row } from 'react-bootstrap';
+import { Alert, Modal, Row, Col } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import { AutoForm, ErrorsField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
@@ -47,16 +47,20 @@ const AddUserModal = ({ showAddUser, setShowAddUser }) => {
         <h4>Add User</h4>
         <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
           <Row>
-            <TextField name="firstName" placeholder="First name" />
+            <Col>
+              <TextField name="firstName" placeholder="First name" />
+            </Col>
+            <Col>
+              <TextField name="lastName" placeholder="Last name" />
+            </Col>
           </Row>
           <Row>
-            <TextField name="lastName" placeholder="Last name" />
-          </Row>
-          <Row>
-            <TextField name="email" placeholder="Email" />
-          </Row>
-          <Row>
-            <TextField name="password" placeholder="Password" />
+            <Col>
+              <TextField name="email" placeholder="Email" />
+            </Col>
+            <Col>
+              <TextField name="password" placeholder="Password" />
+            </Col>
           </Row>
           <Row>
             <TextField name="image" placeholder="Image link" />

@@ -76,7 +76,7 @@ const EditProfile = () => {
           <Row className="justify-content-center pb-4">
             <Image id="profile-image" roundedCircle className="h-25 w-25" src={user.image} />
           </Row>
-          <Row className="justify-content-md-center pb-4">
+          <Row className="justify-content-md-center pb-2">
             <Dropdown drop="up-centered" onSelect={pfpUpdate}>
               <Dropdown.Toggle variant="success" id="dropdown-basic">
                 Choose Default Profile Picture
@@ -91,7 +91,8 @@ const EditProfile = () => {
               </Dropdown.Menu>
             </Dropdown>
           </Row>
-          <Row className="justify-content-center pb-4">
+          <Row className="justify-content-center pb-2">Or</Row>
+          <Row className="justify-content-center">
             <InputGroup size="sm">
               <InputGroup.Text><b>Custom Image Link</b></InputGroup.Text>
               <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_PFP} defaultValue="" />
@@ -100,15 +101,13 @@ const EditProfile = () => {
         </Col>
         <Col sm={1} />
         <Col>
-          <Row>
-            <h2 id="profile-name" style={{ textTransform: 'uppercase' }}>{`${user.firstName} ${user.lastName}`}</h2>
-          </Row>
-          <Row>
+          <div className="d-flex align-items-baseline justify-content-center">
+            <h2 id="profile-name" className="pe-3" style={{ textTransform: 'uppercase' }}>{`${user.firstName} ${user.lastName}`}</h2>
             {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
-              <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>ADMIN</h4>
+              <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>(ADMIN)</h4>
             ) :
-              <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>{`${user.position}`}</h4> }
-          </Row>
+              <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>{`(${user.position})`}</h4> }
+          </div>
           <Row />
           <Row className="p-3">
             <Col>
