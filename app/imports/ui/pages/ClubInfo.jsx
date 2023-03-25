@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Col, Container, Form, InputGroup, Row, Table } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, InputGroup, Row, Table } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
@@ -46,20 +46,26 @@ const ClubInfo = () => {
               </InputGroup>
             </Col>
           </Row>
-          <Table hover>
-            <thead>
-              <tr>
-                <th> </th>
-                <th>Club Name</th>
-                <th>Description</th>
-                <th>RIO Student(s)</th>
-                <th>Advisor(s)</th>
-              </tr>
-            </thead>
-            <tbody>
+          <Row style={{ alignContent: 'center' }}>
+            <Col xl={12} lg={4} className="mb-4">
               {clubsList.map((club) => <ClubItem key={club._id} club={club} />)}
-            </tbody>
-          </Table>
+            </Col>
+          </Row>
+
+          {/* <Table hidden> */}
+          {/*  <thead> */}
+          {/*    <tr> */}
+          {/*      <th> </th> */}
+          {/*      <th>Club Name</th> */}
+          {/*      <th>Description</th> */}
+          {/*      <th>RIO Student(s)</th> */}
+          {/*      <th>Advisor(s)</th> */}
+          {/*    </tr> */}
+          {/*  </thead> */}
+          {/*  <tbody> */}
+          {/*    {clubsList.map((club) => <ClubItem key={club._id} club={club} />)} */}
+          {/*  </tbody> */}
+          {/* </Table> */}
         </Col>
       </Row>
     </Container>
