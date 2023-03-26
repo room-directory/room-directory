@@ -35,29 +35,40 @@ const EditProfile = () => {
       ready: rdy,
     };
   }, [_id]);
-
   const submit = () => {
-    const fName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_FIRST_NAME).value.toString();
-    const lName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_LAST_NAME).value.toString();
-    const custompfp = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_PFP).value.toString();
+    console.log("pwo");
+    const uploadImage = document.getElementById('uploadImage').files[0];
+    if (uploadImage) {
+      const reader = new FileReader();
+      reader.readAsDataURL(uploadImage);
+      reader.onloadend = () => {
+        console.log(reader.readyState);
+        console.log(typeof reader.result);
+        const fName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_FIRST_NAME).value.toString();
+        const lName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_LAST_NAME).value.toString();
+        const custompfp = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_PFP).value.toString();
+        let collectionName;
+        if (Roles.userIsInRole(Meteor.userId(), [ROLE.USER])) {
+          collectionName = UserProfiles.getCollectionName();
+        } else {
+          collectionName = AdminProfiles.getCollectionName();
+        }
 
-    let collectionName;
-    if (Roles.userIsInRole(Meteor.userId(), [ROLE.USER])) {
-      collectionName = UserProfiles.getCollectionName();
+        if (custompfp !== '') {
+          pfp = custompfp;
+        } else {
+          pfp = reader.result;
+        }
+
+        document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_PFP).value = '';
+      };
     } else {
-      collectionName = AdminProfiles.getCollectionName();
+      pfp 
     }
-
-    if (custompfp !== '') {
-      pfp = custompfp;
-    }
-
     const updateData = { id: user._id, firstName: fName, lastName: lName, image: pfp };
     updateMethod.callPromise({ collectionName, updateData })
       .catch(error => swal('Error', error.message, 'error'))
       .then(() => swal('Success', 'Profile updated successfully', 'success'));
-
-    document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_PFP).value = '';
   };
 
   const pfpUpdate = (src) => {
@@ -95,6 +106,7 @@ const EditProfile = () => {
             <InputGroup size="sm">
               <InputGroup.Text><b>Custom Image Link</b></InputGroup.Text>
               <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_PFP} defaultValue="" />
+              <Form.Control id="uploadImage" type="file" name="profilePicture" accept="image/*" optional="true" />
             </InputGroup>
           </Row>
         </Col>
@@ -107,7 +119,7 @@ const EditProfile = () => {
             {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
               <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>ADMIN</h4>
             ) :
-              <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>{`${user.position}`}</h4> }
+              <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>{`${user.position}`}</h4>}
           </Row>
           <Row />
           <Row className="p-3">
