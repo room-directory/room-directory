@@ -44,12 +44,6 @@ const SvgComponent = ({ rooms, hoverRoom, scale, facultyCollection }) => {
         } else {
           facultyList = facultyList.flat();
           element.setAttribute('title', facultyList.map((person, index) => `${index > 0 ? ' ' : ''}${person.firstName} ${person.lastName}`));
-          // element.setAttribute('title', facultyList.map(person => {
-          //   console.log(typeof person)
-          //   console.log(person[0].firstName)
-          //   element.setAttribute('class', 'tfasd')
-          //   element.setAttribute('title', 'Empty');
-          // }))
         }
       }
     })
