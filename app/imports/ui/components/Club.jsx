@@ -5,11 +5,11 @@ import { Button, Card, Table } from 'react-bootstrap';
 /** Renders a single row in the Club Information table. See pages/ClubInfo.jsx. */
 const Club = ({ club }) => {
   const [showMore, setShowMore] = useState(false);
-  const [isFlipped, setIsFlipped] = useState(false);
-
-  const handleClick = () => {
-    setIsFlipped(!isFlipped);
-  };
+  // const [isFlipped, setIsFlipped] = useState(false);
+  /** To DO: Fix Flip function */
+  // const handleClick = () => {
+  //   setIsFlipped(!isFlipped);
+  // };
   // const { desc } = club.description;
   return (
     // <div className="flip-card">
