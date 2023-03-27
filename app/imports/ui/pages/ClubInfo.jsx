@@ -46,8 +46,8 @@ const ClubInfo = () => {
               </InputGroup>
             </Col>
           </Row>
-          <Row style={{ alignContent: 'center' }}>
-            <Col xl={12} lg={4} className="mb-4">
+          <Row style={{ alignContent: 'center' }} className="row-cols-md-auto">
+            <Col className="mb-4 listing">
               {clubsList.map((club) => <ClubItem key={club._id} club={club} />)}
             </Col>
           </Row>
