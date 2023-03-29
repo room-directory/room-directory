@@ -6,6 +6,7 @@ import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
+import { Room } from '../../api/room/RoomCollection';
 
 const bridge = new SimpleSchema2Bridge(FacultyProfiles._schema);
 
@@ -36,15 +37,53 @@ const FacultyTable = ({ faculty, eventKey }) => {
 
   const submit = (data) => {
     const { firstName, lastName, role, image, email, phone, officeLocation, officeHours } = data;
-    const collectionName = FacultyProfiles.getCollectionName();
+    let collectionName = FacultyProfiles.getCollectionName();
     // convert phone numbers and office locations to an array
     const phoneArray = (phone.includes(',') ? phone.replace(/\s+/g, '').split(',') : phone);
-    const officeLocationArray = (officeLocation.includes(',') ? officeLocation.replace(/\s+/g, '').split(',') : officeLocation);
-    const updateData = { id: faculty._id, phone: phoneArray, firstName, lastName, role, image, email, officeLocation: officeLocationArray, officeHours };
+    const officeLocationArray = (officeLocation.includes(',') ? officeLocation.split(',').map((office) => office.trim()) : officeLocation);
+    let updateData = { id: faculty._id, phone: phoneArray, firstName, lastName, role, image, email, officeLocation: officeLocationArray, officeHours };
     // edit the FacultyProfiles collection
     updateMethod.callPromise({ collectionName, updateData })
       .catch((err) => swal('Error', err.message, 'error'))
-      .then(() => swal('Success', 'Faculty edited successfully', 'success'));
+      .then(() => {
+        const offices = Room.find({ type: 'office' }).fetch();
+        offices.map((office) => {
+          if (email !== null && office.occupants.includes(email)) {
+            office.occupants.splice(office.occupants.indexOf(email), 1);
+            collectionName = Room.getCollectionName();
+            updateData = { id: office._id, occupants: office.occupants };
+            updateMethod.callPromise({ collectionName, updateData })
+              .catch((err) => swal('Error', err.message, 'error'))
+              .then(() => (true));
+            return null;
+          }
+          return null;
+        });
+        if (officeLocationArray.length !== 0) {
+          officeLocationArray.map((office) => {
+            const room = office.split(/\s/);
+            const building = room[0];
+            const roomNumber = room[1];
+            const roomData = Room.find({ building: building, roomNumber: roomNumber }).fetch();
+            if (roomData.length === 0) {
+              return null;
+            }
+            const roomID = roomData[0]._id;
+            const occupants = roomData[0].occupants;
+            if (!occupants.includes(email) && email !== 'No Email Contact') {
+              occupants.push(email);
+              updateData = { id: roomID, occupants };
+              collectionName = Room.getCollectionName();
+              updateMethod.callPromise({ collectionName, updateData })
+                .catch((err) => swal('Error', err.message, 'error'))
+                .then(() => (true));
+            }
+            swal('Success', 'Faculty edited successfully', 'success');
+            return null;
+          });
+        }
+        swal('Success', 'Faculty edited successfully', 'success');
+      });
   };
 
   return (
