@@ -146,24 +146,29 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
                       </Col>
                     </Row>
                     <Row>
-                      <ListField name="occupants" addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
+                      <Col>
+                        <ListField name="occupants" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
+                      </Col>
+
                     </Row>
                   </Col>
                   <Col className="col-3">
-                    <ListField name="tv" addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
-                      <ListItemField name="$">
-                        <TextField name="number" />
-                        <SelectField name="location" allowedValues={locationList} placeholder="Select location" />
-                      </ListItemField>
-                    </ListField>
-                  </Col>
-                  <Col className="col-3">
-                    <ListField name="dataJacks" addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
-                      <ListItemField name="$">
-                        <TextField name="number" />
-                        <SelectField name="location" allowedValues={locationList} placeholder="Select location" />
-                      </ListItemField>
-                    </ListField>
+                    <Row>
+                      <ListField name="tv" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
+                        <ListItemField name="$">
+                          <TextField name="number" />
+                          <SelectField name="location" allowedValues={locationList} placeholder="Select location" />
+                        </ListItemField>
+                      </ListField>
+                    </Row>
+                    <Row>
+                      <ListField name="dataJacks" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
+                        <ListItemField name="$">
+                          <TextField name="number" />
+                          <SelectField name="location" allowedValues={locationList} placeholder="Select location" />
+                        </ListItemField>
+                      </ListField>
+                    </Row>
                   </Col>
                 </Row>
                 <SubmitField value="Submit" />
