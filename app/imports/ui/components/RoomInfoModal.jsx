@@ -5,6 +5,7 @@ import { useTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Roles } from 'meteor/alanning:roles';
 import { RoomResources } from '../../api/room/RoomResourceCollection';
+import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 import LoadingSpinner from './LoadingSpinner';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
@@ -19,15 +20,19 @@ const RoomInfoModal = ({ room, show, setShow }) => {
   const handleClose = () => setShow(false);
   // const handleShow = () => setShow(true);
   const currUser = Meteor.user() ? Meteor.user().username : '';
-  const { currentUser, user, ready, resources } = useTracker(() => {
-    const subscription = RoomResources.subscribeRoomResource();
-    const rdy = subscription.ready();
+  const { currentUser, user, ready, resources, faculty } = useTracker(() => {
+    const resourceSubscription = RoomResources.subscribeRoomResource();
+    const facultySubscription = FacultyProfiles.subscribeFacultyProfile();
+    const rdy = resourceSubscription.ready() && facultySubscription.ready();
     const roomResource = RoomResources.findOne({ roomNumber: room.roomNumber });
+    // const facultyList = FacultyProfiles.findOne({ email: room.occupants[0] });
+    const facultyList = room.occupants.map(occupant => FacultyProfiles.findOne({ email: occupant }));
     let usr = UserProfiles.findOne({ email: currUser }, {});
     if (usr === undefined) (usr = AdminProfiles.findOne({ email: currUser }, {}));
     return {
       currentUser: currUser,
       resources: roomResource,
+      faculty: facultyList,
       user: usr,
       ready: rdy,
     };
@@ -54,9 +59,9 @@ const RoomInfoModal = ({ room, show, setShow }) => {
               <td>{room.squareFt}</td>
             </tr>
             <tr>
-              <th scope="row">Occupants</th>
+              <th scope="row">Occupants ({faculty.length})</th>
               <td>
-                {room.occupants.length}
+                {faculty.length > 0 ? faculty.map((person, index) => `${person.firstName} ${person.lastName}${index < faculty.length - 1 ? ', ' : ''}`) : 'Empty'}
               </td>
             </tr>
             { currentUser !== '' && (user?.position === 'office' || Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) ?
@@ -105,6 +110,10 @@ const RoomInfoModal = ({ room, show, setShow }) => {
                     </button>
                   </td>
                 </tr>,
+                <tr>
+                  <th scope="row">Room Notes</th>
+                  <td>{room.notes}</td>
+                </tr>,
                 // <tr>
                 //   <th scope="row">
                 //     <a href="/list">Reserve</a>
@@ -131,6 +140,7 @@ RoomInfoModal.propTypes = {
     type: PropTypes.string,
     occupants: PropTypes.arrayOf(PropTypes.string),
     squareFt: PropTypes.number,
+    notes: PropTypes.string,
     _id: PropTypes.string,
   }).isRequired,
   show: PropTypes.bool.isRequired,

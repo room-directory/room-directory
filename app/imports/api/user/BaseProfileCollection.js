@@ -20,6 +20,7 @@ class BaseProfileCollection extends BaseCollection {
       position: {
         type: String,
         allowedValues: ['student', 'faculty', 'office'],
+        defaultValue: 'student',
         optional: true,
       },
       joined: {

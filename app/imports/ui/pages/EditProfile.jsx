@@ -18,6 +18,7 @@ const EditProfile = () => {
 
   const { _id } = useParams();
   let pfp;
+  let updateData;
 
   const { ready, user } = useTracker(() => {
     // Get access to Reservations and User Profile documents.
@@ -35,29 +36,33 @@ const EditProfile = () => {
       ready: rdy,
     };
   }, [_id]);
-
   const submit = () => {
+    const uploadImage = document.getElementById('uploadImage').files[0];
     const fName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_FIRST_NAME).value.toString();
     const lName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_LAST_NAME).value.toString();
-    const custompfp = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_PFP).value.toString();
-
     let collectionName;
     if (Roles.userIsInRole(Meteor.userId(), [ROLE.USER])) {
       collectionName = UserProfiles.getCollectionName();
     } else {
       collectionName = AdminProfiles.getCollectionName();
     }
-
-    if (custompfp !== '') {
-      pfp = custompfp;
+    if (uploadImage) {
+      const reader = new FileReader();
+      reader.readAsDataURL(uploadImage);
+      reader.onloadend = () => {
+        pfp = reader.result;
+        updateData = { id: user._id, firstName: fName, lastName: lName, image: pfp };
+        updateMethod.callPromise({ collectionName, updateData })
+          .catch(error => swal('Error', error.message, 'error'))
+          .then(() => swal('Success', 'Profile updated successfully', 'success'));
+      };
+    } else {
+      updateData = { id: user._id, firstName: fName, lastName: lName, image: pfp };
+      updateMethod.callPromise({ collectionName, updateData })
+        .catch(error => swal('Error', error.message, 'error'))
+        .then(() => swal('Success', 'Profile updated successfully', 'success'));
     }
 
-    const updateData = { id: user._id, firstName: fName, lastName: lName, image: pfp };
-    updateMethod.callPromise({ collectionName, updateData })
-      .catch(error => swal('Error', error.message, 'error'))
-      .then(() => swal('Success', 'Profile updated successfully', 'success'));
-
-    document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_PFP).value = '';
   };
 
   const pfpUpdate = (src) => {
@@ -76,7 +81,7 @@ const EditProfile = () => {
           <Row className="justify-content-center pb-4">
             <Image id="profile-image" roundedCircle className="h-25 w-25" src={user.image} />
           </Row>
-          <Row className="justify-content-md-center pb-4">
+          <Row className="justify-content-md-center pb-2">
             <Dropdown drop="up-centered" onSelect={pfpUpdate}>
               <Dropdown.Toggle variant="success" id="dropdown-basic">
                 Choose Default Profile Picture
@@ -91,24 +96,22 @@ const EditProfile = () => {
               </Dropdown.Menu>
             </Dropdown>
           </Row>
-          <Row className="justify-content-center pb-4">
+          <Row className="justify-content-center pb-2">Or</Row>
+          <Row className="justify-content-center">
             <InputGroup size="sm">
-              <InputGroup.Text><b>Custom Image Link</b></InputGroup.Text>
-              <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_PFP} defaultValue="" />
+              <Form.Control id="uploadImage" type="file" name="profilePicture" accept="image/*" optional="true" />
             </InputGroup>
           </Row>
         </Col>
         <Col sm={1} />
         <Col>
-          <Row>
-            <h2 id="profile-name" style={{ textTransform: 'uppercase' }}>{`${user.firstName} ${user.lastName}`}</h2>
-          </Row>
-          <Row>
+          <div className="d-flex align-items-baseline justify-content-center">
+            <h2 id="profile-name" className="pe-3" style={{ textTransform: 'uppercase' }}>{`${user.firstName} ${user.lastName}`}</h2>
             {Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
-              <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>ADMIN</h4>
+              <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>(ADMIN)</h4>
             ) :
-              <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>{`${user.position}`}</h4> }
-          </Row>
+              <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>{`(${user.position})`}</h4> }
+          </div>
           <Row />
           <Row className="p-3">
             <Col>

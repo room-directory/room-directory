@@ -2,10 +2,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import RoomInfoModalSvg from './RoomInfoModalSvg';
+import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 import { Container, Button } from 'react-bootstrap';
+import { RoomResources } from '../../api/room/RoomResourceCollection';
+
 window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
 
-const SvgComponent = ({ rooms, hoverRoom, scale }) => {
+const SvgComponent = ({ rooms, hoverRoom, scale, facultyCollection }) => {
   const [display, setDisplay] = useState(false);
   const showDisplay = () => setDisplay(true);
   const hideDisplay = () => setDisplay(false);
@@ -13,13 +16,13 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
   const [roomNumber, setRoomNumber] = useState('318');
   const handleRoomNumber = (number) => setRoomNumber(number);
   const getRoomNumber = () => roomNumber;
-
+  const facultySubscription = RoomResources.subscribeRoomResource();
   const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
   var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl, {trigger: "hover", container: "body"});
+    return new bootstrap.Tooltip(tooltipTriggerEl, { trigger: "hover", container: "body" });
   })
   const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-  const tooltipslist2 = tooltips.forEach(element => new bootstrap.Tooltip(element, {trigger: "hover"}));
+  const tooltipslist2 = tooltips.forEach(element => new bootstrap.Tooltip(element, { trigger: "hover" }));
   const hideTooltips = () => {
     const tooltips = document.getElementsByClassName('tooltip')
     if (tooltips.item(0) !== null) {
@@ -27,23 +30,28 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
     }
   }
 
-
-
-  rooms.map(room => {
-    element = document.getElementById(room.roomNumber);
-    if (element) {
-      element.setAttribute('data-bs-toggle', 'tooltip');
-      element.setAttribute('data-bs-placement', 'top');
-      element.setAttribute('data-trigger', 'hover');
-      element.setAttribute('role', 'button');
-      if (room.occupants.length < 1) {
-        element.setAttribute('title', 'Empty');
-      } else {
-        element.setAttribute('title', room.occupants)
+  const setTooltips = () => {
+    rooms.map(room => {
+      element = document.getElementById(room.roomNumber);
+      if (element) {
+        element.setAttribute('data-bs-toggle', 'tooltip');
+        element.setAttribute('data-bs-placement', 'top');
+        element.setAttribute('data-trigger', 'hover');
+        element.setAttribute('role', 'button');
+        let facultyList = room.occupants.map(occupant => facultyCollection.filter(person => person.email === occupant));
+        if (room.occupants.length < 1) {
+          element.setAttribute('title', 'Empty');
+        } else {
+          facultyList = facultyList.flat();
+          element.setAttribute('title', facultyList.map((person, index) => `${index > 0 ? ' ' : ''}${person.firstName} ${person.lastName}`));
+        }
       }
-    }
+    })
+  }
+  useEffect(() => {
+    setTooltips();
+  }, [])
 
-  })
   const isRoom = (element) => {
     // rooms.find(room => room.roomNumber === element.currentTarget.id) ? true : false
     if (rooms.find(room => room.roomNumber === element.currentTarget.id)) {
@@ -71,7 +79,6 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
     showDisplay();
   };
   useEffect(() => {
-    console.log(hoverRoom);
     let previousElement = document.getElementById(highlightRoom);
     if (previousElement) {
       previousElement.setAttribute('class', '');
@@ -97,7 +104,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
         xmlns="http://www.w3.org/2000/svg"
         className="roomSvg"
       >
-        <defs id="defs6" />
+        <defs id="defs6"/>
         <g
           id="g10"
           transform="matrix(1.3333333,0,0,-1.3333333,-102.01804,738.9631)"
@@ -120,7 +127,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="305F"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -129,7 +136,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="306B"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -138,7 +145,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="306C"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -147,7 +154,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="307A"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -156,7 +163,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="307B"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -164,7 +171,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={308}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -173,7 +180,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="309B"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -182,7 +189,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="309C"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -191,7 +198,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="310B"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -200,7 +207,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="310C"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -209,7 +216,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="311A"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -218,7 +225,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="311B"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -227,7 +234,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={311}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -236,7 +243,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={310}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -245,7 +252,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="310A"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -254,7 +261,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={309}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -263,7 +270,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="309A"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -272,7 +279,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="300AA"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -281,7 +288,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="307C"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -290,7 +297,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="306D"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -299,7 +306,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={306}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -307,7 +314,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="306A"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -316,7 +323,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="305E"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -325,7 +332,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={305}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -334,7 +341,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="305D"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -343,7 +350,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="305G"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -352,7 +359,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="300A"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -360,7 +367,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={312}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -369,7 +376,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="312A"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -378,7 +385,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="312B"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -387,7 +394,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="312C"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -396,14 +403,14 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="314A"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
             d="m 413.91206,399.3667 v -6.73429 -6.73295 l 0.26367,-0.0306 c 0.14495,-0.0166 0.58743,-0.084 0.98412,-0.15048 0.69214,-0.11597 0.75408,-0.13808 1.5261,-0.53933 0.7651,-0.39766 0.83666,-0.44958 1.46085,-1.06267 0.65021,-0.63866 0.6598,-0.65286 1.07332,-1.47417 0.40848,-0.81129 0.41976,-0.8462 0.54866,-1.63663 0.0724,-0.44423 0.13244,-0.82673 0.13316,-0.84961 7.2e-4,-0.0229 6.01874,-0.0413 13.3727,-0.0413 h 13.37002 v 3.41176 3.41176 l -3.14808,0.0147 -3.14808,0.0133 -0.0146,2.62207 -0.0146,2.62074 h 3.16272 3.16273 v 3.57954 3.57822 h -16.3663 z m 0.41149,-13.64968 v -2.79253 -2.79119 h 2.7073 c 2.11397,0 2.70671,0.0219 2.70596,0.0985 -7.5e-4,0.0539 -0.0521,0.40241 -0.11319,0.77504 -0.17205,1.04937 -0.73335,2.11291 -1.56072,2.95765 -0.54315,0.55456 -0.76545,0.71748 -1.47017,1.07333 -0.53214,0.26871 -1.01196,0.45039 -1.33434,0.50604 -0.27677,0.0478 -0.60044,0.10555 -0.71911,0.12918 z"
           />
           <path
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -412,7 +419,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="314B"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -421,7 +428,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="314C"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -430,7 +437,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="314D"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -438,7 +445,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="314E"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -447,7 +454,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={314}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -456,7 +463,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="314F"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -465,7 +472,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="314G"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -474,7 +481,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="314H"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -483,7 +490,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="314I"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -492,7 +499,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="317A"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -501,7 +508,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="314J"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -509,7 +516,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={315}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -518,7 +525,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={316}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -527,7 +534,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={317}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -536,7 +543,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="317B"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -545,7 +552,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={302}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -554,7 +561,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={301}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -563,7 +570,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="300E"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -571,7 +578,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="303AA"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -580,7 +587,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="303A"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -589,7 +596,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={303}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -598,7 +605,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="303B"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -607,7 +614,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="303C"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -616,7 +623,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="303D"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -625,7 +632,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="303E"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -634,7 +641,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="303F"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -643,7 +650,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="303G"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -651,7 +658,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
 
           />
           <path
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -661,7 +668,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="303M"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -670,7 +677,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="303L"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -679,7 +686,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="303K"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -688,7 +695,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="303J"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -696,7 +703,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="303H"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -705,7 +712,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="300G"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -713,7 +720,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="305A"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -722,7 +729,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="305B"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -731,7 +738,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="305C"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -739,7 +746,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="300F"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -748,7 +755,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={307}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -757,7 +764,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="300C"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -765,7 +772,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={330}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -774,7 +781,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={331}
-            onClick={(e) => isRoom(e) ? (e) => showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? (e) => showResourceModal(e) : ''}
             className="not-ics-room"
             d="m 159.00967,441.48974 v -0.19629 -0.19628 h 2.86377 c 2.67584,0 2.86381,-0.008 2.86231,-0.13624 -7.5e-4,-0.0755 -0.066,-0.53133 -0.14502,-1.0122 -0.12473,-0.7589 -0.1977,-0.97666 -0.55371,-1.64795 -0.58407,-1.1013 -1.39646,-1.91475 -2.50488,-2.51074 -0.72051,-0.38741 -0.90741,-0.45175 -1.64795,-0.5669 l -0.83496,-0.13036 -0.0205,-7.58936 -0.0191,-7.59082 h 3.64893 3.64892 v 1.64795 1.64794 h 3.92286 3.92285 v -0.27538 -0.27393 h 5.21777 5.21777 v 4.43262 4.43408 h -0.19629 -0.19628 v -2.58985 -2.58984 l -0.17578,0.002 c -0.0971,7.5e-4 -0.4827,0.0517 -0.85547,0.1128 -0.98834,0.16204 -1.96699,0.66796 -2.72168,1.40478 -0.79468,0.77587 -1.30902,1.77711 -1.48242,2.88867 l -0.12012,0.77198 h -2.56787 -2.56788 l -0.17284,0.86132 c -0.15825,0.79426 -0.20518,0.91373 -0.60498,1.49414 -0.54056,0.78472 -1.35119,1.37622 -2.10499,1.53809 -0.82841,0.1779 -0.74853,0.36608 -0.74853,-1.78125 0,-2.13887 0.007,-2.1123 -0.58301,-2.1123 -4.94969,0.0231 -0.86656,-5.94059 -1.51771,4.48096 l 0.0603,5.48288 h -4.51171 z m 10.12208,0 v -4.82519 -4.82519 h 0.31347 0.31348 v 1.96142 c 0,1.07885 0.0221,1.96142 0.0483,1.96142 0.0262,0 0.37008,-0.0562 0.76465,-0.12597 0.63484,-0.11215 0.79495,-0.17778 1.39014,-0.56397 0.59573,-0.38654 0.72344,-0.5128 1.11767,-1.11181 0.38297,-0.5819 0.46465,-0.77549 0.58594,-1.37988 l 0.14062,-0.70166 0.44825,-0.0234 0.44824,-0.0234 v 4.82812 4.82959 h -0.7749 -0.77637 l -0.0337,-1.51025 c -0.0326,-1.45771 -0.0414,-1.52452 -0.24756,-1.92481 -0.39036,-0.75785 -1.05646,-0.94759 -1.60107,-0.45557 -0.48608,0.43915 -0.56881,0.79587 -0.56836,2.45948 v 1.43115 h -0.78369 z m 1.64794,0 0.003,-0.96093 0.003,-0.96094 0.1538,0.28858 c 0.084,0.15903 0.18788,0.31145 0.23145,0.33837 0.0436,0.0269 0.0791,0.11838 0.0791,0.20215 0,0.13804 0.058,0.15088 0.62694,0.15088 0.56904,0 0.62843,-0.0128 0.62843,-0.15088 0,-0.0838 0.0383,-0.17628 0.085,-0.20508 0.0466,-0.0288 0.15172,-0.16328 0.23437,-0.29882 l 0.15088,-0.2461 v 0.92139 0.92138 h -1.09864 z m 4.1587,0 v -0.78808 -0.78955 l 0.25488,-0.23291 0.25488,-0.23291 v -3.17432 -3.17285 l -0.25488,-0.23291 c -0.22335,-0.204 -0.25488,-0.28237 -0.25488,-0.62988 v -0.39697 h 2.03906 2.04053 v -0.25489 c 5.1e-4,-1.21339 0.65107,-2.73346 1.54248,-3.60205 0.66694,-0.64988 1.74777,-1.22141 2.57666,-1.36377 0.30208,-0.0518 0.5755,-0.10022 0.6079,-0.10547 0.0324,-0.005 0.0586,1.15552 0.0586,2.5796 0,2.24922 0.0164,2.58984 0.11865,2.58984 0.0647,0 0.11719,0.0345 0.11719,0.0776 0,0.0431 0.12288,0.0791 0.27393,0.0791 h 0.27538 v 4.82519 4.82519 h -1.52636 c -1.52358,0 -1.52687,-5e-4 -1.72266,-0.19629 -0.18973,-0.1894 -0.23058,-0.19628 -1.24805,-0.19628 h -1.05175 l -0.0395,-1.31397 c -0.0343,-1.15232 -0.0615,-1.35966 -0.21679,-1.6875 -0.23495,-0.49591 -0.56225,-0.72509 -1.03711,-0.72509 -0.3088,0 -0.40921,0.0409 -0.62842,0.25342 -0.43069,0.41745 -0.54165,0.83666 -0.59033,2.23827 l -0.0424,1.23487 h -0.30616 c -0.22208,0 -0.36021,0.0541 -0.50244,0.19628 -0.13352,0.13353 -0.28278,0.19629 -0.46728,0.19629 z m 1.72558,-0.39257 v -0.7251 l 0.001,-0.7251 0.14942,0.2461 c 0.0827,0.13554 0.18919,0.27002 0.23584,0.29882 0.0466,0.0288 0.0835,0.12131 0.0835,0.20508 0,0.13804 0.0594,0.15088 0.62842,0.15088 0.57009,0 0.62696,-0.0134 0.62696,-0.15234 0,-0.0842 0.0483,-0.18083 0.10693,-0.21533 0.0587,-0.0345 0.16376,-0.16937 0.23291,-0.29883 0.12354,-0.23093 0.12591,-0.22129 0.12891,0.49072 l 0.003,0.7251 h -1.09863 z m -17.6543,-0.47022 v -2.69384 l 0.001,-2.69239 0.8042,0.12891 c 1.17087,0.18815 2.05338,0.64925 2.98828,1.56005 0.58958,0.57441 0.75515,0.79564 1.09277,1.46192 0.36525,0.72076 0.58863,1.48651 0.60205,2.05957 l 0.005,0.17578 h -2.74658 z m 18.75,-0.79834 c -0.0921,-0.009 -0.18769,-0.0626 -0.28125,-0.17139 -0.26391,-0.30682 -0.31471,-0.70755 -0.14941,-1.19384 0.0764,-0.22485 0.11579,-0.44557 0.0879,-0.49072 -0.0279,-0.0451 0.0129,-0.11813 0.0893,-0.1626 0.0764,-0.0445 0.18493,-0.082 0.24171,-0.0835 0.18909,-0.004 0.41928,0.16377 0.37646,0.27539 -0.0232,0.0604 0.0103,0.23309 0.0733,0.38379 0.28549,0.68328 -0.0388,1.47983 -0.43799,1.44287 z m -5.85937,-0.005 c -0.36639,-0.0145 -0.65022,-0.64458 -0.49072,-1.19091 0.0516,-0.17655 0.1015,-0.42078 0.11133,-0.54346 0.01,-0.12269 0.0681,-0.2545 0.1289,-0.29297 0.25811,-0.1634 0.7168,0.0217 0.58448,0.23584 -0.0271,0.0438 0.005,0.18343 0.0718,0.31201 0.23875,0.46168 0.0636,1.35308 -0.28858,1.46485 -0.0392,0.0125 -0.0793,0.0161 -0.11718,0.0146 z m 2.25293,-17.32174 v -1.80469 -1.80469 h 5.21777 5.21777 v 1.80469 1.80469 H 179.371 Z m 2.5708,-0.32666 0.47901,-0.17432 c 0.40926,-0.14819 0.51515,-0.22774 0.71631,-0.54492 0.26055,-0.41086 0.27383,-0.50128 0.15234,-1.04883 -0.0696,-0.31351 -0.14802,-0.42592 -0.46436,-0.6709 -0.34796,-0.26946 -0.42168,-0.29367 -0.87744,-0.29297 -0.45205,6.9e-4 -0.53035,0.0264 -0.85108,0.28125 -0.19419,0.15429 -0.36518,0.29202 -0.38085,0.30762 -0.0157,0.0156 -0.0746,0.24723 -0.13038,0.51416 l -0.10107,0.48486 0.25782,0.40284 c 0.223,0.34861 0.31928,0.42421 0.72802,0.57129 z m 5.31445,-0.0117 0.4585,-0.15381 c 0.40296,-0.13557 0.48973,-0.20499 0.72217,-0.56836 0.26235,-0.41014 0.26452,-0.41637 0.17578,-0.89355 -0.0831,-0.4469 -0.1186,-0.50347 -0.49512,-0.79395 -0.37642,-0.29042 -0.44101,-0.31205 -0.9082,-0.31055 -0.47892,0.002 -0.51989,0.0179 -0.87598,0.33399 -0.32255,0.28633 -0.38632,0.39192 -0.46142,0.77637 -0.0838,0.42891 -0.0772,0.46116 0.15381,0.86133 0.22045,0.38184 0.2802,0.4305 0.73535,0.583 z m -5.26171,-0.34863 c -0.11779,10e-4 -0.24234,-0.0212 -0.37354,-0.0659 -0.25585,-0.0872 -0.38414,-0.19135 -0.51123,-0.41748 -0.23084,-0.41072 -0.16449,-0.75119 0.21094,-1.08398 0.23381,-0.20726 0.35184,-0.25346 0.64014,-0.25196 0.45474,0.002 0.84261,0.31134 0.94482,0.75147 0.0617,0.26567 0.0442,0.34037 -0.14355,0.60937 -0.21048,0.30167 -0.46658,0.45551 -0.76758,0.4585 z m 5.24267,-0.002 c -0.11204,-0.002 -0.2249,-0.0229 -0.33252,-0.0659 -0.18149,-0.0726 -0.37744,-0.2353 -0.49072,-0.40869 -0.248,-0.37964 -0.17221,-0.80824 0.19775,-1.125 0.7872,-0.67402 1.98859,0.25208 1.46924,1.13232 -0.17699,0.29984 -0.50764,0.47213 -0.84375,0.46729 z"
 
@@ -784,7 +791,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
             data-bs-toggle="tooltip"
             title={`Room`}
             data-bs-placement="top"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -793,7 +800,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={318}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -802,7 +809,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="318B"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -811,7 +818,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={319}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -819,7 +826,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="332A"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -827,7 +834,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={328}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -836,7 +843,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={327}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -845,7 +852,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={326}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -853,14 +860,14 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="326A"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
             d="m 257.43985,447.72851 v -13.88818 -13.88818 h 5.94873 5.94873 l 0.11133,0.82471 c 0.31976,2.35168 2.33171,4.34364 4.85742,4.81054 0.50811,0.0939 0.94683,0.17139 0.97413,0.17139 0.0273,0 0.0498,-1.30662 0.0498,-2.90332 v -2.90332 h 4.23047 4.23193 l 0.0439,1.6084 0.0454,1.6084 2.23682,0.0439 2.23535,0.0439 v -1.65235 -1.65234 h 3.45263 3.45264 v 13.88818 13.88818 h -18.90966 z m 13.19678,-9.28564 c 0.37644,-0.0203 0.74755,-0.16946 0.97119,-0.47021 0.44986,-0.60495 0.26989,-1.05741 -0.92285,-2.32178 l -1.02978,-1.09131 1.229,-0.0527 1.229,-0.0542 -1.45165,-0.0322 c -0.79835,-0.0174 -1.45167,0.0243 -1.45167,0.0923 0,0.068 0.32287,0.39353 0.71778,0.72363 0.89781,0.75049 1.63623,1.7562 1.63623,2.22803 0,0.39534 -0.53095,0.84814 -0.99317,0.84814 -0.16194,0 -0.49814,-0.21974 -0.74854,-0.48779 -0.32028,-0.34287 -0.45556,-0.41165 -0.45556,-0.23438 0,0.56501 0.64262,0.88647 1.27002,0.85254 z m -3.74121,-0.005 c 0.66888,0.017 1.21582,-0.0121 1.21582,-0.0644 0,-0.0523 -0.21275,-0.36303 -0.47168,-0.68994 -0.55359,-0.69897 -0.57139,-0.78369 -0.16552,-0.78369 0.78518,0 1.06734,-1.46683 0.40869,-2.12549 -0.50475,-0.50475 -1.65351,-0.54375 -2.1255,-0.0718 -0.17261,0.17262 -0.31279,0.40188 -0.31054,0.50976 0.002,0.10789 0.13892,0.0195 0.30469,-0.19629 0.24291,-0.31618 0.43891,-0.39257 1.01074,-0.39257 0.87437,0 1.25537,0.33298 1.25537,1.09717 0,0.65468 -0.17712,0.86384 -0.84522,1.00048 l -0.49804,0.10108 0.56396,0.73828 0.5625,0.73681 -1.06054,0.0557 -1.06202,0.0542 z m 7.37256,-0.003 c 0.56403,0.0271 1.06206,-0.21518 1.05615,-0.55079 -0.004,-0.2481 -0.0256,-0.25248 -0.19629,-0.0337 -0.28023,0.35928 -0.6908,0.47215 -1.12353,0.30762 -0.43363,-0.16487 -0.62665,-0.47051 -0.79395,-1.25831 -0.11394,-0.53655 -0.11053,-0.54366 0.18897,-0.27539 0.33592,0.3009 1.15825,0.36328 1.60986,0.12158 0.34557,-0.18494 0.65821,-1.00587 0.52588,-1.38134 -0.0524,-0.1486 -0.23829,-0.42837 -0.41309,-0.62256 -0.22231,-0.24698 -0.49475,-0.35302 -0.90673,-0.35302 -0.87995,0 -1.23927,0.53405 -1.23927,1.8413 0,1.3665 0.32386,2.03956 1.04737,2.17529 0.082,0.0154 0.16405,0.0254 0.24463,0.0293 z m 4.0166,-0.0688 c 0.0151,0.008 0.0274,0.006 0.0366,-0.003 0.0737,-0.0737 0.41435,-0.87452 0.75586,-1.77978 0.34151,-0.90526 0.66855,-1.76938 0.72802,-1.92041 0.062,-0.15748 0.0374,-0.27393 -0.0586,-0.27393 -0.0921,0 -0.25253,0.28172 -0.35596,0.62695 l -0.1875,0.62842 h -0.91846 -0.91699 l -0.25196,-0.62842 c -0.13813,-0.34523 -0.3125,-0.62695 -0.38817,-0.62695 -0.0757,0 0.007,0.37013 0.18603,0.82324 0.1786,0.45312 0.5388,1.37837 0.7998,2.05518 0.22918,0.59426 0.46603,1.04478 0.57129,1.09863 z m -3.42627,-12.9419 -0.5874,-0.0908 c -2.08796,-0.32342 -4.24409,-2.49794 -4.5791,-4.61719 l -0.12158,-0.76465 h 2.64404 2.64404 v 2.73632 z"
           />
           <path
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -869,7 +876,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
 
           />
           <path
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -882,7 +889,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
             title="Not under ICS"
             data-bs-toggle="tooltip"
             data-bs-placement="top"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -891,7 +898,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={321}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -900,7 +907,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={322}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -909,7 +916,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id={323}
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -917,7 +924,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
 
           />
           <path
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -927,7 +934,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="300D"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -935,7 +942,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
 
           />
           <path
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -945,7 +952,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="300H"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -1023,7 +1030,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
           <path
             id="300B"
-            onClick={(e) => isRoom(e) ? showResourceModal(e) : '' }
+            onClick={(e) => isRoom(e) ? showResourceModal(e) : ''}
             className=""
             onMouseEnter={(e) => setClass(e)}
             onMouseLeave={(e) => removeClass(e)}
@@ -1067,8 +1074,8 @@ const SvgComponent = ({ rooms, hoverRoom, scale }) => {
           />
         </g>
       </svg>
-      <span id="default" />
-      <RoomInfoModalSvg room={rooms.find(room => room.roomNumber === getRoomNumber())} key={getRoomNumber()} display={display} setDisplay={hideDisplay} />
+      <span id="default"/>
+      <RoomInfoModalSvg room={rooms.find(room => room.roomNumber === getRoomNumber())} key={getRoomNumber()} display={display} setDisplay={hideDisplay}/>
     </>
   );
 };
