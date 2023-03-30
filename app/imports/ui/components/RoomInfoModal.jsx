@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Modal, Button, Table, Collapse } from 'react-bootstrap';
+import { Modal, Button, Table, Collapse, Accordion, Row, Col } from 'react-bootstrap';
+import { PeopleFill } from 'react-bootstrap-icons';
 import { useTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Roles } from 'meteor/alanning:roles';
@@ -38,17 +39,8 @@ const RoomInfoModal = ({ room, show, setShow }) => {
     };
   }, []);
 
-  return (ready ? (
-    // <Col className="col-2 pb-4">
-    //   <Button variant="light" className="border border-dark sharp me-3" onClick={handleShow}>
-    //     Room #{resources.roomNumber} Info
-    //   </Button>
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Room #{resources.roomNumber}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Table bordered>
+  /*
+  <Table bordered>
           <thead>
             <tr>
               <th scope="row">Room type</th>
@@ -122,6 +114,74 @@ const RoomInfoModal = ({ room, show, setShow }) => {
               ]) : ''}
           </thead>
         </Table>
+   */
+
+  return (ready ? (
+    // <Col className="col-2 pb-4">
+    //   <Button variant="light" className="border border-dark sharp me-3" onClick={handleShow}>
+    //     Room #{resources.roomNumber} Info
+    //   </Button>
+    <Modal show={show} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>Room #{resources.roomNumber}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="px-4">
+          <div className="pb-2">
+            <PeopleFill />   {faculty.length > 0 ? faculty.map((person, index) => `${person.firstName} ${person.lastName}${index < faculty.length - 1 ? ', ' : ''}`) : 'Empty.'}
+          </div>
+          <Row>
+            <Col>
+              <h5>Description</h5>
+              <div className="pb-3">
+                Type: {room.type.toUpperCase()} <br />
+                {room.squareFt} sq. ft. <br />
+                Max capacity of {resources.capacity}
+              </div>
+            </Col>
+            <Col>
+              <h5>Notes</h5>
+              <div className="pb-3">
+                {room.notes ? room.notes : 'No Notes.'}
+              </div>
+            </Col>
+          </Row>
+        </div>
+        { currentUser !== '' && (user?.position === 'office' || Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) ? (
+          <Accordion>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header><h5>Resources</h5></Accordion.Header>
+              <Accordion.Body>
+                Chairs: {resources.chairs} <br />
+                Phone Number: {resources.phoneNumber} <br />
+                TV: {resources.tv.length}
+                <Table bordered>
+                  <thead>
+                    <tr>
+                      <td>Number</td>
+                      <td>Location</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {resources.tv.map((tv) => <RoomInfoModalDetails key={tv.number} details={tv} />)}
+                  </tbody>
+                </Table>
+                Data jacks: {resources.dataJacks.length}
+                <Table bordered>
+                  <thead>
+                    <tr>
+                      <td>Number</td>
+                      <td>Location</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {resources.dataJacks.map((dataJacks) => <RoomInfoModalDetails key={dataJacks.number} details={dataJacks} />)}
+                  </tbody>
+                </Table>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+        ) : '' }
       </Modal.Body>
       <Modal.Footer>
         <Button variant="danger" onClick={handleClose}>
