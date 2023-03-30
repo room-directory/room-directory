@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Modal, Button, Table, Collapse, Accordion, Row, Col } from 'react-bootstrap';
+import { Modal, Button, Table, Card, Accordion, Row, Col } from 'react-bootstrap';
 import { PeopleFill } from 'react-bootstrap-icons';
 import { useTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
@@ -17,7 +17,7 @@ import RoomInfoModalDetails from './RoomInfoModalDetails';
 /** The RoomInfoModalSVG appears at the bottom of the Room List page. */
 const RoomInfoModal = ({ room, show, setShow }) => {
   // const [show, setShow] = useState(false);
-  const [showMore, setShowMore] = useState(false);
+  // const [showMore, setShowMore] = useState(false);
   const handleClose = () => setShow(false);
   // const handleShow = () => setShow(true);
   const currUser = Meteor.user() ? Meteor.user().username : '';
@@ -126,24 +126,36 @@ const RoomInfoModal = ({ room, show, setShow }) => {
         <Modal.Title>Room #{resources.roomNumber}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="px-4">
-          <div className="pb-2">
-            <PeopleFill />   {faculty.length > 0 ? faculty.map((person, index) => `${person.firstName} ${person.lastName}${index < faculty.length - 1 ? ', ' : ''}`) : 'Empty.'}
-          </div>
-          <Row>
-            <Col>
-              <h5>Description</h5>
-              <div className="pb-3">
-                Type: {room.type.toUpperCase()} <br />
-                {room.squareFt} sq. ft. <br />
-                Max capacity of {resources.capacity}
+        <div>
+          <Card>
+            <Card.Body>
+              <div className="ps-2">
+                <PeopleFill />   {faculty.length > 0 ? faculty.map((person, index) => `${person.firstName} ${person.lastName}${index < faculty.length - 1 ? ', ' : ''}`) : 'Empty.'}
               </div>
+            </Card.Body>
+          </Card>
+          <Row className="py-3">
+            <Col>
+              <Card style={{ height: '140px', overflowY: 'auto' }}>
+                <Card.Body>
+                  <h5>Description</h5>
+                  <div>
+                    Type: {room.type.toUpperCase()} <br />
+                    {room.squareFt} sq. ft. <br />
+                    Max capacity of {resources.capacity}
+                  </div>
+                </Card.Body>
+              </Card>
             </Col>
             <Col>
-              <h5>Notes</h5>
-              <div className="pb-3">
-                {room.notes ? room.notes : 'No Notes.'}
-              </div>
+              <Card style={{ height: '134px', overflowY: 'auto' }}>
+                <Card.Body>
+                  <h5>Notes</h5>
+                  <div className="pb-3">
+                    {room.notes ? room.notes : 'No Notes.'}
+                  </div>
+                </Card.Body>
+              </Card>
             </Col>
           </Row>
         </div>
@@ -152,9 +164,9 @@ const RoomInfoModal = ({ room, show, setShow }) => {
             <Accordion.Item eventKey="0">
               <Accordion.Header><h5>Resources</h5></Accordion.Header>
               <Accordion.Body>
-                Chairs: {resources.chairs} <br />
-                Phone Number: {resources.phoneNumber} <br />
-                TV: {resources.tv.length}
+                <div className="pb-1"><strong>Chairs:</strong> {resources.chairs}</div>
+                <div className="pb-1"><strong>Phone Number:</strong> {resources.phoneNumber}</div>
+                <div className="pb-1"><strong>TV:</strong> {resources.tv.length}</div>
                 <Table bordered>
                   <thead>
                     <tr>
@@ -166,7 +178,7 @@ const RoomInfoModal = ({ room, show, setShow }) => {
                     {resources.tv.map((tv) => <RoomInfoModalDetails key={tv.number} details={tv} />)}
                   </tbody>
                 </Table>
-                Data jacks: {resources.dataJacks.length}
+                <div className="pb-1"><strong>Data jacks:</strong> {resources.dataJacks.length}</div>
                 <Table bordered>
                   <thead>
                     <tr>
