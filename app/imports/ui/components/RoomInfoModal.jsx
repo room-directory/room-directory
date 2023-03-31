@@ -39,83 +39,6 @@ const RoomInfoModal = ({ room, show, setShow }) => {
     };
   }, []);
 
-  /*
-  <Table bordered>
-          <thead>
-            <tr>
-              <th scope="row">Room type</th>
-              <td>{room.type.toUpperCase()}</td>
-            </tr>
-            <tr>
-              <th scope="row">Square Feet</th>
-              <td>{room.squareFt}</td>
-            </tr>
-            <tr>
-              <th scope="row">Occupants ({faculty.length})</th>
-              <td>
-                {faculty.length > 0 ? faculty.map((person, index) => `${person.firstName} ${person.lastName}${index < faculty.length - 1 ? ', ' : ''}`) : 'Empty'}
-              </td>
-            </tr>
-            { currentUser !== '' && (user?.position === 'office' || Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) ?
-              ([
-                <tr>
-                  <th scope="row">Capacity</th>
-                  <td>{resources.capacity}</td>
-                </tr>,
-                <tr>
-                  <th scope="row" className="align-top">Resources</th>
-                  <td>
-                    <tr>
-                      <th scope="row">Chairs: </th>
-                      <td className="ps-3">{resources.chairs}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">TV: </th>
-                      <td className="ps-3">{resources.tv.length}</td>
-                    </tr>
-                    <Collapse in={showMore}>
-                      <div>
-                        {resources.tv.map((tv) => <RoomInfoModalDetails key={tv.number} details={tv} />)}
-                      </div>
-                    </Collapse>
-                    <tr>
-                      <th scope="row">Phone number: </th>
-                      <td className="ps-3">{resources.phoneNumber}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Data jacks: </th>
-                      <td className="ps-3">{resources.dataJacks.length}</td>
-                    </tr>
-                    <Collapse in={showMore}>
-                      <div>
-                        {resources.dataJacks.map((dataJacks) => <RoomInfoModalDetails key={dataJacks.number} details={dataJacks} />)}
-                      </div>
-                    </Collapse>
-                    <button
-                      type="button"
-                      onClick={() => setShowMore(!showMore)}
-                      aria-controls="example-collapse-text"
-                      aria-expanded={showMore}
-                      className="btn btn-link"
-                    >
-                      {showMore ? 'Show less' : 'Show More'}
-                    </button>
-                  </td>
-                </tr>,
-                <tr>
-                  <th scope="row">Room Notes</th>
-                  <td>{room.notes}</td>
-                </tr>,
-                // <tr>
-                //   <th scope="row">
-                //     <a href="/list">Reserve</a>
-                //   </th>
-                // </tr>,
-              ]) : ''}
-          </thead>
-        </Table>
-   */
-
   return (ready ? (
     // <Col className="col-2 pb-4">
     //   <Button variant="light" className="border border-dark sharp me-3" onClick={handleShow}>
@@ -129,7 +52,7 @@ const RoomInfoModal = ({ room, show, setShow }) => {
         <div>
           <Card>
             <Card.Body>
-              <div className="ps-2">
+              <div className="ps-1">
                 <PeopleFill />   {faculty.length > 0 ? faculty.map((person, index) => `${person.firstName} ${person.lastName}${index < faculty.length - 1 ? ', ' : ''}`) : 'Empty.'}
               </div>
             </Card.Body>
@@ -164,32 +87,44 @@ const RoomInfoModal = ({ room, show, setShow }) => {
             <Accordion.Item eventKey="0">
               <Accordion.Header><h5>Resources</h5></Accordion.Header>
               <Accordion.Body>
-                <div className="pb-1"><strong>Chairs:</strong> {resources.chairs}</div>
-                <div className="pb-1"><strong>Phone Number:</strong> {resources.phoneNumber}</div>
-                <div className="pb-1"><strong>TV:</strong> {resources.tv.length}</div>
-                <Table bordered>
-                  <thead>
-                    <tr>
-                      <td>Number</td>
-                      <td>Location</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {resources.tv.map((tv) => <RoomInfoModalDetails key={tv.number} details={tv} />)}
-                  </tbody>
-                </Table>
-                <div className="pb-1"><strong>Data jacks:</strong> {resources.dataJacks.length}</div>
-                <Table bordered>
-                  <thead>
-                    <tr>
-                      <td>Number</td>
-                      <td>Location</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {resources.dataJacks.map((dataJacks) => <RoomInfoModalDetails key={dataJacks.number} details={dataJacks} />)}
-                  </tbody>
-                </Table>
+                <Row>
+                  <Col>
+                    <div className="pb-1"><strong>Chairs:</strong> {resources.chairs}</div>
+                  </Col>
+                  <Col>
+                    <div className="pb-1"><strong>Phone Number:</strong> {resources.phoneNumber}</div>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <div className="pb-1"><strong>TV:</strong> {resources.tv.length}</div>
+                    <Table bordered>
+                      <thead>
+                        <tr>
+                          <td>Number</td>
+                          <td>Location</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {resources.tv.map((tv) => <RoomInfoModalDetails key={tv.number} details={tv} />)}
+                      </tbody>
+                    </Table>
+                  </Col>
+                  <Col>
+                    <div className="pb-1"><strong>Data jacks:</strong> {resources.dataJacks.length}</div>
+                    <Table bordered>
+                      <thead>
+                        <tr>
+                          <td>Number</td>
+                          <td>Location</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {resources.dataJacks.map((dataJacks) => <RoomInfoModalDetails key={dataJacks.number} details={dataJacks} />)}
+                      </tbody>
+                    </Table>
+                  </Col>
+                </Row>
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>

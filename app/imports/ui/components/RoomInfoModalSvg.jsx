@@ -64,7 +64,7 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
             <div>
               <Card>
                 <Card.Body>
-                  <div className="ps-2">
+                  <div className="ps-1">
                     <PeopleFill />   {faculty.length > 0 ? faculty.map((person, index) => `${person.firstName} ${person.lastName}${index < faculty.length - 1 ? ', ' : ''}`) : 'Empty.'}
                   </div>
                 </Card.Body>
@@ -99,32 +99,44 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
                 <Accordion.Item eventKey="0">
                   <Accordion.Header><h5>Resources</h5></Accordion.Header>
                   <Accordion.Body>
-                    <div className="pb-1"><strong>Chairs:</strong> {resources.chairs}</div>
-                    <div className="pb-1"><strong>Phone Number:</strong> {resources.phoneNumber}</div>
-                    <div className="pb-1"><strong>TV:</strong> {resources.tv.length}</div>
-                    <Table bordered>
-                      <thead>
-                        <tr>
-                          <td>Number</td>
-                          <td>Location</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {resources.tv.map((tv) => <RoomInfoModalDetails key={tv.number} details={tv} />)}
-                      </tbody>
-                    </Table>
-                    <div className="pb-1"><strong>Data jacks:</strong> {resources.dataJacks.length}</div>
-                    <Table bordered>
-                      <thead>
-                        <tr>
-                          <td>Number</td>
-                          <td>Location</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {resources.dataJacks.map((dataJacks) => <RoomInfoModalDetails key={dataJacks.number} details={dataJacks} />)}
-                      </tbody>
-                    </Table>
+                    <Row>
+                      <Col>
+                        <div className="pb-1"><strong>Chairs:</strong> {resources.chairs}</div>
+                      </Col>
+                      <Col>
+                        <div className="pb-1"><strong>Phone Number:</strong> {resources.phoneNumber}</div>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <div className="pb-1"><strong>TV:</strong> {resources.tv.length}</div>
+                        <Table bordered>
+                          <thead>
+                            <tr>
+                              <td>Number</td>
+                              <td>Location</td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {resources.tv.map((tv) => <RoomInfoModalDetails key={tv.number} details={tv} />)}
+                          </tbody>
+                        </Table>
+                      </Col>
+                      <Col>
+                        <div className="pb-1"><strong>Data jacks:</strong> {resources.dataJacks.length}</div>
+                        <Table bordered>
+                          <thead>
+                            <tr>
+                              <td>Number</td>
+                              <td>Location</td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {resources.dataJacks.map((dataJacks) => <RoomInfoModalDetails key={dataJacks.number} details={dataJacks} />)}
+                          </tbody>
+                        </Table>
+                      </Col>
+                    </Row>
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
