@@ -45,7 +45,14 @@ const RoomList = () => {
             <Dropdown.Item href="#/action-1">3</Dropdown.Item>
           </DropdownButton>
         </ButtonGroup>
-        <Button className="w-auto" onClick={() => changeScale()}>{scale === 1 ? 'Zoom in' : 'Zoom out'}</Button>
+        <Row>
+          <ButtonGroup aria-label="Zoom group">
+            <div className="mt-2">
+              <Button className="btn btn-primary" onClick={() => changeScale()}>{scale === 1 ? 'Zoom in' : 'Zoom out'}</Button>
+            </div>
+          </ButtonGroup>
+
+        </Row>
       </Row>
       <Row className="d-flex w-auto h-auto flex-nowrap">
         <div className="map-container" style={{ width: 870 }}>
