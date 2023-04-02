@@ -39,7 +39,7 @@ const ClubInfo = () => {
             <h2>Club Information</h2>
           </Col>
           <Row className="flex-row-reverse">
-            <Col xs={4} style={{ justifyContent: 'end' }}>
+            <Col xs={4}>
               <InputGroup id={COMPONENT_IDS.CLUB_INFORMATION_SEARCH} className="mb-3">
                 <Form.Control aria-label="Name" placeholder="Search for club" onChange={(e) => { setSearch(e.target.value); setFiltered(true); }} value={search} />
                 <Button onClick={() => { setFiltered(false); setSearch(''); }}>Clear</Button>
