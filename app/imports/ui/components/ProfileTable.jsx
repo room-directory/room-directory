@@ -62,8 +62,7 @@ const ProfileTable = ({ account, eventKey }) => {
     <Card style={{ border: 'none', borderRadius: 0 }}>
       <Card.Header style={eventKey % 2 === 0 ? { backgroundColor: 'whitesmoke', border: 'none' } : { backgroundColor: '#fbfbfb', border: 'none' }}>
         <Row>
-          <Col>{`${account.lastName}`}</Col>
-          <Col>{`${account.firstName}`}</Col>
+          <Col>{`${account.firstName}`} {`${account.lastName}`}</Col>
           <Col>{account.email}</Col>
           <Col>{account.position}</Col>
           <Col xs={2}>
