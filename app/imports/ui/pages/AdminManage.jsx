@@ -84,8 +84,7 @@ const AdminManage = () => {
             { (currUser !== '' && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) || (currUser !== '' && user?.position === 'office') ? (
               <Tab eventKey="profiles" title="Profiles">
                 <Row className="px-m3 py-2" style={{ padding: 15 }}>
-                  <Col><u>LAST NAME</u></Col>
-                  <Col><u>FIRST NAME</u></Col>
+                  <Col><u>NAME</u></Col>
                   <Col><u>EMAIL</u></Col>
                   <Col><u>POSITION</u></Col>
                   <Col xs={2} />
