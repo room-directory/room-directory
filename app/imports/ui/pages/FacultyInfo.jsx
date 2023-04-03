@@ -65,7 +65,7 @@ const FacultyInfo = () => {
               <DropdownButton id={COMPONENT_IDS.FACULTY_INFORMATION_SORT} title={`Sort by: ${category}`}>
                 <Dropdown.Item onClick={() => { setSortingBy('firstName'); setCategory('First Name'); }}>First Name</Dropdown.Item>
                 <Dropdown.Item onClick={() => { setSortingBy('lastName'); setCategory('Last Name'); }}>Last Name</Dropdown.Item>
-                <Dropdown.Item onClick={() => { setSortingBy('role'); setCategory('Role'); }}>Role</Dropdown.Item>
+                <Dropdown.Item onClick={() => { setSortingBy('role'); setCategory('Role'); }}>Title</Dropdown.Item>
                 <Dropdown.Item onClick={() => { setSortingBy('phone'); setCategory('Phone'); }}>Phone</Dropdown.Item>
                 <Dropdown.Item onClick={() => { setSortingBy('email'); setCategory('Email'); }}>Email</Dropdown.Item>
                 <Dropdown.Item onClick={() => { setSortingBy('officeLocation'); setCategory('Office Location'); }}>Office Location</Dropdown.Item>
