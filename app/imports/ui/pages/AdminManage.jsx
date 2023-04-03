@@ -138,8 +138,8 @@ const AdminManage = () => {
                 {(RoomType(rooms).study).map((room) => <RoomDropdown key={room.type} room={room} />)}
               </DropdownButton> */}
                 <Row className="px-m3 py-2" style={{ padding: 15 }}>
-                  <Col><u>ROOM NUMBER</u></Col>
                   <Col><u>BUILDING</u></Col>
+                  <Col><u>ROOM NUMBER</u></Col>
                   <Col><u>TYPE</u></Col>
                   <Col><u>FACULTY</u></Col>
                   <Col><u>IS ICS?</u></Col>
