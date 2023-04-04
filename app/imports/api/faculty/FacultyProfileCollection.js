@@ -17,11 +17,9 @@ class FacultyProfileCollection extends BaseCollection {
       lastName: String,
       role: String,
       email: String,
-      phone: [String],
-      days: {
-        type: [String],
-        allowedValues: daysOfWeek,
-      },
+      phone: [Number],
+      days: Array,
+      'days.$': String,
       startTime: { type: String, optional: true },
       endTime: { type: String, optional: true },
       officeLocation: [String],
@@ -36,13 +34,15 @@ class FacultyProfileCollection extends BaseCollection {
    * @param condition the condition of the item.
    * @return {String} the docID of the new document.
    */
-  define({ image, firstName, lastName, email, officeHours, officeLocation, role, phone }) {
+  define({ image, firstName, lastName, email, days, startTime, endTime, officeLocation, role, phone }) {
     const docID = this._collection.insert({
       image,
       firstName,
       lastName,
       email,
-      officeHours,
+      days,
+      startTime,
+      endTime,
       officeLocation,
       role,
       phone,
@@ -57,7 +57,7 @@ class FacultyProfileCollection extends BaseCollection {
    * @param quantity the new quantity (optional).
    * @param condition the new condition (optional).
    */
-  update(docID, { image, firstName, lastName, email, officeHours, officeLocation, role, phone }) {
+  update(docID, { image, firstName, lastName, email, days, startTime, endTime, officeLocation, role, phone }) {
     const updateData = {};
     if (image) {
       updateData.image = image;
@@ -71,8 +71,14 @@ class FacultyProfileCollection extends BaseCollection {
     if (email) {
       updateData.email = email;
     }
-    if (officeHours) {
-      updateData.officeHours = officeHours;
+    if (days) {
+      updateData.days = days;
+    }
+    if (startTime) {
+      updateData.startTime = startTime;
+    }
+    if (endTime) {
+      updateData.endTime = endTime;
     }
     if (officeLocation) {
       updateData.officeLocation = officeLocation;
@@ -144,11 +150,13 @@ class FacultyProfileCollection extends BaseCollection {
     const firstName = doc.firstName;
     const lastName = doc.lastName;
     const email = doc.email;
-    const officeHours = doc.officeHours;
+    const days = doc.days;
+    const startTime = doc.startTime;
+    const endTime = doc.endTime;
     const officeLocation = doc.officeLocation;
     const phone = doc.phone;
     const role = doc.role;
-    return { image, firstName, lastName, email, officeHours, officeLocation, phone, role };
+    return { image, firstName, lastName, email, days, startTime, endTime, officeLocation, phone, role };
   }
 }
 
