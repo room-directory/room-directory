@@ -12,6 +12,7 @@ import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 import { ROLE } from '../../api/role/Role';
 import { updateMethod } from '../../api/base/BaseCollection.methods';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 
 /* TODO: Implement Edit profile, review user profile subscription (currently getting all profiles) */
 const EditProfile = () => {
@@ -20,24 +21,30 @@ const EditProfile = () => {
   let pfp;
   let updateData;
 
-  const { ready, user } = useTracker(() => {
+  const currUser = Meteor.user() ? Meteor.user().username : '';
+  const { currentUser, facultyInfo, ready, user } = useTracker(() => {
     // Get access to Reservations and User Profile documents.
     const profileSubscription = UserProfiles.subscribe();
     const adminProfileSubscription = AdminProfiles.subscribe();
+    const facultySubscription = FacultyProfiles.subscribeFacultyProfile();
     // Determine if the subscriptions are ready
     const rdy1 = adminProfileSubscription.ready();
     const rdy2 = profileSubscription.ready();
-    const rdy = rdy1 && rdy2;
+    const rdy3 = facultySubscription.ready();
+    const rdy = rdy1 && rdy2 && rdy3;
     // Get the Reservations and User Profile documents
     let usr = UserProfiles.findOne({ _id: _id }, {});
     if (usr === undefined) usr = AdminProfiles.findOne({ _id: _id }, {});
+    const faculty = FacultyProfiles.findOne({ email: currUser }, {});
     return {
+      currentUser: currUser,
+      facultyInfo: faculty,
       user: usr,
       ready: rdy,
     };
   }, [_id]);
-  const submit = () => {
-    const uploadImage = document.getElementById('uploadImage').files[0];
+
+  const saveIntoCollections = () => {
     const fName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_FIRST_NAME).value.toString();
     const lName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_LAST_NAME).value.toString();
     let collectionName;
@@ -46,23 +53,41 @@ const EditProfile = () => {
     } else {
       collectionName = AdminProfiles.getCollectionName();
     }
+    updateData = { id: user._id, firstName: fName, lastName: lName, image: pfp };
+    updateMethod.callPromise({ collectionName, updateData })
+      .catch(error => swal('Error', error.message, 'error'))
+      .then(() => {
+        if (currentUser !== '' && (user?.position === 'faculty')) {
+          const phoneNum = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_PHONE_NUMBER).value.toString();
+          const location = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_OFFICE_LOCATION).value.toString();
+          const hours = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_OFFICE_HOURS).value.toString();
+
+          collectionName = FacultyProfiles.getCollectionName();
+
+          // convert phone numbers and office locations to an array
+          const phoneArray = (phoneNum.includes(',') ? phoneNum.replace(/\s+/g, '').split(',') : phoneNum);
+          const officeLocationArray = (location.includes(',') ? location.replace(/\s+/g, '').split(',') : location);
+
+          updateData = { id: facultyInfo._id, firstName: fName, lastName: lName, phone: phoneArray, officeLocation: officeLocationArray, officeHours: hours };
+          updateMethod.callPromise({ collectionName, updateData })
+            .catch(error => swal('Error', error.message, 'error'))
+            .then(() => swal('Success', 'Faculty profile updated successfully', 'success'));
+        } else {
+          swal('Success', 'Profile updated successfully', 'success');
+        }
+      });
+  };
+
+  const submit = () => {
+    const uploadImage = document.getElementById('uploadImage').files[0];
     if (uploadImage) {
       const reader = new FileReader();
       reader.readAsDataURL(uploadImage);
       reader.onloadend = () => {
         pfp = reader.result;
-        updateData = { id: user._id, firstName: fName, lastName: lName, image: pfp };
-        updateMethod.callPromise({ collectionName, updateData })
-          .catch(error => swal('Error', error.message, 'error'))
-          .then(() => swal('Success', 'Profile updated successfully', 'success'));
+        saveIntoCollections();
       };
-    } else {
-      updateData = { id: user._id, firstName: fName, lastName: lName, image: pfp };
-      updateMethod.callPromise({ collectionName, updateData })
-        .catch(error => swal('Error', error.message, 'error'))
-        .then(() => swal('Success', 'Profile updated successfully', 'success'));
-    }
-
+    } else { saveIntoCollections(); }
   };
 
   const pfpUpdate = (src) => {
@@ -112,7 +137,13 @@ const EditProfile = () => {
             ) :
               <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>{`(${user.position})`}</h4> }
           </div>
-          <Row />
+          { currentUser !== '' && (user?.position === 'faculty' && facultyInfo) ? (
+            <Row className="px-3">
+              <Col>
+                * Please separate phone numbers and office locations using commas
+              </Col>
+            </Row>
+          ) : '' }
           <Row className="p-3">
             <Col>
               <InputGroup size="sm">
@@ -127,6 +158,34 @@ const EditProfile = () => {
               </InputGroup>
             </Col>
           </Row>
+          { currentUser !== '' && (user?.position === 'faculty' && facultyInfo) ? (
+            <div>
+              <Row className="p-3">
+                <Col>
+                  <InputGroup size="sm">
+                    <InputGroup.Text><b>Phone Number *</b></InputGroup.Text>
+                    <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_PHONE_NUMBER} defaultValue={facultyInfo.phone ? facultyInfo.phone : ''} />
+                  </InputGroup>
+                </Col>
+              </Row>
+              <Row className="p-3">
+                <Col>
+                  <InputGroup size="sm">
+                    <InputGroup.Text><b>Office Location *</b></InputGroup.Text>
+                    <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_OFFICE_LOCATION} defaultValue={facultyInfo.officeLocation ? facultyInfo.officeLocation : ''} />
+                  </InputGroup>
+                </Col>
+              </Row>
+              <Row className="p-3">
+                <Col>
+                  <InputGroup size="sm">
+                    <InputGroup.Text><b>Office Hours</b></InputGroup.Text>
+                    <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_OFFICE_HOURS} defaultValue={facultyInfo.officeHours ? facultyInfo.officeHours : ''} />
+                  </InputGroup>
+                </Col>
+              </Row>
+            </div>
+          ) : '' }
         </Col>
       </Row>
       <Row>
