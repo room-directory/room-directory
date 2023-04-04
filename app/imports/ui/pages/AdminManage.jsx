@@ -84,8 +84,7 @@ const AdminManage = () => {
             { (currUser !== '' && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) || (currUser !== '' && user?.position === 'office') ? (
               <Tab eventKey="profiles" title="Profiles">
                 <Row className="px-m3 py-2" style={{ padding: 15 }}>
-                  <Col><u>LAST NAME</u></Col>
-                  <Col><u>FIRST NAME</u></Col>
+                  <Col><u>NAME</u></Col>
                   <Col><u>EMAIL</u></Col>
                   <Col><u>POSITION</u></Col>
                   <Col xs={2} />
@@ -105,9 +104,9 @@ const AdminManage = () => {
             { currUser !== '' && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? ([
               <Tab eventKey="faculty" title="Faculty">
                 <Row className="px-m3 py-2" style={{ padding: 15 }}>
-                  <Col><u>LAST NAME</u></Col>
-                  <Col><u>FIRST NAME</u></Col>
+                  <Col><u>NAME</u></Col>
                   <Col><u>EMAIL</u></Col>
+                  <Col><u>TITLE</u></Col>
                   <Col><u>OFFICE</u></Col>
                   <Col xs={2} />
                 </Row>
@@ -138,8 +137,8 @@ const AdminManage = () => {
                 {(RoomType(rooms).study).map((room) => <RoomDropdown key={room.type} room={room} />)}
               </DropdownButton> */}
                 <Row className="px-m3 py-2" style={{ padding: 15 }}>
-                  <Col><u>ROOM NUMBER</u></Col>
                   <Col><u>BUILDING</u></Col>
+                  <Col><u>ROOM NUMBER</u></Col>
                   <Col><u>TYPE</u></Col>
                   <Col><u>FACULTY</u></Col>
                   <Col><u>IS ICS?</u></Col>

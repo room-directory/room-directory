@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Card, Col, Container, Form, InputGroup, Row, Table } from 'react-bootstrap';
+import { Button, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { PAGE_IDS } from '../utilities/PageIDs';
@@ -38,8 +38,8 @@ const ClubInfo = () => {
           <Col className="text-center">
             <h2>Club Information</h2>
           </Col>
-          <Row>
-            <Col xs={4} style={{ justifyContent: 'end' }}>
+          <Row className="flex-row-reverse">
+            <Col xs={4}>
               <InputGroup id={COMPONENT_IDS.CLUB_INFORMATION_SEARCH} className="mb-3">
                 <Form.Control aria-label="Name" placeholder="Search for club" onChange={(e) => { setSearch(e.target.value); setFiltered(true); }} value={search} />
                 <Button onClick={() => { setFiltered(false); setSearch(''); }}>Clear</Button>

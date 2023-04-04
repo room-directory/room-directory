@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Modal, Button, Table, Collapse } from 'react-bootstrap';
+import { Modal, Button, Table, Card, Accordion, Row, Col } from 'react-bootstrap';
+import { PeopleFill } from 'react-bootstrap-icons';
 import { useTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Roles } from 'meteor/alanning:roles';
@@ -16,7 +17,7 @@ import RoomInfoModalDetails from './RoomInfoModalDetails';
 /** The RoomInfoModalSVG appears at the bottom of the Room List page. */
 const RoomInfoModal = ({ room, show, setShow }) => {
   // const [show, setShow] = useState(false);
-  const [showMore, setShowMore] = useState(false);
+  // const [showMore, setShowMore] = useState(false);
   const handleClose = () => setShow(false);
   // const handleShow = () => setShow(true);
   const currUser = Meteor.user() ? Meteor.user().username : '';
@@ -48,80 +49,86 @@ const RoomInfoModal = ({ room, show, setShow }) => {
         <Modal.Title>Room #{resources.roomNumber}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Table bordered>
-          <thead>
-            <tr>
-              <th scope="row">Room type</th>
-              <td>{room.type.toUpperCase()}</td>
-            </tr>
-            <tr>
-              <th scope="row">Square Feet</th>
-              <td>{room.squareFt}</td>
-            </tr>
-            <tr>
-              <th scope="row">Occupants ({faculty.length})</th>
-              <td>
-                {faculty.length > 0 ? faculty.map((person, index) => `${person.firstName} ${person.lastName}${index < faculty.length - 1 ? ', ' : ''}`) : 'Empty'}
-              </td>
-            </tr>
-            { currentUser !== '' && (user?.position === 'office' || Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) ?
-              ([
-                <tr>
-                  <th scope="row">Capacity</th>
-                  <td>{resources.capacity}</td>
-                </tr>,
-                <tr>
-                  <th scope="row" className="align-top">Resources</th>
-                  <td>
-                    <tr>
-                      <th scope="row">Chairs: </th>
-                      <td className="ps-3">{resources.chairs}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">TV: </th>
-                      <td className="ps-3">{resources.tv.length}</td>
-                    </tr>
-                    <Collapse in={showMore}>
-                      <div>
+        <div>
+          <Card>
+            <Card.Body>
+              <div className="ps-1">
+                <PeopleFill />   {faculty.length > 0 ? faculty.map((person, index) => `${person.firstName} ${person.lastName}${index < faculty.length - 1 ? ', ' : ''}`) : 'Empty.'}
+              </div>
+            </Card.Body>
+          </Card>
+          <Row className="py-3">
+            <Col>
+              <Card style={{ height: '140px', overflowY: 'auto' }}>
+                <Card.Body>
+                  <h5>Description</h5>
+                  <div>
+                    Type: {room.type.toUpperCase()} <br />
+                    {room.squareFt} sq. ft. <br />
+                    Max capacity of {resources.capacity}
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col>
+              <Card style={{ height: '134px', overflowY: 'auto' }}>
+                <Card.Body>
+                  <h5>Notes</h5>
+                  <div className="pb-3">
+                    {room.notes ? room.notes : 'No Notes.'}
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+        { currentUser !== '' && (user?.position === 'office' || Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) ? (
+          <Accordion>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header><h5>Resources</h5></Accordion.Header>
+              <Accordion.Body>
+                <Row>
+                  <Col>
+                    <div className="pb-1"><strong>Chairs:</strong> {resources.chairs}</div>
+                  </Col>
+                  <Col>
+                    <div className="pb-1"><strong>Phone Number:</strong> {resources.phoneNumber}</div>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <div className="pb-1"><strong>TV:</strong> {resources.tv.length}</div>
+                    <Table bordered>
+                      <thead>
+                        <tr>
+                          <td>Number</td>
+                          <td>Location</td>
+                        </tr>
+                      </thead>
+                      <tbody>
                         {resources.tv.map((tv) => <RoomInfoModalDetails key={tv.number} details={tv} />)}
-                      </div>
-                    </Collapse>
-                    <tr>
-                      <th scope="row">Phone number: </th>
-                      <td className="ps-3">{resources.phoneNumber}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Data jacks: </th>
-                      <td className="ps-3">{resources.dataJacks.length}</td>
-                    </tr>
-                    <Collapse in={showMore}>
-                      <div>
+                      </tbody>
+                    </Table>
+                  </Col>
+                  <Col>
+                    <div className="pb-1"><strong>Data jacks:</strong> {resources.dataJacks.length}</div>
+                    <Table bordered>
+                      <thead>
+                        <tr>
+                          <td>Number</td>
+                          <td>Location</td>
+                        </tr>
+                      </thead>
+                      <tbody>
                         {resources.dataJacks.map((dataJacks) => <RoomInfoModalDetails key={dataJacks.number} details={dataJacks} />)}
-                      </div>
-                    </Collapse>
-                    <button
-                      type="button"
-                      onClick={() => setShowMore(!showMore)}
-                      aria-controls="example-collapse-text"
-                      aria-expanded={showMore}
-                      className="btn btn-link"
-                    >
-                      {showMore ? 'Show less' : 'Show More'}
-                    </button>
-                  </td>
-                </tr>,
-                <tr>
-                  <th scope="row">Room Notes</th>
-                  <td>{room.notes}</td>
-                </tr>,
-                // <tr>
-                //   <th scope="row">
-                //     <a href="/list">Reserve</a>
-                //   </th>
-                // </tr>,
-              ]) : ''}
-          </thead>
-        </Table>
+                      </tbody>
+                    </Table>
+                  </Col>
+                </Row>
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+        ) : '' }
       </Modal.Body>
       <Modal.Footer>
         <Button variant="danger" onClick={handleClose}>

@@ -15,7 +15,6 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
 
   const [show, setShow] = useState(false);
   const typeList = ['conference', 'lecture', 'study room', 'office'];
-  const locationList = ['mauka', 'makai', 'windward', 'leeward'];
   // combine the room and room resources object
   const combinedModel = {
     ...room,
@@ -157,7 +156,7 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
                       <ListField name="tv" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
                         <ListItemField name="$">
                           <TextField name="number" />
-                          <SelectField name="location" allowedValues={locationList} placeholder="Select location" />
+                          <TextField name="location" placeholder="Select location" />
                         </ListItemField>
                       </ListField>
                     </Row>
@@ -165,7 +164,7 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
                       <ListField name="dataJacks" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
                         <ListItemField name="$">
                           <TextField name="number" />
-                          <SelectField name="location" allowedValues={locationList} placeholder="Select location" />
+                          <TextField name="location" placeholder="Select location" />
                         </ListItemField>
                       </ListField>
                     </Row>
