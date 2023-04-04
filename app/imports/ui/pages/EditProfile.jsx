@@ -137,13 +137,6 @@ const EditProfile = () => {
             ) :
               <h4 id="profile-role" style={{ textTransform: 'uppercase' }}>{`(${user.position})`}</h4> }
           </div>
-          { currentUser !== '' && (user?.position === 'faculty' && facultyInfo) ? (
-            <Row className="px-3">
-              <Col>
-                * Please separate phone numbers and office locations using commas
-              </Col>
-            </Row>
-          ) : '' }
           <Row className="p-3">
             <Col>
               <InputGroup size="sm">
@@ -182,6 +175,11 @@ const EditProfile = () => {
                     <InputGroup.Text><b>Office Hours</b></InputGroup.Text>
                     <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_OFFICE_HOURS} defaultValue={facultyInfo.officeHours ? facultyInfo.officeHours : ''} />
                   </InputGroup>
+                </Col>
+              </Row>
+              <Row className="px-3">
+                <Col style={{ fontSize: '13px' }}>
+                  * Please separate phone numbers and office locations using commas
                 </Col>
               </Row>
             </div>
