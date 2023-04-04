@@ -37,7 +37,7 @@ const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty }) => {
           </Row>
           <Row>
             <Col>
-              <TextField name="role" placeholder="Faculty role" />
+              <TextField name="role" placeholder="Faculty title" label="Faculty title" />
             </Col>
             <Col>
               <TextField name="email" placeholder="Email" />

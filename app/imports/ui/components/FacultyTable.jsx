@@ -52,9 +52,9 @@ const FacultyTable = ({ faculty, eventKey }) => {
     <Card style={{ border: 'none', borderRadius: 0 }}>
       <Card.Header style={eventKey % 2 === 0 ? { backgroundColor: 'whitesmoke', border: 'none' } : { backgroundColor: '#fbfbfb', border: 'none' }}>
         <Row>
-          <Col>{`${faculty.lastName}`}</Col>
-          <Col>{`${faculty.firstName}`}</Col>
+          <Col>{`${faculty.firstName}`} {`${faculty.lastName}`}</Col>
           <Col>{faculty.email}</Col>
+          <Col>{faculty.role}</Col>
           <Col>{faculty.officeLocation.map((office) => <div>{office}</div>)}</Col>
           <Col xs={2}>
             <Row>
@@ -82,7 +82,7 @@ const FacultyTable = ({ faculty, eventKey }) => {
                 </Row>
                 <Row>
                   <Col>
-                    <TextField name="role" placeholder="Faculty role" />
+                    <TextField name="role" placeholder="Faculty title" label="Faculty title" />
                   </Col>
                   <Col>
                     <TextField name="email" placeholder="Email" />

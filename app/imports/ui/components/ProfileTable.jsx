@@ -1,10 +1,27 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import swal from 'sweetalert';
-import { Card, Col, Row, Button, Modal, Form } from 'react-bootstrap';
+import { Card, Col, Row, Button, Modal } from 'react-bootstrap';
+import { AutoForm, ErrorsField, SubmitField, TextField, SelectField } from 'uniforms-bootstrap5';
+import SimpleSchema from 'simpl-schema';
+import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
-import { COMPONENT_IDS } from '../utilities/ComponentIDs';
+
+const positionList = ['student', 'faculty', 'office'];
+
+const formSchema = new SimpleSchema({
+  firstName: String,
+  lastName: String,
+  image: String,
+  position: {
+    type: String,
+    allowedValues: positionList,
+    defaultValue: 'student',
+  },
+});
+
+const bridge = new SimpleSchema2Bridge(formSchema);
 
 const ProfileTable = ({ account, eventKey }) => {
   const [show, setShow] = useState(false);
@@ -30,14 +47,10 @@ const ProfileTable = ({ account, eventKey }) => {
     });
   };
 
-  const positionList = ['student', 'faculty', 'office'];
+  const submit = (data) => {
+    const { firstName, lastName, email, position } = data;
 
-  const submit = () => {
-    const newFirstName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FIRST_NAME_ADMIN).value;
-    const newLastName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_LAST_NAME_ADMIN).value;
-    const newPosition = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_POSITION_ADMIN).value;
-
-    const updateData = { id: account._id, email: account.email, firstName: newFirstName, lastName: newLastName, position: newPosition };
+    const updateData = { id: account._id, email, firstName, lastName, position };
     const collectionName = UserProfiles.getCollectionName();
 
     updateMethod.callPromise({ collectionName, updateData })
@@ -49,8 +62,7 @@ const ProfileTable = ({ account, eventKey }) => {
     <Card style={{ border: 'none', borderRadius: 0 }}>
       <Card.Header style={eventKey % 2 === 0 ? { backgroundColor: 'whitesmoke', border: 'none' } : { backgroundColor: '#fbfbfb', border: 'none' }}>
         <Row>
-          <Col>{`${account.lastName}`}</Col>
-          <Col>{`${account.firstName}`}</Col>
+          <Col>{`${account.firstName}`} {`${account.lastName}`}</Col>
           <Col>{account.email}</Col>
           <Col>{account.position}</Col>
           <Col xs={2}>
@@ -68,40 +80,26 @@ const ProfileTable = ({ account, eventKey }) => {
             <Modal.Header closeButton />
             <Modal.Body>
               <h4>Edit Profile</h4>
-              <Form>
-                <Row style={{ paddingBottom: 20 }}>
-                  <Row>
-                    <Col>
-                      <Form.Group>
-                        First Name *
-                        <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FIRST_NAME_ADMIN} defaultValue={account.firstName ? account.firstName : ''} />
-                      </Form.Group>
-                    </Col>
-                    <Col>
-                      <Form.Group>
-                        Last Name *
-                        <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_LAST_NAME_ADMIN} defaultValue={account.lastName ? account.lastName : ''} />
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Form.Group>
-                      Position *
-                      <Form.Select id={COMPONENT_IDS.EDIT_PROFILE_POSITION_ADMIN} placeholder="Select a position" options={positionList} style={{ marginBottom: 5 }} defaultValue={account.position ? account.position : ''}>
-                        <option disabled>Select</option>
-                        {positionList.map((name, index) => (
-                          <option value={name} key={index}>{name}</option>
-                        ))}
-                      </Form.Select>
-                    </Form.Group>
-                  </Row>
+              <AutoForm schema={bridge} onSubmit={data => submit(data)} model={account}>
+                <Row>
+                  <Col>
+                    <TextField name="firstName" placeholder="First name" />
+                  </Col>
+                  <Col>
+                    <TextField name="lastName" placeholder="Last name" />
+                  </Col>
                 </Row>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: 25 }}>
-                  <Button variant="primary" type="submit" alt="Submit Changes" onClick={submit}>
-                    Submit Changes
-                  </Button>
-                </div>
-              </Form>
+                <Row>
+                  <TextField name="image" placeholder="Image link" />
+                </Row>
+                <Row>
+                  <SelectField name="position" placeholder="Select position" />
+                </Row>
+                <Row>
+                  <SubmitField value="Submit" />
+                  <ErrorsField />
+                </Row>
+              </AutoForm>
             </Modal.Body>
           </Modal>
         ) : ''
@@ -116,6 +114,7 @@ ProfileTable.propTypes = {
     firstName: PropTypes.string,
     lastName: PropTypes.string,
     email: PropTypes.string,
+    image: PropTypes.string,
     position: PropTypes.string,
     _id: PropTypes.string,
   }).isRequired,

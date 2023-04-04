@@ -24,6 +24,7 @@ import AddFacultyModal from '../components/AddFacultyModal';
 import { Club } from '../../api/club/ClubCollection';
 import ClubTable from '../components/ClubTable';
 import AddRoomModal from '../components/AddRoomModal';
+import AddClubModal from '../components/AddClubModal';
 
 /* An interactive page with different components that reflects the reservations made. */
 const AdminManage = () => {
@@ -36,6 +37,7 @@ const AdminManage = () => {
   const [showAddRoom, setShowAddRoom] = useState(false);
   const [showAddUser, setShowAddUser] = useState(false);
   const [showAddFaculty, setShowAddFaculty] = useState(false);
+  const [showAddClub, setShowAddClub] = useState(false);
 
   const { rooms, profiles, facultyInfo, resources, clubs, ready, currUser, user } = useTracker(() => {
     const curUser = Meteor.user() ? Meteor.user().username : '';
@@ -82,8 +84,7 @@ const AdminManage = () => {
             { (currUser !== '' && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) || (currUser !== '' && user?.position === 'office') ? (
               <Tab eventKey="profiles" title="Profiles">
                 <Row className="px-m3 py-2" style={{ padding: 15 }}>
-                  <Col><u>LAST NAME</u></Col>
-                  <Col><u>FIRST NAME</u></Col>
+                  <Col><u>NAME</u></Col>
                   <Col><u>EMAIL</u></Col>
                   <Col><u>POSITION</u></Col>
                   <Col xs={2} />
@@ -103,9 +104,9 @@ const AdminManage = () => {
             { currUser !== '' && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? ([
               <Tab eventKey="faculty" title="Faculty">
                 <Row className="px-m3 py-2" style={{ padding: 15 }}>
-                  <Col><u>LAST NAME</u></Col>
-                  <Col><u>FIRST NAME</u></Col>
+                  <Col><u>NAME</u></Col>
                   <Col><u>EMAIL</u></Col>
+                  <Col><u>TITLE</u></Col>
                   <Col><u>OFFICE</u></Col>
                   <Col xs={2} />
                 </Row>
@@ -136,8 +137,8 @@ const AdminManage = () => {
                 {(RoomType(rooms).study).map((room) => <RoomDropdown key={room.type} room={room} />)}
               </DropdownButton> */}
                 <Row className="px-m3 py-2" style={{ padding: 15 }}>
-                  <Col><u>ROOM NUMBER</u></Col>
                   <Col><u>BUILDING</u></Col>
+                  <Col><u>ROOM NUMBER</u></Col>
                   <Col><u>TYPE</u></Col>
                   <Col><u>FACULTY</u></Col>
                   <Col><u>IS ICS?</u></Col>
@@ -165,7 +166,7 @@ const AdminManage = () => {
                 </div>
                 <Col className="d-flex justify-content-end">
                   <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
-                    <Button variant="success" onClick={() => setShowAddUser(true)}>
+                    <Button variant="success" onClick={() => setShowAddClub(true)}>
                       + Add Club
                     </Button>
                   </div>
@@ -256,6 +257,7 @@ const AdminManage = () => {
       <AddUserModal setShowAddUser={setShowAddUser} showAddUser={showAddUser} />
       <AddFacultyModal setShowAddFaculty={setShowAddFaculty} showAddFaculty={showAddFaculty} />
       <AddRoomModal setShowAddRoom={setShowAddRoom} showAddRoom={showAddRoom} />
+      <AddClubModal setShowAddClub={setShowAddClub} showAddClub={showAddClub} />
     </Container>
   ) : <LoadingSpinner />);
 };

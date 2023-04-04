@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 /** The RoomInfoModalSVG appears at the bottom of the Room List page. */
 const RoomInfoModalDetails = ({ details }) => (
   <tr>
-    <th scope="row"> </th>
-    <td className="ps-3">
+    <td>
       #{details.number}
     </td>
-    <td className="ps-1">
+    <td>
       ({details.location})
     </td>
   </tr>

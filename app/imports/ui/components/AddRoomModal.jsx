@@ -13,7 +13,6 @@ import { RoomResources } from '../../api/room/RoomResourceCollection';
 
 const typeList = ['conference', 'lecture', 'study room', 'office'];
 const buildingList = ['POST', 'building2'];
-const locationList = ['mauka', 'makai', 'windward', 'leeward'];
 
 const formSchema = new SimpleSchema({
   roomNumber: String,
@@ -30,7 +29,10 @@ const formSchema = new SimpleSchema({
   occupants: Array,
   'occupants.$': String,
   squareFt: Number,
-  isICS: Boolean,
+  isICS: {
+    type: Boolean,
+    defaultValue: false,
+  },
   capacity: Number,
   chairs: Number,
   desks: Number,
@@ -39,13 +41,15 @@ const formSchema = new SimpleSchema({
   'tv.$.number': String,
   'tv.$.location': {
     type: String,
-    allowedValues: locationList,
   },
   dataJacks: [Object],
   'dataJacks.$.number': String,
   'dataJacks.$.location': {
     type: String,
-    allowedValues: locationList,
+  },
+  notes: {
+    type: String,
+    defaultValue: 'None',
   },
 });
 
@@ -91,6 +95,9 @@ const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
                 <Col>
                   <AutoField name="isICS" placeholder="ICS Room" />
                 </Col>
+                <Col>
+                  <TextField name="notes" placeholder="Notes" />
+                </Col>
               </Row>
               <Row>
                 <Col>
@@ -122,7 +129,7 @@ const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
               <ListField name="tv" addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
                 <ListItemField name="$">
                   <TextField name="number" />
-                  <SelectField name="location" allowedValues={locationList} placeholder="Select location" />
+                  <TextField name="location" placeholder="Select location" />
                 </ListItemField>
               </ListField>
             </Col>
@@ -130,7 +137,7 @@ const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
               <ListField name="dataJacks" addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
                 <ListItemField name="$">
                   <TextField name="number" />
-                  <SelectField name="location" allowedValues={locationList} placeholder="Select location" />
+                  <TextField name="location" placeholder="Select location" />
                 </ListItemField>
               </ListField>
             </Col>

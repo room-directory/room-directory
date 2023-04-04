@@ -15,7 +15,6 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
 
   const [show, setShow] = useState(false);
   const typeList = ['conference', 'lecture', 'study room', 'office'];
-  const locationList = ['mauka', 'makai', 'windward', 'leeward'];
   // combine the room and room resources object
   const combinedModel = {
     ...room,
@@ -54,8 +53,8 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
   };
 
   const submit = (data) => {
-    const { building, roomNumber, type, isICS, squareFt, occupants, chairs, desks, phoneNumber, capacity, tv, dataJacks } = data;
-    let updateData = { id: room._id, roomNumber: roomNumber, building: building, type, isICS, squareFt, occupants: occupants };
+    const { building, roomNumber, type, isICS, squareFt, notes, occupants, chairs, desks, phoneNumber, capacity, tv, dataJacks } = data;
+    let updateData = { id: room._id, roomNumber: roomNumber, building: building, type, isICS, squareFt, notes, occupants: occupants };
     let collectionName = Room.getCollectionName();
 
     // update the room collection
@@ -119,6 +118,9 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
                       <Col>
                         <AutoField name="isICS" placeholder="ICS Room" />
                       </Col>
+                      <Col>
+                        <TextField name="notes" placeholder="Notes" />
+                      </Col>
                     </Row>
                     <Row>
                       <Col>
@@ -143,24 +145,29 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
                       </Col>
                     </Row>
                     <Row>
-                      <ListField name="occupants" addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
+                      <Col>
+                        <ListField name="occupants" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
+                      </Col>
+
                     </Row>
                   </Col>
                   <Col className="col-3">
-                    <ListField name="tv" addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
-                      <ListItemField name="$">
-                        <TextField name="number" />
-                        <SelectField name="location" allowedValues={locationList} placeholder="Select location" />
-                      </ListItemField>
-                    </ListField>
-                  </Col>
-                  <Col className="col-3">
-                    <ListField name="dataJacks" addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
-                      <ListItemField name="$">
-                        <TextField name="number" />
-                        <SelectField name="location" allowedValues={locationList} placeholder="Select location" />
-                      </ListItemField>
-                    </ListField>
+                    <Row>
+                      <ListField name="tv" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
+                        <ListItemField name="$">
+                          <TextField name="number" />
+                          <TextField name="location" placeholder="Select location" />
+                        </ListItemField>
+                      </ListField>
+                    </Row>
+                    <Row>
+                      <ListField name="dataJacks" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
+                        <ListItemField name="$">
+                          <TextField name="number" />
+                          <TextField name="location" placeholder="Select location" />
+                        </ListItemField>
+                      </ListField>
+                    </Row>
                   </Col>
                 </Row>
                 <SubmitField value="Submit" />
@@ -184,6 +191,7 @@ RoomTable.propTypes = {
     type: PropTypes.string,
     occupants: PropTypes.arrayOf(PropTypes.string),
     squareFt: PropTypes.number,
+    notes: PropTypes.string,
   }).isRequired,
   resources: PropTypes.shape({
     _id: PropTypes.string,
