@@ -52,7 +52,10 @@ const formSchema = new SimpleSchema({
     min: 0,
     defaultValue: 0,
   },
-  phoneNumber: String,
+  phoneNumber: {
+    type: String,
+    defaultValue: 'None',
+  },
   tv: [Object],
   'tv.$.number': String,
   'tv.$.location': {
@@ -73,8 +76,8 @@ const bridge = new SimpleSchema2Bridge(formSchema);
 
 const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
   const submit = (data, formRef) => {
-    const { roomNumber, building, type, occupants, squareFt, isICS, capacity, chairs, desks, phoneNumber, tv, dataJacks } = data;
-    let definitionData = { roomNumber, building, type, occupants, squareFt };
+    const { roomNumber, building, type, occupants, squareFt, isICS, capacity, chairs, desks, phoneNumber, tv, dataJacks, notes } = data;
+    let definitionData = { roomNumber, building, type, occupants, squareFt, notes };
     let collectionName = Room.getCollectionName();
     if (Room.findOne({ roomNumber: data.roomNumber, building: data.building })) {
       swal('Error', 'That room exists already!', 'error');
@@ -138,24 +141,28 @@ const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
                 </Col>
               </Row>
               <Row>
-                <ListField name="occupants" addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
+                <Col>
+                  <ListField name="occupants" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
+                </Col>
               </Row>
             </Col>
-            <Col className="col-3">
-              <ListField name="tv" addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
-                <ListItemField name="$">
-                  <TextField name="number" />
-                  <TextField name="location" placeholder="Select location" />
-                </ListItemField>
-              </ListField>
-            </Col>
-            <Col className="col-3">
-              <ListField name="dataJacks" addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
-                <ListItemField name="$">
-                  <TextField name="number" />
-                  <TextField name="location" placeholder="Select location" />
-                </ListItemField>
-              </ListField>
+            <Col className="col-3" style={{ paddingRight: '1.5em' }}>
+              <Row>
+                <ListField name="tv" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
+                  <ListItemField name="$">
+                    <TextField name="number" />
+                    <TextField name="location" placeholder="Select location" />
+                  </ListItemField>
+                </ListField>
+              </Row>
+              <Row>
+                <ListField name="dataJacks" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
+                  <ListItemField name="$">
+                    <TextField name="number" />
+                    <TextField name="location" placeholder="Select location" />
+                  </ListItemField>
+                </ListField>
+              </Row>
             </Col>
           </Row>
           <SubmitField value="Submit" />

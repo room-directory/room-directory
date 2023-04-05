@@ -148,10 +148,9 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
                       <Col>
                         <ListField name="occupants" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
                       </Col>
-
                     </Row>
                   </Col>
-                  <Col className="col-3">
+                  <Col className="col-3" style={{ paddingRight: '1.5em' }}>
                     <Row>
                       <ListField name="tv" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
                         <ListItemField name="$">
