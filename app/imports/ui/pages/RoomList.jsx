@@ -61,7 +61,7 @@ const RoomList = () => {
           {/*    <Button className="btn btn-primary" onClick={() => changeScale()}>{scale === 1 ? 'Zoom in' : 'Zoom out'}</Button> */}
           {/*  </div> */}
           {/* </ButtonGroup> */}
-          <Button variant="primary" onClick={handleZoomIn}>
+          <Button variant="primary" className="me-1" onClick={handleZoomIn}>
             <BsZoomIn />
           </Button>
           <Button variant="primary" onClick={handleZoomOut}>
@@ -69,22 +69,22 @@ const RoomList = () => {
           </Button>
         </Col>
       </Row>
-      <Row className="d-flex w-auto h-auto flex-nowrap" style={{ justifyContent: 'center' }}>
-        <Col md={9} style={{ alignItems: 'center', justifyContent: 'center' }}>
+      <Row className="d-flex w-auto h-auto flex-nowrap" style={{ justifyContent: 'center', alignContent: 'center' }}>
+        <Col md={9} style={{ alignItems: 'center', justifyContent: 'center', marginTop: '-1.5em'}}>
           <div className="map-container h-100" style={{ width: '100%', height: '100%', overflow: 'hidden', alignItems: 'center', justifyContent: 'center' }}>
             <SvgComponent rooms={rooms} hoverRoom={hoverRoom} scale={scale} facultyCollection={faculty} style={{ transform: `scale(${scale})` }} />
           </div>
         </Col>
         <Col md={4}>
           <div className=" room-list-table" style={{ alignContent: 'flex-start', height: '70vh' }}>
-            <Table responsive className="room-list-table" >
+            <Table responsive className="room-list-table">
               <thead style={{ position: 'sticky' }}>
                 <tr>
                   <th>Room Number</th>
                   <th>Room type</th>
                 </tr>
               </thead>
-              <tbody style={{ overflowY: 'scroll'}}>
+              <tbody style={{ overflowY: 'scroll' }}>
                 {rooms.map((room) => <RoomListTableRow room={room} hoverRoom={hoverRoom} setHoverRoom={setHoverRoom} key={room._id} />)}
               </tbody>
             </Table>
