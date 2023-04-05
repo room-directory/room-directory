@@ -25,6 +25,7 @@ import { Club } from '../../api/club/ClubCollection';
 import ClubTable from '../components/ClubTable';
 import AddRoomModal from '../components/AddRoomModal';
 import AddClubModal from '../components/AddClubModal';
+import ImportCSV from '../components/ImportCSV';
 
 /* An interactive page with different components that reflects the reservations made. */
 const AdminManage = () => {
@@ -38,6 +39,7 @@ const AdminManage = () => {
   const [showAddUser, setShowAddUser] = useState(false);
   const [showAddFaculty, setShowAddFaculty] = useState(false);
   const [showAddClub, setShowAddClub] = useState(false);
+  const [showImportCSV, setShowImportCSV] = useState(false);
 
   const { rooms, profiles, facultyInfo, resources, clubs, ready, currUser, user } = useTracker(() => {
     const curUser = Meteor.user() ? Meteor.user().username : '';
@@ -153,6 +155,9 @@ const AdminManage = () => {
                     <Button variant="success" onClick={() => setShowAddRoom(true)}>
                       + Add
                     </Button>
+                    <Button variant="success" onClick={() => setShowImportCSV(true)}>
+                      Import CSV
+                    </Button>
                   </div>
                 </Col>
               </Tab>,
@@ -258,6 +263,7 @@ const AdminManage = () => {
       <AddFacultyModal setShowAddFaculty={setShowAddFaculty} showAddFaculty={showAddFaculty} />
       <AddRoomModal setShowAddRoom={setShowAddRoom} showAddRoom={showAddRoom} />
       <AddClubModal setShowAddClub={setShowAddClub} showAddClub={showAddClub} />
+      <ImportCSV setShowImportCSV={setShowImportCSV} showImportCSV={showImportCSV} />
     </Container>
   ) : <LoadingSpinner />);
 };
