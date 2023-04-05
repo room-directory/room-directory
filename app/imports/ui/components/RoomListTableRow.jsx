@@ -14,7 +14,7 @@ const RoomListTableRow = ({ room, setHoverRoom }) => {
         <td>{room.roomNumber}</td>
         <td>{room.type}</td>
       </tr>
-      <RoomInfoModal room={room} show={show} setShow={handleShow} key={room.roomNumber} />
+      <RoomInfoModal room={room} show={show} setShow={handleShow} key={room.roomNumber} style={{ display: 'flex', justifyContent: 'center' }} />
     </>
   );
 };
