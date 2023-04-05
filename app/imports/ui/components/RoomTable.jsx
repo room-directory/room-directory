@@ -130,18 +130,18 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
                         <SelectField name="type" allowedValues={typeList} placeholder="Room Type" />
                       </Col>
                       <Col>
-                        <NumField name="capacity" step={1} placeholder="Capacity" />
+                        <NumField name="capacity" step={1} min={0} placeholder="Capacity" />
                       </Col>
                     </Row>
                     <Row>
                       <Col>
-                        <NumField name="chairs" step={1} placeholder="Chairs" />
+                        <NumField name="chairs" step={1} min={0} placeholder="Chairs" />
                       </Col>
                       <Col>
-                        <NumField name="desks" step={1} placeholder="Desks" />
+                        <NumField name="desks" step={1} min={0} placeholder="Desks" />
                       </Col>
                       <Col>
-                        <NumField name="squareFt" step={1} icon="user" />
+                        <NumField name="squareFt" step={1} min={0} icon="user" />
                       </Col>
                     </Row>
                     <Row>
