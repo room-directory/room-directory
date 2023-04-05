@@ -52,7 +52,10 @@ const formSchema = new SimpleSchema({
     min: 0,
     defaultValue: 0,
   },
-  phoneNumber: String,
+  phoneNumber: {
+    type: String,
+    defaultValue: 'None',
+  },
   tv: [Object],
   'tv.$.number': String,
   'tv.$.location': {
@@ -73,8 +76,8 @@ const bridge = new SimpleSchema2Bridge(formSchema);
 
 const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
   const submit = (data, formRef) => {
-    const { roomNumber, building, type, occupants, squareFt, isICS, capacity, chairs, desks, phoneNumber, tv, dataJacks } = data;
-    let definitionData = { roomNumber, building, type, occupants, squareFt };
+    const { roomNumber, building, type, occupants, squareFt, isICS, capacity, chairs, desks, phoneNumber, tv, dataJacks, notes } = data;
+    let definitionData = { roomNumber, building, type, occupants, squareFt, notes };
     let collectionName = Room.getCollectionName();
     if (Room.findOne({ roomNumber: data.roomNumber, building: data.building })) {
       swal('Error', 'That room exists already!', 'error');
