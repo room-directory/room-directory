@@ -15,9 +15,21 @@ class RoomResourceCollection extends BaseCollection {
   constructor() {
     super('RoomResources', new SimpleSchema({
       roomNumber: String,
-      capacity: Number,
-      chairs: Number,
-      desks: Number,
+      capacity: {
+        type: Number,
+        min: 0,
+        defaultValue: 0,
+      },
+      chairs: {
+        type: Number,
+        min: 0,
+        defaultValue: 0,
+      },
+      desks: {
+        type: Number,
+        min: 0,
+        defaultValue: 0,
+      },
       phoneNumber: String,
       tv: [Object],
       'tv.$.number': String,

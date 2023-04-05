@@ -34,10 +34,21 @@ export const COMPONENT_IDS = {
   FACULTY_INFORMATION_SEARCH: 'faculty-information-search',
   CLUB_INFORMATION_SEARCH: 'club-information-search',
   ADMIN_MANAGE: 'admin-manage',
+  ADMIN_MANAGE_PROFILE_SORT: 'admin-manage-profile-sort',
+  ADMIN_MANAGE_FACULTY_SORT: 'admin-manage-faculty-sort',
+  ADMIN_MANAGE_ROOM_SORT: 'admin-manage-room-sort',
+  ADMIN_MANAGE_CLUB_SORT: 'admin-manage-club-sort',
+  ADMIN_MANAGE_PROFILE_SEARCH: 'admin-manage-profile-search',
+  ADMIN_MANAGE_FACULTY_SEARCH: 'admin-manage-faculty-search',
+  ADMIN_MANAGE_ROOM_SEARCH: 'admin-manage-room-search',
+  ADMIN_MANAGE_CLUB_SEARCH: 'admin-manage-club-search',
   ADMIN_RESERVATION: 'admin-reservation',
 
   // EDIT PROFILE
   EDIT_PROFILE_FORM_FIRST_NAME: 'edit-profile-form-first-name',
   EDIT_PROFILE_FORM_LAST_NAME: 'edit-profile-form-last-name',
   EDIT_PROFILE_FORM_PFP: 'edit-profile-form-pfp',
+  EDIT_PROFILE_FORM_PHONE_NUMBER: 'edit-profile-form-phone-number',
+  EDIT_PROFILE_FORM_OFFICE_LOCATION: 'edit-profile-form-office-location',
+  EDIT_PROFILE_FORM_OFFICE_HOURS: 'edit-profile-form-office-hours',
 };

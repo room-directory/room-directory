@@ -42,10 +42,10 @@ const FacultyInfo = () => {
     if (a[sortingBy] === b[sortingBy] || (Array.isArray(a[sortingBy]) && Array.isArray(b[sortingBy]) && a[sortingBy][0] === b[sortingBy][0])) {
       return a.lastName.localeCompare(b.lastName);
     }
-    if (['Not Available', 'No Email Contact', 'No Phone Contact', 'Unknown'].includes(a[sortingBy]) || a[sortingBy][0] === 'Not Available') {
+    if (['Not Available', 'No Email Contact', 'No Phone Contact', 'Unknown'].includes(a[sortingBy]) || a[sortingBy][0] === 'Not Available' || a[sortingBy].length === 0) {
       return 1;
     }
-    if (['Not Available', 'No Email Contact', 'No Phone Contact', 'Unknown'].includes(b[sortingBy]) || b[sortingBy][0] === 'Not Available') {
+    if (['Not Available', 'No Email Contact', 'No Phone Contact', 'Unknown'].includes(b[sortingBy]) || b[sortingBy][0] === 'Not Available' || b[sortingBy].length === 0) {
       return -1;
     }
     if (['phone', 'officeLocation'].includes(sortingBy)) {
