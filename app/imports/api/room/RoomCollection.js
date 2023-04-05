@@ -26,7 +26,11 @@ class RoomCollection extends BaseCollection {
       },
       occupants: Array,
       'occupants.$': String,
-      squareFt: Number,
+      squareFt: {
+        type: Number,
+        min: 0,
+        defaultValue: 0,
+      },
       notes: String,
     }));
   }
