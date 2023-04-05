@@ -76,7 +76,7 @@ const NavBar = ({ highlight, changeHighlight, counter, incrementCounter, decreme
               { currentUser !== '' && user?.position === 'faculty' ?
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_STUDENT_REQUESTS} as={NavLink} to="/studentrequests" key="requests">View Student Requests</Nav.Link>
                 : ''}
-              { (currentUser !== '' && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) || (currentUser !== '' && user?.position === 'office') ? ([
+              { (currentUser !== '' && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) || ((currentUser !== '' && user?.position === 'office') || (currentUser !== '' && user?.position === 'tech')) ? ([
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_STUDENT_REQUESTS} as={NavLink} to="/studentrequests" key="requests" className={counter === 3 ? highlight : ''}>View Student Requests</Nav.Link>,
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_REQUESTS} as={NavLink} to="/facultyrequests" key="admin" className={counter === 4 ? highlight : ''}>View Faculty Requests</Nav.Link>,
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_ADMIN_MANAGE} as={NavLink} to="/manage" key="manage" className={counter === 5 ? highlight : ''}>Management</Nav.Link>,
