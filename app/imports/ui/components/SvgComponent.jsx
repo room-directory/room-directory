@@ -1061,8 +1061,8 @@ const SvgComponent = ({ rooms, hoverRoom, scale, facultyCollection }) => {
           />
         </g>
       </svg>
-      <span id="default"/>
-      <RoomInfoModalSvg room={rooms.find(room => room.roomNumber === getRoomNumber())} key={getRoomNumber()} display={display} setDisplay={hideDisplay}/>
+      <span id="default" />
+      <RoomInfoModalSvg style={{ display: 'flex', justifyContent: 'center' }} room={rooms.find(room => room.roomNumber === getRoomNumber())} key={getRoomNumber()} display={display} setDisplay={hideDisplay} />
     </>
   );
 };

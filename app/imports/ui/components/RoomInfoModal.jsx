@@ -44,7 +44,7 @@ const RoomInfoModal = ({ room, show, setShow }) => {
     //   <Button variant="light" className="border border-dark sharp me-3" onClick={handleShow}>
     //     Room #{resources.roomNumber} Info
     //   </Button>
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} backdrop="static" dialogClassName="modal-90w" centered>
       <Modal.Header closeButton>
         <Modal.Title>Room #{resources.roomNumber}</Modal.Title>
       </Modal.Header>
