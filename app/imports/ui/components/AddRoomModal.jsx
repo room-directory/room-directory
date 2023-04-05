@@ -28,14 +28,30 @@ const formSchema = new SimpleSchema({
   },
   occupants: Array,
   'occupants.$': String,
-  squareFt: Number,
+  squareFt: {
+    type: Number,
+    min: 0,
+    defaultValue: 0,
+  },
   isICS: {
     type: Boolean,
     defaultValue: false,
   },
-  capacity: Number,
-  chairs: Number,
-  desks: Number,
+  capacity: {
+    type: Number,
+    min: 0,
+    defaultValue: 0,
+  },
+  chairs: {
+    type: Number,
+    min: 0,
+    defaultValue: 0,
+  },
+  desks: {
+    type: Number,
+    min: 0,
+    defaultValue: 0,
+  },
   phoneNumber: String,
   tv: [Object],
   'tv.$.number': String,
@@ -107,18 +123,18 @@ const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
                   <SelectField name="type" allowedValues={typeList} placeholder="Room Type" />
                 </Col>
                 <Col>
-                  <NumField name="capacity" step={1} placeholder="Capacity" />
+                  <NumField name="capacity" step={1} min={0} placeholder="Capacity" />
                 </Col>
               </Row>
               <Row>
                 <Col>
-                  <NumField name="chairs" step={1} placeholder="Chairs" />
+                  <NumField name="chairs" step={1} min={0} placeholder="Chairs" />
                 </Col>
                 <Col>
-                  <NumField name="desks" step={1} placeholder="Desks" />
+                  <NumField name="desks" step={1} min={0} placeholder="Desks" />
                 </Col>
                 <Col>
-                  <NumField name="squareFt" step={1} icon="user" />
+                  <NumField name="squareFt" step={1} min={0} icon="user" />
                 </Col>
               </Row>
               <Row>
