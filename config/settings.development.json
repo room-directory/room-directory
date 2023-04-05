@@ -70,7 +70,7 @@
     {"roomNumber": "314H", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20, "notes": "None"},
     {"roomNumber": "314I", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20, "notes": "None"},
     {"roomNumber": "316", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20, "notes": "None"},
-    {"roomNumber": "317", "building": "POST", "type": "office", "isICS": true, "occupants": ["scottpr@awaii.edu"], "squareFt": 20, "notes": "None"},
+    {"roomNumber": "317", "building": "POST", "type": "office", "isICS": true, "occupants": ["scottpr@hawaii.edu"], "squareFt": 20, "notes": "None"},
     {"roomNumber": "318", "building": "POST", "type": "lecture", "isICS": true, "occupants": [], "squareFt": 20, "notes": "None"},
     {"roomNumber": "318A", "building": "POST", "type": "lecture", "isICS": true, "occupants": [], "squareFt": 20, "notes": "None"},
     {"roomNumber": "318B", "building": "POST", "type": "lecture", "isICS": true, "occupants": [], "squareFt": 20, "notes": "None"},
