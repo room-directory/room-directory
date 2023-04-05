@@ -61,16 +61,16 @@ const RoomList = () => {
           {/*    <Button className="btn btn-primary" onClick={() => changeScale()}>{scale === 1 ? 'Zoom in' : 'Zoom out'}</Button> */}
           {/*  </div> */}
           {/* </ButtonGroup> */}
-          <Button variant="light" onClick={handleZoomIn}>
+          <Button variant="primary" onClick={handleZoomIn}>
             <BsZoomIn />
           </Button>
-          <Button variant="light" onClick={handleZoomOut}>
+          <Button variant="primary" onClick={handleZoomOut}>
             <BsZoomOut />
           </Button>
         </Col>
       </Row>
-      <Row className="d-flex w-auto h-auto flex-nowrap">
-        <Col md={9} style={{ marginLeft: '-50px', alignItems: 'center', justifyContent: 'center' }}>
+      <Row className="d-flex w-auto h-auto flex-nowrap" style={{ justifyContent: 'center' }}>
+        <Col md={9} style={{ alignItems: 'center', justifyContent: 'center' }}>
           <div className="map-container h-100" style={{ width: '100%', height: '100%', overflow: 'hidden', alignItems: 'center', justifyContent: 'center' }}>
             <SvgComponent rooms={rooms} hoverRoom={hoverRoom} scale={scale} facultyCollection={faculty} style={{ transform: `scale(${scale})` }} />
           </div>
