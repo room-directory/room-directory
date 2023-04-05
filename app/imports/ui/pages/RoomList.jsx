@@ -77,14 +77,14 @@ const RoomList = () => {
         </Col>
         <Col md={4}>
           <div className=" room-list-table" style={{ alignContent: 'flex-start', height: '70vh' }}>
-            <Table responsive className="room-list-table" >
+            <Table responsive className="room-list-table">
               <thead style={{ position: 'sticky' }}>
                 <tr>
                   <th>Room Number</th>
                   <th>Room type</th>
                 </tr>
               </thead>
-              <tbody style={{ overflowY: 'scroll'}}>
+              <tbody style={{ overflowY: 'scroll' }}>
                 {rooms.map((room) => <RoomListTableRow room={room} hoverRoom={hoverRoom} setHoverRoom={setHoverRoom} key={room._id} />)}
               </tbody>
             </Table>
