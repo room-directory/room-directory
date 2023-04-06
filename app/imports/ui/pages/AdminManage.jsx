@@ -155,8 +155,8 @@ const AdminManage = () => {
                     <Button variant="success" onClick={() => setShowAddRoom(true)}>
                       + Add
                     </Button>
-                    <Button variant="success" onClick={() => setShowImportCSV(true)}>
-                      Import CSV
+                    <Button className="ms-2" variant="success" onClick={() => setShowImportCSV(true)}>
+                      CSV Options
                     </Button>
                   </div>
                 </Col>
