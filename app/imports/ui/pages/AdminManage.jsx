@@ -25,7 +25,6 @@ import { Club } from '../../api/club/ClubCollection';
 import ClubTable from '../components/ClubTable';
 import AddRoomModal from '../components/AddRoomModal';
 import AddClubModal from '../components/AddClubModal';
-import ImportCSV from '../components/ImportCSV';
 
 /* An interactive page with different components that reflects the reservations made. */
 const AdminManage = () => {
