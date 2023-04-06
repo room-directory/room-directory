@@ -40,9 +40,9 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
     };
   }, []);
   return (ready ? (
-    <Col className="col-2 pb-4">
+    <Col className="col-2 pb-4" style={{ display: 'flex', justifyContent: 'center' }}>
       {resources === undefined ? (
-        <Modal show={display} onHide={setDisplay}>
+        <Modal show={display} onHide={setDisplay} backdrop="static" dialogClassName="modal-90w" centered>
           <Modal.Header closeButton>
             <Modal.Title>No information for this room</Modal.Title>
           </Modal.Header>
@@ -56,7 +56,7 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
           </Modal.Footer>
         </Modal>
       ) : (
-        <Modal show={display} onHide={setDisplay}>
+        <Modal show={display} onHide={setDisplay} backdrop="static" dialogClassName="modal-90w" centered>
           <Modal.Header closeButton>
             <Modal.Title>Room #{resources.roomNumber}</Modal.Title>
           </Modal.Header>
@@ -94,7 +94,7 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
                 </Col>
               </Row>
             </div>
-            { currentUser !== '' && (user?.position === 'office' || Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) ? (
+            { currentUser !== '' && (user?.position === 'office' || user?.position === 'tech' || Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) ? (
               <Accordion>
                 <Accordion.Item eventKey="0">
                   <Accordion.Header><h5>Resources</h5></Accordion.Header>

@@ -9,7 +9,7 @@ import swal from 'sweetalert';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 
-const positionList = ['student', 'faculty', 'office'];
+const positionList = ['student', 'faculty', 'office', 'tech'];
 
 const formSchema = new SimpleSchema({
   firstName: String,

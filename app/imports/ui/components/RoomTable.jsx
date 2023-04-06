@@ -130,28 +130,27 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
                         <SelectField name="type" allowedValues={typeList} placeholder="Room Type" />
                       </Col>
                       <Col>
-                        <NumField name="capacity" step={1} placeholder="Capacity" />
+                        <NumField name="capacity" step={1} min={0} placeholder="Capacity" />
                       </Col>
                     </Row>
                     <Row>
                       <Col>
-                        <NumField name="chairs" step={1} placeholder="Chairs" />
+                        <NumField name="chairs" step={1} min={0} placeholder="Chairs" />
                       </Col>
                       <Col>
-                        <NumField name="desks" step={1} placeholder="Desks" />
+                        <NumField name="desks" step={1} min={0} placeholder="Desks" />
                       </Col>
                       <Col>
-                        <NumField name="squareFt" step={1} icon="user" />
+                        <NumField name="squareFt" step={1} min={0} icon="user" />
                       </Col>
                     </Row>
                     <Row>
                       <Col>
                         <ListField name="occupants" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
                       </Col>
-
                     </Row>
                   </Col>
-                  <Col className="col-3">
+                  <Col className="col-3" style={{ paddingRight: '1.5em' }}>
                     <Row>
                       <ListField name="tv" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />}>
                         <ListItemField name="$">
