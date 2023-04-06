@@ -8,7 +8,7 @@ import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 
-const positionList = ['student', 'faculty', 'office'];
+const positionList = ['student', 'faculty', 'office', 'tech'];
 
 const formSchema = new SimpleSchema({
   firstName: String,
