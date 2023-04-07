@@ -29,18 +29,14 @@ const RoomList = () => {
       ready: rdy,
     };
   }, []);
-  let roomList = rooms;
+  //let roomList = rooms;
   const [hoverRoom, setHoverRoom] = useState('default');
   const [scale, setScale] = useState(1);
   const [sortingBy, setSortingBy] = useState('roomNumber');
   const [category, setCategory] = useState('Room Number');
-  roomList.sort(function (a, b) {
+  rooms.sort(function (a, b) {
     return a[sortingBy].localeCompare(b[sortingBy]);
   });
-  // const changeScale = () => {
-  //   setScale(scale + 1);
-  //   setScale((scale % 2) + 1);
-  // };
   const handleZoomIn = () => {
     setScale(scale + 0.1);
   };
@@ -92,7 +88,7 @@ const RoomList = () => {
                 </tr>
               </thead>
               <tbody style={{ overflowY: 'scroll' }}>
-                {roomList.map((room) => <RoomListTableRow room={room} hoverRoom={hoverRoom} setHoverRoom={setHoverRoom} key={room._id} />)}
+                {rooms.map((room) => <RoomListTableRow room={room} hoverRoom={hoverRoom} setHoverRoom={setHoverRoom} key={room._id} />)}
               </tbody>
             </Table>
           </div>
