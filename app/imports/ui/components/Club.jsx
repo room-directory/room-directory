@@ -15,7 +15,7 @@ const Club = ({ club }) => {
     // <div className="flip-card">
     //   <div className={isFlipped ? 'flip-card-inner flipped' : 'flip-card-inner'} onClick={handleClick}>
     <Card className="listing d-flex justify-content-centert">
-      <Card.Body style={{ alignContent: 'center' }}>
+      <Card.Body style={{ textAlign: 'center' }}>
         <div>
           <a href={club.website} target="_blank" rel="noopener noreferrer" style={{ alignContent: 'center' }}><img alt="Club logo" src={club.image} width="180" height="180" /></a>
         </div>
@@ -27,7 +27,7 @@ const Club = ({ club }) => {
             </Button>
           </p>
         </div>
-        <Button variant="primary">More Info</Button>
+        <Button variant="primary" href={club.website} target="_blank">More Info</Button>
       </Card.Body>
     </Card>
   // <Card onClick={handleClick} className="listing d-flex justify-content-center flip-card-back">
