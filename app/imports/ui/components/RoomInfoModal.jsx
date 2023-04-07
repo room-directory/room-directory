@@ -44,7 +44,7 @@ const RoomInfoModal = ({ room, show, setShow }) => {
     //   <Button variant="light" className="border border-dark sharp me-3" onClick={handleShow}>
     //     Room #{resources.roomNumber} Info
     //   </Button>
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} backdrop="static" dialogClassName="modal-90w" centered>
       <Modal.Header closeButton>
         <Modal.Title>Room #{resources.roomNumber}</Modal.Title>
       </Modal.Header>
@@ -82,7 +82,7 @@ const RoomInfoModal = ({ room, show, setShow }) => {
             </Col>
           </Row>
         </div>
-        { currentUser !== '' && (user?.position === 'office' || Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) ? (
+        { currentUser !== '' && (user?.position === 'office' || user?.position === 'tech' || Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) ? (
           <Accordion>
             <Accordion.Item eventKey="0">
               <Accordion.Header><h5>Resources</h5></Accordion.Header>

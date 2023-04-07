@@ -10,27 +10,36 @@ export const roomResourcePublications = {
   resource: 'Resource',
   resourceAdmin: 'ResourceAdmin',
 };
-export const locationType = ['mauka', 'makai', 'windward', 'leeward'];
 
 class RoomResourceCollection extends BaseCollection {
   constructor() {
     super('RoomResources', new SimpleSchema({
       roomNumber: String,
-      capacity: Number,
-      chairs: Number,
-      desks: Number,
+      capacity: {
+        type: Number,
+        min: 0,
+        defaultValue: 0,
+      },
+      chairs: {
+        type: Number,
+        min: 0,
+        defaultValue: 0,
+      },
+      desks: {
+        type: Number,
+        min: 0,
+        defaultValue: 0,
+      },
       phoneNumber: String,
       tv: [Object],
       'tv.$.number': String,
       'tv.$.location': {
         type: String,
-        allowedValues: locationType,
       },
       dataJacks: [Object],
       'dataJacks.$.number': String,
       'dataJacks.$.location': {
         type: String,
-        allowedValues: locationType,
       },
     }));
   }
