@@ -62,11 +62,6 @@ const RoomList = () => {
           </ButtonGroup>
         </Col>
         <Col className="flex-column-reverse">
-          {/* <ButtonGroup aria-label="Zoom group"> */}
-          {/*  <div className="mt-2"> */}
-          {/*    <Button className="btn btn-primary" onClick={() => changeScale()}>{scale === 1 ? 'Zoom in' : 'Zoom out'}</Button> */}
-          {/*  </div> */}
-          {/* </ButtonGroup> */}
           <Button variant="primary" onClick={handleZoomIn}>
             <BsZoomIn />
           </Button>
@@ -74,7 +69,6 @@ const RoomList = () => {
             <BsZoomOut />
           </Button>
         </Col>
-        <Col />
         <Col>
           <DropdownButton variant="primary" title={`Sort by: ${category}`} className="sharp me-3">
             <Dropdown.Item href="#/action-1" onClick={() => { setSortingBy('roomNumber'); setCategory('Room Number'); }}>Room Number</Dropdown.Item>
@@ -103,7 +97,6 @@ const RoomList = () => {
             </Table>
           </div>
         </Col>
->>>>>>> main
       </Row>
     </Container>
   )
