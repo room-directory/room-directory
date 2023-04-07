@@ -29,7 +29,6 @@ const RoomList = () => {
       ready: rdy,
     };
   }, []);
-  //let roomList = rooms;
   const [hoverRoom, setHoverRoom] = useState('default');
   const [scale, setScale] = useState(1);
   const [sortingBy, setSortingBy] = useState('roomNumber');
@@ -57,7 +56,7 @@ const RoomList = () => {
             </DropdownButton>
           </ButtonGroup>
         </Col>
-        <Col className="flex-column-reverse">
+        <Col style={{ textAlign: 'center' }}>
           <Button variant="primary" onClick={handleZoomIn}>
             <BsZoomIn />
           </Button>
@@ -65,7 +64,7 @@ const RoomList = () => {
             <BsZoomOut />
           </Button>
         </Col>
-        <Col>
+        <Col style={{ textAlign: 'center' }}>
           <DropdownButton variant="primary" title={`Sort by: ${category}`} className="sharp me-3">
             <Dropdown.Item href="#/action-1" onClick={() => { setSortingBy('roomNumber'); setCategory('Room Number'); }}>Room Number</Dropdown.Item>
             <Dropdown.Item href="#/action-1" onClick={() => { setSortingBy('type'); setCategory('Room Type'); }}>Room Type</Dropdown.Item>
