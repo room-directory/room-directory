@@ -15,12 +15,32 @@ class RoomResourceCollection extends BaseCollection {
   constructor() {
     super('RoomResources', new SimpleSchema({
       roomNumber: String,
-      capacity: Number,
-      chairs: Number,
-      desks: Number,
-      tv: Number,
+      capacity: {
+        type: Number,
+        min: 0,
+        defaultValue: 0,
+      },
+      chairs: {
+        type: Number,
+        min: 0,
+        defaultValue: 0,
+      },
+      desks: {
+        type: Number,
+        min: 0,
+        defaultValue: 0,
+      },
       phoneNumber: String,
-      dataJacks: Number,
+      tv: [Object],
+      'tv.$.number': String,
+      'tv.$.location': {
+        type: String,
+      },
+      dataJacks: [Object],
+      'dataJacks.$.number': String,
+      'dataJacks.$.location': {
+        type: String,
+      },
     }));
   }
 
@@ -66,13 +86,13 @@ class RoomResourceCollection extends BaseCollection {
     if (_.isNumber(desks)) {
       updateData.desks = desks;
     }
-    if (_.isNumber(tv)) {
+    if (tv) {
       updateData.tv = tv;
     }
-    if (_.isNumber(phoneNumber)) {
+    if (phoneNumber) {
       updateData.phoneNumber = phoneNumber;
     }
-    if (_.isNumber(dataJacks)) {
+    if (dataJacks) {
       updateData.dataJacks = dataJacks;
     }
     this._collection.update(docID, { $set: updateData });

@@ -8,6 +8,7 @@ import { StudentRequests } from '../request/StudentRequestCollection';
 import { Reservations } from '../reservation/ReservationCollection';
 import { Room } from '../room/RoomCollection';
 import { RoomResources } from '../room/RoomResourceCollection';
+import { Club } from '../club/ClubCollection';
 
 class MATPClass {
   collections;
@@ -27,6 +28,8 @@ class MATPClass {
       Reservations,
       Room,
       RoomResources,
+      Club,
+      Stuffs,
     ];
     /*
      * A list of collection class instances in the order required for them to be sequentially loaded from a file.
@@ -40,6 +43,8 @@ class MATPClass {
       Reservations,
       Room,
       RoomResources,
+      Club,
+      Stuffs,
     ];
 
     /*

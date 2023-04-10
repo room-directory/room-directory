@@ -1,5 +1,5 @@
 // import { Selector, t } from 'testcafe';
-import { /* manageDatabasePage, */ signOutPage, studentRequestPage, facultyRequestPage, roomListPage, facultyInformationPage, profilePage, adminManagePage } from './simple.page';
+import { /* manageDatabasePage, */ signOutPage, studentRequestPage, facultyRequestPage, roomListPage, facultyInformationPage, clubInformationPage, profilePage, adminManagePage } from './simple.page';
 import { landingPage } from './landing.page';
 import { signInPage } from './signin.page';
 import { signUpPage } from './signup.page';
@@ -12,6 +12,7 @@ import { navBar } from './navbar.component';
 const credentials = { username: 'john@foo.com', password: 'changeme' };
 const studentCredentials = { username: 'student@foo.com', password: 'changeme' };
 const officeCredentials = { username: 'office@foo.com', password: 'changeme' };
+const techCredentials = { username: 'tech@foo.com', password: 'changeme' };
 const facultyCredentials = { username: 'faculty@foo.com', password: 'changeme' };
 const adminCredentials = { username: 'admin@foo.com', password: 'changeme' };
 const newCredentials = { username: 'jane@foo.com', password: 'changeme' };
@@ -47,6 +48,8 @@ test('Test that non-signed in user pages show up', async () => {
   await landingPage.isDisplayedLoggedin();
   await navBar.gotoFacultyInformationPage();
   await facultyInformationPage.isDisplayed();
+  await navBar.gotoClubInformationPage();
+  await clubInformationPage.isDisplayed();
 });
 
 test('Test that student pages show up', async () => {
@@ -57,6 +60,8 @@ test('Test that student pages show up', async () => {
   await landingPage.isDisplayedLoggedin();
   await navBar.gotoFacultyInformationPage();
   await facultyInformationPage.isDisplayed();
+  await navBar.gotoClubInformationPage();
+  await clubInformationPage.isDisplayed();
   // Profile
   await navBar.gotoProfilePage();
   await profilePage.isDisplayed();
@@ -75,6 +80,8 @@ test('Test that faculty user pages show up', async () => {
   await landingPage.isDisplayedLoggedin();
   await navBar.gotoFacultyInformationPage();
   await facultyInformationPage.isDisplayed();
+  await navBar.gotoClubInformationPage();
+  await clubInformationPage.isDisplayed();
   // Profile
   await navBar.gotoProfilePage();
   await profilePage.isDisplayed();
@@ -96,6 +103,8 @@ test('Test that Office user pages show up', async () => {
   await landingPage.isDisplayedLoggedin();
   await navBar.gotoFacultyInformationPage();
   await facultyInformationPage.isDisplayed();
+  await navBar.gotoClubInformationPage();
+  await clubInformationPage.isDisplayed();
   // Profile
   await navBar.gotoProfilePage();
   await profilePage.isDisplayed();
@@ -117,6 +126,8 @@ test('Test that admin pages show up', async () => {
   await landingPage.isDisplayedLoggedin();
   await navBar.gotoFacultyInformationPage();
   await facultyInformationPage.isDisplayed();
+  await navBar.gotoClubInformationPage();
+  await clubInformationPage.isDisplayed();
   // Room List
   await navBar.gotoRoomListPage();
   await roomListPage.isDisplayed();
@@ -129,4 +140,27 @@ test('Test that admin pages show up', async () => {
   // admin manage
   await navBar.gotoAdminManagePage();
   await adminManagePage.isDisplayed();
+});
+
+test('Test that Tech user pages show up', async () => {
+  await navBar.gotoSignInPage();
+  await signInPage.signin(techCredentials.username, techCredentials.password);
+  await navBar.isLoggedIn(techCredentials.username);
+  // default pages
+  await landingPage.isDisplayedLoggedin();
+  await navBar.gotoFacultyInformationPage();
+  await facultyInformationPage.isDisplayed();
+  await navBar.gotoClubInformationPage();
+  await clubInformationPage.isDisplayed();
+  // Profile
+  await navBar.gotoProfilePage();
+  await profilePage.isDisplayed();
+  // Room List
+  await navBar.gotoRoomListPage();
+  await roomListPage.isDisplayed();
+  // student requests
+  await navBar.gotoFacultyRequestsPage();
+  await facultyRequestPage.isDisplayed();
+  await navBar.logout();
+  await signOutPage.isDisplayed();
 });
