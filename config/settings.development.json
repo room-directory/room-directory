@@ -20,7 +20,25 @@
     { "image": "/images/cam-moore.jpg", "email": "cmoore@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Carleton", "lastName": "Moore", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
     { "image": "/images/ravi-narayan.jpg", "email": "rnarayan@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Ravi", "lastName": "Narayan", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
     { "image": "/images/michael-ogawa.jpg", "email": "ogawam@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Michael", "lastName": "Ogawa", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
-    { "image": "/images/dusko-pavlovic.jpg", "email": "dusko@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Dusko", "lastName": "Pavlovic", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" }
+    { "image": "/images/dusko-pavlovic.jpg", "email": "dusko@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Dusko", "lastName": "Pavlovic", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
+    { "image": "/images/anthony-peruma.jpg", "email": "peruma@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Anthony", "lastName": "Peruma", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
+    { "image": "/images/guylaine-poisson.jpg", "email": "guylaine@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Guylaine", "lastName": "Poisson", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
+    { "image": "/images/scott-robertson.jpg", "email": "scottpr@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Scott", "lastName": "Robertson", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
+    { "image": "/images/peter-sadowski.jpg", "email": "psadow@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Peter", "lastName": "Sadowski", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
+    { "image": "/images/peter-seidel.jpg", "email": "pseidel@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Peter", "lastName": "Seidel", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
+    { "image": "/images/nodari-sitchinava.jpg", "email": "nodari@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Nodari", "lastName": "Sitchinava", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
+    { "image": "/images/dan-suthers.jpg", "email": "suthers@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Dan", "lastName": "Suthers", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
+    { "image": "/images/peter-washington.png", "email": "pyw@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Peter", "lastName": "Washington", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
+    { "image": "/images/david-chin.jpg", "email": "chin@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "David", "lastName": "Chin", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
+    { "image": "/images/stephen-itoga.jpg", "email": "itoga@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Stephen", "lastName": "Itoga", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
+    { "image": "/images/ICSLogo.jpg", "email": "brent@csufresno.edu", "password":  "changeme", "role": "USER", "firstName": "Brent", "lastName": "Aurenheimer", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
+    { "image": "/images/rick-kazman.jpg", "email": "kazman@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Rick", "lastName": "Kazman", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
+    { "image": "/images/alice-koniges.jpg", "email": "koniges@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Alice", "lastName": "Koniges", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
+    { "image": "/images/dennis-streveler.jpg", "email": "strev@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Dennis", "lastName": "Streveler", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
+    { "image": "/images/kenny-quibilan.png", "email": "kennydq@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Kenny", "lastName": "Quibilan", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
+    { "image": "/images/ICSLogo.jpg", "email": "toddtt@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Todd", "lastName": "Tomita", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
+    { "image": "/images/ICSLogo.jpg", "email": "shackfor@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Charles", "lastName": "Shackford", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" },
+    { "image": "/images/wesley-sugimoto.jpg", "email": "wesleysu@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Wesley", "lastName": "Sugimoto", "position": "faculty", "joined": "2023-4-10 04:34:39.601Z" }
   ],
 
   "defaultFacultyData": [
