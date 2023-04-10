@@ -53,7 +53,7 @@ const FacultyTable = ({ faculty, eventKey }) => {
         <Row>
           <Col>{`${faculty.firstName}`} {`${faculty.lastName}`}</Col>
           <Col>{faculty.email}</Col>
-          <Col>{faculty.role}</Col>
+          <Col>{faculty.role.map((role) => <div>{role}</div>)}</Col>
           <Col>{faculty.officeLocation.map((office) => <div>{office}</div>)}</Col>
           <Col xs={2}>
             <Row>
@@ -81,7 +81,7 @@ const FacultyTable = ({ faculty, eventKey }) => {
                 </Row>
                 <Row>
                   <Col>
-                    <TextField name="role" placeholder="Faculty title" label="Faculty title" />
+                    <TextField name="role" placeholder="Faculty title" label="Faculty title" help="Please separate titles using commas." />
                   </Col>
                   <Col>
                     <TextField name="email" placeholder="Email" />
