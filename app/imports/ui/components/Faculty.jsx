@@ -22,7 +22,7 @@ Faculty.propTypes = {
     firstName: PropTypes.string,
     lastName: PropTypes.string,
     image: PropTypes.string,
-    role: PropTypes.string,
+    role: PropTypes.arrayOf(PropTypes.string),
     officeLocation: PropTypes.arrayOf(PropTypes.string),
     officeHours: PropTypes.string,
     phone: PropTypes.arrayOf(PropTypes.string),
