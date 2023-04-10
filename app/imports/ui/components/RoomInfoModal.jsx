@@ -82,7 +82,7 @@ const RoomInfoModal = ({ room, show, setShow }) => {
             </Col>
           </Row>
         </div>
-        { currentUser !== '' && (user?.position === 'office' || Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) ? (
+        { currentUser !== '' && (user?.position === 'office' || user?.position === 'tech' || Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) ? (
           <Accordion>
             <Accordion.Item eventKey="0">
               <Accordion.Header><h5>Resources</h5></Accordion.Header>

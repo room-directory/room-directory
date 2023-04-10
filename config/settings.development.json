@@ -4,6 +4,7 @@
     { "image": "https://archive.org/services/img/twitter-default-pfp", "email": "john@foo.com", "password": "changeme", "role": "USER" , "firstName": "John", "lastName": "Doe", "position": "faculty", "joined": "2023-2-13 04:34:39.601Z" },
     { "image": "https://archive.org/services/img/twitter-default-pfp", "email": "student@foo.com", "password": "changeme", "role": "USER" , "firstName": "Student", "lastName": "Student", "position": "student","joined": "2023-2-13 04:34:39.601Z" },
     { "image": "https://archive.org/services/img/twitter-default-pfp", "email": "office@foo.com", "password": "changeme", "role": "USER" , "firstName": "Office", "lastName": "Office", "position": "office", "joined": "2023-2-13 04:34:39.601Z" },
+    { "image": "https://archive.org/services/img/twitter-default-pfp", "email": "tech@foo.com", "password": "changeme", "role": "USER" , "firstName": "Tech", "lastName": "Tech", "position": "tech", "joined": "2023-4-5 04:34:39.601Z" },
     { "image": "https://archive.org/services/img/twitter-default-pfp", "email": "faculty@foo.com", "password": "changeme", "role": "USER" , "firstName": "Faculty", "lastName": "Faculty", "position": "faculty", "joined": "2023-2-13 04:34:39.601Z" },
     { "image": "/images/cam-moore.jpg", "email": "cmoore@hawaii.edu", "password":  "changeme", "role": "USER", "firstName": "Carleton", "lastName": "Moore", "position": "faculty", "joined": "2023-4-3 04:34:39.601Z" }
   ],

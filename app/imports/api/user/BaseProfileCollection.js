@@ -19,7 +19,7 @@ class BaseProfileCollection extends BaseCollection {
       role: String,
       position: {
         type: String,
-        allowedValues: ['student', 'faculty', 'office'],
+        allowedValues: ['student', 'faculty', 'office', 'tech'],
         defaultValue: 'student',
         optional: true,
       },

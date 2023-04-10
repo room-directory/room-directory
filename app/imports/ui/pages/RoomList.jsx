@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Row, Dropdown, DropdownButton, ButtonGroup, Table, Button, Col } from 'react-bootstrap';
+import { Container, Row, Col, Dropdown, DropdownButton, ButtonGroup, Table, Button } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { BsZoomIn, BsZoomOut } from 'react-icons/bs';
 import { Room } from '../../api/room/RoomCollection';
@@ -31,10 +31,11 @@ const RoomList = () => {
   }, []);
   const [hoverRoom, setHoverRoom] = useState('default');
   const [scale, setScale] = useState(1);
-  // const changeScale = () => {
-  //   setScale(scale + 1);
-  //   setScale((scale % 2) + 1);
-  // };
+  const [sortingBy, setSortingBy] = useState('roomNumber');
+  const [category, setCategory] = useState('Room Number');
+  rooms.sort(function (a, b) {
+    return a[sortingBy].localeCompare(b[sortingBy]);
+  });
   const handleZoomIn = () => {
     setScale(scale + 0.1);
   };
@@ -55,18 +56,19 @@ const RoomList = () => {
             </DropdownButton>
           </ButtonGroup>
         </Col>
-        <Col className="flex-column-reverse">
-          {/* <ButtonGroup aria-label="Zoom group"> */}
-          {/*  <div className="mt-2"> */}
-          {/*    <Button className="btn btn-primary" onClick={() => changeScale()}>{scale === 1 ? 'Zoom in' : 'Zoom out'}</Button> */}
-          {/*  </div> */}
-          {/* </ButtonGroup> */}
+        <Col style={{ textAlign: 'center' }}>
           <Button variant="primary" onClick={handleZoomIn}>
             <BsZoomIn />
           </Button>
           <Button variant="primary" onClick={handleZoomOut}>
             <BsZoomOut />
           </Button>
+        </Col>
+        <Col style={{ textAlign: 'center' }}>
+          <DropdownButton variant="primary" title={`Sort by: ${category}`} className="sharp me-3">
+            <Dropdown.Item href="#/action-1" onClick={() => { setSortingBy('roomNumber'); setCategory('Room Number'); }}>Room Number</Dropdown.Item>
+            <Dropdown.Item href="#/action-1" onClick={() => { setSortingBy('type'); setCategory('Room Type'); }}>Room Type</Dropdown.Item>
+          </DropdownButton>
         </Col>
       </Row>
       <Row className="d-flex w-auto h-auto flex-nowrap" style={{ justifyContent: 'center' }}>
