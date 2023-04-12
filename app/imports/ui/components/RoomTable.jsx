@@ -210,7 +210,7 @@ RoomTable.propTypes = {
   faculty: PropTypes.arrayOf(PropTypes.shape({
     firstName: PropTypes.string,
     lastName: PropTypes.string,
-    role: PropTypes.string,
+    role: PropTypes.arrayOf(PropTypes.string),
     email: PropTypes.string,
   })).isRequired,
   eventKey: PropTypes.string.isRequired,
