@@ -311,7 +311,7 @@ const AdminManage = () => {
           <Col xs={2} />
         </Row>
         <div>
-          { clubsList.map((club, index) => <ClubTable key={club._id} eventKey={`${index}`} club={club} />) }
+          { clubsList.map((club, index) => <ClubTable key={club._id} eventKey={`${index}`} club={club} faculty={facultyInfo} />) }
         </div>
         <Col className="d-flex justify-content-end">
           <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
@@ -442,7 +442,7 @@ const AdminManage = () => {
       <AddUserModal setShowAddUser={setShowAddUser} showAddUser={showAddUser} />
       <AddFacultyModal setShowAddFaculty={setShowAddFaculty} showAddFaculty={showAddFaculty} />
       <AddRoomModal setShowAddRoom={setShowAddRoom} showAddRoom={showAddRoom} />
-      <AddClubModal setShowAddClub={setShowAddClub} showAddClub={showAddClub} />
+      <AddClubModal setShowAddClub={setShowAddClub} showAddClub={showAddClub} faculty={facultyList} />
       <ImportCSV setShowImportCSV={setShowImportCSV} showImportCSV={showImportCSV} />
     </Container>
   ) : <LoadingSpinner />);
