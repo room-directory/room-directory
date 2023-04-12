@@ -25,6 +25,7 @@ import { Club } from '../../api/club/ClubCollection';
 import ClubTable from '../components/ClubTable';
 import AddRoomModal from '../components/AddRoomModal';
 import AddClubModal from '../components/AddClubModal';
+import ImportCSV from '../components/ImportCSV';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
 /* An interactive page with different components that reflects the reservations made. */
@@ -39,6 +40,7 @@ const AdminManage = () => {
   const [showAddUser, setShowAddUser] = useState(false);
   const [showAddFaculty, setShowAddFaculty] = useState(false);
   const [showAddClub, setShowAddClub] = useState(false);
+  const [showImportCSV, setShowImportCSV] = useState(false);
 
   const { rooms, profiles, facultyInfo, resources, clubs, ready, currUser, user } = useTracker(() => {
     const curUser = Meteor.user() ? Meteor.user().username : '';
@@ -114,6 +116,7 @@ const AdminManage = () => {
     }
     return a[sortingProfilesBy].localeCompare(b[sortingProfilesBy]);
   });
+
   facultyList.sort(function (a, b) {
     if (a[sortingFacultyBy] === b[sortingFacultyBy] || (Array.isArray(a[sortingFacultyBy]) && Array.isArray(b[sortingFacultyBy]) && a[sortingFacultyBy][0] === b[sortingFacultyBy][0])) {
       return a.lastName.localeCompare(b.lastName);
@@ -129,6 +132,7 @@ const AdminManage = () => {
     }
     return a[sortingFacultyBy].localeCompare(b[sortingFacultyBy]);
   });
+
   roomsList.sort(function (a, b) {
     if (a[sortingRoomsBy] === b[sortingRoomsBy] || (Array.isArray(a[sortingRoomsBy]) && Array.isArray(b[sortingRoomsBy]) && a[sortingRoomsBy][0] === b[sortingRoomsBy][0])) {
       return a.roomNumber.localeCompare(b.roomNumber);
@@ -144,92 +148,52 @@ const AdminManage = () => {
     }
     return a[sortingRoomsBy].localeCompare(b[sortingRoomsBy]);
   });
+
   clubsList.sort((a, b) => a[sortingClubsBy].localeCompare(b[sortingClubsBy]));
-  return (ready ? (
-    <Container id={PAGE_IDS.ADMIN_MANAGE} className="py-3 elevated-container">
-      <Row className="d-flex">
-        <Col style={{ width: '100%' }}>
-          <Button variant="primary" onClick={handleShow} style={{ marginBottom: 10 }}>Make Reservation</Button>
-          <Tabs
-            defaultActiveKey="profiles"
-            id="uncontrolled-tab-example"
-            className="mb-3"
-          >
-            { (currUser !== '' && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) || (currUser !== '' && user?.position === 'office') ? (
-              <Tab eventKey="profiles" title="Profiles" onSelect={() => setCurrentTab('Profiles')}>
-                <Row>
-                  <Col style={{ display: 'flex' }}>
-                    <DropdownButton id={COMPONENT_IDS.ADMIN_MANAGE_PROFILE_SORT} title={`Sort by: ${profileCategory}`}>
-                      <Dropdown.Item onClick={() => { setSortingProfilesBy('firstName'); setProfileCategory('First Name'); }}>First Name</Dropdown.Item>
-                      <Dropdown.Item onClick={() => { setSortingProfilesBy('lastName'); setProfileCategory('Last Name'); }}>Last Name</Dropdown.Item>
-                      <Dropdown.Item onClick={() => { setSortingProfilesBy('email'); setProfileCategory('Email'); }}>Email</Dropdown.Item>
-                      <Dropdown.Item onClick={() => { setSortingProfilesBy('position'); setProfileCategory('Position'); }}>Position</Dropdown.Item>
-                    </DropdownButton>
-                  </Col>
-                  <Col xs={4} style={{ justifyContent: 'end' }}>
-                    <InputGroup id={COMPONENT_IDS.ADMIN_MANAGE_PROFILE_SEARCH} className="mb-3">
-                      <Form.Control aria-label="Name" placeholder="Search for profile" onChange={(e) => { setSearchProfiles(e.target.value); setFilteredProfiles(true); }} value={searchProfiles} />
-                      <Button onClick={() => { setFilteredProfiles(false); setSearchProfiles(''); }}>Clear</Button>
-                    </InputGroup>
-                  </Col>
-                </Row>
-                <Row className="px-m3 py-2" style={{ padding: 15 }}>
-                  <Col><u>NAME</u></Col>
-                  <Col><u>EMAIL</u></Col>
-                  <Col><u>POSITION</u></Col>
-                  <Col xs={2} />
-                </Row>
-                <div className="verticalScroll">
-                  { profilesList.map((account, index) => <ProfileTable key={account._id} eventKey={`${index}`} account={account} />) }
-                </div>
-                <Col className="d-flex justify-content-end">
-                  <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
-                    <Button variant="success" onClick={() => setShowAddUser(true)}>
-                      + Add
-                    </Button>
-                  </div>
-                </Col>
-              </Tab>
-            ) : ''}
-            { currUser !== '' && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? ([
-              <Tab eventKey="faculty" title="Faculty" onSelect={() => setCurrentTab('Faculty')}>
-                <Row>
-                  <Col style={{ display: 'flex' }}>
-                    <DropdownButton id={COMPONENT_IDS.ADMIN_MANAGE_FACULTY_SORT} title={`Sort by: ${facultyCategory}`}>
-                      <Dropdown.Item onClick={() => { setSortingFacultyBy('firstName'); setFacultyCategory('First Name'); }}>First Name</Dropdown.Item>
-                      <Dropdown.Item onClick={() => { setSortingFacultyBy('lastName'); setFacultyCategory('Last Name'); }}>Last Name</Dropdown.Item>
-                      <Dropdown.Item onClick={() => { setSortingFacultyBy('role'); setFacultyCategory('Title'); }}>Title</Dropdown.Item>
-                      <Dropdown.Item onClick={() => { setSortingFacultyBy('officeLocation'); setFacultyCategory('Office'); }}>Office</Dropdown.Item>
-                    </DropdownButton>
-                  </Col>
-                  <Col xs={4} style={{ justifyContent: 'end' }}>
-                    <InputGroup id={COMPONENT_IDS.ADMIN_MANAGE_FACULTY_SEARCH} className="mb-3">
-                      <Form.Control aria-label="Name" placeholder="Search for faculty" onChange={(e) => { setSearchFaculty(e.target.value); setFilteredFaculty(true); }} value={searchFaculty} />
-                      <Button onClick={() => { setFilteredFaculty(false); setSearchFaculty(''); }}>Clear</Button>
-                    </InputGroup>
-                  </Col>
-                </Row>
-                <Row className="px-m3 py-2" style={{ padding: 15 }}>
-                  <Col><u>NAME</u></Col>
-                  <Col><u>EMAIL</u></Col>
-                  <Col><u>TITLE</u></Col>
-                  <Col><u>OFFICE</u></Col>
-                  <Col xs={2} />
-                </Row>
-                <div className="verticalScroll">
-                  { facultyList.map((faculty, index) => <FacultyTable key={faculty._id} eventKey={`${index}`} faculty={faculty} />) }
-                </div>
-                <Col className="d-flex justify-content-end">
-                  <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
-                    <Button variant="success" onClick={() => setShowAddFaculty(true)}>
-                      + Add
-                    </Button>
-                  </div>
-                </Col>
-              </Tab>,
-              // ) : ''}
-              <Tab eventKey="rooms" title="Rooms" onSelect={() => setCurrentTab('Rooms')}>
-                {/* <DropdownButton title="Select Room...">
+
+  function showProfileTab() {
+    return (
+      <Tab eventKey="profiles" title="Profiles" onSelect={() => setCurrentTab('Profiles')}>
+        <Row>
+          <Col style={{ display: 'flex' }}>
+            <DropdownButton id={COMPONENT_IDS.ADMIN_MANAGE_PROFILE_SORT} title={`Sort by: ${profileCategory}`}>
+              <Dropdown.Item onClick={() => { setSortingProfilesBy('firstName'); setProfileCategory('First Name'); }}>First Name</Dropdown.Item>
+              <Dropdown.Item onClick={() => { setSortingProfilesBy('lastName'); setProfileCategory('Last Name'); }}>Last Name</Dropdown.Item>
+              <Dropdown.Item onClick={() => { setSortingProfilesBy('email'); setProfileCategory('Email'); }}>Email</Dropdown.Item>
+              <Dropdown.Item onClick={() => { setSortingProfilesBy('position'); setProfileCategory('Position'); }}>Position</Dropdown.Item>
+            </DropdownButton>
+          </Col>
+          <Col xs={4} style={{ justifyContent: 'end' }}>
+            <InputGroup id={COMPONENT_IDS.ADMIN_MANAGE_PROFILE_SEARCH} className="mb-3">
+              <Form.Control aria-label="Name" placeholder="Search for profile" onChange={(e) => { setSearchProfiles(e.target.value); setFilteredProfiles(true); }} value={searchProfiles} />
+              <Button onClick={() => { setFilteredProfiles(false); setSearchProfiles(''); }}>Clear</Button>
+            </InputGroup>
+          </Col>
+        </Row>
+        <Row className="px-m3 py-2" style={{ padding: 15 }}>
+          <Col><u>NAME</u></Col>
+          <Col><u>EMAIL</u></Col>
+          <Col><u>POSITION</u></Col>
+          <Col xs={2} />
+        </Row>
+        <div className="verticalScroll">
+          { profilesList.map((account, index) => <ProfileTable key={account._id} eventKey={`${index}`} account={account} />) }
+        </div>
+        <Col className="d-flex justify-content-end">
+          <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
+            <Button variant="success" onClick={() => setShowAddUser(true)}>
+              + Add
+            </Button>
+          </div>
+        </Col>
+      </Tab>
+    );
+  }
+
+  function showRoomTab() {
+    return (
+      <Tab eventKey="rooms" title="Rooms" onSelect={() => setCurrentTab('Rooms')}>
+        {/* <DropdownButton title="Select Room...">
                 <Dropdown.Header>Lecture</Dropdown.Header>
                 {(RoomType(rooms).lecture).map((room) => <RoomDropdown key={room.type} room={room} />)}
                 <Dropdown.Divider />
@@ -242,75 +206,159 @@ const AdminManage = () => {
                 <Dropdown.Header>Study Room</Dropdown.Header>
                 {(RoomType(rooms).study).map((room) => <RoomDropdown key={room.type} room={room} />)}
               </DropdownButton> */}
-                <Row>
-                  <Col style={{ display: 'flex' }}>
-                    <DropdownButton id={COMPONENT_IDS.ADMIN_MANAGE_ROOM_SORT} title={`Sort by: ${roomCategory}`}>
-                      <Dropdown.Item onClick={() => { setSortingRoomsBy('building'); setRoomCategory('Building'); }}>Building</Dropdown.Item>
-                      <Dropdown.Item onClick={() => { setSortingRoomsBy('roomNumber'); setRoomCategory('Room Number'); }}>Room Number</Dropdown.Item>
-                      <Dropdown.Item onClick={() => { setSortingRoomsBy('type'); setRoomCategory('Type'); }}>Type</Dropdown.Item>
-                      <Dropdown.Item onClick={() => { setSortingRoomsBy('occupants'); setRoomCategory('Faculty'); }}>Faculty</Dropdown.Item>
-                      <Dropdown.Item onClick={() => { setSortingRoomsBy('isICS'); setRoomCategory('Is ICS?'); }}>Is ICS</Dropdown.Item>
-                      <Dropdown.Item onClick={() => { setSortingRoomsBy('squareft'); setRoomCategory('Square Ft'); }}>Square Ft</Dropdown.Item>
-                    </DropdownButton>
-                  </Col>
-                  <Col xs={4} style={{ justifyContent: 'end' }}>
-                    <InputGroup id={COMPONENT_IDS.ADMIN_MANAGE_ROOM_SEARCH} className="mb-3">
-                      <Form.Control aria-label="Name" placeholder="Search for room" onChange={(e) => { setSearchRooms(e.target.value); setFilteredRooms(true); }} value={searchRooms} />
-                      <Button onClick={() => { setFilteredRooms(false); setSearchRooms(''); }}>Clear</Button>
-                    </InputGroup>
-                  </Col>
-                </Row>
-                <Row className="px-m3 py-2" style={{ padding: 15 }}>
-                  <Col><u>BUILDING</u></Col>
-                  <Col><u>ROOM NUMBER</u></Col>
-                  <Col><u>TYPE</u></Col>
-                  <Col><u>FACULTY</u></Col>
-                  <Col><u>IS ICS?</u></Col>
-                  <Col><u>SQUARE FT</u></Col>
-                  <Col xs={2} />
-                </Row>
-                <div className="verticalScroll">
-                  { roomsList.map((room, index) => <RoomTable key={room._id} eventKey={`${index}`} room={room} resources={resources.find(x => x.roomNumber === room.roomNumber)} faculty={facultyInfo} />) }
-                </div>
-                <Col className="d-flex justify-content-end">
-                  <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
-                    <Button variant="success" onClick={() => setShowAddRoom(true)}>
-                      + Add
-                    </Button>
-                  </div>
-                </Col>
-              </Tab>,
-              <Tab eventKey="clubs" title="Clubs" onSelect={() => setCurrentTab('Clubs')}>
-                <Row>
-                  <Col style={{ display: 'flex' }}>
-                    <DropdownButton id={COMPONENT_IDS.ADMIN_MANAGE_CLUB_SORT} title={`Sort by: ${clubCategory}`}>
-                      <Dropdown.Item onClick={() => { setSortingClubsBy('clubName'); setClubCategory('Club Name'); }}>Club Name</Dropdown.Item>
-                    </DropdownButton>
-                  </Col>
-                  <Col xs={4} style={{ justifyContent: 'end' }}>
-                    <InputGroup id={COMPONENT_IDS.ADMIN_MANAGE_CLUB_SEARCH} className="mb-3">
-                      <Form.Control aria-label="Name" placeholder="Search for club" onChange={(e) => { setSearchClubs(e.target.value); setFilteredClubs(true); }} value={searchClubs} />
-                      <Button onClick={() => { setFilteredClubs(false); setSearchClubs(''); }}>Clear</Button>
-                    </InputGroup>
-                  </Col>
-                </Row>
-                <Row className="px-m3 py-2" style={{ padding: 15 }}>
-                  <Col><u>CLUB NAME</u></Col>
-                  <Col xs={2} />
-                </Row>
-                <div>
-                  { clubsList.map((club, index) => <ClubTable key={club._id} eventKey={`${index}`} club={club} />) }
-                </div>
-                <Col className="d-flex justify-content-end">
-                  <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
-                    <Button variant="success" onClick={() => setShowAddClub(true)}>
-                      + Add Club
-                    </Button>
-                  </div>
-                </Col>
-              </Tab>,
-            ]) : ''}
-          </Tabs>
+        <Row>
+          <Col style={{ display: 'flex' }}>
+            <DropdownButton id={COMPONENT_IDS.ADMIN_MANAGE_ROOM_SORT} title={`Sort by: ${roomCategory}`}>
+              <Dropdown.Item onClick={() => { setSortingRoomsBy('building'); setRoomCategory('Building'); }}>Building</Dropdown.Item>
+              <Dropdown.Item onClick={() => { setSortingRoomsBy('roomNumber'); setRoomCategory('Room Number'); }}>Room Number</Dropdown.Item>
+              <Dropdown.Item onClick={() => { setSortingRoomsBy('type'); setRoomCategory('Type'); }}>Type</Dropdown.Item>
+              <Dropdown.Item onClick={() => { setSortingRoomsBy('occupants'); setRoomCategory('Faculty'); }}>Faculty</Dropdown.Item>
+              <Dropdown.Item onClick={() => { setSortingRoomsBy('isICS'); setRoomCategory('Is ICS?'); }}>Is ICS</Dropdown.Item>
+              <Dropdown.Item onClick={() => { setSortingRoomsBy('squareft'); setRoomCategory('Square Ft'); }}>Square Ft</Dropdown.Item>
+            </DropdownButton>
+          </Col>
+          <Col xs={4} style={{ justifyContent: 'end' }}>
+            <InputGroup id={COMPONENT_IDS.ADMIN_MANAGE_ROOM_SEARCH} className="mb-3">
+              <Form.Control aria-label="Name" placeholder="Search for room" onChange={(e) => { setSearchRooms(e.target.value); setFilteredRooms(true); }} value={searchRooms} />
+              <Button onClick={() => { setFilteredRooms(false); setSearchRooms(''); }}>Clear</Button>
+            </InputGroup>
+          </Col>
+        </Row>
+        <Row className="px-m3 py-2" style={{ padding: 15 }}>
+          <Col><u>BUILDING</u></Col>
+          <Col><u>ROOM NUMBER</u></Col>
+          <Col><u>TYPE</u></Col>
+          <Col><u>FACULTY</u></Col>
+          <Col><u>IS ICS?</u></Col>
+          <Col><u>SQUARE FT</u></Col>
+          <Col xs={2} />
+        </Row>
+        <div className="verticalScroll">
+          { roomsList.map((room, index) => <RoomTable key={room._id} eventKey={`${index}`} room={room} resources={resources.find(x => x.roomNumber === room.roomNumber)} faculty={facultyInfo} />) }
+        </div>
+        <Col className="d-flex justify-content-end">
+          <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
+            <Button variant="success" onClick={() => setShowAddRoom(true)}>
+              + Add
+            </Button>
+            <Button className="ms-2" variant="success" onClick={() => setShowImportCSV(true)}>
+              CSV Options
+            </Button>
+          </div>
+        </Col>
+      </Tab>
+    );
+  }
+
+  function showFacultyTab() {
+    return (
+      <Tab eventKey="faculty" title="Faculty" onSelect={() => setCurrentTab('Faculty')}>
+        <Row>
+          <Col style={{ display: 'flex' }}>
+            <DropdownButton id={COMPONENT_IDS.ADMIN_MANAGE_FACULTY_SORT} title={`Sort by: ${facultyCategory}`}>
+              <Dropdown.Item onClick={() => { setSortingFacultyBy('firstName'); setFacultyCategory('First Name'); }}>First Name</Dropdown.Item>
+              <Dropdown.Item onClick={() => { setSortingFacultyBy('lastName'); setFacultyCategory('Last Name'); }}>Last Name</Dropdown.Item>
+              <Dropdown.Item onClick={() => { setSortingFacultyBy('role'); setFacultyCategory('Title'); }}>Title</Dropdown.Item>
+              <Dropdown.Item onClick={() => { setSortingFacultyBy('officeLocation'); setFacultyCategory('Office'); }}>Office</Dropdown.Item>
+            </DropdownButton>
+          </Col>
+          <Col xs={4} style={{ justifyContent: 'end' }}>
+            <InputGroup id={COMPONENT_IDS.ADMIN_MANAGE_FACULTY_SEARCH} className="mb-3">
+              <Form.Control aria-label="Name" placeholder="Search for faculty" onChange={(e) => { setSearchFaculty(e.target.value); setFilteredFaculty(true); }} value={searchFaculty} />
+              <Button onClick={() => { setFilteredFaculty(false); setSearchFaculty(''); }}>Clear</Button>
+            </InputGroup>
+          </Col>
+        </Row>
+        <Row className="px-m3 py-2" style={{ padding: 15 }}>
+          <Col><u>NAME</u></Col>
+          <Col><u>EMAIL</u></Col>
+          <Col><u>TITLE</u></Col>
+          <Col><u>OFFICE</u></Col>
+          <Col xs={2} />
+        </Row>
+        <div className="verticalScroll">
+          { facultyList.map((faculty, index) => <FacultyTable key={faculty._id} eventKey={`${index}`} faculty={faculty} />) }
+        </div>
+        <Col className="d-flex justify-content-end">
+          <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
+            <Button variant="success" onClick={() => setShowAddFaculty(true)}>
+              + Add
+            </Button>
+          </div>
+        </Col>
+      </Tab>
+    );
+  }
+
+  function showClubTab() {
+    return (
+      <Tab eventKey="clubs" title="Clubs" onSelect={() => setCurrentTab('Clubs')}>
+        <Row>
+          <Col style={{ display: 'flex' }}>
+            <DropdownButton id={COMPONENT_IDS.ADMIN_MANAGE_CLUB_SORT} title={`Sort by: ${clubCategory}`}>
+              <Dropdown.Item onClick={() => { setSortingClubsBy('clubName'); setClubCategory('Club Name'); }}>Club Name</Dropdown.Item>
+            </DropdownButton>
+          </Col>
+          <Col xs={4} style={{ justifyContent: 'end' }}>
+            <InputGroup id={COMPONENT_IDS.ADMIN_MANAGE_CLUB_SEARCH} className="mb-3">
+              <Form.Control aria-label="Name" placeholder="Search for club" onChange={(e) => { setSearchClubs(e.target.value); setFilteredClubs(true); }} value={searchClubs} />
+              <Button onClick={() => { setFilteredClubs(false); setSearchClubs(''); }}>Clear</Button>
+            </InputGroup>
+          </Col>
+        </Row>
+        <Row className="px-m3 py-2" style={{ padding: 15 }}>
+          <Col><u>CLUB NAME</u></Col>
+          <Col xs={2} />
+        </Row>
+        <div>
+          { clubsList.map((club, index) => <ClubTable key={club._id} eventKey={`${index}`} club={club} />) }
+        </div>
+        <Col className="d-flex justify-content-end">
+          <div className="text-right" style={{ paddingRight: 16, paddingTop: 10 }}>
+            <Button variant="success" onClick={() => setShowAddClub(true)}>
+              + Add Club
+            </Button>
+          </div>
+        </Col>
+      </Tab>
+    );
+  }
+
+  return (ready ? (
+    <Container id={PAGE_IDS.ADMIN_MANAGE} className="py-3 elevated-container">
+      <Row className="d-flex">
+        <Col style={{ width: '100%' }}>
+          <Button variant="primary" onClick={handleShow} style={{ marginBottom: 10 }}>Make Reservation</Button>
+          { (currUser !== '' && user?.position === 'office') ? (
+            <Tabs
+              defaultActiveKey="profiles"
+              id="uncontrolled-tab-example"
+              className="mb-3"
+            >
+              {showProfileTab()}
+            </Tabs>
+          ) : ''}
+          { (currUser !== '' && user?.position === 'tech') ? (
+            <Tabs
+              defaultActiveKey="rooms"
+              id="uncontrolled-tab-example"
+              className="mb-3"
+            >
+              {showRoomTab()}
+            </Tabs>
+          ) : ''}
+          { currUser !== '' && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]) ? (
+            <Tabs
+              defaultActiveKey="profiles"
+              id="uncontrolled-tab-example"
+              className="mb-3"
+            >
+              {showProfileTab()}
+              {showFacultyTab()}
+              {showRoomTab()}
+              {showClubTab()}
+            </Tabs>
+          ) : ''}
         </Col>
       </Row>
       <Row>
@@ -395,6 +443,7 @@ const AdminManage = () => {
       <AddFacultyModal setShowAddFaculty={setShowAddFaculty} showAddFaculty={showAddFaculty} />
       <AddRoomModal setShowAddRoom={setShowAddRoom} showAddRoom={showAddRoom} />
       <AddClubModal setShowAddClub={setShowAddClub} showAddClub={showAddClub} />
+      <ImportCSV setShowImportCSV={setShowImportCSV} showImportCSV={showImportCSV} />
     </Container>
   ) : <LoadingSpinner />);
 };
