@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import swal from 'sweetalert';
 import { Card, Col, Row, Button, Modal } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
-import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, SubmitField, TextField, SelectField } from 'uniforms-bootstrap5';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 
@@ -11,6 +11,9 @@ const bridge = new SimpleSchema2Bridge(FacultyProfiles._schema);
 
 const FacultyTable = ({ faculty, eventKey }) => {
   const [show, setShow] = useState(false);
+
+  const titles = ['Associate Professor', 'Assistant Research Professor', 'Professor', 'Instructor', 'Faculty Specialist', 'Assistant Professor', 'Department Chair', 'Curriculum Committee Chair',
+    'Graduate Program Chair', 'Professor Emeritus', 'Computational Scientist', 'Undergraduate Academic Advisor', 'Admin. and Fiscal Support', 'IT System Admin.', 'IT Network/System Admin.'];
 
   const del = () => {
     const collectionName = FacultyProfiles.getCollectionName();
@@ -81,7 +84,12 @@ const FacultyTable = ({ faculty, eventKey }) => {
                 </Row>
                 <Row>
                   <Col>
-                    <TextField name="role" placeholder="Faculty title" label="Faculty title" />
+                    <SelectField
+                      name="role"
+                      placeholder="Faculty title"
+                      label="Faculty title"
+                      allowedValues={titles}
+                    />
                   </Col>
                   <Col>
                     <TextField name="email" placeholder="Email" />
