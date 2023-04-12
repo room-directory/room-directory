@@ -28,16 +28,13 @@ const AddClubModal = ({ showAddClub, setShowAddClub, faculty }) => {
       value: `${e.firstName} ${e.lastName}`,
     }
   ));
-  console.log(facultyList);
   const handleChangeAdvisor = (option) => {
     setSelectedAdvisor(option);
   };
 
   const submit = (doc, formRef) => {
-    console.log(selectedAdvisor);
     const collectionName = Club.getCollectionName();
     const definitionData = doc;
-    console.log(selectedAdvisor.map(e => e.value));
     definitionData.advisor = selectedAdvisor.map(e => e.value);
     // create the new Club
     defineMethod.callPromise({ collectionName, definitionData })

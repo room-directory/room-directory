@@ -20,14 +20,11 @@ const ClubTable = ({ club, faculty, eventKey }) => {
     label: `${e}`,
     value: `${e}`,
   }));
-  console.log(clubAdvisors);
 
-  // console.log(faculty);
   const facultyList = faculty.map(e => ({
     label: `${e.firstName} ${e.lastName}`,
     value: `${e.firstName} ${e.lastName}`,
   }));
-  // console.log(facultyList);
 
   const del = () => {
     const collectionName = Club.getCollectionName();
