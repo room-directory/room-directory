@@ -4,29 +4,57 @@ import { PAGE_IDS } from '../utilities/PageIDs';
 
 /* A simple static component to render some text for the landing page. */
 
-const sentences = [
-  'Creating a user friendly interface for office space management of the ICS department.',
-  'Welcome to the ICS Room Directory!',
-];
 const Landing = () => {
   const [currentSentence, setCurrentSentence] = useState('');
-  const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (currentIndex < sentences[currentSentenceIndex].length) {
-        const next = sentences[currentSentenceIndex][currentIndex];
-        setCurrentSentence((prev) => prev + next);
-        setCurrentIndex((prev) => prev + 1);
+    const sentence = 'Welcome to the ICS Room Directory! \n Creating a user friendly interface for office space management of the ICS department.';
+    let currentIndex = 0;
+    let timeoutId = null;
+
+    const typeNextChar = () => {
+      const nextChar = sentence[currentIndex];
+      setCurrentSentence((prev) => prev + nextChar);
+      currentIndex++;
+      if (currentIndex === sentence.length) {
+        clearTimeout(timeoutId);
       } else {
-        setCurrentIndex(0);
-        setCurrentSentence('');
-        setCurrentSentenceIndex((prev) => (prev === sentences.length - 1 ? 0 : prev + 1));
+        timeoutId = setTimeout(typeNextChar, 50); // Change this value to adjust the typing speed
       }
-    }, 100);
-    return () => clearTimeout(timeout);
-  }, [currentIndex, currentSentenceIndex]);
+    };
+
+    timeoutId = setTimeout(typeNextChar, 50); // Start typing
+
+    return () => clearTimeout(timeoutId);
+  }, []);
+
+  // const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
+  // const [currentIndex, setCurrentIndex] = useState(0);
+
+  // const [isTyping, setIsTyping] = useState(true);
+  //
+  // useEffect(() => {
+  //   const timeoutId = setTimeout(() => {
+  //     if (currentIndex < sentences[currentSentenceIndex].length) {
+  //       const nextChar = sentences[currentSentenceIndex][currentIndex];
+  //       setCurrentSentence((prev) => prev + nextChar);
+  //       setCurrentIndex((prev) => prev + 1);
+  //     }
+  //   }, 50); // Change this value to adjust the typing speed
+  //
+  //   return () => clearTimeout(timeoutId);
+  // }, [currentIndex, currentSentenceIndex]);
+  //
+  // useEffect(() => {
+  //   if (currentIndex === sentences[currentSentenceIndex].length) {
+  //     setTimeout(() => {
+  //       setCurrentSentence('');
+  //       setCurrentIndex(0);
+  //       setCurrentSentenceIndex((prev) => (prev === sentences.length - 1 ? 0 : prev + 1));
+  //     }, 300); // Change this value to adjust the sentence switch speed
+  //   }
+  // }, [currentIndex, currentSentenceIndex]);
+
   return (
     <Container
       fluid
