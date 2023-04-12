@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import swal from 'sweetalert';
 import { Card, Col, Row, Button, Modal } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
-import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, ListField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { PlusLg, Trash3 } from 'react-bootstrap-icons';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 
@@ -53,7 +54,7 @@ const FacultyTable = ({ faculty, eventKey }) => {
         <Row>
           <Col>{`${faculty.firstName}`} {`${faculty.lastName}`}</Col>
           <Col>{faculty.email}</Col>
-          <Col>{faculty.role}</Col>
+          <Col>{faculty.role.map((role) => <div>{role}</div>)}</Col>
           <Col>{faculty.officeLocation.map((office) => <div>{office}</div>)}</Col>
           <Col xs={2}>
             <Row>
@@ -81,7 +82,7 @@ const FacultyTable = ({ faculty, eventKey }) => {
                 </Row>
                 <Row>
                   <Col>
-                    <TextField name="role" placeholder="Faculty title" label="Faculty title" />
+                    <ListField name="role" placeholder="Faculty Title" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
                   </Col>
                   <Col>
                     <TextField name="email" placeholder="Email" />
@@ -94,7 +95,7 @@ const FacultyTable = ({ faculty, eventKey }) => {
                   <TextField name="phone" placeholder="Phone" help="Please separate phone numbers using commas." />
                 </Row>
                 <Row>
-                  <TextField name="officeLocation" placeholder="Office Location" help="Please separate offices using commas." />
+                  <ListField name="officeLocation" placeholder="Office Location" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
                 </Row>
                 <Row>
                   <TextField name="officeHours" placeholder="Office Hours" />
@@ -119,7 +120,7 @@ FacultyTable.propTypes = {
     lastName: PropTypes.string,
     image: PropTypes.string,
     email: PropTypes.string,
-    role: PropTypes.string,
+    role: PropTypes.arrayOf(PropTypes.string),
     officeLocation: PropTypes.arrayOf(PropTypes.string),
     phone: PropTypes.arrayOf(PropTypes.string),
     officeHours: PropTypes.string,
