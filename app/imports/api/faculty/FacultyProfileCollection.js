@@ -17,8 +17,9 @@ class FacultyProfileCollection extends BaseCollection {
       image: String,
       firstName: String,
       lastName: String,
-      role: {
-        type: [String],
+      role: Array,
+      'role.$': {
+        type: String,
         allowedValues: titles,
       },
       email: String,
