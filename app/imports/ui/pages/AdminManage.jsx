@@ -308,6 +308,7 @@ const AdminManage = () => {
         </Row>
         <Row className="px-m3 py-2" style={{ padding: 15 }}>
           <Col><u>CLUB NAME</u></Col>
+          <Col><u>ADVISOR</u></Col>
           <Col xs={2} />
         </Row>
         <div>

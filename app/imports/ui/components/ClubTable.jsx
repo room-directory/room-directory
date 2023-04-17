@@ -66,6 +66,7 @@ const ClubTable = ({ club, faculty, eventKey }) => {
       <Card.Header style={eventKey % 2 === 0 ? { backgroundColor: 'whitesmoke', border: 'none' } : { backgroundColor: '#fbfbfb', border: 'none' }}>
         <Row>
           <Col>{`${club.clubName}`}</Col>
+          <Col>{`${club.advisor.join(', ')}`}</Col>
           <Col xs={2}>
             <Row>
               <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="primary" onClick={() => setShow(true)}>Edit</Button></Col>
