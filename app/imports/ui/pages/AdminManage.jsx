@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Button, Container, Row, Col, Modal, Form, Tabs, Tab, DropdownButton, Dropdown, InputGroup } from 'react-bootstrap';
+import { Button, Container, Row, Col, Form, Tabs, Tab, DropdownButton, Dropdown, InputGroup } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { _ } from 'meteor/underscore';
 // import DropdownButton from 'react-bootstrap/DropdownButton';
 // import Dropdown from 'react-bootstrap/Dropdown';
 import { Meteor } from 'meteor/meteor';
-import DatePicker from 'react-datepicker';
 import { Roles } from 'meteor/alanning:roles';
 import { ROLE } from '../../api/role/Role';
 import { PAGE_IDS } from '../utilities/PageIDs';
@@ -30,12 +29,6 @@ import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
 /* An interactive page with different components that reflects the reservations made. */
 const AdminManage = () => {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const [startDate, setStartDate] = useState(new Date());
-  const [startTime, setStartTime] = useState(new Date());
-  const [endTime, setEndTime] = useState(new Date());
   const [showAddRoom, setShowAddRoom] = useState(false);
   const [showAddUser, setShowAddUser] = useState(false);
   const [showAddFaculty, setShowAddFaculty] = useState(false);
