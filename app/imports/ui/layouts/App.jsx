@@ -68,14 +68,9 @@ const App = () => {
           <Route path="/profile/:_id" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/edit-profile/:_id" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
           <Route path="/roomlist" element={<ProtectedRoute><RoomList /></ProtectedRoute>} />
-          <Route path="/reservation" element={<ProtectedRoute><AdminReservation /></ProtectedRoute>} />
           <Route path="/manage" element={<ProtectedRoute><AdminManage /></ProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/studentrequests" element={<ProtectedRoute><StudentRequests /></ProtectedRoute>} />
-          <Route path="/facultyrequests" element={<ProtectedRoute><FacultyRequests /></ProtectedRoute>} />
-          <Route path="/requestroomform" element={<ProtectedRoute><RequestRoomForm /></ProtectedRoute>} />
-          <Route path="/addReservation" element={<ProtectedRoute><AddReservation /></ProtectedRoute>} />
 
         </Routes>
         <Footer />
