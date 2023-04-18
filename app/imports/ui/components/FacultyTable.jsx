@@ -3,14 +3,29 @@ import PropTypes from 'prop-types';
 import swal from 'sweetalert';
 import { Card, Col, Row, Button, Modal } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
-import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import Select from 'react-select';
+import { AutoForm, ErrorsField, ListField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { PlusLg, Trash3 } from 'react-bootstrap-icons';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 
 const bridge = new SimpleSchema2Bridge(FacultyProfiles._schema);
 
-const FacultyTable = ({ faculty, eventKey }) => {
+const FacultyTable = ({ faculty, eventKey, rooms }) => {
   const [show, setShow] = useState(false);
+  const facultyOffices = faculty.officeLocation.map(e => (
+    {
+      label: e,
+      value: e,
+    }
+  ));
+  const [offices, setOffices] = useState(facultyOffices);
+  const handleChangeOffices = (room) => setOffices(room);
+  console.log(faculty.officeLocation);
+  const roomList = rooms.map(e => ({
+    label: `POST ${e.roomNumber}`,
+    value: `POST ${e.roomNumber}`,
+  }));
 
   const del = () => {
     const collectionName = FacultyProfiles.getCollectionName();
@@ -41,6 +56,7 @@ const FacultyTable = ({ faculty, eventKey }) => {
     const phoneArray = (phone.includes(',') ? phone.replace(/\s+/g, '').split(',') : phone);
     const officeLocationArray = (officeLocation.includes(',') ? officeLocation.replace(/\s+/g, '').split(',') : officeLocation);
     const updateData = { id: faculty._id, phone: phoneArray, firstName, lastName, role, image, email, officeLocation: officeLocationArray, officeHours };
+    updateData.officeLocation = offices.map(e => e.value);
     // edit the FacultyProfiles collection
     updateMethod.callPromise({ collectionName, updateData })
       .catch((err) => swal('Error', err.message, 'error'))
@@ -53,7 +69,7 @@ const FacultyTable = ({ faculty, eventKey }) => {
         <Row>
           <Col>{`${faculty.firstName}`} {`${faculty.lastName}`}</Col>
           <Col>{faculty.email}</Col>
-          <Col>{faculty.role}</Col>
+          <Col>{faculty.role.map((role) => <div>{role}</div>)}</Col>
           <Col>{faculty.officeLocation.map((office) => <div>{office}</div>)}</Col>
           <Col xs={2}>
             <Row>
@@ -66,7 +82,7 @@ const FacultyTable = ({ faculty, eventKey }) => {
 
       {
         show ? (
-          <Modal show={show} onHide={() => setShow(false)} centered dialogClassName="modal-90w">
+          <Modal show={show} onHide={() => { setShow(false); setOffices([]); }} centered dialogClassName="modal-90w">
             <Modal.Header closeButton />
             <Modal.Body>
               <h4>Edit Faculty</h4>
@@ -81,7 +97,7 @@ const FacultyTable = ({ faculty, eventKey }) => {
                 </Row>
                 <Row>
                   <Col>
-                    <TextField name="role" placeholder="Faculty title" label="Faculty title" />
+                    <ListField name="role" placeholder="Faculty Title" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
                   </Col>
                   <Col>
                     <TextField name="email" placeholder="Email" />
@@ -94,13 +110,14 @@ const FacultyTable = ({ faculty, eventKey }) => {
                   <TextField name="phone" placeholder="Phone" help="Please separate phone numbers using commas." />
                 </Row>
                 <Row>
-                  <TextField name="officeLocation" placeholder="Office Location" help="Please separate offices using commas." />
+                  <Select defaultValue={facultyOffices} options={roomList} onChange={handleChangeOffices} isMulti />
+                  <span>Please select at least 1 office.</span>
                 </Row>
                 <Row>
                   <TextField name="officeHours" placeholder="Office Hours" />
                 </Row>
                 <Row>
-                  <SubmitField value="Submit" />
+                  <SubmitField value="Submit" disabled={offices.length <= 0} />
                   <ErrorsField />
                 </Row>
               </AutoForm>
@@ -119,13 +136,14 @@ FacultyTable.propTypes = {
     lastName: PropTypes.string,
     image: PropTypes.string,
     email: PropTypes.string,
-    role: PropTypes.string,
+    role: PropTypes.arrayOf(PropTypes.string),
     officeLocation: PropTypes.arrayOf(PropTypes.string),
     phone: PropTypes.arrayOf(PropTypes.string),
     officeHours: PropTypes.string,
     _id: PropTypes.string,
   }).isRequired,
   eventKey: PropTypes.string.isRequired,
+  rooms: PropTypes.arrayOf(Object).isRequired,
 };
 
 export default FacultyTable;
