@@ -13,6 +13,7 @@ import { ROLE } from '../../api/role/Role';
 import { updateMethod } from '../../api/base/BaseCollection.methods';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
+import { updateUserPasswordMethod } from '../../api/user/UserProfileCollection.methods';
 
 /* TODO: Implement Edit profile, review user profile subscription (currently getting all profiles) */
 const EditProfile = () => {
@@ -45,8 +46,10 @@ const EditProfile = () => {
   }, [_id]);
 
   const saveIntoCollections = () => {
+    // get all of the data from the form
     const fName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_FIRST_NAME).value.toString();
     const lName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_LAST_NAME).value.toString();
+    const password = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_PASSWORD).value.toString();
     let collectionName;
     if (Roles.userIsInRole(Meteor.userId(), [ROLE.USER])) {
       collectionName = UserProfiles.getCollectionName();
@@ -54,6 +57,15 @@ const EditProfile = () => {
       collectionName = AdminProfiles.getCollectionName();
     }
     updateData = { id: user._id, firstName: fName, lastName: lName, image: pfp };
+    const email = currUser;
+
+    // if the password was changed, update the meteor account
+    if (password) {
+      updateUserPasswordMethod.callPromise({ email, password })
+        .catch(error => swal('Error', error.message, 'error'));
+    }
+
+    // update the remaining data
     updateMethod.callPromise({ collectionName, updateData })
       .catch(error => swal('Error', error.message, 'error'))
       .then(() => {
@@ -148,6 +160,14 @@ const EditProfile = () => {
               <InputGroup size="sm">
                 <InputGroup.Text><b>Last Name</b></InputGroup.Text>
                 <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_LAST_NAME} defaultValue={user.lastName ? user.lastName : ''} />
+              </InputGroup>
+            </Col>
+          </Row>
+          <Row className="p-3">
+            <Col>
+              <InputGroup size="sm">
+                <InputGroup.Text><b>Password</b></InputGroup.Text>
+                <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_PASSWORD} />
               </InputGroup>
             </Col>
           </Row>

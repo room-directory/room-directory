@@ -24,7 +24,7 @@ export const updateUserPasswordMethod = new ValidatedMethod({
       console.log('updateUserPasswordMethod(%o, %o)', email, password);
       // find meteor user from email and update password
       const user = Accounts.findUserByEmail(email);
-      Accounts.setPassword(user._id, password, { logout: true });
+      Accounts.setPassword(user._id, password, { logout: false });
     }
   },
 });
