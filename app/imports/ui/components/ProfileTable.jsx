@@ -6,6 +6,7 @@ import { AutoForm, ErrorsField, SubmitField, TextField, SelectField } from 'unif
 import SimpleSchema from 'simpl-schema';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
+import { updateUserPasswordMethod } from '../../api/user/UserProfileCollection.methods';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 
 const positionList = ['student', 'faculty', 'office', 'tech'];
@@ -13,6 +14,10 @@ const positionList = ['student', 'faculty', 'office', 'tech'];
 const formSchema = new SimpleSchema({
   firstName: String,
   lastName: String,
+  password: {
+    type: String,
+    optional: true,
+  },
   image: String,
   position: {
     type: String,
@@ -48,14 +53,19 @@ const ProfileTable = ({ account, eventKey }) => {
   };
 
   const submit = (data) => {
-    const { firstName, lastName, email, position } = data;
-
+    const { firstName, lastName, password, email, position } = data;
     const updateData = { id: account._id, email, firstName, lastName, position };
     const collectionName = UserProfiles.getCollectionName();
-
+    console.log(password);
     updateMethod.callPromise({ collectionName, updateData })
       .catch(error => swal('Error', error.message, 'error'))
-      .then(() => swal('Success', 'Profile updated successfully', 'success'));
+      .then(() => {
+        if (password) {
+          updateUserPasswordMethod.callPromise({ email, password })
+            .catch(error => swal('Error', error.message, 'error'));
+        }
+        swal('Success', 'Profile updated successfully', 'success');
+      });
   };
 
   return (
@@ -88,6 +98,9 @@ const ProfileTable = ({ account, eventKey }) => {
                   <Col>
                     <TextField name="lastName" placeholder="Last name" />
                   </Col>
+                </Row>
+                <Row>
+                  <TextField name="password" placeholder="Enter new password" />
                 </Row>
                 <Row>
                   <TextField name="image" placeholder="Image link" />
