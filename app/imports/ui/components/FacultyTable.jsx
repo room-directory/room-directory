@@ -73,7 +73,7 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
           <Col>{faculty.officeLocation.map((office) => <div>{office}</div>)}</Col>
           <Col xs={2}>
             <Row>
-              <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="primary" onClick={() => setShow(true)}>Edit</Button></Col>
+              <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="primary" onClick={() => { setShow(true); setOffices(facultyOffices); }}>Edit</Button></Col>
               <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="danger" onClick={del}>Delete</Button></Col>
             </Row>
           </Col>
