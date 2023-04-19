@@ -13,6 +13,7 @@ import { ROLE } from '../../api/role/Role';
 import { updateMethod } from '../../api/base/BaseCollection.methods';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
+import { Room } from '../../api/room/RoomCollection';
 
 /* TODO: Implement Edit profile, review user profile subscription (currently getting all profiles) */
 const EditProfile = () => {
@@ -66,14 +67,37 @@ const EditProfile = () => {
 
           // convert phone numbers and office locations to an array
           const phoneArray = (phoneNum.includes(',') ? phoneNum.replace(/\s+/g, '').split(',') : phoneNum);
-          const officeLocationArray = (location.includes(',') ? location.replace(/\s+/g, '').split(',') : location);
+          const officeLocationArray = (location.includes(',') ? location.split(',').map((office) => office.trim()) : location);
 
           updateData = { id: facultyInfo._id, firstName: fName, lastName: lName, phone: phoneArray, officeLocation: officeLocationArray, officeHours: hours };
           updateMethod.callPromise({ collectionName, updateData })
             .catch(error => swal('Error', error.message, 'error'))
-            .then(() => swal('Success', 'Faculty profile updated successfully', 'success'));
-        } else {
-          swal('Success', 'Profile updated successfully', 'success');
+            .then(() => {
+              const offices = Room.find({}).fetch();
+              console.log(offices);
+              offices.map((office) => {
+                if (currentUser !== null && office.occupants.includes(currentUser) && !officeLocationArray.includes(`${office.building} ${office.roomNumber}`)) {
+                  office.occupants.splice(office.occupants.indexOf(currentUser), 1);
+                  collectionName = Room.getCollectionName();
+                  updateData = { id: office._id, occupants: office.occupants };
+                  updateMethod.callPromise({ collectionName, updateData })
+                    .catch((err) => swal('Error', err.message, 'error'))
+                    .then(() => (true));
+                  return null;
+                }
+                if (!office.occupants.includes(currentUser) && officeLocationArray.includes(`${office.building} ${office.roomNumber}`)) {
+                  office.occupants.push(currentUser);
+                  updateData = { id: office._id, occupants: office.occupants };
+                  collectionName = Room.getCollectionName();
+                  updateMethod.callPromise({ collectionName, updateData })
+                    .catch((err) => swal('Error', err.message, 'error'))
+                    .then(() => (true));
+                  return null;
+                }
+                return null;
+              });
+              swal('Success', 'Faculty edited successfully', 'success');
+            });
         }
       });
   };

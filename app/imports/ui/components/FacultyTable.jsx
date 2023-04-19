@@ -22,7 +22,6 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
   ));
   const [offices, setOffices] = useState(facultyOffices);
   const handleChangeOffices = (room) => setOffices(room);
-  console.log(faculty.officeLocation);
   const roomList = rooms.map(e => ({
     label: `POST ${e.roomNumber}`,
     value: `POST ${e.roomNumber}`,
@@ -55,16 +54,17 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
     let collectionName = FacultyProfiles.getCollectionName();
     // convert phone numbers and office locations to an array
     const phoneArray = (phone.includes(',') ? phone.replace(/\s+/g, '').split(',') : phone);
-    const officeLocationArray = (officeLocation.includes(',') ? officeLocation.split(',').map((office) => office.trim()) : officeLocation);
+    let officeLocationArray = (officeLocation.includes(',') ? officeLocation.split(',').map((office) => office.trim()) : officeLocation);
     let updateData = { id: faculty._id, phone: phoneArray, firstName, lastName, role, image, email, officeLocation: officeLocationArray, officeHours };
     updateData.officeLocation = offices.map(e => e.value);
+    officeLocationArray = updateData.officeLocation;
     // edit the FacultyProfiles collection
     updateMethod.callPromise({ collectionName, updateData })
       .catch((err) => swal('Error', err.message, 'error'))
       .then(() => {
-        const officeList = Room.find({ type: 'office' }).fetch();
+        const officeList = Room.find({}).fetch();
         officeList.map((office) => {
-          if (email !== null && office.occupants.includes(email)) {
+          if (email !== null && office.occupants.includes(email) && !officeLocationArray.includes(`${office.building} ${office.roomNumber}`)) {
             office.occupants.splice(office.occupants.indexOf(email), 1);
             collectionName = Room.getCollectionName();
             updateData = { id: office._id, occupants: office.occupants };
@@ -73,31 +73,17 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
               .then(() => (true));
             return null;
           }
+          if (!office.occupants.includes(email) && officeLocationArray.includes(`${office.building} ${office.roomNumber}`)) {
+            office.occupants.push(email);
+            updateData = { id: office._id, occupants: office.occupants };
+            collectionName = Room.getCollectionName();
+            updateMethod.callPromise({ collectionName, updateData })
+              .catch((err) => swal('Error', err.message, 'error'))
+              .then(() => (true));
+            return null;
+          }
           return null;
         });
-        if (officeLocationArray.length !== 0) {
-          officeLocationArray.map((office) => {
-            const room = office.split(/\s/);
-            const building = room[0];
-            const roomNumber = room[1];
-            const roomData = Room.find({ building: building, roomNumber: roomNumber }).fetch();
-            if (roomData.length === 0) {
-              return null;
-            }
-            const roomID = roomData[0]._id;
-            const occupants = roomData[0].occupants;
-            if (!occupants.includes(email) && email !== 'No Email Contact') {
-              occupants.push(email);
-              updateData = { id: roomID, occupants };
-              collectionName = Room.getCollectionName();
-              updateMethod.callPromise({ collectionName, updateData })
-                .catch((err) => swal('Error', err.message, 'error'))
-                .then(() => (true));
-            }
-            swal('Success', 'Faculty edited successfully', 'success');
-            return null;
-          });
-        }
         swal('Success', 'Faculty edited successfully', 'success');
       });
   };
