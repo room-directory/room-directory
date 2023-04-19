@@ -4,8 +4,7 @@ import swal from 'sweetalert';
 import { Card, Col, Row, Button, Modal } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import Select from 'react-select';
-import { AutoForm, ErrorsField, ListField, SubmitField, TextField } from 'uniforms-bootstrap5';
-import { PlusLg, Trash3 } from 'react-bootstrap-icons';
+import { AutoForm, ErrorsField, SubmitField, TextField, SelectField } from 'uniforms-bootstrap5';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 
@@ -26,6 +25,9 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
     label: `POST ${e.roomNumber}`,
     value: `POST ${e.roomNumber}`,
   }));
+
+  const titles = ['Associate Professor', 'Assistant Research Professor', 'Professor', 'Instructor', 'Faculty Specialist', 'Assistant Professor', 'Department Chair', 'Curriculum Committee Chair',
+    'Graduate Program Chair', 'Professor Emeritus', 'Computational Scientist', 'Undergraduate Academic Advisor', 'Admin. and Fiscal Support', 'IT System Admin.', 'IT Network/System Admin.'];
 
   const del = () => {
     const collectionName = FacultyProfiles.getCollectionName();
@@ -73,7 +75,7 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
           <Col>{faculty.officeLocation.map((office) => <div>{office}</div>)}</Col>
           <Col xs={2}>
             <Row>
-              <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="primary" onClick={() => setShow(true)}>Edit</Button></Col>
+              <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="primary" onClick={() => { setShow(true); setOffices(facultyOffices); }}>Edit</Button></Col>
               <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="danger" onClick={del}>Delete</Button></Col>
             </Row>
           </Col>
@@ -82,7 +84,7 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
 
       {
         show ? (
-          <Modal show={show} onHide={() => { setShow(false); setOffices([]); }} centered dialogClassName="modal-90w">
+          <Modal show={show} onHide={() => { setShow(false); setOffices([]); }} centered dialogClassName="faculty-table-modal">
             <Modal.Header closeButton />
             <Modal.Body>
               <h4>Edit Faculty</h4>
@@ -97,7 +99,7 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
                 </Row>
                 <Row>
                   <Col>
-                    <ListField name="role" placeholder="Faculty Title" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
+                    <SelectField name="role" placeholder="Faculty title" label="Faculty title(s)" allowedValues={titles} appearance="checkbox" />
                   </Col>
                   <Col>
                     <TextField name="email" placeholder="Email" />
