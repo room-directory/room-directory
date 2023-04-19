@@ -4,8 +4,7 @@ import swal from 'sweetalert';
 import { Card, Col, Row, Button, Modal } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import Select from 'react-select';
-import { AutoForm, ErrorsField, ListField, SubmitField, TextField, SelectField } from 'uniforms-bootstrap5';
-import { PlusLg, Trash3 } from 'react-bootstrap-icons';
+import { AutoForm, ErrorsField, SubmitField, TextField, SelectField } from 'uniforms-bootstrap5';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 
@@ -85,7 +84,7 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
 
       {
         show ? (
-          <Modal show={show} onHide={() => { setShow(false); setOffices([]); }} centered dialogClassName="modal-90w">
+          <Modal show={show} onHide={() => { setShow(false); setOffices([]); }} centered dialogClassName="faculty-table-modal">
             <Modal.Header closeButton />
             <Modal.Body>
               <h4>Edit Faculty</h4>
@@ -100,13 +99,7 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
                 </Row>
                 <Row>
                   <Col>
-                    <ListField name="role" placeholder="Faculty Title" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} >
-                      <SelectField
-                        placeholder="Faculty title"
-                        label="Faculty title"
-                        allowedValues={titles}
-                      />
-                    </ListField>
+                    <SelectField name="role" placeholder="Faculty title" label="Faculty title(s)" allowedValues={titles} appearance="checkbox" />
                   </Col>
                   <Col>
                     <TextField name="email" placeholder="Email" />

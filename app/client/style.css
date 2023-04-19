@@ -1011,3 +1011,7 @@ svg {
 .flip-card-back {
   transform: skewY(180deg);
 }
+
+.modal-dialog.faculty-table-modal {
+  min-width: 40%;
+}
