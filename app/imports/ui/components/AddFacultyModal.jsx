@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Alert, Col, Modal, Row } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import Select from 'react-select';
-import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, SubmitField, TextField, SelectField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
@@ -12,6 +12,10 @@ const bridge = new SimpleSchema2Bridge(FacultyProfiles._schema);
 
 const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty, rooms }) => {
   const [error, setError] = useState('');
+
+  const titles = ['Associate Professor', 'Assistant Research Professor', 'Professor', 'Instructor', 'Faculty Specialist', 'Assistant Professor', 'Department Chair', 'Curriculum Committee Chair',
+    'Graduate Program Chair', 'Professor Emeritus', 'Computational Scientist', 'Undergraduate Academic Advisor', 'Admin. and Fiscal Support', 'IT System Admin.', 'IT Network/System Admin.'];
+
   const roomList = rooms.map(e => ({
     label: `POST ${e.roomNumber}`,
     value: `POST ${e.roomNumber}`,
@@ -47,7 +51,7 @@ const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty, rooms }) => {
           </Row>
           <Row>
             <Col>
-              <TextField name="role" placeholder="Faculty title" label="Faculty title" />
+              <SelectField name="role" placeholder="Faculty title" label="Faculty title" allowedValues={titles} />
             </Col>
             <Col>
               <TextField name="email" placeholder="Email" />

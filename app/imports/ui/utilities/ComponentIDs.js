@@ -47,6 +47,7 @@ export const COMPONENT_IDS = {
   // EDIT PROFILE
   EDIT_PROFILE_FORM_FIRST_NAME: 'edit-profile-form-first-name',
   EDIT_PROFILE_FORM_LAST_NAME: 'edit-profile-form-last-name',
+  EDIT_PROFILE_FORM_PASSWORD: 'edit-profile-form-password',
   EDIT_PROFILE_FORM_PFP: 'edit-profile-form-pfp',
   EDIT_PROFILE_FORM_PHONE_NUMBER: 'edit-profile-form-phone-number',
   EDIT_PROFILE_FORM_OFFICE_LOCATION: 'edit-profile-form-office-location',

@@ -17,7 +17,7 @@ const Club = ({ club }) => {
     <Card className="listing d-flex justify-content-centert">
       <Card.Body style={{ alignContent: 'center' }}>
         <div>
-          <a href={club.website} target="_blank" rel="noopener noreferrer" style={{ alignContent: 'center' }}><img alt="Club logo" src={club.image} width="180" height="180" /></a>
+          <center><a href={club.website} target="_blank" rel="noopener noreferrer" style={{ alignContent: 'center' }}><img alt="Club logo" src={club.image} width="180" height="180" /></a></center>
         </div>
         <div className="ms-3 align-content-center">
           <p className="fw-bold mb-1 text-center">{club.clubName}</p>
