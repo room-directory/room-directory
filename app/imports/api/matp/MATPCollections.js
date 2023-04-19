@@ -5,7 +5,6 @@ import { UserProfiles } from '../user/UserProfileCollection';
 import { FacultyProfiles } from '../faculty/FacultyProfileCollection';
 import { FacultyRequests } from '../request/FacultyRequestCollection';
 import { StudentRequests } from '../request/StudentRequestCollection';
-import { Reservations } from '../reservation/ReservationCollection';
 import { Room } from '../room/RoomCollection';
 import { RoomResources } from '../room/RoomResourceCollection';
 import { Club } from '../club/ClubCollection';
@@ -25,7 +24,6 @@ class MATPClass {
       FacultyProfiles,
       FacultyRequests,
       StudentRequests,
-      Reservations,
       Room,
       RoomResources,
       Club,
@@ -40,7 +38,6 @@ class MATPClass {
       FacultyProfiles,
       FacultyRequests,
       StudentRequests,
-      Reservations,
       Room,
       RoomResources,
       Club,
