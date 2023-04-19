@@ -3,8 +3,6 @@ import { Stuffs } from '../stuff/StuffCollection';
 import { AdminProfiles } from '../user/AdminProfileCollection';
 import { UserProfiles } from '../user/UserProfileCollection';
 import { FacultyProfiles } from '../faculty/FacultyProfileCollection';
-import { FacultyRequests } from '../request/FacultyRequestCollection';
-import { StudentRequests } from '../request/StudentRequestCollection';
 import { Room } from '../room/RoomCollection';
 import { RoomResources } from '../room/RoomResourceCollection';
 import { Club } from '../club/ClubCollection';
@@ -22,8 +20,6 @@ class MATPClass {
       AdminProfiles,
       UserProfiles,
       FacultyProfiles,
-      FacultyRequests,
-      StudentRequests,
       Room,
       RoomResources,
       Club,
@@ -36,8 +32,6 @@ class MATPClass {
       AdminProfiles,
       UserProfiles,
       FacultyProfiles,
-      FacultyRequests,
-      StudentRequests,
       Room,
       RoomResources,
       Club,
