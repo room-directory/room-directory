@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, Col, Modal, Row } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
+import Select from 'react-select';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
@@ -9,22 +10,31 @@ import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 
 const bridge = new SimpleSchema2Bridge(FacultyProfiles._schema);
 
-const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty }) => {
+const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty, rooms }) => {
   const [error, setError] = useState('');
-
+  const roomList = rooms.map(e => ({
+    label: `POST ${e.roomNumber}`,
+    value: `POST ${e.roomNumber}`,
+  }));
+  roomList.unshift({ label: 'Not available', value: 'Not available' });
+  const [offices, setOffices] = useState([]);
+  const handleChangeOffices = (room) => setOffices(room);
   const submit = (doc, formRef) => {
     const collectionName = FacultyProfiles.getCollectionName();
+
     const definitionData = doc;
+    definitionData.officeLocation = offices.map(e => e.value);
     // create the new Faculty Profile
     defineMethod.callPromise({ collectionName, definitionData })
       .catch((err) => setError(err.reason))
       .then(() => swal('Success', 'Faculty added successfully', 'success'));
     formRef.reset();
+    setOffices([]);
   };
 
   let fRef = null;
   return (
-    <Modal show={showAddFaculty} onHide={() => setShowAddFaculty(false)} centered dialogClassName="modal-90w">
+    <Modal show={showAddFaculty} onHide={() => { setShowAddFaculty(false); setOffices([]); }} centered dialogClassName="modal-90w">
       <Modal.Header closeButton />
       <Modal.Body>
         <h4>Add Faculty</h4>
@@ -50,13 +60,15 @@ const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty }) => {
             <TextField name="phone" placeholder="Phone" help="Please separate phone numbers using commas." />
           </Row>
           <Row>
-            <TextField name="officeLocation" placeholder="Office Location" help="Please separate offices using commas." />
+            <TextField hidden name="officeLocation" placeholder="Office Location" help="Please separate offices using commas." />
+            <Select name="officeLocation" options={roomList} onChange={handleChangeOffices} isMulti />
+            <span>Please select at least 1 office.</span>
           </Row>
           <Row>
             <TextField name="officeHours" placeholder="Office Hours" />
           </Row>
           <Row>
-            <SubmitField value="Submit" />
+            <SubmitField value="Submit" disabled={offices.length <= 0} />
             <ErrorsField />
           </Row>
         </AutoForm>
@@ -77,6 +89,7 @@ const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty }) => {
 AddFacultyModal.propTypes = {
   showAddFaculty: PropTypes.bool.isRequired,
   setShowAddFaculty: PropTypes.func.isRequired,
+  rooms: PropTypes.arrayOf(Object).isRequired,
 };
 
 export default AddFacultyModal;

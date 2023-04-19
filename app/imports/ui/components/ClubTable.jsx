@@ -3,14 +3,28 @@ import PropTypes from 'prop-types';
 import swal from 'sweetalert';
 import { Card, Col, Row, Button, Modal } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
+import Select from 'react-select';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { Club } from '../../api/club/ClubCollection';
 
 const bridge = new SimpleSchema2Bridge(Club._schema);
 
-const ClubTable = ({ club, eventKey }) => {
+const ClubTable = ({ club, faculty, eventKey }) => {
   const [show, setShow] = useState(false);
+  const [selectedAdvisor, setSelectedAdvisor] = useState([]);
+  const handleChangeAdvisor = (option) => {
+    setSelectedAdvisor(option);
+  };
+  const clubAdvisors = club.advisor.map(e => ({
+    label: `${e}`,
+    value: `${e}`,
+  }));
+
+  const facultyList = faculty.map(e => ({
+    label: `${e.firstName} ${e.lastName}`,
+    value: `${e.firstName} ${e.lastName}`,
+  }));
 
   const del = () => {
     const collectionName = Club.getCollectionName();
@@ -39,7 +53,8 @@ const ClubTable = ({ club, eventKey }) => {
     const collectionName = Club.getCollectionName();
     // convert rio and advisor to an array
     const rioArray = (rio.includes(',') ? rio.replace(/\s+/g, '').split(',') : rio);
-    const advisorArray = (advisor.includes(',') ? advisor.replace(/\s+/g, '').split(',') : advisor);
+    let advisorArray = (advisor.includes(',') ? advisor.replace(/\s+/g, '').split(',') : advisor);
+    advisorArray = selectedAdvisor.map(e => e.value);
     const updateData = { id: club._id, clubName, website, image, description, rio: rioArray, advisor: advisorArray };
     // edit the Club Collection
     updateMethod.callPromise({ collectionName, updateData }).catch((err) => swal('Error', err.message, 'error'))
@@ -51,6 +66,7 @@ const ClubTable = ({ club, eventKey }) => {
       <Card.Header style={eventKey % 2 === 0 ? { backgroundColor: 'whitesmoke', border: 'none' } : { backgroundColor: '#fbfbfb', border: 'none' }}>
         <Row>
           <Col>{`${club.clubName}`}</Col>
+          <Col>{`${club.advisor.join(', ')}`}</Col>
           <Col xs={2}>
             <Row>
               <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="primary" onClick={() => setShow(true)}>Edit</Button></Col>
@@ -84,10 +100,11 @@ const ClubTable = ({ club, eventKey }) => {
                   <TextField name="rio" placeholder="Rio Officers" help="Please separate names using commas." />
                 </Row>
                 <Row>
-                  <TextField name="advisor" placeholder="Advisor" help="Please separate names using commas." />
+                  <Select name="advisor" closeMenOnSelect={false} isMulti options={facultyList} defaultValue={clubAdvisors} onChange={handleChangeAdvisor} help="Please select at least 1 advisor." />
+                  <span>Please select at least 1 advisor.</span>
                 </Row>
                 <Row>
-                  <SubmitField value="Submit" />
+                  <SubmitField value="Submit" disabled={selectedAdvisor.length <= 0} />
                   <ErrorsField />
                 </Row>
               </AutoForm>
@@ -111,6 +128,7 @@ ClubTable.propTypes = {
     _id: PropTypes.string,
   }).isRequired,
   eventKey: PropTypes.string.isRequired,
+  faculty: PropTypes.arrayOf(Object).isRequired,
 };
 
 export default ClubTable;
