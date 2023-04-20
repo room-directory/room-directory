@@ -8,13 +8,20 @@ export const facultyProfilePublications = {
   faculty: 'Faculty',
 };
 
+export const titles = ['Associate Professor', 'Assistant Research Professor', 'Professor', 'Instructor', 'Faculty Specialist', 'Assistant Professor', 'Department Chair', 'Curriculum Committee Chair',
+  'Graduate Program Chair', 'Professor Emeritus', 'Computational Scientist', 'Undergraduate Academic Advisor', 'Admin. and Fiscal Support', 'IT System Admin.', 'IT Network/System Admin.'];
+
 class FacultyProfileCollection extends BaseCollection {
   constructor() {
     super('FacultyProfile', new SimpleSchema({
       image: String,
       firstName: String,
       lastName: String,
-      role: [String],
+      role: Array,
+      'role.$': {
+        type: String,
+        allowedValues: titles,
+      },
       email: String,
       phone: [String],
       officeHours: String,

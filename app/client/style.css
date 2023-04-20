@@ -1060,3 +1060,8 @@ svg {
   padding: 5px;
   width: 200px;
 }
+
+.modal-dialog.faculty-table-modal {
+  min-width: 40%;
+}
+

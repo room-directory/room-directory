@@ -4,8 +4,8 @@ import swal from 'sweetalert';
 import { Card, Col, Row, Button, Modal } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import Select from 'react-select';
-import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import TagsInput from 'react-tagsinput';
+import { AutoForm, ErrorsField, SubmitField, TextField, SelectField } from 'uniforms-bootstrap5';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 
@@ -43,6 +43,10 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
   const handleHideModal = () => {
     setShow(false);
   };
+  
+  const titles = ['Associate Professor', 'Assistant Research Professor', 'Professor', 'Instructor', 'Faculty Specialist', 'Assistant Professor', 'Department Chair', 'Curriculum Committee Chair',
+    'Graduate Program Chair', 'Professor Emeritus', 'Computational Scientist', 'Undergraduate Academic Advisor', 'Admin. and Fiscal Support', 'IT System Admin.', 'IT Network/System Admin.'];
+
 
   const del = () => {
     const collectionName = FacultyProfiles.getCollectionName();
@@ -99,7 +103,7 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
 
       {
         show ? (
-          <Modal show={show} onHide={() => handleHideModal()} centered dialogClassName="modal-90w" className="modal-xl">
+          <Modal show={show} onHide={() => handleHideModal()} centered dialogClassName="faculty-table-modal" className="modal-xl">
             <Modal.Header closeButton />
             <Modal.Body>
               <h4>Edit Faculty</h4>
@@ -129,9 +133,7 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
                   <Col>
                     <Row>
                       <Col>
-                        <TextField hidden name="role" placeholder="Faculty title" label="Faculty title" />
-                        <span>Faculty Title</span>
-                        <TagsInput name="role" value={titleList} onChange={handleChangeFacultyTitles} inputProps={{ className: 'react-tagsinput-input', placeholder: 'Add a Title...' }} />
+                        <SelectField name="role" placeholder="Faculty title" label="Faculty title(s)" allowedValues={titles} appearance="checkbox" />
                       </Col>
                     </Row>
                     <Row>

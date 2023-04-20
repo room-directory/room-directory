@@ -18,6 +18,10 @@ const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty, rooms }) => {
   const [offices, setOffices] = useState([]);
 
   const [error, setError] = useState('');
+
+  const titles = ['Associate Professor', 'Assistant Research Professor', 'Professor', 'Instructor', 'Faculty Specialist', 'Assistant Professor', 'Department Chair', 'Curriculum Committee Chair',
+    'Graduate Program Chair', 'Professor Emeritus', 'Computational Scientist', 'Undergraduate Academic Advisor', 'Admin. and Fiscal Support', 'IT System Admin.', 'IT Network/System Admin.'];
+
   const roomList = rooms.map(e => ({
     label: `POST ${e.roomNumber}`,
     value: `POST ${e.roomNumber}`,
@@ -86,6 +90,9 @@ const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty, rooms }) => {
               <Row>
                 <TextField name="officeHours" placeholder="Office Hours" />
               </Row>
+
+              <SelectField name="role" placeholder="Faculty title" label="Faculty title" allowedValues={titles} />
+
             </Col>
             <Col>
               <Row>
