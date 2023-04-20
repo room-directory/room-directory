@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Col, Modal, Row, Badge, CloseButton } from 'react-bootstrap';
+import { Alert, Col, Modal, Row } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import Select from 'react-select';
+import TagsInput from 'react-tagsinput';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
@@ -12,8 +13,8 @@ const bridge = new SimpleSchema2Bridge(FacultyProfiles._schema);
 
 const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty, rooms }) => {
 
-  const [currentPhoneNumber, setCurrentPhoneNumber] = useState('');
   const [phoneNumberList, setPhoneNumberList] = useState([]);
+  const [titleList, setTitleList] = useState([]);
   const [offices, setOffices] = useState([]);
 
   const [error, setError] = useState('');
@@ -28,81 +29,85 @@ const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty, rooms }) => {
 
     const definitionData = doc;
     definitionData.officeLocation = offices.map(e => e.value);
+    definitionData.phone = phoneNumberList;
+    definitionData.role = titleList;
     // create the new Faculty Profile
     defineMethod.callPromise({ collectionName, definitionData })
       .catch((err) => setError(err.reason))
       .then(() => swal('Success', 'Faculty added successfully', 'success'));
     formRef.reset();
     setOffices([]);
-    setCurrentPhoneNumber('');
+    setPhoneNumberList([]);
+    setTitleList([]);
   };
 
   const handleChangeOffices = (room) => setOffices(room);
 
-  const handleChangePhoneNumbers = (number) => setCurrentPhoneNumber(number);
-
-  const handleKeyPress = (target) => {
-    if (target.key === 'Enter') {
-      // add current phone number to the list
-      setPhoneNumberList([...phoneNumberList, currentPhoneNumber]);
-      setCurrentPhoneNumber('');
-    }
+  const handleChangePhoneNumbers = (list) => {
+    setPhoneNumberList(list);
   };
 
-  const handleDelete = (number) => {
-    const index = phoneNumberList.findIndex(number);
-    if (index !== -1) {
-      const newList = phoneNumberList.splice(index, 1);
-      setPhoneNumberList(newList);
-    }
+  const handleChangeFacultyTitles = (list) => {
+    setTitleList(list);
+  };
+
+  const handleHideModal = () => {
+    setShowAddFaculty(false);
+    setOffices([]);
+    setPhoneNumberList([]);
+    setTitleList([]);
   };
 
   let fRef = null;
   return (
-    <Modal show={showAddFaculty} onHide={() => { setShowAddFaculty(false); setOffices([]); }} centered dialogClassName="modal-90w">
+    <Modal show={showAddFaculty} onHide={() => handleHideModal()} centered dialogClassName="modal-90w" className="modal-xl">
       <Modal.Header closeButton />
       <Modal.Body>
         <h4>Add Faculty</h4>
         <AutoForm ref={ref => { fRef = ref; }} schema={bridge} onSubmit={data => submit(data, fRef)}>
           <Row>
             <Col>
-              <TextField name="firstName" placeholder="First name" />
+              <Row>
+                <Col>
+                  <TextField name="firstName" placeholder="First name" />
+                </Col>
+                <Col>
+                  <TextField name="lastName" placeholder="Last name" />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <TextField name="email" placeholder="Email" />
+                </Col>
+                <Col>
+                  <TextField name="image" placeholder="Image link" />
+                </Col>
+              </Row>
+              <Row>
+                <TextField name="officeHours" placeholder="Office Hours" />
+              </Row>
             </Col>
             <Col>
-              <TextField name="lastName" placeholder="Last name" />
+              <Row>
+                <Col>
+                  <TextField hidden name="role" placeholder="Faculty title" label="Faculty title" />
+                  <span>Faculty Title</span>
+                  <TagsInput name="role" value={titleList} onChange={handleChangeFacultyTitles} inputProps={{ className: 'react-tagsinput-input', placeholder: 'Add a Title...' }} />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <TextField hidden name="phone" placeholder="Phone" />
+                  <span>Phone Number</span>
+                  <TagsInput name="phone" value={phoneNumberList} onChange={handleChangePhoneNumbers} inputProps={{ className: 'react-tagsinput-input', placeholder: 'Add a Phone Number...' }} />
+                </Col>
+              </Row>
+              <Row className="py-3">
+                <TextField hidden name="officeLocation" placeholder="Office Location" help="Please separate offices using commas." />
+                <span>Office Location</span>
+                <Select name="officeLocation" options={roomList} onChange={handleChangeOffices} isMulti />
+              </Row>
             </Col>
-          </Row>
-          <Row>
-            <Col>
-              <TextField name="role" placeholder="Faculty title" label="Faculty title" />
-            </Col>
-            <Col>
-              <TextField name="email" placeholder="Email" />
-            </Col>
-          </Row>
-          <Row>
-            <TextField name="image" placeholder="Image link" />
-          </Row>
-          <Row>
-            <TextField name="phone" placeholder="Phone" value={currentPhoneNumber} onChange={handleChangePhoneNumbers} onKeyDown={handleKeyPress} />
-            {phoneNumberList.length > 0 ? (
-              <div>
-                {phoneNumberList.map((number, index) => (
-                  <Badge key={index} bg="success" className="mx-1 p-2">
-                    {number}
-                    <CloseButton variant="white" onClick={handleDelete(number)} />
-                  </Badge>
-                ))}
-              </div>
-            ) : ''}
-          </Row>
-          <Row className="py-3">
-            <TextField hidden name="officeLocation" placeholder="Office Location" help="Please separate offices using commas." />
-            <span>Office Location</span>
-            <Select name="officeLocation" options={roomList} onChange={handleChangeOffices} isMulti />
-          </Row>
-          <Row>
-            <TextField name="officeHours" placeholder="Office Hours" />
           </Row>
           <Row>
             <SubmitField value="Submit" disabled={offices.length <= 0} />

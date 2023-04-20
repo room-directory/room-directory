@@ -4,28 +4,45 @@ import swal from 'sweetalert';
 import { Card, Col, Row, Button, Modal } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import Select from 'react-select';
-import { AutoForm, ErrorsField, ListField, SubmitField, TextField } from 'uniforms-bootstrap5';
-import { PlusLg, Trash3 } from 'react-bootstrap-icons';
+import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import TagsInput from 'react-tagsinput';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 
 const bridge = new SimpleSchema2Bridge(FacultyProfiles._schema);
 
 const FacultyTable = ({ faculty, eventKey, rooms }) => {
-  const [show, setShow] = useState(false);
+
   const facultyOffices = faculty.officeLocation.map(e => (
     {
       label: e,
       value: e,
     }
   ));
-  const [offices, setOffices] = useState(facultyOffices);
-  const handleChangeOffices = (room) => setOffices(room);
-  console.log(faculty.officeLocation);
+
   const roomList = rooms.map(e => ({
     label: `POST ${e.roomNumber}`,
     value: `POST ${e.roomNumber}`,
   }));
+
+  const [show, setShow] = useState(false);
+  const [offices, setOffices] = useState(facultyOffices);
+  const [phoneNumberList, setPhoneNumberList] = useState(faculty.phone);
+  const [titleList, setTitleList] = useState(faculty.role);
+
+  const handleChangeOffices = (room) => setOffices(room);
+
+  const handleChangePhoneNumbers = (list) => {
+    setPhoneNumberList(list);
+  };
+
+  const handleChangeFacultyTitles = (list) => {
+    setTitleList(list);
+  };
+
+  const handleHideModal = () => {
+    setShow(false);
+  };
 
   const del = () => {
     const collectionName = FacultyProfiles.getCollectionName();
@@ -82,39 +99,54 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
 
       {
         show ? (
-          <Modal show={show} onHide={() => { setShow(false); setOffices([]); }} centered dialogClassName="modal-90w">
+          <Modal show={show} onHide={() => handleHideModal()} centered dialogClassName="modal-90w" className="modal-xl">
             <Modal.Header closeButton />
             <Modal.Body>
               <h4>Edit Faculty</h4>
               <AutoForm schema={bridge} onSubmit={data => submit(data)} model={faculty}>
                 <Row>
                   <Col>
-                    <TextField name="firstName" placeholder="First name" />
+                    <Row>
+                      <Col>
+                        <TextField name="firstName" placeholder="First name" />
+                      </Col>
+                      <Col>
+                        <TextField name="lastName" placeholder="Last name" />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <TextField name="email" placeholder="Email" />
+                      </Col>
+                      <Col>
+                        <TextField name="image" placeholder="Image link" />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <TextField name="officeHours" placeholder="Office Hours" />
+                    </Row>
                   </Col>
                   <Col>
-                    <TextField name="lastName" placeholder="Last name" />
+                    <Row>
+                      <Col>
+                        <TextField hidden name="role" placeholder="Faculty title" label="Faculty title" />
+                        <span>Faculty Title</span>
+                        <TagsInput name="role" value={titleList} onChange={handleChangeFacultyTitles} inputProps={{ className: 'react-tagsinput-input', placeholder: 'Add a Title...' }} />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <TextField hidden name="phone" placeholder="Phone" />
+                        <span>Phone Number</span>
+                        <TagsInput name="phone" value={phoneNumberList} onChange={handleChangePhoneNumbers} inputProps={{ className: 'react-tagsinput-input', placeholder: 'Add a Phone Number...' }} />
+                      </Col>
+                    </Row>
+                    <Row className="py-3">
+                      <TextField hidden name="officeLocation" placeholder="Office Location" help="Please separate offices using commas." />
+                      <span>Office Location</span>
+                      <Select name="officeLocation" defaultValue={facultyOffices} options={roomList} onChange={handleChangeOffices} isMulti />
+                    </Row>
                   </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <ListField name="role" placeholder="Faculty Title" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
-                  </Col>
-                  <Col>
-                    <TextField name="email" placeholder="Email" />
-                  </Col>
-                </Row>
-                <Row>
-                  <TextField name="image" placeholder="Image link" />
-                </Row>
-                <Row>
-                  <TextField name="phone" placeholder="Phone" help="Please separate phone numbers using commas." />
-                </Row>
-                <Row>
-                  <Select defaultValue={facultyOffices} options={roomList} onChange={handleChangeOffices} isMulti />
-                  <span>Please select at least 1 office.</span>
-                </Row>
-                <Row>
-                  <TextField name="officeHours" placeholder="Office Hours" />
                 </Row>
                 <Row>
                   <SubmitField value="Submit" disabled={offices.length <= 0} />
