@@ -78,7 +78,7 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
   const submit = (data) => {
     const { firstName, lastName, role, image, email, phone, officeLocation, officeHours } = data;
     const collectionName = FacultyProfiles.getCollectionName();
-    // convert phone numbers and office locations to an array
+    // convert phone numbers, job titles, and office locations to an array
     const phoneArray = (phone.includes(',') ? phone.replace(/\s+/g, '').split(',') : phone);
     const officeLocationArray = (officeLocation.includes(',') ? officeLocation.replace(/\s+/g, '').split(',') : officeLocation);
     const titleArray = (role.includes(',') ? role.replace(/\s+/g, '').split(',') : role);

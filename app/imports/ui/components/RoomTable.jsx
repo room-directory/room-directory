@@ -24,7 +24,9 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
     ...resources,
   };
 
-  const handleChangeOccupants = (list) => setOccupantList(list);
+  const handleChangeOccupants = (list) => {
+    setOccupantList(list);
+  };
 
   const del = () => {
     let collectionName = Room.getCollectionName();
@@ -58,9 +60,10 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
   };
 
   const submit = (data) => {
-    const { building, roomNumber, type, isICS, squareFt, notes, occupants, chairs, desks, phoneNumber, capacity, tv, dataJacks } = data;
-    let updateData = { id: room._id, roomNumber: roomNumber, building: building, type, isICS, squareFt, notes, occupants: occupants };
+    const { building, roomNumber, type, isICS, squareFt, notes, chairs, desks, phoneNumber, capacity, tv, dataJacks } = data;
     let collectionName = Room.getCollectionName();
+
+    let updateData = { id: room._id, roomNumber: roomNumber, building: building, type, isICS, squareFt, notes, occupantList };
 
     // update the room collection
     updateMethod.callPromise({ collectionName, updateData })
@@ -150,7 +153,6 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
                     </Row>
                     <Row className="pb-3">
                       <Col>
-                        <ListField hidden name="occupants" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
                         <span>Occupants</span>
                         <TagsInput name="occupants" value={occupantList} onChange={handleChangeOccupants} inputProps={{ className: 'react-tagsinput-input', placeholder: 'Add an Occupant...' }} />
                       </Col>

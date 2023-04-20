@@ -5,6 +5,7 @@ import { Card, Col, Row, Button, Modal } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import Select from 'react-select';
 import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
+import TagsInput from 'react-tagsinput';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { Club } from '../../api/club/ClubCollection';
 
@@ -12,10 +13,17 @@ const bridge = new SimpleSchema2Bridge(Club._schema);
 
 const ClubTable = ({ club, faculty, eventKey }) => {
   const [show, setShow] = useState(false);
-  const [selectedAdvisor, setSelectedAdvisor] = useState([]);
+  const [selectedAdvisor, setSelectedAdvisor] = useState(club.advisor);
+  const [rioList, setRioList] = useState(club.rio);
+
   const handleChangeAdvisor = (option) => {
     setSelectedAdvisor(option);
   };
+
+  const handleChangeRioList = (list) => {
+    setRioList(list);
+  };
+
   const clubAdvisors = club.advisor.map(e => ({
     label: `${e}`,
     value: `${e}`,
@@ -49,13 +57,12 @@ const ClubTable = ({ club, faculty, eventKey }) => {
   };
 
   const submit = (data) => {
-    const { clubName, website, image, description, rio, advisor } = data;
+    const { clubName, website, image, description, advisor } = data;
     const collectionName = Club.getCollectionName();
-    // convert rio and advisor to an array
-    const rioArray = (rio.includes(',') ? rio.replace(/\s+/g, '').split(',') : rio);
+    // convert advisor to an array
     let advisorArray = (advisor.includes(',') ? advisor.replace(/\s+/g, '').split(',') : advisor);
     advisorArray = selectedAdvisor.map(e => e.value);
-    const updateData = { id: club._id, clubName, website, image, description, rio: rioArray, advisor: advisorArray };
+    const updateData = { id: club._id, clubName, website, image, description, rio: rioList, advisor: advisorArray };
     // edit the Club Collection
     updateMethod.callPromise({ collectionName, updateData }).catch((err) => swal('Error', err.message, 'error'))
       .then(() => swal('Success', 'Club edited successfully', 'success'));
@@ -97,14 +104,18 @@ const ClubTable = ({ club, faculty, eventKey }) => {
                   <TextField name="description" placeholder="Club Description" />
                 </Row>
                 <Row>
-                  <TextField name="rio" placeholder="Rio Officers" help="Please separate names using commas." />
+                  <Col>
+                    <span>Rio Officers</span>
+                    <TagsInput name="rio" value={rioList} onChange={handleChangeRioList} inputProps={{ className: 'react-tagsinput-input', placeholder: 'Add an Officer......' }} />
+                  </Col>
+                </Row>
+                <Row className="py-3">
+                  <TextField hidden name="rio" placeholder="Rio Officers" help="Please separate names using commas." />
+                  <span>Club Advisor</span>
+                  <Select name="advisor" closeMenOnSelect={false} isMulti options={facultyList} defaultValue={selectedAdvisor} onChange={handleChangeAdvisor} help="Please select at least 1 advisor." />
                 </Row>
                 <Row>
-                  <Select name="advisor" closeMenOnSelect={false} isMulti options={facultyList} defaultValue={clubAdvisors} onChange={handleChangeAdvisor} help="Please select at least 1 advisor." />
-                  <span>Please select at least 1 advisor.</span>
-                </Row>
-                <Row>
-                  <SubmitField value="Submit" disabled={selectedAdvisor.length <= 0} />
+                  <SubmitField value="Submit" disabled={!(selectedAdvisor.length > 0)} />
                   <ErrorsField />
                 </Row>
               </AutoForm>
