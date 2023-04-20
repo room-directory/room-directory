@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Modal, Row } from 'react-bootstrap';
 import swal from 'sweetalert';
@@ -7,6 +7,7 @@ import SimpleSchema from 'simpl-schema';
 import { AutoField, AutoForm, ErrorsField, ListField, ListItemField, NumField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
 // import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { PlusLg, Trash3 } from 'react-bootstrap-icons';
+import TagsInput from 'react-tagsinput';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { Room } from '../../api/room/RoomCollection';
 import { RoomResources } from '../../api/room/RoomResourceCollection';
@@ -75,9 +76,13 @@ const formSchema = new SimpleSchema({
 const bridge = new SimpleSchema2Bridge(formSchema);
 
 const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
+
+  const [occupantList, setOccupantList] = useState([]);
+
   const submit = (data, formRef) => {
     const { roomNumber, building, type, occupants, squareFt, isICS, capacity, chairs, desks, phoneNumber, tv, dataJacks, notes } = data;
     let definitionData = { roomNumber, building, type, occupants, squareFt, notes };
+    definitionData.occupants = occupantList;
     let collectionName = Room.getCollectionName();
     if (Room.findOne({ roomNumber: data.roomNumber, building: data.building })) {
       swal('Error', 'That room exists already!', 'error');
@@ -93,11 +98,19 @@ const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
         });
     }
     formRef.reset();
+    setOccupantList([]);
+  };
+
+  const handleChangeOccupants = (list) => setOccupantList(list);
+
+  const handleHideModal = () => {
+    setShowAddRoom(false);
+    setOccupantList([]);
   };
 
   let fRef = null;
   return (
-    <Modal show={showAddRoom} onHide={() => setShowAddRoom(false)} centered dialogClassName="modal-90w" className="modal-xl">
+    <Modal show={showAddRoom} onHide={() => handleHideModal()} centered dialogClassName="modal-90w" className="modal-xl">
       <Modal.Header closeButton />
       <Modal.Body>
         <h4>Add Room</h4>
@@ -140,9 +153,11 @@ const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
                   <NumField name="squareFt" step={1} min={0} icon="user" />
                 </Col>
               </Row>
-              <Row>
+              <Row className="pb-3">
                 <Col>
-                  <ListField name="occupants" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
+                  <ListField hidden name="occupants" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
+                  <span>Occupants</span>
+                  <TagsInput name="occupants" value={occupantList} onChange={handleChangeOccupants} inputProps={{ className: 'react-tagsinput-input', placeholder: 'Add an Occupant...' }} />
                 </Col>
               </Row>
             </Col>

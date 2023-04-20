@@ -5,7 +5,7 @@ import { Card, Col, Row, Button, Modal } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import Select from 'react-select';
 import TagsInput from 'react-tagsinput';
-import { AutoForm, ErrorsField, SubmitField, TextField, SelectField } from 'uniforms-bootstrap5';
+import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 
@@ -20,7 +20,14 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
     }
   ));
 
-  const roomList = rooms.map(e => ({
+  const facultyTitles = faculty.role.map(e => (
+    {
+      label: e,
+      value: e,
+    }
+  ));
+
+  const validRoomList = rooms.map(e => ({
     label: `POST ${e.roomNumber}`,
     value: `POST ${e.roomNumber}`,
   }));
@@ -28,25 +35,23 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
   const [show, setShow] = useState(false);
   const [offices, setOffices] = useState(facultyOffices);
   const [phoneNumberList, setPhoneNumberList] = useState(faculty.phone);
-  const [titleList, setTitleList] = useState(faculty.role);
+  const [titleList, setTitleList] = useState(facultyTitles);
 
   const handleChangeOffices = (room) => setOffices(room);
 
-  const handleChangePhoneNumbers = (list) => {
-    setPhoneNumberList(list);
-  };
+  const handleChangePhoneNumbers = (list) => setPhoneNumberList(list);
 
-  const handleChangeFacultyTitles = (list) => {
-    setTitleList(list);
-  };
+  const handleChangeFacultyTitles = (list) => setTitleList(list);
 
-  const handleHideModal = () => {
-    setShow(false);
-  };
-  
+  const handleHideModal = () => setShow(false);
+
   const titles = ['Associate Professor', 'Assistant Research Professor', 'Professor', 'Instructor', 'Faculty Specialist', 'Assistant Professor', 'Department Chair', 'Curriculum Committee Chair',
     'Graduate Program Chair', 'Professor Emeritus', 'Computational Scientist', 'Undergraduate Academic Advisor', 'Admin. and Fiscal Support', 'IT System Admin.', 'IT Network/System Admin.'];
 
+  const validTitleList = titles.map(e => ({
+    label: e,
+    value: e,
+  }));
 
   const del = () => {
     const collectionName = FacultyProfiles.getCollectionName();
@@ -76,8 +81,10 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
     // convert phone numbers and office locations to an array
     const phoneArray = (phone.includes(',') ? phone.replace(/\s+/g, '').split(',') : phone);
     const officeLocationArray = (officeLocation.includes(',') ? officeLocation.replace(/\s+/g, '').split(',') : officeLocation);
-    const updateData = { id: faculty._id, phone: phoneArray, firstName, lastName, role, image, email, officeLocation: officeLocationArray, officeHours };
+    const titleArray = (role.includes(',') ? role.replace(/\s+/g, '').split(',') : role);
+    const updateData = { id: faculty._id, phone: phoneArray, firstName, lastName, role: titleArray, image, email, officeLocation: officeLocationArray, officeHours };
     updateData.officeLocation = offices.map(e => e.value);
+    updateData.role = titleList.map(e => e.value);
     // edit the FacultyProfiles collection
     updateMethod.callPromise({ collectionName, updateData })
       .catch((err) => swal('Error', err.message, 'error'))
@@ -133,20 +140,22 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
                   <Col>
                     <Row>
                       <Col>
-                        <SelectField name="role" placeholder="Faculty title" label="Faculty title(s)" allowedValues={titles} appearance="checkbox" />
+                        <TextField hidden name="role" placeholder="Faculty title" label="Faculty title" />
+                        <span>Faculty Title</span>
+                        <Select name="role" defaultValue={facultyTitles} options={validTitleList} onChange={handleChangeFacultyTitles} isMulti />
                       </Col>
                     </Row>
-                    <Row>
+                    <Row className="pt-3">
+                      <TextField hidden name="officeLocation" placeholder="Office Location" help="Please separate offices using commas." />
+                      <span>Office Location</span>
+                      <Select name="officeLocation" defaultValue={facultyOffices} options={validRoomList} onChange={handleChangeOffices} isMulti />
+                    </Row>
+                    <Row className="pt-3">
                       <Col>
                         <TextField hidden name="phone" placeholder="Phone" />
                         <span>Phone Number</span>
                         <TagsInput name="phone" value={phoneNumberList} onChange={handleChangePhoneNumbers} inputProps={{ className: 'react-tagsinput-input', placeholder: 'Add a Phone Number...' }} />
                       </Col>
-                    </Row>
-                    <Row className="py-3">
-                      <TextField hidden name="officeLocation" placeholder="Office Location" help="Please separate offices using commas." />
-                      <span>Office Location</span>
-                      <Select name="officeLocation" defaultValue={facultyOffices} options={roomList} onChange={handleChangeOffices} isMulti />
                     </Row>
                   </Col>
                 </Row>

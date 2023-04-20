@@ -16,17 +16,23 @@ const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty, rooms }) => {
   const [phoneNumberList, setPhoneNumberList] = useState([]);
   const [titleList, setTitleList] = useState([]);
   const [offices, setOffices] = useState([]);
-
   const [error, setError] = useState('');
 
   const titles = ['Associate Professor', 'Assistant Research Professor', 'Professor', 'Instructor', 'Faculty Specialist', 'Assistant Professor', 'Department Chair', 'Curriculum Committee Chair',
     'Graduate Program Chair', 'Professor Emeritus', 'Computational Scientist', 'Undergraduate Academic Advisor', 'Admin. and Fiscal Support', 'IT System Admin.', 'IT Network/System Admin.'];
 
-  const roomList = rooms.map(e => ({
+  const validTitleList = titles.map(e => ({
+    label: e,
+    value: e,
+  }));
+
+  const validRoomList = rooms.map(e => ({
     label: `POST ${e.roomNumber}`,
     value: `POST ${e.roomNumber}`,
   }));
-  roomList.unshift({ label: 'Not available', value: 'Not available' });
+
+  validTitleList.unshift({ label: 'Not available', value: 'Not available' });
+  validRoomList.unshift({ label: 'Not available', value: 'Not available' });
 
   const submit = (doc, formRef) => {
     const collectionName = FacultyProfiles.getCollectionName();
@@ -34,7 +40,7 @@ const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty, rooms }) => {
     const definitionData = doc;
     definitionData.officeLocation = offices.map(e => e.value);
     definitionData.phone = phoneNumberList;
-    definitionData.role = titleList;
+    definitionData.role = titleList.map(e => e.value);
     // create the new Faculty Profile
     defineMethod.callPromise({ collectionName, definitionData })
       .catch((err) => setError(err.reason))
@@ -47,13 +53,9 @@ const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty, rooms }) => {
 
   const handleChangeOffices = (room) => setOffices(room);
 
-  const handleChangePhoneNumbers = (list) => {
-    setPhoneNumberList(list);
-  };
+  const handleChangePhoneNumbers = (list) => setPhoneNumberList(list);
 
-  const handleChangeFacultyTitles = (list) => {
-    setTitleList(list);
-  };
+  const handleChangeFacultyTitles = (list) => setTitleList(list);
 
   const handleHideModal = () => {
     setShowAddFaculty(false);
@@ -90,29 +92,26 @@ const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty, rooms }) => {
               <Row>
                 <TextField name="officeHours" placeholder="Office Hours" />
               </Row>
-
-              <SelectField name="role" placeholder="Faculty title" label="Faculty title" allowedValues={titles} />
-
             </Col>
             <Col>
               <Row>
                 <Col>
                   <TextField hidden name="role" placeholder="Faculty title" label="Faculty title" />
                   <span>Faculty Title</span>
-                  <TagsInput name="role" value={titleList} onChange={handleChangeFacultyTitles} inputProps={{ className: 'react-tagsinput-input', placeholder: 'Add a Title...' }} />
+                  <Select name="role" options={validTitleList} onChange={handleChangeFacultyTitles} isMulti />
                 </Col>
               </Row>
-              <Row>
+              <Row className="pt-3">
+                <TextField hidden name="officeLocation" placeholder="Office Location" help="Please separate offices using commas." />
+                <span>Office Location</span>
+                <Select name="officeLocation" options={validRoomList} onChange={handleChangeOffices} isMulti />
+              </Row>
+              <Row className="pt-3">
                 <Col>
                   <TextField hidden name="phone" placeholder="Phone" />
                   <span>Phone Number</span>
                   <TagsInput name="phone" value={phoneNumberList} onChange={handleChangePhoneNumbers} inputProps={{ className: 'react-tagsinput-input', placeholder: 'Add a Phone Number...' }} />
                 </Col>
-              </Row>
-              <Row className="py-3">
-                <TextField hidden name="officeLocation" placeholder="Office Location" help="Please separate offices using commas." />
-                <span>Office Location</span>
-                <Select name="officeLocation" options={roomList} onChange={handleChangeOffices} isMulti />
               </Row>
             </Col>
           </Row>
