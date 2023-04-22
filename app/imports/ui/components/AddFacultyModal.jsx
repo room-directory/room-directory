@@ -49,7 +49,7 @@ const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty, rooms }) => {
         const officeList = Room.find({}).fetch();
         officeList.map((office) => {
           if (definitionData.email !== null && office.occupants.includes(definitionData.email) && !definitionData.officeLocation.includes(`${office.building} ${office.roomNumber}`)) {
-            office.occupants.splice(office.occupants.indexOf(email), 1);
+            office.occupants.splice(office.occupants.indexOf(definitionData.email), 1);
             collectionName = Room.getCollectionName();
             const updateData = { id: office._id, occupants: office.occupants };
             updateMethod.callPromise({ collectionName, updateData })

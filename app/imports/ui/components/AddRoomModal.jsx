@@ -98,7 +98,7 @@ const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
             .then(() => {
               const facultyMembers = FacultyProfiles.find({}).fetch();
               facultyMembers.map((facultyMember) => {
-                if (facultyMember.officeLocation.includes(`${building} ${roomNumber}`) && !occupants.includes(facultyMember.email)) {
+                if (facultyMember.officeLocation.includes(`${building} ${roomNumber}`) && !occupantList.includes(facultyMember.email)) {
                   facultyMember.officeLocation.splice(facultyMember.officeLocation.indexOf(`${building} ${roomNumber}`), 1);
                   collectionName = FacultyProfiles.getCollectionName();
                   const updateData = { id: facultyMember._id, officeLocation: facultyMember.officeLocation };
@@ -107,7 +107,7 @@ const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
                     .then(() => (true));
                   return null;
                 }
-                if (!facultyMember.officeLocation.includes(`${building} ${roomNumber}`) && occupants.includes(facultyMember.email)) {
+                if (!facultyMember.officeLocation.includes(`${building} ${roomNumber}`) && occupantList.includes(facultyMember.email)) {
                   facultyMember.officeLocation.push(`${building} ${roomNumber}`);
                   const updateData = { id: facultyMember._id, officeLocation: facultyMember.officeLocation };
                   collectionName = FacultyProfiles.getCollectionName();

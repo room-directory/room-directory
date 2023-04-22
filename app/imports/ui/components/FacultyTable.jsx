@@ -99,7 +99,7 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
     // const phoneArray = (phone.includes(',') ? phone.replace(/\s+/g, '').split(',') : phone);
     let officeLocationArray = (officeLocation.includes(',') ? officeLocation.split(',').map((office) => office.trim()) : officeLocation);
     const titleArray = (role.includes(',') ? role.replace(/\s+/g, '').split(',') : role);
-    const updateData = { id: faculty._id, phone: phoneNumberList, firstName, lastName, role: titleArray, image, email, officeLocation: officeLocationArray, officeHours };
+    let updateData = { id: faculty._id, phone: phoneNumberList, firstName, lastName, role: titleArray, image, email, officeLocation: officeLocationArray, officeHours };
     updateData.officeLocation = offices.map(e => e.value);
     updateData.role = titleList.map(e => e.value);
     officeLocationArray = updateData.officeLocation;
