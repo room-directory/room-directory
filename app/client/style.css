@@ -1012,6 +1012,56 @@ svg {
   transform: skewY(180deg);
 }
 
+.react-tagsinput {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding-left: 7px;
+  padding-top: 3px;
+}
+
+.react-tagsinput--focused {
+  border-color: dodgerblue;
+  border-width: 2px;
+}
+
+.react-tagsinput-tag {
+  background-color: lightgray;
+  border-radius: 2px;
+  border: lightgray;
+  color: black;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 400;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  padding: 5px;
+}
+
+.react-tagsinput-remove {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.react-tagsinput-tag a {
+  text-decoration: none;
+}
+
+.react-tagsinput-tag a::before {
+  content: "   ×";
+  color: black;
+}
+
+.react-tagsinput-input {
+  background: transparent;
+  border: 0;
+  font-weight: 400;
+  outline: none;
+  padding: 5px;
+  width: 200px;
+}
+
 .modal-dialog.faculty-table-modal {
   min-width: 40%;
 }
+

@@ -5,6 +5,7 @@ import swal from 'sweetalert';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { AutoForm, ErrorsField, SubmitField, SelectField, TextField, NumField, ListField, ListItemField, AutoField } from 'uniforms-bootstrap5';
 import { PlusLg, Trash3 } from 'react-bootstrap-icons';
+import TagsInput from 'react-tagsinput';
 import { updateMethod, removeItMethod } from '../../api/base/BaseCollection.methods';
 import { Room } from '../../api/room/RoomCollection';
 import { RoomResources } from '../../api/room/RoomResourceCollection';
@@ -15,11 +16,17 @@ const bridge = new SimpleSchema2Bridge(Room._schema.extend(RoomResources._schema
 const RoomTable = ({ room, resources, faculty, eventKey }) => {
 
   const [show, setShow] = useState(false);
+  const [occupantList, setOccupantList] = useState(room.occupants);
+
   const typeList = ['conference', 'lecture', 'study room', 'office'];
   // combine the room and room resources object
   const combinedModel = {
     ...room,
     ...resources,
+  };
+
+  const handleChangeOccupants = (list) => {
+    setOccupantList(list);
   };
 
   const del = () => {
@@ -70,9 +77,10 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
   };
 
   const submit = (data) => {
-    const { building, roomNumber, type, isICS, squareFt, notes, occupants, chairs, desks, phoneNumber, capacity, tv, dataJacks } = data;
-    let updateData = { id: room._id, roomNumber: roomNumber, building: building, type, isICS, squareFt, notes, occupants: occupants };
+    const { building, roomNumber, type, isICS, squareFt, notes, chairs, desks, phoneNumber, capacity, tv, dataJacks } = data;
     let collectionName = Room.getCollectionName();
+
+    let updateData = { id: room._id, roomNumber: roomNumber, building: building, type, isICS, squareFt, notes, occupantList };
 
     // update the room collection
     updateMethod.callPromise({ collectionName, updateData })
@@ -110,7 +118,6 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
             swal('Success', 'Room updated successfully', 'success');
           });
       });
-
   };
 
   return (
@@ -185,9 +192,10 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
                         <NumField name="squareFt" step={1} min={0} icon="user" />
                       </Col>
                     </Row>
-                    <Row>
+                    <Row className="pb-3">
                       <Col>
-                        <ListField name="occupants" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
+                        <span>Occupants</span>
+                        <TagsInput name="occupants" value={occupantList} onChange={handleChangeOccupants} inputProps={{ className: 'react-tagsinput-input', placeholder: 'Add an Occupant...' }} />
                       </Col>
                     </Row>
                   </Col>
