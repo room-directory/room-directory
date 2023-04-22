@@ -8,6 +8,7 @@ import { PlusLg, Trash3 } from 'react-bootstrap-icons';
 import { updateMethod, removeItMethod } from '../../api/base/BaseCollection.methods';
 import { Room } from '../../api/room/RoomCollection';
 import { RoomResources } from '../../api/room/RoomResourceCollection';
+import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 
 const bridge = new SimpleSchema2Bridge(Room._schema.extend(RoomResources._schema));
 
@@ -24,6 +25,7 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
   const del = () => {
     let collectionName = Room.getCollectionName();
     let instance = room._id;
+    const roomName = `${room.building} ${room.roomNumber}`;
     swal({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -42,9 +44,24 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
 
             removeItMethod.callPromise({ collectionName, instance })
               .catch(error => swal('Error', error.message, 'error'))
-              .then(() => swal('Room and Room Resources has been removed from ICS!', {
-                icon: 'success',
-              }));
+              .then(() => {
+                const facultyMembers = FacultyProfiles.find({}).fetch();
+                facultyMembers.map((facultyMember) => {
+                  if (facultyMember.officeLocation.includes(roomName)) {
+                    facultyMember.officeLocation.splice(facultyMember.officeLocation.indexOf(roomName), 1);
+                    collectionName = FacultyProfiles.getCollectionName();
+                    const updateData = { id: facultyMember._id, officeLocation: facultyMember.officeLocation };
+                    updateMethod.callPromise({ collectionName, updateData })
+                      .catch((err) => swal('Error', err.message, 'error'))
+                      .then(() => (true));
+                    return null;
+                  }
+                  return null;
+                });
+                swal('Room and Room Resources has been removed from ICS!', {
+                  icon: 'success',
+                });
+              });
           });
       } else {
         swal('Room is safe!');
@@ -67,7 +84,31 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
 
         updateMethod.callPromise({ collectionName, updateData })
           .catch(error => swal('Error', error.message, 'error'))
-          .then(() => swal('Success', 'Room updated successfully', 'success'));
+          .then(() => {
+            const facultyMembers = FacultyProfiles.find({}).fetch();
+            facultyMembers.map((facultyMember) => {
+              if (facultyMember.officeLocation.includes(`${building} ${roomNumber}`) && !occupants.includes(facultyMember.email)) {
+                facultyMember.officeLocation.splice(facultyMember.officeLocation.indexOf(`${building} ${roomNumber}`), 1);
+                collectionName = FacultyProfiles.getCollectionName();
+                updateData = { id: facultyMember._id, officeLocation: facultyMember.officeLocation };
+                updateMethod.callPromise({ collectionName, updateData })
+                  .catch((err) => swal('Error', err.message, 'error'))
+                  .then(() => (true));
+                return null;
+              }
+              if (!facultyMember.officeLocation.includes(`${building} ${roomNumber}`) && occupants.includes(facultyMember.email)) {
+                facultyMember.officeLocation.push(`${building} ${roomNumber}`);
+                updateData = { id: facultyMember._id, officeLocation: facultyMember.officeLocation };
+                collectionName = FacultyProfiles.getCollectionName();
+                updateMethod.callPromise({ collectionName, updateData })
+                  .catch((err) => swal('Error', err.message, 'error'))
+                  .then(() => (true));
+                return null;
+              }
+              return null;
+            });
+            swal('Success', 'Room updated successfully', 'success');
+          });
       });
 
   };

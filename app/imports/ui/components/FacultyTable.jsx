@@ -30,8 +30,9 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
     'Graduate Program Chair', 'Professor Emeritus', 'Computational Scientist', 'Undergraduate Academic Advisor', 'Admin. and Fiscal Support', 'IT System Admin.', 'IT Network/System Admin.'];
 
   const del = () => {
-    const collectionName = FacultyProfiles.getCollectionName();
+    let collectionName = FacultyProfiles.getCollectionName();
     const instance = faculty._id;
+    const facultyMember = faculty.email;
     swal({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -42,9 +43,24 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
       if (result) {
         removeItMethod.callPromise({ collectionName, instance })
           .catch(error => swal('Error', error.message, 'error'))
-          .then(() => swal('Faculty has been deleted!', {
-            icon: 'success',
-          }));
+          .then(() => {
+            const officeList = Room.find({}).fetch();
+            officeList.map((office) => {
+              if (facultyMember !== null && office.occupants.includes(facultyMember)) {
+                office.occupants.splice(office.occupants.indexOf(facultyMember), 1);
+                collectionName = Room.getCollectionName();
+                const updateData = { id: office._id, occupants: office.occupants };
+                updateMethod.callPromise({ collectionName, updateData })
+                  .catch((err) => swal('Error', err.message, 'error'))
+                  .then(() => (true));
+                return null;
+              }
+              return null;
+            });
+            swal('Faculty has been deleted!', {
+              icon: 'success',
+            });
+          });
       } else {
         swal('Faculty is safe!');
       }

@@ -29,11 +29,13 @@ const EditProfile = () => {
     const profileSubscription = UserProfiles.subscribe();
     const adminProfileSubscription = AdminProfiles.subscribe();
     const facultySubscription = FacultyProfiles.subscribeFacultyProfile();
+    const roomSubscription = Room.subscribeRoom();
     // Determine if the subscriptions are ready
     const rdy1 = adminProfileSubscription.ready();
     const rdy2 = profileSubscription.ready();
     const rdy3 = facultySubscription.ready();
-    const rdy = rdy1 && rdy2 && rdy3;
+    const rdy4 = roomSubscription.ready();
+    const rdy = rdy1 && rdy2 && rdy3 && rdy4;
     // Get the Reservations and User Profile documents
     let usr = UserProfiles.findOne({ _id: _id }, {});
     if (usr === undefined) usr = AdminProfiles.findOne({ _id: _id }, {});
@@ -86,7 +88,6 @@ const EditProfile = () => {
             .catch(error => swal('Error', error.message, 'error'))
             .then(() => {
               const offices = Room.find({}).fetch();
-              console.log(offices);
               offices.map((office) => {
                 if (currentUser !== null && office.occupants.includes(currentUser) && !officeLocationArray.includes(`${office.building} ${office.roomNumber}`)) {
                   office.occupants.splice(office.occupants.indexOf(currentUser), 1);
@@ -108,9 +109,9 @@ const EditProfile = () => {
                 }
                 return null;
               });
-              swal('Success', 'Faculty edited successfully', 'success');
             });
         }
+        swal('Success', 'Profile edited successfully', 'success');
       });
   };
 

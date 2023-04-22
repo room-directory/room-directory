@@ -5,8 +5,9 @@ import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import Select from 'react-select';
 import { AutoForm, ErrorsField, SubmitField, TextField, SelectField } from 'uniforms-bootstrap5';
 import swal from 'sweetalert';
-import { defineMethod } from '../../api/base/BaseCollection.methods';
+import { defineMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
+import { Room } from '../../api/room/RoomCollection';
 
 const bridge = new SimpleSchema2Bridge(FacultyProfiles._schema);
 
@@ -24,14 +25,38 @@ const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty, rooms }) => {
   const [offices, setOffices] = useState([]);
   const handleChangeOffices = (room) => setOffices(room);
   const submit = (doc, formRef) => {
-    const collectionName = FacultyProfiles.getCollectionName();
+    let collectionName = FacultyProfiles.getCollectionName();
 
     const definitionData = doc;
     definitionData.officeLocation = offices.map(e => e.value);
     // create the new Faculty Profile
     defineMethod.callPromise({ collectionName, definitionData })
       .catch((err) => setError(err.reason))
-      .then(() => swal('Success', 'Faculty added successfully', 'success'));
+      .then(() => {
+        const officeList = Room.find({}).fetch();
+        officeList.map((office) => {
+          if (definitionData.email !== null && office.occupants.includes(definitionData.email) && !definitionData.officeLocation.includes(`${office.building} ${office.roomNumber}`)) {
+            office.occupants.splice(office.occupants.indexOf(email), 1);
+            collectionName = Room.getCollectionName();
+            const updateData = { id: office._id, occupants: office.occupants };
+            updateMethod.callPromise({ collectionName, updateData })
+              .catch((err) => swal('Error', err.message, 'error'))
+              .then(() => (true));
+            return null;
+          }
+          if (definitionData.email !== null && !office.occupants.includes(definitionData.email) && definitionData.officeLocation.includes(`${office.building} ${office.roomNumber}`)) {
+            office.occupants.push(definitionData.email);
+            const updateData = { id: office._id, occupants: office.occupants };
+            collectionName = Room.getCollectionName();
+            updateMethod.callPromise({ collectionName, updateData })
+              .catch((err) => swal('Error', err.message, 'error'))
+              .then(() => (true));
+            return null;
+          }
+          return null;
+        });
+        swal('Success', 'Faculty added successfully', 'success');
+      });
     formRef.reset();
     setOffices([]);
   };

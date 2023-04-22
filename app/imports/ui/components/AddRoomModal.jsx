@@ -7,9 +7,10 @@ import SimpleSchema from 'simpl-schema';
 import { AutoField, AutoForm, ErrorsField, ListField, ListItemField, NumField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
 // import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { PlusLg, Trash3 } from 'react-bootstrap-icons';
-import { defineMethod } from '../../api/base/BaseCollection.methods';
+import { defineMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { Room } from '../../api/room/RoomCollection';
 import { RoomResources } from '../../api/room/RoomResourceCollection';
+import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 
 const typeList = ['conference', 'lecture', 'study room', 'office'];
 const buildingList = ['POST', 'building2'];
@@ -89,7 +90,31 @@ const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
           definitionData = { roomNumber, isICS, capacity, chairs, desks, phoneNumber, tv, dataJacks };
           defineMethod.callPromise({ collectionName, definitionData })
             .catch(error => swal('Error', error.message, 'error'))
-            .then(() => swal('Success', 'Room added successfully', 'success'));
+            .then(() => {
+              const facultyMembers = FacultyProfiles.find({}).fetch();
+              facultyMembers.map((facultyMember) => {
+                if (facultyMember.officeLocation.includes(`${building} ${roomNumber}`) && !occupants.includes(facultyMember.email)) {
+                  facultyMember.officeLocation.splice(facultyMember.officeLocation.indexOf(`${building} ${roomNumber}`), 1);
+                  collectionName = FacultyProfiles.getCollectionName();
+                  const updateData = { id: facultyMember._id, officeLocation: facultyMember.officeLocation };
+                  updateMethod.callPromise({ collectionName, updateData })
+                    .catch((err) => swal('Error', err.message, 'error'))
+                    .then(() => (true));
+                  return null;
+                }
+                if (!facultyMember.officeLocation.includes(`${building} ${roomNumber}`) && occupants.includes(facultyMember.email)) {
+                  facultyMember.officeLocation.push(`${building} ${roomNumber}`);
+                  const updateData = { id: facultyMember._id, officeLocation: facultyMember.officeLocation };
+                  collectionName = FacultyProfiles.getCollectionName();
+                  updateMethod.callPromise({ collectionName, updateData })
+                    .catch((err) => swal('Error', err.message, 'error'))
+                    .then(() => (true));
+                  return null;
+                }
+                return null;
+              });
+              swal('Success', 'Room updated successfully', 'success');
+            });
         });
     }
     formRef.reset();
