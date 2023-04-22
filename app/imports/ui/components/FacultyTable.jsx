@@ -93,13 +93,13 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
   };
 
   const submit = (data) => {
-    const { firstName, lastName, role, image, email, phone, officeLocation, officeHours } = data;
+    const { firstName, lastName, role, image, email, officeLocation, officeHours } = data;
     let collectionName = FacultyProfiles.getCollectionName();
-    // convert phone numbers and office locations to an array
-    const phoneArray = (phone.includes(',') ? phone.replace(/\s+/g, '').split(',') : phone);
+    // convert phone numbers, job titles, and office locations to an array
+    // const phoneArray = (phone.includes(',') ? phone.replace(/\s+/g, '').split(',') : phone);
     let officeLocationArray = (officeLocation.includes(',') ? officeLocation.split(',').map((office) => office.trim()) : officeLocation);
     const titleArray = (role.includes(',') ? role.replace(/\s+/g, '').split(',') : role);
-    let updateData = { id: faculty._id, phone: phoneArray, firstName, lastName, role: titleArray, image, email, officeLocation: officeLocationArray, officeHours };
+    const updateData = { id: faculty._id, phone: phoneNumberList, firstName, lastName, role: titleArray, image, email, officeLocation: officeLocationArray, officeHours };
     updateData.officeLocation = offices.map(e => e.value);
     updateData.role = titleList.map(e => e.value);
     officeLocationArray = updateData.officeLocation;
