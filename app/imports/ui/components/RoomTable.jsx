@@ -63,7 +63,7 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
     const { building, roomNumber, type, isICS, squareFt, notes, chairs, desks, phoneNumber, capacity, tv, dataJacks } = data;
     let collectionName = Room.getCollectionName();
 
-    let updateData = { id: room._id, roomNumber: roomNumber, building: building, type, isICS, squareFt, notes, occupantList };
+    let updateData = { id: room._id, roomNumber: roomNumber, building: building, type, isICS, squareFt, notes, occupants: occupantList };
 
     // update the room collection
     updateMethod.callPromise({ collectionName, updateData })
