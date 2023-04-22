@@ -89,13 +89,12 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
         // update the room resources collection
         updateData = { id: resources._id, chairs: chairs, desks: desks, phone: phoneNumber, capacity: capacity, tv: tv, dataJacks: dataJacks };
         collectionName = RoomResources.getCollectionName();
-
         updateMethod.callPromise({ collectionName, updateData })
           .catch(error => swal('Error', error.message, 'error'))
           .then(() => {
             const facultyMembers = FacultyProfiles.find({}).fetch();
             facultyMembers.map((facultyMember) => {
-              if (facultyMember.officeLocation.includes(`${building} ${roomNumber}`) && !occupants.includes(facultyMember.email)) {
+              if (facultyMember.officeLocation.includes(`${building} ${roomNumber}`) && !occupantList.includes(facultyMember.email)) {
                 facultyMember.officeLocation.splice(facultyMember.officeLocation.indexOf(`${building} ${roomNumber}`), 1);
                 collectionName = FacultyProfiles.getCollectionName();
                 updateData = { id: facultyMember._id, officeLocation: facultyMember.officeLocation };
@@ -104,7 +103,7 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
                   .then(() => (true));
                 return null;
               }
-              if (!facultyMember.officeLocation.includes(`${building} ${roomNumber}`) && occupants.includes(facultyMember.email)) {
+              if (!facultyMember.officeLocation.includes(`${building} ${roomNumber}`) && occupantList.includes(facultyMember.email)) {
                 facultyMember.officeLocation.push(`${building} ${roomNumber}`);
                 updateData = { id: facultyMember._id, officeLocation: facultyMember.officeLocation };
                 collectionName = FacultyProfiles.getCollectionName();
