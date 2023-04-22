@@ -18,6 +18,8 @@
     "react-icons": "^4.8.0",
     "react-router": "^6.6.0",
     "react-router-dom": "^6.6.0",
+    "react-select": "^5.7.2",
+    "react-tagsinput": "^3.20.1",
     "react-typewriter-effect": "^1.1.0",
     "simpl-schema": "^3.4.0",
     "sweetalert": "^2.1.2",
