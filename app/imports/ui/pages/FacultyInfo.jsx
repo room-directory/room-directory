@@ -48,7 +48,7 @@ const FacultyInfo = () => {
     if (['Not Available', 'No Email Contact', 'No Phone Contact', 'Unknown'].includes(b[sortingBy]) || b[sortingBy][0] === 'Not Available' || b[sortingBy].length === 0) {
       return -1;
     }
-    if (['phone', 'officeLocation'].includes(sortingBy)) {
+    if (['phone', 'officeLocation', 'role'].includes(sortingBy)) {
       return a[sortingBy][0].localeCompare(b[sortingBy][0]);
     }
     return a[sortingBy].localeCompare(b[sortingBy]);
