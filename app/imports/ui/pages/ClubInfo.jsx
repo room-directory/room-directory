@@ -51,21 +51,6 @@ const ClubInfo = () => {
               {clubsList.map((club) => <ClubItem key={club._id} club={club} />)}
             </Col>
           </Row>
-
-          {/* <Table hidden> */}
-          {/*  <thead> */}
-          {/*    <tr> */}
-          {/*      <th> </th> */}
-          {/*      <th>Club Name</th> */}
-          {/*      <th>Description</th> */}
-          {/*      <th>RIO Student(s)</th> */}
-          {/*      <th>Advisor(s)</th> */}
-          {/*    </tr> */}
-          {/*  </thead> */}
-          {/*  <tbody> */}
-          {/*    {clubsList.map((club) => <ClubItem key={club._id} club={club} />)} */}
-          {/*  </tbody> */}
-          {/* </Table> */}
         </Col>
       </Row>
     </Container>

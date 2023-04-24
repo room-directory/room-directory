@@ -13,6 +13,8 @@ import { ROLE } from '../../api/role/Role';
 import { updateMethod } from '../../api/base/BaseCollection.methods';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
+import { Room } from '../../api/room/RoomCollection';
+import { updateUserPasswordMethod } from '../../api/user/UserProfileCollection.methods';
 
 /* TODO: Implement Edit profile, review user profile subscription (currently getting all profiles) */
 const EditProfile = () => {
@@ -27,11 +29,13 @@ const EditProfile = () => {
     const profileSubscription = UserProfiles.subscribe();
     const adminProfileSubscription = AdminProfiles.subscribe();
     const facultySubscription = FacultyProfiles.subscribeFacultyProfile();
+    const roomSubscription = Room.subscribeRoom();
     // Determine if the subscriptions are ready
     const rdy1 = adminProfileSubscription.ready();
     const rdy2 = profileSubscription.ready();
     const rdy3 = facultySubscription.ready();
-    const rdy = rdy1 && rdy2 && rdy3;
+    const rdy4 = roomSubscription.ready();
+    const rdy = rdy1 && rdy2 && rdy3 && rdy4;
     // Get the Reservations and User Profile documents
     let usr = UserProfiles.findOne({ _id: _id }, {});
     if (usr === undefined) usr = AdminProfiles.findOne({ _id: _id }, {});
@@ -45,8 +49,10 @@ const EditProfile = () => {
   }, [_id]);
 
   const saveIntoCollections = () => {
+    // get all of the data from the form
     const fName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_FIRST_NAME).value.toString();
     const lName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_LAST_NAME).value.toString();
+    const password = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_PASSWORD).value.toString();
     let collectionName;
     if (Roles.userIsInRole(Meteor.userId(), [ROLE.USER])) {
       collectionName = UserProfiles.getCollectionName();
@@ -54,6 +60,15 @@ const EditProfile = () => {
       collectionName = AdminProfiles.getCollectionName();
     }
     updateData = { id: user._id, firstName: fName, lastName: lName, image: pfp };
+    const email = currUser;
+
+    // if the password was changed, update the meteor account
+    if (password) {
+      updateUserPasswordMethod.callPromise({ email, password })
+        .catch(error => swal('Error', error.message, 'error'));
+    }
+
+    // update the remaining data
     updateMethod.callPromise({ collectionName, updateData })
       .catch(error => swal('Error', error.message, 'error'))
       .then(() => {
@@ -66,15 +81,37 @@ const EditProfile = () => {
 
           // convert phone numbers and office locations to an array
           const phoneArray = (phoneNum.includes(',') ? phoneNum.replace(/\s+/g, '').split(',') : phoneNum);
-          const officeLocationArray = (location.includes(',') ? location.replace(/\s+/g, '').split(',') : location);
+          const officeLocationArray = (location.includes(',') ? location.split(',').map((office) => office.trim()) : location);
 
           updateData = { id: facultyInfo._id, firstName: fName, lastName: lName, phone: phoneArray, officeLocation: officeLocationArray, officeHours: hours };
           updateMethod.callPromise({ collectionName, updateData })
             .catch(error => swal('Error', error.message, 'error'))
-            .then(() => swal('Success', 'Faculty profile updated successfully', 'success'));
-        } else {
-          swal('Success', 'Profile updated successfully', 'success');
+            .then(() => {
+              const offices = Room.find({}).fetch();
+              offices.map((office) => {
+                if (currentUser !== null && office.occupants.includes(currentUser) && !officeLocationArray.includes(`${office.building} ${office.roomNumber}`)) {
+                  office.occupants.splice(office.occupants.indexOf(currentUser), 1);
+                  collectionName = Room.getCollectionName();
+                  updateData = { id: office._id, occupants: office.occupants };
+                  updateMethod.callPromise({ collectionName, updateData })
+                    .catch((err) => swal('Error', err.message, 'error'))
+                    .then(() => (true));
+                  return null;
+                }
+                if (!office.occupants.includes(currentUser) && officeLocationArray.includes(`${office.building} ${office.roomNumber}`)) {
+                  office.occupants.push(currentUser);
+                  updateData = { id: office._id, occupants: office.occupants };
+                  collectionName = Room.getCollectionName();
+                  updateMethod.callPromise({ collectionName, updateData })
+                    .catch((err) => swal('Error', err.message, 'error'))
+                    .then(() => (true));
+                  return null;
+                }
+                return null;
+              });
+            });
         }
+        swal('Success', 'Profile edited successfully', 'success');
       });
   };
 
@@ -148,6 +185,14 @@ const EditProfile = () => {
               <InputGroup size="sm">
                 <InputGroup.Text><b>Last Name</b></InputGroup.Text>
                 <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_LAST_NAME} defaultValue={user.lastName ? user.lastName : ''} />
+              </InputGroup>
+            </Col>
+          </Row>
+          <Row className="p-3">
+            <Col>
+              <InputGroup size="sm">
+                <InputGroup.Text><b>Password</b></InputGroup.Text>
+                <Form.Control id={COMPONENT_IDS.EDIT_PROFILE_FORM_PASSWORD} />
               </InputGroup>
             </Col>
           </Row>

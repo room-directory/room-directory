@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Card, Col, Container, Row } from 'react-bootstrap';
 import { PAGE_IDS } from '../utilities/PageIDs';
 
 /* A simple static component to render some text for the landing page. */
@@ -8,7 +8,8 @@ const Landing = () => {
   const [currentSentence, setCurrentSentence] = useState('');
 
   useEffect(() => {
-    const sentence = 'Welcome to the ICS Room Directory! \n Creating a user friendly interface for office space management of the ICS department.';
+    const sentence = 'Welcome to ICS Room Directory! \n' +
+        ' An interactive and user friendly app for office space management of the ICS department.';
     let currentIndex = 0;
     let timeoutId = null;
 
@@ -28,33 +29,6 @@ const Landing = () => {
     return () => clearTimeout(timeoutId);
   }, []);
 
-  // const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
-  // const [currentIndex, setCurrentIndex] = useState(0);
-
-  // const [isTyping, setIsTyping] = useState(true);
-  //
-  // useEffect(() => {
-  //   const timeoutId = setTimeout(() => {
-  //     if (currentIndex < sentences[currentSentenceIndex].length) {
-  //       const nextChar = sentences[currentSentenceIndex][currentIndex];
-  //       setCurrentSentence((prev) => prev + nextChar);
-  //       setCurrentIndex((prev) => prev + 1);
-  //     }
-  //   }, 50); // Change this value to adjust the typing speed
-  //
-  //   return () => clearTimeout(timeoutId);
-  // }, [currentIndex, currentSentenceIndex]);
-  //
-  // useEffect(() => {
-  //   if (currentIndex === sentences[currentSentenceIndex].length) {
-  //     setTimeout(() => {
-  //       setCurrentSentence('');
-  //       setCurrentIndex(0);
-  //       setCurrentSentenceIndex((prev) => (prev === sentences.length - 1 ? 0 : prev + 1));
-  //     }, 300); // Change this value to adjust the sentence switch speed
-  //   }
-  // }, [currentIndex, currentSentenceIndex]);
-
   return (
     <Container
       fluid
@@ -63,16 +37,22 @@ const Landing = () => {
       style={{
         backgroundImage: "url('../images/post.png')",
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: 'center center',
         backgroundClip: 'padding-box',
-        maxHeight: '565px',
+        top: '0',
+        right: '0',
+        bottom: '0',
+        left: '0',
+        height: '100%',
+        zIndex: '-1',
+        position: 'absolute',
       }}
     >
-      <Row style={{ marginTop: '200px', marginBottom: '90%' }}>
-        <Col className="d-flex justify-content-start align-items-center" md={{ span: 4, offset: 1 }}>
-          <div className="text-center text-white text-opacity-100 cont">
-            <p>{currentSentence}</p>
-          </div>
+      <Row style={{ marginTop: '150px', marginBottom: '35vh' }}>
+        <Col className="d-flex justify-content-start align-items-center">
+          <Card className="p-5 text-center land-card" style={{ backgroundColor: 'rgba(0, 63, 24, 0.70)', width: '50%', height: '25vh', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)', fontSize: '1em' }}>
+            <p className="text-white cont flex-column" style={{ fontSize: 'calc(1.2vw + 0.8vh', alignItems: 'center' }}>{currentSentence}</p>
+          </Card>
         </Col>
       </Row>
     </Container>

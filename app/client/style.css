@@ -65,10 +65,13 @@ body {
   background-color: var(--main-green);
 }
 
-#club-information-search button {
+#club-information-search button{
+  background-color: var(--main-green);
+  border-color: var(--main-green);
+}
+#club-information-list .card-btn {
   background-color: var(--main-green);
 }
-
 #room-list button {
   background-color: var(--main-green);
 }
@@ -937,11 +940,15 @@ footer a:hover {
 }
 
 .cont{
-  display: inline-block;
-  font-family: 'Source Code Pro', monospace;
-  font-size: 24px;
+  /*display: inline-block;*/
+  /*font-family: 'Source Code Pro', monospace;*/
+  font-family: 'Lucida Console', monospace;
+  /*font-size: 24px;*/
   font-weight: bold;
   text-align: center;
+  align-items: center;
+  alignment: center;
+  align-self: center;
 }
 
 .verticalScroll {
@@ -981,33 +988,102 @@ svg {
 }
 
 .flip-card {
-  position: relative;
-  width: 100%;
-  height: 0;
   perspective: 1000px;
+}
+
+.card {
+  border: 1px solid #ccc;
   margin-bottom: 20px;
+  position: relative;
+  height: 400px;
 }
 
-.flip-card-inner {
-  position: absolute;
+.card-front,
+.card-back {
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding-top: -100px;
+  border-radius: 10px;
   width: 100%;
   height: 100%;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-}
-
-.flip-card.flipped .flip-card-inner {
-  transform: skewY(180deg);
-}
-
-.flip-card-front,
-.flip-card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   backface-visibility: hidden;
+  transition: transform 0.6s;
 }
 
-.flip-card-back {
-  transform: skewY(180deg);
+.card-btn {
+  background-color: var(--main-green);
 }
+.land-card {
+  /*background-color: rgba(0, 63, 24, 0.70);*/
+  opacity: 1;
+  /*width: 50%;*/
+  /*height: 50%;*/
+  left: 50%;
+  top: 25vh;
+  border-radius: 10px;
+  position: fixed;
+  transform: translate(-50%,-50%);
+  display: flex;
+  align-items: center;
+  padding-top: -20%;
+}
+
+.react-tagsinput {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding-left: 7px;
+  padding-top: 3px;
+}
+
+.react-tagsinput--focused {
+  border-color: dodgerblue;
+  border-width: 2px;
+}
+
+.react-tagsinput-tag {
+  background-color: lightgray;
+  border-radius: 2px;
+  border: lightgray;
+  color: black;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 400;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  padding: 5px;
+}
+
+.react-tagsinput-remove {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.react-tagsinput-tag a {
+  text-decoration: none;
+}
+
+.react-tagsinput-tag a::before {
+  content: "   ×";
+  color: black;
+}
+
+.react-tagsinput-input {
+  background: transparent;
+  border: 0;
+  font-weight: 400;
+  outline: none;
+  padding: 5px;
+  width: 200px;
+}
+
+.modal-dialog.faculty-table-modal {
+  min-width: 40%;
+}
+
