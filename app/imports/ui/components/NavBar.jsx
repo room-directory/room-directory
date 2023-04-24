@@ -29,7 +29,7 @@ const NavBar = ({ highlight, changeHighlight, counter, incrementCounter, decreme
 
   }, []);
   const topMenuStyle = { color: 'white' };
-  const bottomMenuStyle = { borderBottom: '1px solid black'};
+  const bottomMenuStyle = { borderBottom: '1px solid black' };
   const tutorialText = ['',
     'This is the faculty information page. It has information about the faculty',
     'This is the room list page where you can see a list of rooms.',
