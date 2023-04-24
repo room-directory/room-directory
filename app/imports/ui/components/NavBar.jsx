@@ -29,7 +29,7 @@ const NavBar = ({ highlight, changeHighlight, counter, incrementCounter, decreme
 
   }, []);
   const topMenuStyle = { color: 'white' };
-  const bottomMenuStyle = { marginBottom: '10px', border: '1px solid black' };
+  const bottomMenuStyle = { borderBottom: '1px solid black' };
   const tutorialText = ['',
     'This is the faculty information page. It has information about the faculty',
     'This is the room list page where you can see a list of rooms.',
@@ -60,7 +60,7 @@ const NavBar = ({ highlight, changeHighlight, counter, incrementCounter, decreme
         </Container>
       </Navbar>
       <Navbar bg="white" expand="lg" style={bottomMenuStyle}>
-        <Container>
+        <Container fluid>
           <Navbar.Toggle aria-controls={COMPONENT_IDS.NAVBAR_COLLAPSE} />
           <Navbar.Collapse id={COMPONENT_IDS.NAVBAR_COLLAPSE}>
             <Nav className="me-auto justify-content-start">

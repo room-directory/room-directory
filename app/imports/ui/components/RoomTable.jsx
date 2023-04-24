@@ -5,15 +5,19 @@ import swal from 'sweetalert';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import { AutoForm, ErrorsField, SubmitField, SelectField, TextField, NumField, ListField, ListItemField, AutoField } from 'uniforms-bootstrap5';
 import { PlusLg, Trash3 } from 'react-bootstrap-icons';
+import TagsInput from 'react-tagsinput';
 import { updateMethod, removeItMethod } from '../../api/base/BaseCollection.methods';
 import { Room } from '../../api/room/RoomCollection';
 import { RoomResources } from '../../api/room/RoomResourceCollection';
+import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 
 const bridge = new SimpleSchema2Bridge(Room._schema.extend(RoomResources._schema));
 
 const RoomTable = ({ room, resources, faculty, eventKey }) => {
 
   const [show, setShow] = useState(false);
+  const [occupantList, setOccupantList] = useState(room.occupants);
+
   const typeList = ['conference', 'lecture', 'study room', 'office'];
   // combine the room and room resources object
   const combinedModel = {
@@ -21,9 +25,14 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
     ...resources,
   };
 
+  const handleChangeOccupants = (list) => {
+    setOccupantList(list);
+  };
+
   const del = () => {
     let collectionName = Room.getCollectionName();
     let instance = room._id;
+    const roomName = `${room.building} ${room.roomNumber}`;
     swal({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -42,9 +51,24 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
 
             removeItMethod.callPromise({ collectionName, instance })
               .catch(error => swal('Error', error.message, 'error'))
-              .then(() => swal('Room and Room Resources has been removed from ICS!', {
-                icon: 'success',
-              }));
+              .then(() => {
+                const facultyMembers = FacultyProfiles.find({}).fetch();
+                facultyMembers.map((facultyMember) => {
+                  if (facultyMember.officeLocation.includes(roomName)) {
+                    facultyMember.officeLocation.splice(facultyMember.officeLocation.indexOf(roomName), 1);
+                    collectionName = FacultyProfiles.getCollectionName();
+                    const updateData = { id: facultyMember._id, officeLocation: facultyMember.officeLocation };
+                    updateMethod.callPromise({ collectionName, updateData })
+                      .catch((err) => swal('Error', err.message, 'error'))
+                      .then(() => (true));
+                    return null;
+                  }
+                  return null;
+                });
+                swal('Room and Room Resources has been removed from ICS!', {
+                  icon: 'success',
+                });
+              });
           });
       } else {
         swal('Room is safe!');
@@ -53,9 +77,10 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
   };
 
   const submit = (data) => {
-    const { building, roomNumber, type, isICS, squareFt, notes, occupants, chairs, desks, phoneNumber, capacity, tv, dataJacks } = data;
-    let updateData = { id: room._id, roomNumber: roomNumber, building: building, type, isICS, squareFt, notes, occupants: occupants };
+    const { building, roomNumber, type, isICS, squareFt, notes, chairs, desks, phoneNumber, capacity, tv, dataJacks } = data;
     let collectionName = Room.getCollectionName();
+
+    let updateData = { id: room._id, roomNumber: roomNumber, building: building, type, isICS, squareFt, notes, occupants: occupantList };
 
     // update the room collection
     updateMethod.callPromise({ collectionName, updateData })
@@ -64,12 +89,34 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
         // update the room resources collection
         updateData = { id: resources._id, chairs: chairs, desks: desks, phone: phoneNumber, capacity: capacity, tv: tv, dataJacks: dataJacks };
         collectionName = RoomResources.getCollectionName();
-
         updateMethod.callPromise({ collectionName, updateData })
           .catch(error => swal('Error', error.message, 'error'))
-          .then(() => swal('Success', 'Room updated successfully', 'success'));
+          .then(() => {
+            const facultyMembers = FacultyProfiles.find({}).fetch();
+            facultyMembers.map((facultyMember) => {
+              if (facultyMember.officeLocation.includes(`${building} ${roomNumber}`) && !occupantList.includes(facultyMember.email)) {
+                facultyMember.officeLocation.splice(facultyMember.officeLocation.indexOf(`${building} ${roomNumber}`), 1);
+                collectionName = FacultyProfiles.getCollectionName();
+                updateData = { id: facultyMember._id, officeLocation: facultyMember.officeLocation };
+                updateMethod.callPromise({ collectionName, updateData })
+                  .catch((err) => swal('Error', err.message, 'error'))
+                  .then(() => (true));
+                return null;
+              }
+              if (!facultyMember.officeLocation.includes(`${building} ${roomNumber}`) && occupantList.includes(facultyMember.email)) {
+                facultyMember.officeLocation.push(`${building} ${roomNumber}`);
+                updateData = { id: facultyMember._id, officeLocation: facultyMember.officeLocation };
+                collectionName = FacultyProfiles.getCollectionName();
+                updateMethod.callPromise({ collectionName, updateData })
+                  .catch((err) => swal('Error', err.message, 'error'))
+                  .then(() => (true));
+                return null;
+              }
+              return null;
+            });
+            swal('Success', 'Room updated successfully', 'success');
+          });
       });
-
   };
 
   return (
@@ -144,9 +191,10 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
                         <NumField name="squareFt" step={1} min={0} icon="user" />
                       </Col>
                     </Row>
-                    <Row>
+                    <Row className="pb-3">
                       <Col>
-                        <ListField name="occupants" style={{ maxHeight: '200px', overflowY: 'auto' }} addIcon={<PlusLg className="listIcons" />} removeIcon={<Trash3 className="listIcons" />} />
+                        <span>Occupants</span>
+                        <TagsInput name="occupants" value={occupantList} onChange={handleChangeOccupants} inputProps={{ className: 'react-tagsinput-input', placeholder: 'Add an Occupant...' }} />
                       </Col>
                     </Row>
                   </Col>

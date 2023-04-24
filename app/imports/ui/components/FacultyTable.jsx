@@ -4,34 +4,60 @@ import swal from 'sweetalert';
 import { Card, Col, Row, Button, Modal } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import Select from 'react-select';
-import { AutoForm, ErrorsField, SubmitField, TextField, SelectField } from 'uniforms-bootstrap5';
+import TagsInput from 'react-tagsinput';
+import { AutoForm, ErrorsField, SubmitField, TextField } from 'uniforms-bootstrap5';
 import { removeItMethod, updateMethod } from '../../api/base/BaseCollection.methods';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
+import { Room } from '../../api/room/RoomCollection';
 
 const bridge = new SimpleSchema2Bridge(FacultyProfiles._schema);
 
 const FacultyTable = ({ faculty, eventKey, rooms }) => {
-  const [show, setShow] = useState(false);
+
   const facultyOffices = faculty.officeLocation.map(e => (
     {
       label: e,
       value: e,
     }
   ));
-  const [offices, setOffices] = useState(facultyOffices);
-  const handleChangeOffices = (room) => setOffices(room);
-  console.log(faculty.officeLocation);
-  const roomList = rooms.map(e => ({
+
+  const facultyTitles = faculty.role.map(e => (
+    {
+      label: e,
+      value: e,
+    }
+  ));
+
+  const validRoomList = rooms.map(e => ({
     label: `POST ${e.roomNumber}`,
     value: `POST ${e.roomNumber}`,
   }));
 
+  const [show, setShow] = useState(false);
+  const [offices, setOffices] = useState(facultyOffices);
+  const [phoneNumberList, setPhoneNumberList] = useState(faculty.phone);
+  const [titleList, setTitleList] = useState(facultyTitles);
+
+  const handleChangeOffices = (room) => setOffices(room);
+
+  const handleChangePhoneNumbers = (list) => setPhoneNumberList(list);
+
+  const handleChangeFacultyTitles = (list) => setTitleList(list);
+
+  const handleHideModal = () => setShow(false);
+
   const titles = ['Associate Professor', 'Assistant Research Professor', 'Professor', 'Instructor', 'Faculty Specialist', 'Assistant Professor', 'Department Chair', 'Curriculum Committee Chair',
     'Graduate Program Chair', 'Professor Emeritus', 'Computational Scientist', 'Undergraduate Academic Advisor', 'Admin. and Fiscal Support', 'IT System Admin.', 'IT Network/System Admin.'];
 
+  const validTitleList = titles.map(e => ({
+    label: e,
+    value: e,
+  }));
+
   const del = () => {
-    const collectionName = FacultyProfiles.getCollectionName();
+    let collectionName = FacultyProfiles.getCollectionName();
     const instance = faculty._id;
+    const facultyMember = faculty.email;
     swal({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -42,9 +68,24 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
       if (result) {
         removeItMethod.callPromise({ collectionName, instance })
           .catch(error => swal('Error', error.message, 'error'))
-          .then(() => swal('Faculty has been deleted!', {
-            icon: 'success',
-          }));
+          .then(() => {
+            const officeList = Room.find({}).fetch();
+            officeList.map((office) => {
+              if (facultyMember !== null && office.occupants.includes(facultyMember)) {
+                office.occupants.splice(office.occupants.indexOf(facultyMember), 1);
+                collectionName = Room.getCollectionName();
+                const updateData = { id: office._id, occupants: office.occupants };
+                updateMethod.callPromise({ collectionName, updateData })
+                  .catch((err) => swal('Error', err.message, 'error'))
+                  .then(() => (true));
+                return null;
+              }
+              return null;
+            });
+            swal('Faculty has been deleted!', {
+              icon: 'success',
+            });
+          });
       } else {
         swal('Faculty is safe!');
       }
@@ -52,17 +93,44 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
   };
 
   const submit = (data) => {
-    const { firstName, lastName, role, image, email, phone, officeLocation, officeHours } = data;
-    const collectionName = FacultyProfiles.getCollectionName();
-    // convert phone numbers and office locations to an array
-    const phoneArray = (phone.includes(',') ? phone.replace(/\s+/g, '').split(',') : phone);
-    const officeLocationArray = (officeLocation.includes(',') ? officeLocation.replace(/\s+/g, '').split(',') : officeLocation);
-    const updateData = { id: faculty._id, phone: phoneArray, firstName, lastName, role, image, email, officeLocation: officeLocationArray, officeHours };
+    const { firstName, lastName, role, image, email, officeLocation, officeHours } = data;
+    let collectionName = FacultyProfiles.getCollectionName();
+    // convert phone numbers, job titles, and office locations to an array
+    // const phoneArray = (phone.includes(',') ? phone.replace(/\s+/g, '').split(',') : phone);
+    let officeLocationArray = (officeLocation.includes(',') ? officeLocation.split(',').map((office) => office.trim()) : officeLocation);
+    const titleArray = (role.includes(',') ? role.replace(/\s+/g, '').split(',') : role);
+    let updateData = { id: faculty._id, phone: phoneNumberList, firstName, lastName, role: titleArray, image, email, officeLocation: officeLocationArray, officeHours };
     updateData.officeLocation = offices.map(e => e.value);
+    updateData.role = titleList.map(e => e.value);
+    officeLocationArray = updateData.officeLocation;
     // edit the FacultyProfiles collection
     updateMethod.callPromise({ collectionName, updateData })
       .catch((err) => swal('Error', err.message, 'error'))
-      .then(() => swal('Success', 'Faculty edited successfully', 'success'));
+      .then(() => {
+        const officeList = Room.find({}).fetch();
+        officeList.map((office) => {
+          if (email !== null && office.occupants.includes(email) && !officeLocationArray.includes(`${office.building} ${office.roomNumber}`)) {
+            office.occupants.splice(office.occupants.indexOf(email), 1);
+            collectionName = Room.getCollectionName();
+            updateData = { id: office._id, occupants: office.occupants };
+            updateMethod.callPromise({ collectionName, updateData })
+              .catch((err) => swal('Error', err.message, 'error'))
+              .then(() => (true));
+            return null;
+          }
+          if (!office.occupants.includes(email) && officeLocationArray.includes(`${office.building} ${office.roomNumber}`)) {
+            office.occupants.push(email);
+            updateData = { id: office._id, occupants: office.occupants };
+            collectionName = Room.getCollectionName();
+            updateMethod.callPromise({ collectionName, updateData })
+              .catch((err) => swal('Error', err.message, 'error'))
+              .then(() => (true));
+            return null;
+          }
+          return null;
+        });
+        swal('Success', 'Faculty edited successfully', 'success');
+      });
   };
 
   return (
@@ -84,39 +152,54 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
 
       {
         show ? (
-          <Modal show={show} onHide={() => { setShow(false); setOffices([]); }} centered dialogClassName="faculty-table-modal">
+          <Modal show={show} onHide={() => handleHideModal()} centered dialogClassName="faculty-table-modal" className="modal-xl">
             <Modal.Header closeButton />
             <Modal.Body>
               <h4>Edit Faculty</h4>
               <AutoForm schema={bridge} onSubmit={data => submit(data)} model={faculty}>
                 <Row>
                   <Col>
-                    <TextField name="firstName" placeholder="First name" />
+                    <Row>
+                      <Col>
+                        <TextField name="firstName" placeholder="First name" />
+                      </Col>
+                      <Col>
+                        <TextField name="lastName" placeholder="Last name" />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <TextField name="email" placeholder="Email" />
+                      </Col>
+                      <Col>
+                        <TextField name="image" placeholder="Image link" />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <TextField name="officeHours" placeholder="Office Hours" />
+                    </Row>
                   </Col>
                   <Col>
-                    <TextField name="lastName" placeholder="Last name" />
+                    <Row>
+                      <Col>
+                        <TextField hidden name="role" placeholder="Faculty title" label="Faculty title" />
+                        <span>Faculty Title</span>
+                        <Select name="role" defaultValue={facultyTitles} options={validTitleList} onChange={handleChangeFacultyTitles} isMulti />
+                      </Col>
+                    </Row>
+                    <Row className="pt-3">
+                      <TextField hidden name="officeLocation" placeholder="Office Location" help="Please separate offices using commas." />
+                      <span>Office Location</span>
+                      <Select name="officeLocation" defaultValue={facultyOffices} options={validRoomList} onChange={handleChangeOffices} isMulti />
+                    </Row>
+                    <Row className="pt-3">
+                      <Col>
+                        <TextField hidden name="phone" placeholder="Phone" />
+                        <span>Phone Number</span>
+                        <TagsInput name="phone" value={phoneNumberList} onChange={handleChangePhoneNumbers} inputProps={{ className: 'react-tagsinput-input', placeholder: 'Add a Phone Number...' }} />
+                      </Col>
+                    </Row>
                   </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <SelectField name="role" placeholder="Faculty title" label="Faculty title(s)" allowedValues={titles} appearance="checkbox" />
-                  </Col>
-                  <Col>
-                    <TextField name="email" placeholder="Email" />
-                  </Col>
-                </Row>
-                <Row>
-                  <TextField name="image" placeholder="Image link" />
-                </Row>
-                <Row>
-                  <TextField name="phone" placeholder="Phone" help="Please separate phone numbers using commas." />
-                </Row>
-                <Row>
-                  <Select defaultValue={facultyOffices} options={roomList} onChange={handleChangeOffices} isMulti />
-                  <span>Please select at least 1 office.</span>
-                </Row>
-                <Row>
-                  <TextField name="officeHours" placeholder="Office Hours" />
                 </Row>
                 <Row>
                   <SubmitField value="Submit" disabled={offices.length <= 0} />

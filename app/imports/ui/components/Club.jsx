@@ -1,66 +1,67 @@
 import React, { useState } from 'react';
+import { Button, Card, Table } from 'react-bootstrap';
+import ReactCardFlip from 'react-card-flip';
 import PropTypes from 'prop-types';
-import { Button, Card } from 'react-bootstrap';
+import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
 /** Renders a single row in the Club Information table. See pages/ClubInfo.jsx. */
 const Club = ({ club }) => {
   const [showMore, setShowMore] = useState(false);
-  // const [isFlipped, setIsFlipped] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
   /** To DO: Fix Flip function */
-  // const handleClick = () => {
-  //   setIsFlipped(!isFlipped);
-  // };
-  // const { desc } = club.description;
+  const handleClick = () => {
+    setIsFlipped(!isFlipped);
+  };
+
   return (
-    // <div className="flip-card">
-    //   <div className={isFlipped ? 'flip-card-inner flipped' : 'flip-card-inner'} onClick={handleClick}>
-    <Card className="listing d-flex justify-content-centert">
-      <Card.Body style={{ alignContent: 'center' }}>
-        <div>
-          <center><a href={club.website} target="_blank" rel="noopener noreferrer" style={{ alignContent: 'center' }}><img alt="Club logo" src={club.image} width="180" height="180" /></a></center>
+    <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
+      <div className="card-front" style={{ boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)' }}>
+        <a href={club.website} target="_blank" rel="noopener noreferrer" style={{ alignContent: 'center' }}>
+          <Card.Img alt="Club logo" src={club.image} style={{ borderRadius: '10px' }} />
+        </a>
+        <div style={{ alignItems: 'center', padding: '20px', textAlign: 'center' }}>
+          <Card.Body>
+            <Card.Title>{club.clubName}</Card.Title>
+            <hr />
+            <Card.Text>
+              {showMore ? club.description : `${club.description.substring(0, 100)}`}
+              <Button size="sm" variant="link" className="btn" onClick={() => setShowMore(!showMore)}>{showMore ? 'Read less' : 'Read more'}
+              </Button>
+            </Card.Text>
+            <div id={COMPONENT_IDS.CLUB_INFORMATION_SEARCH}>
+              <Button className="card-btn" onClick={handleClick}>More Info</Button>
+            </div>
+          </Card.Body>
         </div>
-        <div className="ms-3 align-content-center">
-          <p className="fw-bold mb-1 text-center">{club.clubName}</p>
-          <p className="text-muted mb-0">
-            {showMore ? club.description : `${club.description.substring(0, 100)}`}
-            <Button size="sm" variant="link" className="btn" onClick={() => setShowMore(!showMore)}>{showMore ? 'Read less' : 'Read more'}
-            </Button>
-          </p>
-        </div>
-        <Button variant="primary">More Info</Button>
-      </Card.Body>
-    </Card>
-  // <Card onClick={handleClick} className="listing d-flex justify-content-center flip-card-back">
-  //   <Card.Body style={{ alignContent: 'center' }}>
-  //     <div>
-  //       <a href={club.website} target="_blank" rel="noopener noreferrer" style={{ alignContent: 'center' }}><img alt="Club logo" src={club.image} width="180" height="180" /></a>
-  //     </div>
-  //     <div className="ms-3 align-content-center">
-  //       <p className="fw-bold mb-1 text-center">{club.clubName}</p>
-  //       <div>
-  //         {/* <Table> */}
-  //         {/*  <thead> */}
-  //         {/*    <tr> */}
-  //         {/*      <th> </th> */}
-  //         {/*      <th>RIO Student(s)</th> */}
-  //         {/*      <th>Advisor(s)</th> */}
-  //         {/*    </tr> */}
-  //         {/*  </thead> */}
-  //         {/*  <tbody> */}
-  //         {/*    <tr> */}
-  //         {/*      <th /> */}
-  //         {/*      <td>{club.rio}</td> */}
-  //         {/*      <td>{club.advisor}</td> */}
-  //         {/*    </tr> */}
-  //         {/*  </tbody> */}
-  //         {/* </Table> */}
-  //       </div>
-  //     </div>
-  //     <Button variant="primary">More Info</Button>
-  //   </Card.Body>
-  // </Card>
-  //     </div>
-  //   </div>
+      </div>
+      <div className="card-back" style={{ alignItems: 'center', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)', padding: '20px', textAlign: 'center' }}>
+        <Card.Body>
+          <Card.Title>{club.clubName}</Card.Title>
+          <hr />
+          <Card.Text>
+            <Table>
+              <thead>
+                <tr>
+                  <th> </th>
+                  <th>RIO Student(s)</th>
+                  <th>Advisor(s)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th> </th>
+                  <td>{`${club.rio.join(', \n')}`}</td>
+                  <td>{`${club.advisor.join(', \n')}`}</td>
+                </tr>
+              </tbody>
+            </Table>
+          </Card.Text>
+          <div id={COMPONENT_IDS.CLUB_INFORMATION_SEARCH}>
+            <Button className="card-btn" onClick={handleClick}>More Info</Button>
+          </div>
+        </Card.Body>
+      </div>
+    </ReactCardFlip>
   );
 };
 
