@@ -33,7 +33,7 @@ const NavBar = ({ highlight, changeHighlight, counter, incrementCounter, decreme
   const tutorialText = ['',
     'This is the faculty information page. It has information about the faculty',
     'This is the room list page where you can see a list of rooms.',
-    'This page lets you see room reservations'];
+  ];
   const location = useLocation();
   return ready ? (
     <nav>
