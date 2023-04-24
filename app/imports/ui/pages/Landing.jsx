@@ -39,7 +39,6 @@ const Landing = () => {
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
         backgroundClip: 'padding-box',
-        // maxHeight: '565px',
         top: '0',
         right: '0',
         bottom: '0',

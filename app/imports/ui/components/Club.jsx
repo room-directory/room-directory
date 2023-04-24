@@ -3,7 +3,6 @@ import { Button, Card, Table } from 'react-bootstrap';
 import ReactCardFlip from 'react-card-flip';
 import PropTypes from 'prop-types';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
-import ClubTable from './ClubTable';
 
 /** Renders a single row in the Club Information table. See pages/ClubInfo.jsx. */
 const Club = ({ club }) => {
@@ -16,19 +15,18 @@ const Club = ({ club }) => {
 
   return (
     <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
-      <div className="card-front">
+      <div className="card-front" style={{ boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)' }}>
         <a href={club.website} target="_blank" rel="noopener noreferrer" style={{ alignContent: 'center' }}>
-          <Card.Img alt="Club logo" src={club.image} />
+          <Card.Img alt="Club logo" src={club.image} style={{ borderRadius: '10px' }} />
         </a>
         <div style={{ alignItems: 'center', padding: '20px', textAlign: 'center' }}>
           <Card.Body>
             <Card.Title>{club.clubName}</Card.Title>
+            <hr />
             <Card.Text>
               {showMore ? club.description : `${club.description.substring(0, 100)}`}
-
               <Button size="sm" variant="link" className="btn" onClick={() => setShowMore(!showMore)}>{showMore ? 'Read less' : 'Read more'}
               </Button>
-
             </Card.Text>
             <div id={COMPONENT_IDS.CLUB_INFORMATION_SEARCH}>
               <Button className="card-btn" onClick={handleClick}>More Info</Button>
@@ -36,9 +34,10 @@ const Club = ({ club }) => {
           </Card.Body>
         </div>
       </div>
-      <div className="card-back" style={{ alignItems: 'center', padding: '20px', textAlign: 'center' }}>
+      <div className="card-back" style={{ alignItems: 'center', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)', padding: '20px', textAlign: 'center' }}>
         <Card.Body>
           <Card.Title>{club.clubName}</Card.Title>
+          <hr />
           <Card.Text>
             <Table>
               <thead>

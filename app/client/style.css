@@ -1002,6 +1002,7 @@ svg {
 .card-back {
   border: 1px solid #ccc;
   margin-bottom: 20px;
+  padding-top: -100px;
   border-radius: 10px;
   width: 100%;
   height: 100%;
