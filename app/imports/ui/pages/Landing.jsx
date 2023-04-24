@@ -50,7 +50,7 @@ const Landing = () => {
     >
       <Row style={{ marginTop: '150px', marginBottom: '35vh' }}>
         <Col className="d-flex justify-content-start align-items-center">
-          <Card className="p-5 text-center land-card" style={{ backgroundColor: 'rgba(0, 63, 24, 0.70)', width: '50%', height: '25vh', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)', fontSize: '1em' }}>
+          <Card className="p-5 text-center land-card" style={{ backgroundColor: 'rgba(0, 63, 24, 0.70)', width: '50%', height: '25vh', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)', fontSize: '1em' }}>
             <p className="text-white cont flex-column" style={{ fontSize: 'calc(1.2vw + 0.8vh', alignItems: 'center' }}>{currentSentence}</p>
           </Card>
         </Col>

@@ -1021,7 +1021,7 @@ svg {
 }
 .land-card {
   /*background-color: rgba(0, 63, 24, 0.70);*/
-  opacity: 0.8;
+  opacity: 1;
   /*width: 50%;*/
   /*height: 50%;*/
   left: 50%;

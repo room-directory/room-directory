@@ -15,7 +15,7 @@ const Club = ({ club }) => {
 
   return (
     <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
-      <div className="card-front" style={{ boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)' }}>
+      <div className="card-front" style={{ boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)' }}>
         <a href={club.website} target="_blank" rel="noopener noreferrer" style={{ alignContent: 'center' }}>
           <Card.Img alt="Club logo" src={club.image} style={{ borderRadius: '10px' }} />
         </a>
