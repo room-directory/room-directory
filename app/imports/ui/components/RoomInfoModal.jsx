@@ -138,7 +138,7 @@ const RoomInfoModal = ({ room, show, setShow }) => {
     </Modal>
     // </Col>
   ) :
-    <LoadingSpinner />
+    ""
   );
 };
 RoomInfoModal.propTypes = {

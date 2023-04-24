@@ -82,7 +82,7 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
           <Col>
             {room.occupants.length > 0 ? room.occupants.map((people) => (
               faculty.find(x => x.email === people) ? (
-                <Row>
+                <Row key={people}>
                   {faculty.find(x => x.email === people).firstName} {faculty.find(x => x.email === people).lastName} <br />
                   {faculty.find(x => x.email === people).email}
                 </Row>

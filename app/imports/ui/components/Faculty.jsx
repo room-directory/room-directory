@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 const Faculty = ({ faculty, user }) => (
   <tr>
     <td><img alt="" src={faculty.image} width="180" height="180" /></td>
-    <td>{`${faculty.firstName} ${faculty.lastName}`}<br />{faculty.role.map((role) => <div>{role}</div>)}</td>
-    <td>{faculty.email} {faculty.phone.map((phone) => <div>{phone}</div>)}</td>
-    <td>{faculty.officeLocation.map((office) => <div>{office}</div>)}</td>
+    <td>{`${faculty.firstName} ${faculty.lastName}`}<br />{faculty.role.map((role, n) => <div key={n}>{role}</div>)}</td>
+    <td>{faculty.email} {faculty.phone.map((phone, n) => <div key={n}>{phone}</div>)}</td>
+    <td>{faculty.officeLocation.map((office, n) => <div key={n}>{office}</div>)}</td>
     { user !== '' ?
       ([
         <td>{faculty.officeHours}</td>,

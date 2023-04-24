@@ -21,7 +21,7 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
   ));
   const [offices, setOffices] = useState(facultyOffices);
   const handleChangeOffices = (room) => setOffices(room);
-  console.log(faculty.officeLocation);
+  // console.log(faculty.officeLocation);
   const roomList = rooms.map(e => ({
     label: `POST ${e.roomNumber}`,
     value: `POST ${e.roomNumber}`,
@@ -69,8 +69,8 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
         <Row>
           <Col>{`${faculty.firstName}`} {`${faculty.lastName}`}</Col>
           <Col>{faculty.email}</Col>
-          <Col>{faculty.role.map((role) => <div>{role}</div>)}</Col>
-          <Col>{faculty.officeLocation.map((office) => <div>{office}</div>)}</Col>
+          <Col>{faculty.role.map((role) => <div key={role}>{role}</div>)}</Col>
+          <Col>{faculty.officeLocation.map((office) => <div key={office}>{office}</div>)}</Col>
           <Col xs={2}>
             <Row>
               <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="primary" onClick={() => setShow(true)}>Edit</Button></Col>
