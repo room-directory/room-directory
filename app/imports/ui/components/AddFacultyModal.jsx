@@ -12,6 +12,7 @@ import { Room } from '../../api/room/RoomCollection';
 
 const bridge = new SimpleSchema2Bridge(FacultyProfiles._schema);
 
+// Renders the modal for adding a new faculty. See pages/AdminManage.jsx.
 const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty, rooms }) => {
 
   const [phoneNumberList, setPhoneNumberList] = useState([]);
@@ -22,11 +23,13 @@ const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty, rooms }) => {
   const titles = ['Associate Professor', 'Assistant Research Professor', 'Professor', 'Instructor', 'Faculty Specialist', 'Assistant Professor', 'Department Chair', 'Curriculum Committee Chair',
     'Graduate Program Chair', 'Professor Emeritus', 'Computational Scientist', 'Undergraduate Academic Advisor', 'Admin. and Fiscal Support', 'IT System Admin.', 'IT Network/System Admin.'];
 
+  // format titles for react-select field
   const validTitleList = titles.map(e => ({
     label: e,
     value: e,
   }));
 
+  // format rooms for react-select field
   const validRoomList = rooms.map(e => ({
     label: `POST ${e.roomNumber}`,
     value: `POST ${e.roomNumber}`,
@@ -35,6 +38,7 @@ const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty, rooms }) => {
   validTitleList.unshift({ label: 'Not available', value: 'Not available' });
   validRoomList.unshift({ label: 'Not available', value: 'Not available' });
 
+  // on form submit, add faculty to the collection
   const submit = (doc, formRef) => {
     let collectionName = FacultyProfiles.getCollectionName();
 
@@ -76,12 +80,16 @@ const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty, rooms }) => {
     setTitleList([]);
   };
 
+  // on change, update the offices state
   const handleChangeOffices = (room) => setOffices(room);
 
+  // on change, update the phone numbers state
   const handleChangePhoneNumbers = (list) => setPhoneNumberList(list);
 
+  // on change, update the title state
   const handleChangeFacultyTitles = (list) => setTitleList(list);
 
+  // reset states when exiting modal
   const handleHideModal = () => {
     setShowAddFaculty(false);
     setOffices([]);
@@ -158,7 +166,7 @@ const AddFacultyModal = ({ showAddFaculty, setShowAddFaculty, rooms }) => {
   );
 };
 
-/* Referencing the Room Collection */
+// Require a document to be passed to this component.
 AddFacultyModal.propTypes = {
   showAddFaculty: PropTypes.bool.isRequired,
   setShowAddFaculty: PropTypes.func.isRequired,
