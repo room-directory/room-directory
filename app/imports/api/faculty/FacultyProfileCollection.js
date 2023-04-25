@@ -30,11 +30,15 @@ class FacultyProfileCollection extends BaseCollection {
   }
 
   /**
-   * Defines a new Stuff item.
-   * @param name the name of the item.
-   * @param quantity how many.
-   * @param owner the owner of the item.
-   * @param condition the condition of the item.
+   * Defines a new Faculty profile.
+   * @param image link or location of image.
+   * @param firstName first name of faculty member.
+   * @param lastName last name of the faculty member.
+   * @param email email of the faculty member.
+   * @param officeHours office hours of faculty member.
+   * @param officeLocation building and room number of office.
+   * @param role job title of faculty member.
+   * @param phone phone number of faculty member.
    * @return {String} the docID of the new document.
    */
   define({ image, firstName, lastName, email, officeHours, officeLocation, role, phone }) {
@@ -53,10 +57,15 @@ class FacultyProfileCollection extends BaseCollection {
 
   /**
    * Updates the given document.
-   * @param docID the id of the document to update.
-   * @param name the new name (optional).
-   * @param quantity the new quantity (optional).
-   * @param condition the new condition (optional).
+   * @param docID the id of the document to update (optional).
+   * @param image link or location of image (optional).
+   * @param firstName first name of faculty member (optional).
+   * @param lastName last name of the faculty member (optional).
+   * @param email email of the faculty member (optional).
+   * @param officeHours office hours of faculty member (optional).
+   * @param officeLocation building and room number of office (optional).
+   * @param role job title of faculty member (optional).
+   * @param phone phone number of faculty member (optional).
    */
   update(docID, { image, firstName, lastName, email, officeHours, officeLocation, role, phone }) {
     const updateData = {};
