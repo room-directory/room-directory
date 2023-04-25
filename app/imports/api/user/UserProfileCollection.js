@@ -10,11 +10,13 @@ class UserProfileCollection extends BaseProfileCollection {
 
   /**
    * Defines the profile associated with an User and the associated Meteor account.
+   * @param image The profile picture for the user.
    * @param email The email associated with this profile. Will be the username.
    * @param password The password for this user.
    * @param firstName The first name.
    * @param lastName The last name.
-   * @param position The position of user: student, faculty, or office.
+   * @param position The position of user: student, faculty, tech, or office.
+   * @param joined when they joined.
    */
   define({ image, email, firstName, lastName, password, position, joined }) {
     // if (Meteor.isServer) {
@@ -37,6 +39,7 @@ class UserProfileCollection extends BaseProfileCollection {
    * @param docID the id of the UserProfile
    * @param firstName new first name (optional).
    * @param lastName new last name (optional).
+   * @param position the position of the user.
    */
   update(docID, { image, firstName, lastName, position }) {
     this.assertDefined(docID);
