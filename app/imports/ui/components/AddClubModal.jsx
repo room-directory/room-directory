@@ -20,12 +20,14 @@ const formSchema = new SimpleSchema({
 
 const bridge = new SimpleSchema2Bridge(formSchema);
 
+// Renders the modal for adding a new club. See pages/AdminManage.jsx.
 const AddClubModal = ({ showAddClub, setShowAddClub, faculty }) => {
 
   const [error, setError] = useState('');
   const [selectedAdvisor, setSelectedAdvisor] = useState([]);
   const [rioList, setRioList] = useState([]);
 
+  // format faculty for react-select field
   const facultyList = faculty.map(e => (
     {
       label: `${e.firstName} ${e.lastName}`,
@@ -33,14 +35,17 @@ const AddClubModal = ({ showAddClub, setShowAddClub, faculty }) => {
     }
   ));
 
+  // on change, update the advisor state
   const handleChangeAdvisor = (option) => {
     setSelectedAdvisor(option);
   };
 
+  // on change, update the rio state
   const handleChangeRioList = (list) => {
     setRioList(list);
   };
 
+  // on form submit, add club to the collection
   const submit = (doc, formRef) => {
     const collectionName = Club.getCollectionName();
     const definitionData = doc;
@@ -105,7 +110,7 @@ const AddClubModal = ({ showAddClub, setShowAddClub, faculty }) => {
   );
 };
 
-/* Referencing the Club Collection */
+// Require a document to be passed to this component.
 AddClubModal.propTypes = {
   showAddClub: PropTypes.bool.isRequired,
   setShowAddClub: PropTypes.func.isRequired,

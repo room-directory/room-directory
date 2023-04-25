@@ -11,24 +11,29 @@ import { Club } from '../../api/club/ClubCollection';
 
 const bridge = new SimpleSchema2Bridge(Club._schema);
 
+// Renders the Club Table in the Management tab. See pages/AdminManage.jsx.
 const ClubTable = ({ club, faculty, eventKey }) => {
   const [show, setShow] = useState(false);
   const [selectedAdvisor, setSelectedAdvisor] = useState(club.advisor);
   const [rioList, setRioList] = useState(club.rio);
 
+  // on change, update the advisor state
   const handleChangeAdvisor = (option) => {
     setSelectedAdvisor(option);
   };
 
+  // on change, update the rio state
   const handleChangeRioList = (list) => {
     setRioList(list);
   };
 
+  // format advisors for react-select field
   const clubAdvisors = club.advisor.map(e => ({
     label: `${e}`,
     value: `${e}`,
   }));
 
+  // format faculty for react-select field
   const facultyList = faculty.map(e => ({
     label: `${e.firstName} ${e.lastName}`,
     value: `${e.firstName} ${e.lastName}`,
@@ -56,6 +61,7 @@ const ClubTable = ({ club, faculty, eventKey }) => {
     });
   };
 
+  // on form submit, edit the club information
   const submit = (data) => {
     const { clubName, website, image, description, advisor } = data;
     const collectionName = Club.getCollectionName();
@@ -127,7 +133,7 @@ const ClubTable = ({ club, faculty, eventKey }) => {
   );
 };
 
-/* Referencing the Base Collection */
+// Require a document to be passed to this component.
 ClubTable.propTypes = {
   club: PropTypes.shape({
     clubName: PropTypes.string,
