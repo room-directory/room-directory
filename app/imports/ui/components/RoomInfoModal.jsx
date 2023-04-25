@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import { Roles } from 'meteor/alanning:roles';
 import { RoomResources } from '../../api/room/RoomResourceCollection';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
-import LoadingSpinner from './LoadingSpinner';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 import { ROLE } from '../../api/role/Role';
@@ -138,7 +137,7 @@ const RoomInfoModal = ({ room, show, setShow }) => {
     </Modal>
     // </Col>
   ) :
-    <LoadingSpinner />
+    ''
   );
 };
 RoomInfoModal.propTypes = {

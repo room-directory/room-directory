@@ -10,7 +10,7 @@ import { loadCollectionNewDataOnly } from '../utilities/load-fixtures';
 /**
  * Meteor method used to define new instances of the given collection name.
  * @param collectionName the name of the collection.
- * @param definitionDate the object used in the collection.define method.
+ * @param definitionData the object used in the collection.define method.
  * @memberOf api/base
  */
 export const defineMethod = new ValidatedMethod({
@@ -28,6 +28,12 @@ export const defineMethod = new ValidatedMethod({
   },
 });
 
+/**
+ * Meteor method used to update existing instances of the given collection name.
+ * @param collectionName the name of the collection.
+ * @param updateData the object used in the collection.update method.
+ * @memberOf api/base
+ */
 export const updateMethod = new ValidatedMethod({
   name: 'BaseCollection.update',
   mixins: [CallPromiseMixin],
@@ -42,6 +48,12 @@ export const updateMethod = new ValidatedMethod({
   },
 });
 
+/**
+ * Meteor method used to remove existing instances of the given collection name.
+ * @param collectionName the name of the collection.
+ * @param instance the object to be deleted by the collection.removeIt method.
+ * @memberOf api/base
+ */
 export const removeItMethod = new ValidatedMethod({
   name: 'BaseCollection.removeIt',
   mixins: [CallPromiseMixin],

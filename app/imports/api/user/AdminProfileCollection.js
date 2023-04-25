@@ -11,6 +11,7 @@ class AdminProfileCollection extends BaseProfileCollection {
 
   /**
    * Defines the profile associated with an Admin and the associated Meteor account.
+   * @param image The image used as a profile picture.
    * @param email The email associated with this profile. Will be the username.
    * @param password The password for this user.
    * @param firstName The first name.
@@ -36,6 +37,8 @@ class AdminProfileCollection extends BaseProfileCollection {
   /**
    * Updates the AdminProfile. You cannot change the email or role.
    * @param docID the id of the AdminProfile
+   * @param image the profile image
+   * @param email the email of the profile
    * @param firstName new first name (optional).
    * @param lastName new last name (optional).
    */

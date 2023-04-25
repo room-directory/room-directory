@@ -139,8 +139,8 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
         <Row>
           <Col>{`${faculty.firstName}`} {`${faculty.lastName}`}</Col>
           <Col>{faculty.email}</Col>
-          <Col>{faculty.role.map((role) => <div>{role}</div>)}</Col>
-          <Col>{faculty.officeLocation.map((office) => <div>{office}</div>)}</Col>
+          <Col>{faculty.role.map((role) => <div key={role}>{role}</div>)}</Col>
+          <Col>{faculty.officeLocation.map((office) => <div key={office}>{office}</div>)}</Col>
           <Col xs={2}>
             <Row>
               <Col style={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="primary" onClick={() => { setShow(true); setOffices(facultyOffices); }}>Edit</Button></Col>

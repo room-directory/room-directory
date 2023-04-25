@@ -23,6 +23,9 @@ class ClubCollection extends BaseCollection {
   /**
    * Defines a new Club item.
    * @param clubName name of the club.
+   * @param website link for the club website.
+   * @param image link or reference to image for club.
+   * @param description short description of club activities.
    * @param rio array of students in charge of the club.
    * @param advisor array of advisors for the club.
    * @return {String} the docID of the new document.
@@ -43,6 +46,9 @@ class ClubCollection extends BaseCollection {
    * Updates the given document.
    * @param docID the id of the document to update.
    * @param clubName name of the club (optional).
+   * @param website link for the club website (optional).
+   * @param image link or reference to image for club (optional).
+   * @param description short description of club activities (optional).
    * @param rio array of students in charge of the club (optional).
    * @param advisor array of advisors for the club (optional).
    */
@@ -97,7 +103,7 @@ class ClubCollection extends BaseCollection {
   }
 
   /**
-   * Subscription method for stuff owned by the current user.
+   * Subscription method for clubs in the ICS department.
    */
   subscribeClub() {
     if (Meteor.isClient) {

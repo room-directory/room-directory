@@ -23,7 +23,6 @@ if (Meteor.isClient) {
       definitionData.email = faker.internet.email();
       definitionData.firstName = faker.name.firstName();
       definitionData.lastName = faker.name.lastName();
-      // console.log(collectionName, definitionData);
       const docID = await defineMethod.callPromise({ collectionName, definitionData });
       expect(AdminProfiles.isDefined(docID)).to.be.true;
       let doc = AdminProfiles.findDoc(docID);
