@@ -402,11 +402,6 @@
     }
   ],
 
-  "defaultReservationData": [
-    { "reservation_id": "test", "firstName": "admin", "lastName": "foo", "email": "admin@foo.com", "roomNumber": "301", "startTime": "2023-02-01T08:00:00Z", "endTime": "2023-02-01T09:01:00Z" },
-    { "reservation_id": "test", "firstName": "John", "lastName": "foo", "email": "john@foo.com", "roomNumber": "302", "startTime": "2023-02-02T15:15:00Z", "endTime": "2023-02-02T16:15:00Z" }
-  ],
-
   "defaultRoomData": [
     {"roomNumber": "301", "building": "POST", "type": "lecture", "isICS": true, "occupants": [], "squareFt": 20, "notes": "storage"},
     {"roomNumber": "303", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20, "notes": "None"},
