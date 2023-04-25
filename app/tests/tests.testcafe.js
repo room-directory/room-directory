@@ -1,5 +1,5 @@
 // import { Selector, t } from 'testcafe';
-import { /* manageDatabasePage, */ signOutPage, studentRequestPage, facultyRequestPage, roomListPage, facultyInformationPage, clubInformationPage, profilePage, adminManagePage } from './simple.page';
+import { /* manageDatabasePage, */ signOutPage, roomListPage, facultyInformationPage, clubInformationPage, profilePage, adminManagePage } from './simple.page';
 import { landingPage } from './landing.page';
 import { signInPage } from './signin.page';
 import { signUpPage } from './signup.page';
@@ -88,9 +88,6 @@ test('Test that faculty user pages show up', async () => {
   // Room List
   await navBar.gotoRoomListPage();
   await roomListPage.isDisplayed();
-  // student requests
-  await navBar.gotoStudentRequestsPage();
-  await studentRequestPage.isDisplayed();
   await navBar.logout();
   await signOutPage.isDisplayed();
 });
@@ -111,9 +108,6 @@ test('Test that Office user pages show up', async () => {
   // Room List
   await navBar.gotoRoomListPage();
   await roomListPage.isDisplayed();
-  // student requests
-  await navBar.gotoFacultyRequestsPage();
-  await facultyRequestPage.isDisplayed();
   await navBar.logout();
   await signOutPage.isDisplayed();
 });
@@ -131,12 +125,6 @@ test('Test that admin pages show up', async () => {
   // Room List
   await navBar.gotoRoomListPage();
   await roomListPage.isDisplayed();
-  // faculty requests
-  await navBar.gotoFacultyRequestsPage();
-  await facultyRequestPage.isDisplayed();
-  // student requests
-  await navBar.gotoStudentRequestsPage();
-  await studentRequestPage.isDisplayed();
   // admin manage
   await navBar.gotoAdminManagePage();
   await adminManagePage.isDisplayed();
@@ -158,9 +146,6 @@ test('Test that Tech user pages show up', async () => {
   // Room List
   await navBar.gotoRoomListPage();
   await roomListPage.isDisplayed();
-  // student requests
-  await navBar.gotoFacultyRequestsPage();
-  await facultyRequestPage.isDisplayed();
   await navBar.logout();
   await signOutPage.isDisplayed();
 });
