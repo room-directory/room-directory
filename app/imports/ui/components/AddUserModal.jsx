@@ -4,7 +4,6 @@ import { Alert, Modal, Row, Col } from 'react-bootstrap';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import { AutoForm, ErrorsField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
-// import { UserProfiles } from '../../api/user/UserProfileCollection';
 import swal from 'sweetalert';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { UserProfiles } from '../../api/user/UserProfileCollection';
@@ -26,9 +25,11 @@ const formSchema = new SimpleSchema({
 
 const bridge = new SimpleSchema2Bridge(formSchema);
 
+// Renders the modal for adding a new profile. See pages/AdminManage.jsx.
 const AddUserModal = ({ showAddUser, setShowAddUser }) => {
   const [error, setError] = useState('');
 
+  // on form submit, add profile to the collection
   const submit = (doc, formRef) => {
     const collectionName = UserProfiles.getCollectionName();
     const definitionData = doc;
@@ -86,7 +87,7 @@ const AddUserModal = ({ showAddUser, setShowAddUser }) => {
   );
 };
 
-/* Referencing the Room Collection */
+// Require a document to be passed to this component.
 AddUserModal.propTypes = {
   showAddUser: PropTypes.bool.isRequired,
   setShowAddUser: PropTypes.func.isRequired,
