@@ -49,7 +49,7 @@ const EditProfile = () => {
   }, [_id]);
 
   const saveIntoCollections = () => {
-    // get all of the data from the form
+    // Get all of the data from the form
     const fName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_FIRST_NAME).value.toString();
     const lName = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_LAST_NAME).value.toString();
     const password = document.getElementById(COMPONENT_IDS.EDIT_PROFILE_FORM_PASSWORD).value.toString();
@@ -62,13 +62,13 @@ const EditProfile = () => {
     updateData = { id: user._id, firstName: fName, lastName: lName, image: pfp };
     const email = currUser;
 
-    // if the password was changed, update the meteor account
+    // If the password was changed, update the meteor account
     if (password) {
       updateUserPasswordMethod.callPromise({ email, password })
         .catch(error => swal('Error', error.message, 'error'));
     }
 
-    // update the remaining data
+    // Update the remaining data
     updateMethod.callPromise({ collectionName, updateData })
       .catch(error => swal('Error', error.message, 'error'))
       .then(() => {
@@ -79,7 +79,7 @@ const EditProfile = () => {
 
           collectionName = FacultyProfiles.getCollectionName();
 
-          // convert phone numbers and office locations to an array
+          // Convert phone numbers and office locations to an array
           const phoneArray = (phoneNum.includes(',') ? phoneNum.replace(/\s+/g, '').split(',') : phoneNum);
           const officeLocationArray = (location.includes(',') ? location.split(',').map((office) => office.trim()) : location);
 
@@ -148,7 +148,6 @@ const EditProfile = () => {
               <Dropdown.Toggle variant="success" id="dropdown-basic">
                 Choose Default Profile Picture
               </Dropdown.Toggle>
-
               <Dropdown.Menu>
                 <Dropdown.Item eventKey="/images/case.png"><Image roundedCircle height={50} width={50} src="/images/case.png" /> PFP 1</Dropdown.Item>
                 <Dropdown.Item eventKey="/images/keyboard.png"><Image roundedCircle height={50} width={50} src="/images/keyboard.png" /> PFP 2</Dropdown.Item>

@@ -2,13 +2,10 @@ import React, { useState } from 'react';
 import { Button, Container, Row, Col, Form, Tabs, Tab, DropdownButton, Dropdown, InputGroup } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { _ } from 'meteor/underscore';
-// import DropdownButton from 'react-bootstrap/DropdownButton';
-// import Dropdown from 'react-bootstrap/Dropdown';
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { ROLE } from '../../api/role/Role';
 import { PAGE_IDS } from '../utilities/PageIDs';
-// import RoomDropdown from '../components/RoomDropdown';
 import { Room } from '../../api/room/RoomCollection';
 import { RoomResources } from '../../api/room/RoomResourceCollection';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -186,19 +183,6 @@ const AdminManage = () => {
   function showRoomTab() {
     return (
       <Tab eventKey="rooms" title="Rooms" onSelect={() => setCurrentTab('Rooms')}>
-        {/* <DropdownButton title="Select Room...">
-                <Dropdown.Header>Lecture</Dropdown.Header>
-                {(RoomType(rooms).lecture).map((room) => <RoomDropdown key={room.type} room={room} />)}
-                <Dropdown.Divider />
-                <Dropdown.Header>Office</Dropdown.Header>
-                {(RoomType(rooms).office).map((room) => <RoomDropdown key={room.type} room={room} />)}
-                <Dropdown.Divider />
-                <Dropdown.Header>Conference</Dropdown.Header>
-                {(RoomType(rooms).conference).map((room) => <RoomDropdown key={room.type} room={room} />)}
-                <Dropdown.Divider />
-                <Dropdown.Header>Study Room</Dropdown.Header>
-                {(RoomType(rooms).study).map((room) => <RoomDropdown key={room.type} room={room} />)}
-              </DropdownButton> */}
         <Row>
           <Col style={{ display: 'flex' }}>
             <DropdownButton id={COMPONENT_IDS.ADMIN_MANAGE_ROOM_SORT} title={`Sort by: ${roomCategory}`}>
@@ -355,16 +339,7 @@ const AdminManage = () => {
         </Col>
       </Row>
       <Row>
-        <Col xs={6}>
-          {/* <Form inline className="mb-3"> */}
-          {/*  <FormControl */}
-          {/*    type="text" */}
-          {/*    placeholder="Filter by name..." */}
-          {/*    // value={} */}
-          {/*    // onChange={} */}
-          {/*  /> */}
-          {/* </Form> */}
-        </Col>
+        <Col xs={6} />
       </Row>
       <AddUserModal setShowAddUser={setShowAddUser} showAddUser={showAddUser} />
       <AddFacultyModal setShowAddFaculty={setShowAddFaculty} showAddFaculty={showAddFaculty} rooms={rooms} />
