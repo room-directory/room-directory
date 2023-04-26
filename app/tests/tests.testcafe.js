@@ -108,6 +108,9 @@ test('Test that Office user pages show up', async () => {
   // Room List
   await navBar.gotoRoomListPage();
   await roomListPage.isDisplayed();
+  // admin manage
+  await navBar.gotoAdminManagePage();
+  await adminManagePage.isDisplayed();
   await navBar.logout();
   await signOutPage.isDisplayed();
 });
@@ -128,6 +131,8 @@ test('Test that admin pages show up', async () => {
   // admin manage
   await navBar.gotoAdminManagePage();
   await adminManagePage.isDisplayed();
+  await navBar.logout();
+  await signOutPage.isDisplayed();
 });
 
 test('Test that Tech user pages show up', async () => {
@@ -146,6 +151,9 @@ test('Test that Tech user pages show up', async () => {
   // Room List
   await navBar.gotoRoomListPage();
   await roomListPage.isDisplayed();
+  // admin manage
+  await navBar.gotoAdminManagePage();
+  await adminManagePage.isDisplayed();
   await navBar.logout();
   await signOutPage.isDisplayed();
 });

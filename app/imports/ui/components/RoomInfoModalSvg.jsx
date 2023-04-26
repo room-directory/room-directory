@@ -38,7 +38,7 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
     };
   }, []);
 
-  return ( ready ? (
+  return (ready ? (
     <Col className="col-2 pb-4" style={{ display: 'flex', justifyContent: 'center' }}>
       {resources === undefined ? (
         <Modal show={display} onHide={setDisplay} backdrop="static" dialogClassName="modal-90w" centered>
