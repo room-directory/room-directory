@@ -19,6 +19,7 @@ const RoomTable = ({ room, resources, faculty, eventKey }) => {
   const [occupantList, setOccupantList] = useState(room.occupants);
 
   const typeList = ['conference', 'lecture', 'study room', 'office'];
+
   // combine the room and room resources object
   const combinedModel = {
     ...room,

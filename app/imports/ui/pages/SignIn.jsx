@@ -23,7 +23,6 @@ const SignIn = () => {
 
   // Handle Signin submission using Meteor's account mechanism.
   const submit = (doc) => {
-    // console.log('submit', doc, redirect);
     const { email, password } = doc;
     Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
@@ -32,11 +31,9 @@ const SignIn = () => {
         setRedirect(true);
       }
     });
-    // console.log('submit2', email, password, error, redirect);
   };
 
   // Render the signin form.
-  // console.log('render', error, redirect);
   // if correct authentication, redirect to page instead of login screen
   if (redirect) {
     return (<Navigate to="/" />);
@@ -70,8 +67,6 @@ const SignIn = () => {
             </Alert>
           )}
         </Col>
-        {/*        <Col xs={5}>
-        </Col> */}
       </Row>
     </Container>
   );

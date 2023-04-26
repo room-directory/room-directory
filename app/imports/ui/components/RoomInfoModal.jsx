@@ -12,20 +12,15 @@ import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 import { ROLE } from '../../api/role/Role';
 import RoomInfoModalDetails from './RoomInfoModalDetails';
 
-/* TODO: display names of occupants */
 /** The RoomInfoModalSVG appears at the bottom of the Room List page. */
 const RoomInfoModal = ({ room, show, setShow }) => {
-  // const [show, setShow] = useState(false);
-  // const [showMore, setShowMore] = useState(false);
   const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
   const currUser = Meteor.user() ? Meteor.user().username : '';
   const { currentUser, user, ready, resources, faculty } = useTracker(() => {
     const resourceSubscription = RoomResources.subscribeRoomResource();
     const facultySubscription = FacultyProfiles.subscribeFacultyProfile();
     const rdy = resourceSubscription.ready() && facultySubscription.ready();
     const roomResource = RoomResources.findOne({ roomNumber: room.roomNumber });
-    // const facultyList = FacultyProfiles.findOne({ email: room.occupants[0] });
     const facultyList = room.occupants.map(occupant => FacultyProfiles.findOne({ email: occupant }));
     let usr = UserProfiles.findOne({ email: currUser }, {});
     if (usr === undefined) (usr = AdminProfiles.findOne({ email: currUser }, {}));
@@ -39,10 +34,6 @@ const RoomInfoModal = ({ room, show, setShow }) => {
   }, []);
 
   return (ready ? (
-    // <Col className="col-2 pb-4">
-    //   <Button variant="light" className="border border-dark sharp me-3" onClick={handleShow}>
-    //     Room #{resources.roomNumber} Info
-    //   </Button>
     <Modal show={show} onHide={handleClose} backdrop="static" dialogClassName="modal-90w" centered>
       <Modal.Header closeButton>
         <Modal.Title>Room #{resources.roomNumber}</Modal.Title>
@@ -148,7 +139,6 @@ const RoomInfoModal = ({ room, show, setShow }) => {
         </Button>
       </Modal.Footer>
     </Modal>
-    // </Col>
   ) :
     ''
   );

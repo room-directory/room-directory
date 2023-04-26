@@ -9,12 +9,9 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import SvgComponent from '../components/SvgComponent';
 import RoomListTableRow from '../components/RoomListTableRow';
 
-/* TODO: change key value */
 const RoomList = () => {
   // useTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker
   const { ready, rooms, faculty } = useTracker(() => {
-    // Note that this subscription will get cleaned up
-    // when your component is unmounted or deps change.
     // Get access to Room documents.
     const roomSubscription = Room.subscribeRoom();
     const facultySubscription = FacultyProfiles.subscribeFacultyProfile();

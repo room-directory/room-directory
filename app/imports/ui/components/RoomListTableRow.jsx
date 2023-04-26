@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import RoomInfoModal from './RoomInfoModal';
 
+/* USed for displaying a row in Room List page */
 const RoomListTableRow = ({ room, setHoverRoom }) => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(false);
@@ -28,15 +29,6 @@ RoomListTableRow.propTypes = {
     squareFt: PropTypes.number,
   }).isRequired,
   setHoverRoom: PropTypes.func.isRequired,
-  // roomResource: PropTypes.shape({
-  //   roomNumber: PropTypes.string,
-  //   capacity: PropTypes.number,
-  //   chairs: PropTypes.number,
-  //   desks: PropTypes.number,
-  //   phoneNumber: PropTypes.string,
-  //   tv: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string, PropTypes.string)),
-  //   dataJacks: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string, PropTypes.string)),
-  // }).isRequired,
 };
 
 export default RoomListTableRow;
