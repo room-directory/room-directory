@@ -5,7 +5,6 @@ import swal from 'sweetalert';
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from 'simpl-schema';
 import { AutoField, AutoForm, ErrorsField, ListField, ListItemField, NumField, SelectField, SubmitField, TextField } from 'uniforms-bootstrap5';
-// import { UserProfiles } from '../../api/user/UserProfileCollection';
 import { PlusLg, Trash3 } from 'react-bootstrap-icons';
 import TagsInput from 'react-tagsinput';
 import { defineMethod, updateMethod } from '../../api/base/BaseCollection.methods';
@@ -76,15 +75,18 @@ const formSchema = new SimpleSchema({
 
 const bridge = new SimpleSchema2Bridge(formSchema);
 
+// Renders the modal for adding a new room. See pages/AdminManage.jsx.
 const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
 
   const [occupantList, setOccupantList] = useState([]);
 
+  // on form submit, add room to the collection
   const submit = (data, formRef) => {
     const { roomNumber, building, type, occupants, squareFt, isICS, capacity, chairs, desks, phoneNumber, tv, dataJacks, notes } = data;
     let definitionData = { roomNumber, building, type, occupants, squareFt, notes };
     definitionData.occupants = occupantList;
     let collectionName = Room.getCollectionName();
+
     if (Room.findOne({ roomNumber: data.roomNumber, building: data.building })) {
       swal('Error', 'That room exists already!', 'error');
     } else {
@@ -126,8 +128,10 @@ const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
     setOccupantList([]);
   };
 
+  // on change, update the occupants state
   const handleChangeOccupants = (list) => setOccupantList(list);
 
+  // reset states when exiting modal
   const handleHideModal = () => {
     setShowAddRoom(false);
     setOccupantList([]);
@@ -213,7 +217,7 @@ const AddRoomModal = ({ showAddRoom, setShowAddRoom }) => {
   );
 };
 
-/* Referencing the Room Collection */
+// Require a document to be passed to this component.
 AddRoomModal.propTypes = {
   showAddRoom: PropTypes.bool.isRequired,
   setShowAddRoom: PropTypes.func.isRequired,

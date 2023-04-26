@@ -33,9 +33,7 @@ const NavBar = ({ highlight, changeHighlight, counter, incrementCounter, decreme
   const tutorialText = ['',
     'This is the faculty information page. It has information about the faculty',
     'This is the room list page where you can see a list of rooms.',
-    'This page lets you see student reservation requests',
-    'This page lets you see faculty reservation requests',
-    'This page lets you see room reservations'];
+  ];
   const location = useLocation();
   return ready ? (
     <nav>
@@ -73,12 +71,7 @@ const NavBar = ({ highlight, changeHighlight, counter, incrementCounter, decreme
                   <Nav.Link id={COMPONENT_IDS.NAVBAR_ROOM_LIST} as={NavLink} to="/roomlist" key="add" className={counter === 2 ? highlight : ''}>Room List</Nav.Link>,
                 ])
                 : ''}
-              { currentUser !== '' && user?.position === 'faculty' ?
-                <Nav.Link id={COMPONENT_IDS.NAVBAR_STUDENT_REQUESTS} as={NavLink} to="/studentrequests" key="requests">View Student Requests</Nav.Link>
-                : ''}
               { (currentUser !== '' && Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN])) || ((currentUser !== '' && user?.position === 'office') || (currentUser !== '' && user?.position === 'tech')) ? ([
-                <Nav.Link id={COMPONENT_IDS.NAVBAR_STUDENT_REQUESTS} as={NavLink} to="/studentrequests" key="requests" className={counter === 3 ? highlight : ''}>View Student Requests</Nav.Link>,
-                <Nav.Link id={COMPONENT_IDS.NAVBAR_FACULTY_REQUESTS} as={NavLink} to="/facultyrequests" key="admin" className={counter === 4 ? highlight : ''}>View Faculty Requests</Nav.Link>,
                 <Nav.Link id={COMPONENT_IDS.NAVBAR_ADMIN_MANAGE} as={NavLink} to="/manage" key="manage" className={counter === 5 ? highlight : ''}>Management</Nav.Link>,
               ])
                 : ''}

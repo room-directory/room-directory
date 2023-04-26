@@ -16,10 +16,6 @@ class SimplePage {
   }
 }
 
-export const addStuffPage = new SimplePage(PAGE_IDS.ADD_STUFF);
-export const editStuffPage = new SimplePage(PAGE_IDS.EDIT_STUFF);
-export const listStuffPage = new SimplePage(PAGE_IDS.LIST_STUFF);
-export const listStuffAdminPage = new SimplePage(PAGE_IDS.LIST_STUFF_ADMIN);
 export const manageDatabasePage = new SimplePage(PAGE_IDS.MANAGE_DATABASE);
 export const signOutPage = new SimplePage(PAGE_IDS.SIGN_OUT);
 export const studentRequestPage = new SimplePage(PAGE_IDS.STUDENT_REQUESTS);

@@ -4,11 +4,11 @@ import ReactCardFlip from 'react-card-flip';
 import PropTypes from 'prop-types';
 import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
-/** Renders a single row in the Club Information table. See pages/ClubInfo.jsx. */
+// Renders a single row in the Club Information table. See pages/ClubInfo.jsx.
 const Club = ({ club }) => {
   const [showMore, setShowMore] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
-  /** To DO: Fix Flip function */
+
   const handleClick = () => {
     setIsFlipped(!isFlipped);
   };

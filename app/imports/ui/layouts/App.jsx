@@ -6,9 +6,6 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
-import ListStuffAdmin from '../pages/ListStuffAdmin';
-import AddStuff from '../pages/AddStuff';
-import EditStuff from '../pages/EditStuff';
 import NotFound from '../pages/NotFound';
 import SignUp from '../pages/SignUp';
 import SignOut from '../pages/SignOut';
@@ -16,15 +13,10 @@ import NavBar from '../components/NavBar';
 import SignIn from '../pages/SignIn';
 import FacultyInfo from '../pages/FacultyInfo';
 import NotAuthorized from '../pages/NotAuthorized';
-import AdminReservation from '../pages/AdminReservation';
 import Profile from '../pages/Profile';
 import EditProfile from '../pages/EditProfile';
 import RoomList from '../pages/RoomList';
 import { ROLE } from '../../api/role/Role';
-import StudentRequests from '../pages/StudentRequests';
-import FacultyRequests from '../pages/FacultyRequests';
-import RequestRoomForm from '../pages/RequestRoomForm';
-import AddReservation from '../pages/AddReservation';
 import AdminManage from '../pages/AdminManage';
 import ClubInfo from '../pages/ClubInfo';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -71,17 +63,9 @@ const App = () => {
           <Route path="/profile/:_id" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/edit-profile/:_id" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
           <Route path="/roomlist" element={<ProtectedRoute><RoomList /></ProtectedRoute>} />
-          <Route path="/reservation" element={<ProtectedRoute><AdminReservation /></ProtectedRoute>} />
           <Route path="/manage" element={<ProtectedRoute><AdminManage /></ProtectedRoute>} />
-          <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
-          <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
-          <Route path="/admin" element={<AdminProtectedRoute><ListStuffAdmin /></AdminProtectedRoute>} />
           <Route path="/notauthorized" element={<NotAuthorized />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/studentrequests" element={<ProtectedRoute><StudentRequests /></ProtectedRoute>} />
-          <Route path="/facultyrequests" element={<ProtectedRoute><FacultyRequests /></ProtectedRoute>} />
-          <Route path="/requestroomform" element={<ProtectedRoute><RequestRoomForm /></ProtectedRoute>} />
-          <Route path="/addReservation" element={<ProtectedRoute><AddReservation /></ProtectedRoute>} />
 
         </Routes>
         <Footer />

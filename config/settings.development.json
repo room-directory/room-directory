@@ -402,18 +402,6 @@
     }
   ],
 
-  "defaultStuffData": [
-    { "name": "Basket", "quantity": 3, "owner": "john@foo.com", "condition": "excellent" },
-    { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },
-    { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
-    { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
-  ],
-
-  "defaultReservationData": [
-    { "reservation_id": "test", "firstName": "admin", "lastName": "foo", "email": "admin@foo.com", "roomNumber": "301", "startTime": "2023-02-01T08:00:00Z", "endTime": "2023-02-01T09:01:00Z" },
-    { "reservation_id": "test", "firstName": "John", "lastName": "foo", "email": "john@foo.com", "roomNumber": "302", "startTime": "2023-02-02T15:15:00Z", "endTime": "2023-02-02T16:15:00Z" }
-  ],
-
   "defaultRoomData": [
     {"roomNumber": "301", "building": "POST", "type": "lecture", "isICS": true, "occupants": [], "squareFt": 20, "notes": "storage"},
     {"roomNumber": "303", "building": "POST", "type": "office", "isICS": true, "occupants": [], "squareFt": 20, "notes": "None"},
@@ -1653,16 +1641,6 @@
         "number":  "123",
         "location": "windward"}]
     }
-  ],
-
-  "defaultFacultyRequest": [
-    { "requestID": "testID0", "firstName": "John", "lastName": "Foo", "email": "john@foo.com", "roomNumber": 303, "startTime": "2023-02-01T06:00:00Z", "endTime": "2023-02-01T08:00:00Z", "date": "2023-02-01", "status": "approved", "reason": "Test Reason", "numPeople": 20 },
-    { "requestID": "testID1", "firstName": "Faculty", "lastName": "Faculty", "email": "faculty@foo.com", "roomNumber": 318, "startTime": "2023-02-01T06:00:00Z", "endTime": "2023-02-01T08:00:00Z", "date": "2023-02-01", "status": "denied", "reason": "Test Reason", "numPeople": 5 }
-  ],
-
-  "defaultStudentRequest": [
-    { "requestID": "testID00", "firstName": "Student", "lastName": "Student", "email": "student@foo.com", "roomNumber": 302, "startTime": "2023-02-12T06:00:00Z", "endTime": "2023-02-12T08:00:00Z", "date": "2023-02-12", "status": "approved", "reason": "Test Reason", "numPeople": 20 },
-    { "requestID": "testID01", "firstName": "Jane", "lastName": "Foo", "email": "jane@foo.com", "roomNumber": 319, "startTime": "2023-02-01T06:00:00Z", "endTime": "2023-02-01T08:00:00Z", "date": "2023-02-01", "status": "denied", "reason": "Test Reason", "numPeople": 5 }
   ],
 
   "public": {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-/** Renders a single row in the Faculty Information table. See pages/FacultyInfo.jsx. */
+// Renders a single row in the Faculty Information table. See pages/FacultyInfo.jsx.
 const Faculty = ({ faculty, user }) => (
   <tr>
     <td><img alt="" src={faculty.image} width="180" height="180" /></td>

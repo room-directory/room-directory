@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Button, Container, Row, Col, Modal, Form, Tabs, Tab, DropdownButton, Dropdown, InputGroup } from 'react-bootstrap';
+import { Button, Container, Row, Col, Form, Tabs, Tab, DropdownButton, Dropdown, InputGroup } from 'react-bootstrap';
 import { useTracker } from 'meteor/react-meteor-data';
 import { _ } from 'meteor/underscore';
 // import DropdownButton from 'react-bootstrap/DropdownButton';
 // import Dropdown from 'react-bootstrap/Dropdown';
 import { Meteor } from 'meteor/meteor';
-import DatePicker from 'react-datepicker';
 import { Roles } from 'meteor/alanning:roles';
 import { ROLE } from '../../api/role/Role';
 import { PAGE_IDS } from '../utilities/PageIDs';
@@ -30,12 +29,6 @@ import { COMPONENT_IDS } from '../utilities/ComponentIDs';
 
 /* An interactive page with different components that reflects the reservations made. */
 const AdminManage = () => {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const [startDate, setStartDate] = useState(new Date());
-  const [startTime, setStartTime] = useState(new Date());
-  const [endTime, setEndTime] = useState(new Date());
   const [showAddRoom, setShowAddRoom] = useState(false);
   const [showAddUser, setShowAddUser] = useState(false);
   const [showAddFaculty, setShowAddFaculty] = useState(false);
@@ -329,7 +322,6 @@ const AdminManage = () => {
     <Container id={PAGE_IDS.ADMIN_MANAGE} className="py-3 elevated-container">
       <Row className="d-flex">
         <Col style={{ width: '100%' }}>
-          <Button variant="primary" onClick={handleShow} style={{ marginBottom: 10 }}>Make Reservation</Button>
           { (currUser !== '' && user?.position === 'office') ? (
             <Tabs
               defaultActiveKey="profiles"
@@ -374,72 +366,6 @@ const AdminManage = () => {
           {/* </Form> */}
         </Col>
       </Row>
-
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Reserve Room</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="formDate">
-              <Form.Label>Date</Form.Label>
-              <DatePicker required showIcon selected={startDate} dateFormat="MM/dd/yyyy" onChange={(date) => setStartDate(date)} />
-            </Form.Group>
-            <Form.Group>
-              <Col>
-                <Form.Label>Start time</Form.Label>
-                <DatePicker required showTimeSelect showTimeSelectOnly timeIntervals={15} timeCaption="Time" dateFormat="h:mm aa" selected={startTime} onChange={(time) => setStartTime(time)} />
-                <Form.Label>End time</Form.Label>
-                <DatePicker required showTimeSelect showTimeSelectOnly timeIntervals={15} timeCaption="Time" dateFormat="h:mm aa" selected={endTime} onChange={(time) => setEndTime(time)} />
-              </Col>
-
-            </Form.Group>
-            <Form.Group>
-              <div>
-                <Form.Check
-                  type="checkbox"
-                  id="recurrence-radio"
-                  label="Recurring Event"
-                />
-                <Form.Check
-                  label="Daily"
-                  type="radio"
-                  name="group1"
-                  id="recurrence-radio-1"
-                />
-                <Form.Check
-                  label="Weekly"
-                  type="radio"
-                  name="group1"
-                  id="recurrence-radio-2"
-                />
-                <Form.Check
-                  label="Monthly"
-                  type="radio"
-                  name="group1"
-                  id="recurrence-radio-3"
-                />
-              </div>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Name</Form.Label>
-              <Form.Control placeholder="First Name, Last Name" />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>E-Mail</Form.Label>
-              <Form.Control placeholder="John@Foo.com" />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Confirm
-          </Button>
-        </Modal.Footer>
-      </Modal>
       <AddUserModal setShowAddUser={setShowAddUser} showAddUser={showAddUser} />
       <AddFacultyModal setShowAddFaculty={setShowAddFaculty} showAddFaculty={showAddFaculty} rooms={rooms} />
       <AddRoomModal setShowAddRoom={setShowAddRoom} showAddRoom={showAddRoom} />
