@@ -28,6 +28,7 @@ const formSchema = new SimpleSchema({
 
 const bridge = new SimpleSchema2Bridge(formSchema);
 
+// Renders the Profile Table in the Management tab. See pages/AdminManage.jsx.
 const ProfileTable = ({ account, eventKey }) => {
   const [show, setShow] = useState(false);
   const del = () => {
@@ -121,7 +122,7 @@ const ProfileTable = ({ account, eventKey }) => {
   );
 };
 
-/* Referencing the Base Collection */
+// Require a document to be passed to this component.
 ProfileTable.propTypes = {
   account: PropTypes.shape({
     firstName: PropTypes.string,

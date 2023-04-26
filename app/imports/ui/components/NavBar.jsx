@@ -123,6 +123,7 @@ NavBar.defaultProps = {
   resetCounter: PropTypes.func,
 
 };
+
 NavBar.propTypes = {
   highlight: PropTypes.string,
   changeHighlight: PropTypes.func,
@@ -131,4 +132,5 @@ NavBar.propTypes = {
   decrementCounter: PropTypes.func,
   resetCounter: PropTypes.func,
 };
+
 export default NavBar;

@@ -12,6 +12,7 @@ import { Room } from '../../api/room/RoomCollection';
 
 const bridge = new SimpleSchema2Bridge(FacultyProfiles._schema);
 
+// Renders the Faculty Table in the Management tab. See pages/AdminManage.jsx.
 const FacultyTable = ({ faculty, eventKey, rooms }) => {
 
   const facultyOffices = faculty.officeLocation.map(e => (
@@ -95,8 +96,6 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
   const submit = (data) => {
     const { firstName, lastName, role, image, email, officeLocation, officeHours } = data;
     let collectionName = FacultyProfiles.getCollectionName();
-    // convert phone numbers, job titles, and office locations to an array
-    // const phoneArray = (phone.includes(',') ? phone.replace(/\s+/g, '').split(',') : phone);
     let officeLocationArray = (officeLocation.includes(',') ? officeLocation.split(',').map((office) => office.trim()) : officeLocation);
     const titleArray = (role.includes(',') ? role.replace(/\s+/g, '').split(',') : role);
     let updateData = { id: faculty._id, phone: phoneNumberList, firstName, lastName, role: titleArray, image, email, officeLocation: officeLocationArray, officeHours };
@@ -214,7 +213,7 @@ const FacultyTable = ({ faculty, eventKey, rooms }) => {
   );
 };
 
-/* Referencing the Base Collection */
+// Require a document to be passed to this component.
 FacultyTable.propTypes = {
   faculty: PropTypes.shape({
     firstName: PropTypes.string,
