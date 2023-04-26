@@ -37,11 +37,12 @@ class RoomCollection extends BaseCollection {
 
   /**
    * Defines a new Room item.
-   * @param name the name of the item.
-   * @param quantity how many.
-   * @param owner the owner of the item.
-   * @param condition the condition of the item.
-   * @return {String} the docID of the new document.
+   * @param roomNumber the name of the item.
+   * @param building room belongs to.
+   * @param isICS if room is an ICS room.
+   * @param occupants amount per room.
+   * @param squareFt of room.
+   * @param notes regarding room.
    */
   define({ roomNumber, building, type, isICS, occupants, squareFt, notes }) {
     const docID = this._collection.insert({
@@ -58,10 +59,13 @@ class RoomCollection extends BaseCollection {
 
   /**
    * Updates the given document.
-   * @param docID the id of the document to update.
-   * @param name the new name (optional).
-   * @param quantity the new quantity (optional).
-   * @param condition the new condition (optional).
+   * @param roomNumber the name of the item.
+   * @param building room belongs to.
+   * @param type of room.
+   * @param isICS if room is an ICS room.
+   * @param occupants amount per room.
+   * @param squareFt of room.
+   * @param notes regarding room.
    */
   update(docID, { roomNumber, building, type, isICS, occupants, squareFt, notes }) {
     const updateData = {};
@@ -107,7 +111,7 @@ class RoomCollection extends BaseCollection {
 
   /**
    * Default publication method for entities.
-   * It publishes the entire collection for admin and just the stuff associated to an owner.
+   * It publishes the entire collection for admin and the room associated to an owner.
    */
   publish() {
     if (Meteor.isServer) {
@@ -124,7 +128,7 @@ class RoomCollection extends BaseCollection {
   }
 
   /**
-   * Subscription method for stuff owned by the current user.
+   * Subscription method for room owned by the current user.
    */
   subscribeRoom() {
     if (true) {
@@ -146,7 +150,6 @@ class RoomCollection extends BaseCollection {
   /**
    * Returns an object representing the definition of docID in a format appropriate to the restoreOne or define function.
    * @param docID
-   * @return {{owner: (*|number), condition: *, quantity: *, name}}
    */
   dumpOne(docID) {
     const doc = this.findDoc(docID);
