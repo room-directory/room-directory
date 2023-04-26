@@ -13,10 +13,8 @@ import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 import { ROLE } from '../../api/role/Role';
 import RoomInfoModalDetails from './RoomInfoModalDetails';
 
-/* TODO: implement into RoomInfoModal.jsx file */
 /** The RoomInfoModalSVG appears when clicking on a room in the Room List page. */
 const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
-  // const [showMore, setShowMore] = useState(false);
   const currUser = Meteor.user() ? Meteor.user().username : '';
   const { currentUser, ready, user, resources, faculty } = useTracker(() => {
     const resourceSubscription = RoomResources.subscribeRoomResource();
@@ -39,7 +37,8 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
       ready: rdy,
     };
   }, []);
-  return (ready ? (
+
+  return ( ready ? (
     <Col className="col-2 pb-4" style={{ display: 'flex', justifyContent: 'center' }}>
       {resources === undefined ? (
         <Modal show={display} onHide={setDisplay} backdrop="static" dialogClassName="modal-90w" centered>
@@ -154,6 +153,7 @@ const RoomInfoModalSvg = ({ room, display, setDisplay }) => {
     <LoadingSpinner />
   );
 };
+
 RoomInfoModalSvg.propTypes = {
   room: PropTypes.shape({
     roomNumber: PropTypes.string,
@@ -166,6 +166,7 @@ RoomInfoModalSvg.propTypes = {
   display: PropTypes.bool.isRequired,
   setDisplay: PropTypes.func.isRequired,
 };
+
 RoomInfoModalSvg.defaultProps = {
   room: undefined,
 };

@@ -10,6 +10,7 @@ import TagsInput from 'react-tagsinput';
 import { defineMethod } from '../../api/base/BaseCollection.methods';
 import { Club } from '../../api/club/ClubCollection';
 
+// Schema for adding a club form.
 const formSchema = new SimpleSchema({
   clubName: String,
   website: String,
