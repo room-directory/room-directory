@@ -53,7 +53,6 @@ const SvgComponent = ({ rooms, hoverRoom, scale, facultyCollection }) => {
   }, [])
 
   const isRoom = (element) => {
-    // rooms.find(room => room.roomNumber === element.currentTarget.id) ? true : false
     if (rooms.find(room => room.roomNumber === element.currentTarget.id)) {
       element.currentTarget.setAttribute('class', 'room');
       return true;
@@ -95,12 +94,9 @@ const SvgComponent = ({ rooms, hoverRoom, scale, facultyCollection }) => {
     <>
       <svg
         id="svg2"
-        // width={863.578}
-        // height={661.19843}
         width={scale * 863.578}
         height={scale * 661.19843}
         viewBox="0 0 507.98706 388.94025"
-        // viewBox="0 0 1000 400"
         xmlns="http://www.w3.org/2000/svg"
         className="roomSvg"
       >
@@ -1066,6 +1062,7 @@ const SvgComponent = ({ rooms, hoverRoom, scale, facultyCollection }) => {
     </>
   );
 };
+
 SvgComponent.propTypes = {
   rooms: PropTypes.arrayOf(
     PropTypes.shape({

@@ -12,6 +12,7 @@ const RoomInfoModalDetails = ({ details }) => (
     </td>
   </tr>
 );
+
 RoomInfoModalDetails.propTypes = {
   details: PropTypes.shape({
     number: PropTypes.string,

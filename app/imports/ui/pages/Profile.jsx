@@ -11,12 +11,11 @@ import { AdminProfiles } from '../../api/user/AdminProfileCollection';
 import { FacultyProfiles } from '../../api/faculty/FacultyProfileCollection';
 import { ROLE } from '../../api/role/Role';
 
-/* function to convert date */
 const Profile = () => {
   const { _id } = useParams();
 
   const { ready, facultyInfo, user, thisUser } = useTracker(() => {
-    // Get access to Reservations and User Profile documents.
+    // Get access to User Profile documents.
     const currUser = Meteor.user() ? Meteor.user().username : '';
     const adminProfileSubscription = AdminProfiles.subscribe();
     const profileSubscription = UserProfiles.subscribe();
@@ -31,8 +30,6 @@ const Profile = () => {
     const thisUsr = UserProfiles.findOne({ email: currUser }, {});
     let usr = UserProfiles.findOne({ _id: _id }, {});
     if (usr === undefined) usr = AdminProfiles.findOne({ _id: _id }, {});
-    // console.log('should print out one user');
-    // console.log(usr);
     return {
       facultyInfo: facultyItems,
       user: usr,

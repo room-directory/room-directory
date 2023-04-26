@@ -117,7 +117,7 @@ const AdminManage = () => {
     if (['Not Available', 'No Email Contact', 'No Phone Contact', 'Unknown'].includes(b[sortingFacultyBy]) || b[sortingFacultyBy][0] === 'Not Available' || b[sortingFacultyBy].length === 0) {
       return -1;
     }
-    if (['phone', 'officeLocation'].includes(sortingFacultyBy)) {
+    if (['phone', 'officeLocation', 'role'].includes(sortingFacultyBy)) {
       return a[sortingFacultyBy][0].localeCompare(b[sortingFacultyBy][0]);
     }
     return a[sortingFacultyBy].localeCompare(b[sortingFacultyBy]);

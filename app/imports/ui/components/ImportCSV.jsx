@@ -70,7 +70,6 @@ const ImportCSV = ({ showImportCSV, setShowImportCSV }) => {
             .catch(error => swal('Error', error.message, 'error'))
             .then(() => swal('Success', 'Item updated successfully', 'success'));
         } else {
-          // missingRooms += Object.keys(e)[0];
           console.log(Object.keys(e)[0]);
           missingRoom.push(Object.keys(e)[0]);
           console.log(missingRoom.toString().replaceAll(',', ', '));
@@ -107,7 +106,6 @@ const ImportCSV = ({ showImportCSV, setShowImportCSV }) => {
     hiddenElement.target = '_blank';
     hiddenElement.download = 'PortInfo.csv';
     hiddenElement.click();
-
   };
 
   return (ready ? (
