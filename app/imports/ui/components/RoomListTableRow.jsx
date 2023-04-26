@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import RoomInfoModal from './RoomInfoModal';
-// import { UserProfiles } from '../../api/user/UserProfileCollection';
 
 const RoomListTableRow = ({ room, setHoverRoom }) => {
   const [show, setShow] = useState(false);
@@ -10,9 +9,9 @@ const RoomListTableRow = ({ room, setHoverRoom }) => {
   const leaveRoom = () => setHoverRoom('');
   return (
     <>
-      <tr role="button" onClick={() => setShow(true)} onMouseEnter={activeRoom} onMouseLeave={leaveRoom}>
-        <td>{room.roomNumber}</td>
-        <td>{room.type}</td>
+      <tr style={{ width: '100%', textAlign: 'center' }} role="button" onClick={() => setShow(true)} onMouseEnter={activeRoom} onMouseLeave={leaveRoom}>
+        <td style={{ width: '100%' }}>{room.roomNumber}</td>
+        <td style={{ width: '100%' }}>{room.type}</td>
       </tr>
       <RoomInfoModal room={room} show={show} setShow={handleShow} key={room.roomNumber} style={{ display: 'flex', justifyContent: 'center' }} />
     </>

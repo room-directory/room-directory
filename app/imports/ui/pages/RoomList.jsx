@@ -46,8 +46,8 @@ const RoomList = () => {
   return (ready ? (
     <Container id={PAGE_IDS.ROOM_LIST} className="py-3 overflow-hidden">
       <Row>
-        <Col>
-          <ButtonGroup aria-label="Filter group">
+        <Col style={{ textAlign: 'center' }} sm={2}>
+          <ButtonGroup aria-label="Filter group" className="m-2">
             <DropdownButton variant="primary" title="Building" className="sharp me-3">
               <Dropdown.Item href="#/action-1">POST</Dropdown.Item>
             </DropdownButton>
@@ -56,15 +56,15 @@ const RoomList = () => {
             </DropdownButton>
           </ButtonGroup>
         </Col>
-        <Col style={{ textAlign: 'center' }}>
-          <Button variant="primary" onClick={handleZoomIn}>
+        <Col style={{ textAlign: 'center' }} sm={8}>
+          <Button onClick={handleZoomIn} className="m-1">
             <BsZoomIn />
           </Button>
-          <Button variant="primary" onClick={handleZoomOut}>
+          <Button onClick={handleZoomOut}>
             <BsZoomOut />
           </Button>
         </Col>
-        <Col style={{ textAlign: 'center' }}>
+        <Col style={{ textAlign: 'center' }} sm={2}>
           <DropdownButton variant="primary" title={`Sort by: ${category}`} className="sharp me-3">
             <Dropdown.Item href="#/action-1" onClick={() => { setSortingBy('roomNumber'); setCategory('Room Number'); }}>Room Number</Dropdown.Item>
             <Dropdown.Item href="#/action-1" onClick={() => { setSortingBy('type'); setCategory('Room Type'); }}>Room Type</Dropdown.Item>
@@ -72,21 +72,21 @@ const RoomList = () => {
         </Col>
       </Row>
       <Row className="d-flex w-auto h-auto flex-nowrap" style={{ justifyContent: 'center' }}>
-        <Col md={9} style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <Col md={10} style={{ alignItems: 'center', justifyContent: 'center' }}>
           <div className="map-container h-100" style={{ width: '100%', height: '100%', overflow: 'hidden', alignItems: 'center', justifyContent: 'center' }}>
             <SvgComponent rooms={rooms} hoverRoom={hoverRoom} scale={scale} facultyCollection={faculty} style={{ transform: `scale(${scale})` }} />
           </div>
         </Col>
-        <Col md={4}>
-          <div className=" room-list-table" style={{ alignContent: 'flex-start', height: '70vh' }}>
+        <Col md={3}>
+          <div className=" room-list-table" style={{ alignContent: 'flex-start', width: '15vw', height: '70vh', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)', borderRadius: '10px', overflow: 'hidden' }}>
             <Table responsive className="room-list-table">
-              <thead style={{ position: 'sticky' }}>
+              <thead style={{ position: 'sticky', display: 'block', top: '0', width: '15vw', textAlign: 'center' }}>
                 <tr>
-                  <th>Room Number</th>
-                  <th>Room type</th>
+                  <th style={{ width: '50%' }}>Room Number</th>
+                  <th style={{ width: '50%' }}>Room type</th>
                 </tr>
               </thead>
-              <tbody style={{ overflowY: 'scroll' }}>
+              <tbody style={{ height: '69vh', overflowY: 'auto', display: 'block', width: '15vw', alignSelf: 'center' }}>
                 {rooms.map((room) => <RoomListTableRow room={room} hoverRoom={hoverRoom} setHoverRoom={setHoverRoom} key={room._id} />)}
               </tbody>
             </Table>

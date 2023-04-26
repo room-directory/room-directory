@@ -58,13 +58,26 @@ const RoomInfoModal = ({ room, show, setShow }) => {
           </Card>
           <Row className="py-3">
             <Col>
-              <Card style={{ height: '140px', overflowY: 'auto' }}>
+              <Card style={{ height: '185px', overflowY: 'auto' }}>
                 <Card.Body>
                   <h5>Description</h5>
                   <div>
-                    Type: {room.type.toUpperCase()} <br />
-                    {room.squareFt} sq. ft. <br />
-                    Max capacity of {resources.capacity}
+                    <Table borderless>
+                      <tbody>
+                        <tr style={{ height: 'auto', fontSize: '12px' }}>
+                          <td style={{ width: '65%' }}>Type:</td>
+                          <td style={{ width: '35%' }}>{room.type.toUpperCase()}</td>
+                        </tr>
+                        <tr style={{ height: 'auto', fontSize: '12px' }}>
+                          <td style={{ width: '65%' }}>Room Size:</td>
+                          <td style={{ width: '35%' }}>{room.squareFt} sq.ft.</td>
+                        </tr>
+                        <tr style={{ height: 'auto', fontSize: '12px' }}>
+                          <td style={{ width: '65%' }}>Max Capacity:</td>
+                          <td style={{ width: '35%' }}>{resources.capacity}</td>
+                        </tr>
+                      </tbody>
+                    </Table>
                   </div>
                 </Card.Body>
               </Card>

@@ -55,6 +55,7 @@ body {
 #faculty-information-sort {
   background-color: var(--main-green);
   float: right;
+  border-color: var(--main-green);
 }
 
 #faculty-information-search {
@@ -63,6 +64,7 @@ body {
 
 #faculty-information-search button {
   background-color: var(--main-green);
+  border-color: var(--main-green);
 }
 
 #club-information-search button{
@@ -74,6 +76,7 @@ body {
 }
 #room-list button {
   background-color: var(--main-green);
+  border-color: var(--main-green);
 }
 
 #overlay {
