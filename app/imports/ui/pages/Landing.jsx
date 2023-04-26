@@ -37,7 +37,7 @@ const Landing = () => {
       style={{
         backgroundImage: "url('../images/post.png')",
         backgroundSize: 'cover',
-        backgroundPosition: 'center center',
+        backgroundPosition: 'center',
         backgroundClip: 'padding-box',
         top: '0',
         right: '0',
